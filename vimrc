@@ -1,3 +1,11 @@
+"===============================================================================
+" My vimrc
+"
+" Mostly inspired by Terry Ma's :
+" https://github.com/terryma/dotfiles/blob/master/.vimrc
+"
+"===============================================================================
+
 " Disable vi-compatibility
 set nocompatible
 
