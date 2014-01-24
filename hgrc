@@ -1,0 +1,38 @@
+[auth]
+bb.prefix = https://bitbucket.org/coopengo/
+bb.username = jcavallo
+
+[ui]
+username = Jean CAVALLO <jean.cavallo@coopengo.com>
+ignore = ~/.hgignore
+
+[extensions]
+hgnested=
+hgreview=
+prompt=~/Softwares/hg_prompt/prompt.py
+hgext.purge=
+hgext.pager=
+hgext.color=
+mq=
+record=
+graphlog=
+rebase=
+patchbomb=
+shelve=
+
+[review]
+server = http://codereview.tryton.org
+send_email = True
+account_type = GOOGLE
+
+[pager]
+pager = LESS='FSRX' less
+
+[diff]
+git = True
+
+[email]
+method = /usr/sbin/sendmail
+
+[phases]
+publish = False

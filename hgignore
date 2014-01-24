@@ -1,0 +1,23 @@
+# use glob syntax.
+syntax: glob
+
+*.elc
+*.pyc
+dist/
+build/
+*.egg-info
+.coverage
+.project
+*.sh~
+*.orig
+.hgrc
+.hgignore
+*.un~
+*.test_log
+*.log
+*.swp
+*.swo
+.~lock.*#
+# trytond/modules/*
+*.rej
+*.pid
