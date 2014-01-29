@@ -356,6 +356,8 @@ let g:mapleader = ","
 let maplocalleader = ","
 let g:maplocalleader = ","
 
+" <Leader>a*: Ag searching mappings
+
 " <Leader>c*: NERDCommenter mappings
 " <Leader>cd: Switch to the directory of the open buffer
 nnoremap <Leader>cd :cd %:p:h<cr>:pwd<cr>
@@ -478,6 +480,9 @@ noremap <c-k> 3<c-y>3k
 
 " Ctrl-l: Move word forward.
 noremap <c-l> w
+
+" Ctrl-p: Join lines
+noremap <c-p> J
 
 " Ctrl-n: Next cursor in MultiCursor mode
 
@@ -834,10 +839,28 @@ autocmd MyAutoCmd BufEnter *
 let NERDSpaceDelims=1
 
 "===============================================================================
+" Ag
+"===============================================================================
+
+nmap <leader>aa <Esc>:Ag 
+nmap <leader>ac <Esc>:Ag "class 
+nmap <leader>an <Esc>:Ag "__name__ = '
+nmap <leader>ad <Esc>:Ag "def 
+nmap <leader>ax <Esc>:Ag -G xml 
+nmap <leader>afm <Esc>:Ag "^ *[a-zA-Z_]* = fields\.Many2One\([\n ]*'
+nmap <leader>afo <Esc>:Ag "^ *[a-zA-Z_]* = fields\.One2Many\([\n ]*'
+nmap <leader>agg <Esc>:Ag -G coopbusiness 
+nmap <leader>agn <Esc>:Ag -G coopbusiness "__name__ = '
+nmap <leader>agc <Esc>:Ag -G coopbusiness "class 
+nmap <leader>agd <Esc>:Ag -G coopbusiness "def 
+nmap <leader>agx <Esc>:Ag -G coopbusiness.*xml 
+nmap <leader>agfm <Esc>:Ag -G coopbusiness "^ *[a-zA-Z_]* = (fields\.Function\()?[\n ]*fields\.Many2One\([\n ]*'
+nmap <leader>agfo <Esc>:Ag -G coopbusiness "^ *[a-zA-Z_]* = (fields\.Function\()?[\n ]*fields\.One2Many\([\n ]*'
+
+"===============================================================================
 " Syntastic
 "===============================================================================
 
-" Syntastic settings
 let g:syntastic_enable_balloons = 0
 let g:syntastic_check_on_open = 1
 let g:syntastic_enable_signs = 1
@@ -914,7 +937,7 @@ inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
 inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 inoremap <expr><C-y>  neocomplete#close_popup()
-inoremap <expr><C-e>  neocomplete#cancel_popup()
+
 " Close popup by <Space>.
 "inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
 
@@ -1270,7 +1293,11 @@ let g:unite_source_rec_max_cache_files = 10000
 let g:unite_matcher_fuzzy_max_input_length = 50
 
 " For ack.
-if executable('ack-grep')
+if executable('ag')
+  let g:unite_source_grep_command = 'ag'
+  let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
+  let g:unite_source_grep_recursive_opt = ''
+elseif executable('ack-grep')
   let g:unite_source_grep_command = 'ack-grep'
   let g:unite_source_grep_default_opts = '--no-heading --no-color -a -w'
   let g:unite_source_grep_recursive_opt = ''
@@ -1296,7 +1323,10 @@ nnoremap <leader>xt :%w !xmllint --noout --relaxng $VIRTUAL_ENV/tryton-workspace
 nnoremap <leader>xg :%w !xmllint --noout --relaxng $VIRTUAL_ENV/tryton-workspace/trytond/trytond/ir/ui/graph.rng %:p
 nnoremap <leader>xx :silent 1,$!xmllint --format --recover - 2>/dev/null<CR>
 au BufWrite xml exe ":silent 1,$!xmllint --format --recover - 2>/dev/null<CR>"
+let g:xml_syntax_folding=1
 au FileType xml set shiftwidth=2
+au FileType xml setlocal foldmethod=syntax
+au FileType xml setlocal foldlevel=2
 
 "===============================================================================
 " My functions

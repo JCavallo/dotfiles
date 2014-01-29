@@ -5,6 +5,7 @@ bb.username = jcavallo
 [ui]
 username = Jean CAVALLO <jean.cavallo@coopengo.com>
 ignore = ~/.hgignore
+style = compact
 
 [extensions]
 hgnested=
