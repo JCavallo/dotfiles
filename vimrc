@@ -344,6 +344,10 @@ nnoremap <F5> :set paste!<cr>
 " <F6>: Toggle NerdTree
 nnoremap <F6> :NERDTreeToggle<cr>
 
+" <F9>: VimShell
+nnoremap <F9> :VimShell -split<cr>
+inoremap <F9> <Esc>:VimShellCurrentDir -split -toggle<cr>
+
 " <F7>/<Shift-F7>: Add / Remove vimpdb breakpoint
 
 "===============================================================================
@@ -1105,6 +1109,8 @@ let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
 autocmd MyAutoCmd FileType vimshell call s:vimshell_settings()
 function! s:vimshell_settings()
   call vimshell#altercmd#define('g', 'git')
+  inoremap <C-x> <Esc><C-w>w
+  set wrap
 endfunction
 
 "===============================================================================
@@ -1257,6 +1263,7 @@ function! s:unite_settings()
   imap <buffer> <c-a> <Plug>(unite_choose_action)
   imap <buffer> <Tab> <Plug>(unite_exit_insert)
   imap <buffer> jj <Plug>(unite_insert_leave)
+  imap <buffer> qq <Plug>(unite_exit)
   imap <buffer> <C-w> <Plug>(unite_delete_backward_word)
   imap <buffer> <C-u> <Plug>(unite_delete_backward_path)
   imap <buffer> <C-u> <Plug>(unite_delete_backward_path)
