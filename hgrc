@@ -10,7 +10,7 @@ style = compact
 [extensions]
 hgnested=
 hgreview=
-prompt=~/Softwares/hg_prompt/prompt.py
+prompt=~/dotfiles/hg_prompt.py
 hgext.purge=
 hgext.pager=
 hgext.color=

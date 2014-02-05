@@ -29,3 +29,19 @@ for file in $files; do
     echo "Creating symlink to $file in home directory."
     ln -s $dir/$file ~/.$file
 done
+
+# Move existing .vim
+mv ~/.vim ~/dotfiles_old/
+
+# Create vim directory
+mkdir ~/.vim
+
+# Create subdirectories
+mkdir ~/.vim/bundle
+mkdir ~/.vim/swap
+mkdir ~/.vim/backup
+mkdir ~/.vim/undodir
+
+# Get Neobundle
+cd ~/.vim/bundle
+git clone http://git@github.com/Shougo/neobundle.vim
