@@ -36,6 +36,7 @@ NeoBundle 'Shougo/unite-outline'
 NeoBundle 'Shougo/unite-help'
 NeoBundle 'Shougo/unite-session'
 NeoBundle 'thinca/vim-unite-history'
+NeoBundle 'tacroe/unite-mark'
 
 " Advanced Search
 " NeoBundle 'mileszs/ack.vim'
@@ -74,6 +75,9 @@ NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'terryma/vim-expand-region'
 
+" Better marks
+NeoBundle 'kshenoy/vim-signature'
+
 " Tags
 NeoBundle 'majutsushi/tagbar'
 
@@ -98,7 +102,6 @@ NeoBundle 'vim-scripts/BufOnly.vim'
 NeoBundle 'sjl/gundo.vim'
 NeoBundle 'terryma/vim-smooth-scroll'
 NeoBundle 'terryma/vim-multiple-cursors'
-NeoBundle 'terryma/vim-expand-region'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 
 " Tryton Specific
@@ -1109,7 +1112,7 @@ let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
 autocmd MyAutoCmd FileType vimshell call s:vimshell_settings()
 function! s:vimshell_settings()
   call vimshell#altercmd#define('g', 'git')
-  inoremap <C-x> <Esc><C-w>w
+  imap <buffer> <C-x> <Esc><C-w>w
   set wrap
 endfunction
 
@@ -1199,31 +1202,21 @@ nmap <space> [unite]
 nnoremap <silent> [unite]<space> :<C-u>Unite
       \ -buffer-name=files buffer file_mru bookmark file_rec/async<CR>
 
-" Quick registers
-nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
-
-" Quick buffer and mru
-nnoremap <silent> [unite]u :<C-u>Unite -buffer-name=buffers buffer file_mru<CR>
-
-" Quick yank history
-nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<CR>
-
-" Quick outline
-nnoremap <silent> [unite]o :<C-u>Unite -buffer-name=outline -vertical outline<CR>
-
-" Quick sessions (projects)
-nnoremap <silent> [unite]p :<C-u>Unite -buffer-name=sessions session<CR>
-
 " Quick sources
 nnoremap <silent> [unite]a :<C-u>Unite -buffer-name=sources source<CR>
 
-" Quick snippet
-nnoremap <silent> [unite]s :<C-u>Unite -buffer-name=snippets ultisnips<CR>
+" Quick bookmarks
+nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
+
+" Quick commands
+nnoremap <silent> [unite]c :<C-u>Unite -buffer-name=commands command<CR>
 
 " Quickly switch lcd
 nnoremap <silent> [unite]d
       \ :<C-u>Unite -buffer-name=change-cwd -default-action=lcd directory_mru<CR>
 
+" Quick mark search
+nnoremap <silent> [unite]e :<C-u>Unite -buffer-name=marks mark<CR>
 " Quick file search
 nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=files file_rec/async file/new<CR>
 
@@ -1242,11 +1235,23 @@ nnoremap <silent> [unite]m :<C-u>Unite -buffer-name=mru file_mru<CR>
 " Quick find
 nnoremap <silent> [unite]n :<C-u>Unite -buffer-name=find find:.<CR>
 
-" Quick commands
-nnoremap <silent> [unite]c :<C-u>Unite -buffer-name=commands command<CR>
+" Quick outline
+nnoremap <silent> [unite]o :<C-u>Unite -buffer-name=outline -vertical outline<CR>
 
-" Quick bookmarks
-nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
+" Quick sessions (projects)
+nnoremap <silent> [unite]p :<C-u>Unite -buffer-name=sessions session<CR>
+
+" Quick registers
+nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
+
+" Quick snippet
+nnoremap <silent> [unite]s :<C-u>Unite -buffer-name=snippets ultisnips<CR>
+
+" Quick buffer and mru
+nnoremap <silent> [unite]u :<C-u>Unite -buffer-name=buffers buffer file_mru<CR>
+
+" Quick yank history
+nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<CR>
 
 " Quick commands
 nnoremap <silent> [unite]; :<C-u>Unite -buffer-name=history history/command command<CR>
@@ -1271,6 +1276,10 @@ function! s:unite_settings()
   nmap <buffer> '     <Plug>(unite_quick_match_default_action)
   nmap <buffer> <C-r> <Plug>(unite_redraw)
   imap <buffer> <C-r> <Plug>(unite_redraw)
+  nmap <buffer> <Up> <Plug>(unite_loop_cursor_up)
+  imap <buffer> <Up> <Plug>(unite_loop_cursor_up)
+  nmap <buffer> <Down> <Plug>(unite_loop_cursor_up)
+  imap <buffer> <Down> <Plug>(unite_loop_cursor_up)
   inoremap <silent><buffer><expr> <C-s> unite#do_action('split')
   nnoremap <silent><buffer><expr> <C-s> unite#do_action('split')
   inoremap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
