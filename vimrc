@@ -708,6 +708,10 @@ nnoremap <silent> t :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>t
 nnoremap <silent> F :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>F
 nnoremap <silent> T :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>T
 " g: Many functions
+" gb sends back to before gging
+nnoremap gb 'g:delmark g<cr>
+" mark current position before gging
+nnoremap gg mggg
 " gp to visually select pasted text
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 " h: Left
