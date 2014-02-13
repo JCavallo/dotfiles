@@ -1095,7 +1095,7 @@ let g:vimfiler_tree_opened_icon = '▾'
 let g:vimfiler_tree_closed_icon = '▸'
 let g:vimfiler_marked_file_icon = '✓'
 let g:my_vimfiler_explorer_name = 'explorer'
-let g:my_vimfiler_winwidth = 30
+let g:my_vimfiler_winwidth = 75
 let g:vimfiler_safe_mode_by_default = 0
 
 autocmd MyAutoCmd FileType vimfiler call s:vimfiler_settings()
