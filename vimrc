@@ -32,6 +32,7 @@ NeoBundle 'Shougo/vimproc', { 'build': {
 
 " Fuzzy search
 NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'Shougo/unite-outline'
 NeoBundle 'Shougo/unite-help'
 NeoBundle 'Shougo/unite-session'
@@ -97,7 +98,8 @@ NeoBundle 'JCavallo/flashy-vim'
 
 " Misc
 NeoBundle 'kana/vim-submode'
-NeoBundle 'kana/vim-scratch'
+" NeoBundle 'kana/vim-scratch'
+NeoBundle 'duff/vim-scratch'
 NeoBundle 'vim-scripts/BufOnly.vim'
 NeoBundle 'sjl/gundo.vim'
 NeoBundle 'terryma/vim-smooth-scroll'
