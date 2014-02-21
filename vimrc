@@ -710,10 +710,10 @@ nnoremap <silent> t :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>t
 nnoremap <silent> F :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>F
 nnoremap <silent> T :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>T
 " g: Many functions
-" gb sends back to before gging
+" gb sends back to before gtoping
 nnoremap gb 'g:delmark g<cr>
-" mark current position before gging
-nnoremap gg mggg
+" mark current position before going top
+nnoremap gt mggg
 " gp to visually select pasted text
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 " h: Left
@@ -1119,6 +1119,8 @@ autocmd MyAutoCmd FileType vimshell call s:vimshell_settings()
 function! s:vimshell_settings()
   call vimshell#altercmd#define('g', 'git')
   imap <buffer> <C-x> <Esc><C-w>w
+  imap <buffer><C-g> <Plug>(vimshell_history_neocomplete)
+  imap <buffer><expr><silent> <C-l> unite#sources#vimshell_history#start_complete(!0)
   set wrap
 endfunction
 
@@ -1414,7 +1416,7 @@ def RemoveBreakpoints():
             nLines.append( nLine)
         nLine += 1
 
-    nLines.reverse(t)
+    nLines.reverse()
 
     for nLine in nLines:
         vim.command( 'normal %dG' % nLine)
