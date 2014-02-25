@@ -12,6 +12,10 @@ if [ "$TERM" != "dumb" ]; then
     alias ls='ls --color=auto'
 fi
 
+alias la='ls -Fa'
+alias ll='ls -Fls'
+alias cdve='cd $VIRTUAL_ENV'
+
 DEFAULT="[37;1m"
 PINK="[35;1m"
 GREEN="[32;1m"
