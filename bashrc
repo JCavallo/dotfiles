@@ -15,6 +15,7 @@ fi
 alias la='ls -Fa'
 alias ll='ls -Fls'
 alias cdve='cd $VIRTUAL_ENV'
+alias ag="LESS='FSRX' ag --pager less"
 
 DEFAULT="[37;1m"
 PINK="[35;1m"
