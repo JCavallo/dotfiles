@@ -754,8 +754,8 @@ nnoremap <down> <c-w>-
 nnoremap <left> <c-w><
 nnoremap <right> <c-w>>
 
-" Enter: Highlight cursor location
-nnoremap <silent> <cr> :call CursorPing()<CR>
+" *: Highlight cursor location
+nnoremap <silent> <*> :call CursorPing()<CR>
 
 " Tab: Go to matching element
 nnoremap <Tab> %
@@ -877,8 +877,10 @@ nmap <leader>agfo <Esc>:Ag -G coopbusiness "^ *[a-zA-Z_]* = (fields\.Function\()
 let g:syntastic_enable_balloons = 0
 let g:syntastic_check_on_open = 1
 let g:syntastic_enable_signs = 1
-let g:syntastic_auto_jump = 0
+let g:syntastic_auto_jump = 2
 let g:syntastic_enable_highlighting = 1
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
 let g:syntastic_error_symbol='!'
 let g:syntastic_style_error_symbol='>'
 let g:syntastic_warning_symbol='.'
@@ -888,6 +890,8 @@ let g:syntastic_mode_map = { 'mode': 'active',
                            \ 'active_filetypes': ['python'],
                            \ 'passive_filetypes': [] }
 let g:syntastic_python_flake8_post_args='--ignore=E123,E124,E126,E128,E711,W404,F403'
+let g:syntastic_python_pylint_post_args='--disable=E1101,W0613,C0111'
+let g:syntastic_python_checkers=['pyflakes', 'pylint', 'flake8']
 
 "===============================================================================
 " EasyMotion
