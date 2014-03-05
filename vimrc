@@ -350,7 +350,7 @@ nnoremap <F5> :set paste!<cr>
 nnoremap <F6> :NERDTreeToggle<cr>
 
 " <F9>: VimShell
-nnoremap <F9> :VimShell -split<cr>
+nnoremap <F9> :VimShell -split -winwidth=80<cr>
 inoremap <F9> <Esc>:VimShellCurrentDir -split -toggle<cr>
 
 " <F7>/<Shift-F7>: Add / Remove vimpdb breakpoint
@@ -880,7 +880,7 @@ let g:syntastic_enable_signs = 1
 let g:syntastic_auto_jump = 2
 let g:syntastic_enable_highlighting = 1
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
+let g:syntastic_auto_loc_list = 0
 let g:syntastic_error_symbol='!'
 let g:syntastic_style_error_symbol='>'
 let g:syntastic_warning_symbol='.'
