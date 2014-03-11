@@ -1349,7 +1349,7 @@ let g:unite_source_session_enable_auto_save = 1
 nnoremap <leader>xf :%w !xmllint --noout --relaxng $VIRTUAL_ENV/tryton-workspace/trytond/trytond/ir/ui/form.rng %:p
 nnoremap <leader>xt :%w !xmllint --noout --relaxng $VIRTUAL_ENV/tryton-workspace/trytond/trytond/ir/ui/tree.rng %:p
 nnoremap <leader>xg :%w !xmllint --noout --relaxng $VIRTUAL_ENV/tryton-workspace/trytond/trytond/ir/ui/graph.rng %:p
-nnoremap <leader>xx :silent 1,$!xmllint --format --recover - 2>/dev/null<CR>
+nnoremap <leader>xx :silent 1,$!XMLLINT_INDENT="    " xmllint --format --recover - 2>/dev/null<CR>
 au BufWrite xml exe ":silent 1,$!xmllint --format --recover - 2>/dev/null<CR>"
 let g:xml_syntax_folding=1
 au FileType xml set shiftwidth=2
