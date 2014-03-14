@@ -106,6 +106,10 @@ NeoBundle 'terryma/vim-smooth-scroll'
 NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 
+" Restructured Text
+NeoBundle 'greyblake/vim-preview'
+NeoBundle 'Rykka/riv.vim'
+
 " Tryton Specific
 NeoBundle 'JCavallo/tryton-vim'
 
