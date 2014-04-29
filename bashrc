@@ -1,5 +1,6 @@
 export WORKON_HOME=/home/giovanni/Projets/python_envs
 source /etc/bash_completion
+# source /home/giovanni/.bash_completion.d/python-argcomplete.sh
 shopt -s histappend
 export HISTSIZE=10000
 PROMPT_COMMAND='history -a; history -n'

@@ -20,6 +20,7 @@ graphlog=
 rebase=
 patchbomb=
 shelve=
+extdiff=
 
 [review]
 server = http://codereview.tryton.org
@@ -37,3 +38,9 @@ method = /usr/sbin/sendmail
 
 [phases]
 publish = False
+
+[extdiff]
+cmd.vdiff = meld
+
+[merge_tools]
+meld.vdiff = $local $base $other $output

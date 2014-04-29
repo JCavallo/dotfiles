@@ -396,7 +396,7 @@ nnoremap <silent> <Leader>p :let @+=expand("%:p")<cr>:echo "Copied current file
 
 " open/close the quickfix window
 nnoremap <leader>qo :copen<CR>
-nnoremap <leader>qc :cclose<CR>
+nnoremap <leader>qc :cclose<CR>:lclose<CR>
 
 " <Leader>s: Spell checking shortcuts
 nnoremap <Leader>ss :setlocal spell!<cr>
@@ -416,6 +416,10 @@ nnoremap <Leader>, <C-w>p
 " Command-line Mode Key Mappings
 "===============================================================================
 
+" jk / kj  exits command mode
+cnoremap jk <Esc>
+cnoremap kj <Esc>
+
 " Bash like keys for the command line.
 cnoremap <c-a> <home>
 cnoremap <c-e> <end>
@@ -431,6 +435,8 @@ cnoremap <c-j> <down>
 cnoremap <c-k> <up>
 cnoremap <c-f> <left>
 cnoremap <c-g> <right>
+
+cnoremap <c-u> <c-h>
 
 " Ctrl-v: Paste
 cnoremap <c-v> <c-r>"
@@ -1241,6 +1247,9 @@ nnoremap <silent> [unite]g :<C-u>Unite -buffer-name=grep grep:.<CR>
 
 " Quick help
 nnoremap <silent> [unite]h :<C-u>Unite -buffer-name=help help<CR>
+
+" Quick buffer
+nnoremap <silent> [unite]i :<C-u>Unite -buffer-name=buffer buffer<CR>
 
 " Quick line using the word under cursor
 nnoremap <silent> [unite]l :<C-u>UniteWithCursorWord -buffer-name=search_file line<CR>
