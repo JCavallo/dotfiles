@@ -30,6 +30,11 @@ for file in $files; do
     ln -s $dir/$file ~/.$file
 done
 
+# Get mercurial cli tools
+mkdir -p ~/Tools
+cd ~/Tools
+hg clone http://bitbucket.org/sjl/mercurial-cli-templates/
+
 # Move existing .vim
 mv ~/.vim ~/dotfiles_old/
 

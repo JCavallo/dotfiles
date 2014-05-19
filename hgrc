@@ -5,7 +5,7 @@ bb.username = jcavallo
 [ui]
 username = Jean CAVALLO <jean.cavallo@coopengo.com>
 ignore = ~/.hgignore
-style = compact
+style = ~/Tools/mercurial-cli-templates/map-cmdline.slog
 
 [extensions]
 hgnested=
