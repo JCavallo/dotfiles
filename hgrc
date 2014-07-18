@@ -6,9 +6,9 @@ bb.username = jcavallo
 username = Jean CAVALLO <jean.cavallo@coopengo.com>
 ignore = ~/.hgignore
 style = ~/Tools/mercurial-cli-templates/map-cmdline.slog
+editor = vim
 
 [extensions]
-hgnested=
 hgreview=
 prompt=~/dotfiles/hg_prompt.py
 hgext.purge=
@@ -44,3 +44,7 @@ cmd.vdiff = meld
 
 [merge_tools]
 meld.vdiff = $local $base $other $output
+
+[defaults]
+log = -v
+glog = -v
