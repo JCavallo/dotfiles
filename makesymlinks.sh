@@ -41,12 +41,10 @@ mv ~/.vim ~/dotfiles_old/
 # Create vim directory
 mkdir ~/.vim
 
+# Link rc directory
+ln -s ~/dotfiles/vim_rc_files/ ~/.vim/rc
+
 # Create subdirectories
-mkdir ~/.vim/bundle
 mkdir ~/.vim/swap
 mkdir ~/.vim/backup
 mkdir ~/.vim/undodir
-
-# Get Neobundle
-cd ~/.vim/bundle
-git clone http://git@github.com/Shougo/neobundle.vim
