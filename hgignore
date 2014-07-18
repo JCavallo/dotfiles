@@ -21,3 +21,4 @@ build/
 # trytond/modules/*
 *.rej
 *.pid
+*.reviewboardrc
