@@ -15,6 +15,8 @@ augroup MyAutoCmd
   autocmd FileType perl,php inoremap <buffer> <expr> . smartchr#loop(' . ', '->', '.')
   autocmd FileType perl,php inoremap <buffer> <expr> - smartchr#loop('-', '->')
   autocmd FileType vim inoremap <buffer> <expr> . smartchr#loop('.', ' . ', '..', '...')
+  autocmd FileType python inoremap <buffer> <expr> , smartchr#one_of(',', ', ')
+  autocmd FileType xml inoremap <buffer> <expr> = smartchr#one_of('=', ' = ', ' == ')
 
   autocmd FileType haskell,int-ghci
         \ inoremap <buffer> <expr> + smartchr#loop('+', ' ++ ')

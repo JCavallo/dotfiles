@@ -47,7 +47,7 @@ if neobundle#tap('unite.vim') "{{{
   nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=files file_rec/async file/new<CR>
   " Quick grep
   nnoremap <silent><expr> [unite]g
-        \ ":\<C-u>Unite grep -buffer-name=grep%".tabpagenr()." -auto-preview -no-split -no-empty -resume\<CR>"
+        \ ":\<C-u>Unite grep -buffer-name=grep%".tabpagenr()." -auto-preview -no-split -no-empty\<CR>"
   " Quick help
   nnoremap <silent> [unite]h :<C-u>Unite -buffer-name=help help<CR>
   " Quick buffer
