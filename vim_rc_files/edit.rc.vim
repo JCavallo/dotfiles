@@ -112,8 +112,8 @@ set directory=~/.vim/swap
 " Sets how many lines of history vim has to remember
 set history=10000
 
-" Enable virtualedit in visual block mode.
-set virtualedit=block
+" Enable virtualedit in visual block mode, add virtual space at end of line
+set virtualedit=block,onemore
 
 " Set keyword help.
 set keywordprg=:help
