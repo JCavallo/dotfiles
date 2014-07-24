@@ -140,15 +140,7 @@ function! s:set_syntax_of_user_defined_commands() "{{{
 endfunction"}}}
 
 function! s:my_on_filetype() "{{{
-  " Disable automatically insert comment.
-  setl formatoptions-=ro | setl formatoptions+=mMBl
-
-  " Disable auto wrap.
-  if &l:textwidth != 70 && &filetype !=# 'help'
-    setlocal textwidth=0
-  endif
-
-  " Use FoldCCtext().
+  " Use CustomFoldText().
   if &filetype !=# 'help'
     setlocal foldtext=CustomFoldText()
   endif

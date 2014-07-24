@@ -56,12 +56,15 @@ NeoBundleLazy 'osyo-manga/unite-quickfix'
 NeoBundleLazy 'osyo-manga/unite-filetype'
 
 " Snippets
-NeoBundleLazy 'Shougo/neosnippet.vim', {
-      \ 'depends' : ['Shougo/neosnippet-snippets', 'Shougo/context_filetype.vim'],
-      \ 'insert' : 1,
-      \ 'filetypes' : 'snippet',
-      \ 'unite_sources' : [
-      \    'neosnippet', 'neosnippet/user', 'neosnippet/runtime'],
+NeoBundle 'SirVer/ultisnips', {
+      \ 'unite_source': ['ultisnips'],
+      \ }
+" NeoBundleLazy 'Shougo/neosnippet.vim', {
+      " \ 'depends' : ['Shougo/neosnippet-snippets', 'Shougo/context_filetype.vim'],
+      " \ 'insert' : 1,
+      " \ 'filetypes' : 'snippet',
+      " \ 'unite_sources' : [
+      " \    'neosnippet', 'neosnippet/user', 'neosnippet/runtime'],
       \ }
 
 " Neocomplete : insert mode completion

@@ -17,6 +17,13 @@ if neobundle#tap('neosnippet.vim') "{{{
   call neobundle#untap()
 endif "}}}
 
+if neobundle#tap('ultisnips') "{{{
+  let g:UltiSnipsExpandTrigger="<tab>"
+  let g:UltiSnipsJumpForwardTrigger="<tab>"
+  let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+  call neobundle#untap()
+endif "}}}
+
 if neobundle#tap('vimshell.vim') "{{{
   " <C-Space>: switch to vimshell.
   nmap <C-@>  <Plug>(vimshell_switch)

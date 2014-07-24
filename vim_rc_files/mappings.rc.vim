@@ -437,8 +437,8 @@ nnoremap <silent> -  :<C-u>call <SID>smart_close()<CR>
 nnoremap <silent> [Window]o  :<C-u>only<CR>
 
 " A .vimrc snippet that allows you to move around windows beyond tabs
-nnoremap <silent> <Tab> :call <SID>NextWindow()<CR>
-nnoremap <silent> <S-Tab> :call <SID>PreviousWindowOrTab()<CR>
+nnoremap <silent> <tab> :call <SID>NextWindow()<CR>
+nnoremap <silent> <S-tab> :call <SID>PreviousWindowOrTab()<CR>
 
 " Jump to a line and the line of before and after of the same indent.
 " Useful for Python.
