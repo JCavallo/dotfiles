@@ -1,0 +1,232 @@
+snippet clmesu
+abbr    Classmethod with super
+options head
+    @classmethod
+    def ${1:method_name}(cls${2:, ${3:params\}}):
+        super(${4:class_name}, cls).$1($3)
+        ${0}
+
+snippet clme
+abbr    Classmethod
+options head
+    @classmethod
+    def ${1:method_name}(cls${2:#:, ${3:params\}}):
+        ${0}
+
+snippet defset
+abbr    def __setup__(cls): ...
+options head
+    @classmethod
+    def __setup__(cls):
+        ${1}super(${2:Class Name}, cls).__setup__()
+        ${3}
+
+snippet fibo
+abbr    Tryton Boolean Field
+options head
+    ${1:field_name} = fields.Boolean('${2:field_name}'${3:, ${4\}})${5}
+
+snippet fich
+abbr    Tryton Char Field
+options head
+    ${1:field_name} = fields.Char('${2:field_name}'${3:, ${4\}})${5}
+
+snippet fida
+abbr    Tryton Date Field
+options head
+    ${1:field_name} = fields.Date('${2:field_name}'${3:, ${4\}})${5}
+
+snippet fiin
+abbr    Tryton Integer Field
+options head
+    ${1:field_name} = fields.Integer('${2:field_name}'${3:, ${4\}})${5}
+
+snippet finu
+abbr    Tryton Numeric Field
+options head
+    ${1:field_name} = fields.Numeric('${2:field_name}'${3:, digits=${4:(16,
+            ${5:Eval('currency_digits')\}\}})${0}
+
+snippet fite
+abbr    Tryton Text Field
+    ${1:field_name} = fields.Text('${2:field_name}'${3:, ${4\}})${5}
+
+snippet fimo
+abbr    Tryton Many2One Field
+options head
+    ${1:field_name} = fields.Many2One('${2:model_name}', '${3:field_name}'
+        ${4:, ${5\}})${6}
+
+snippet fiom
+abbr    Tryton One2Many Field
+options head
+    ${1:field_name} = fields.One2Many('${2:model_name}', '${3:back_ref}',
+        '${4:field_name}'${5:, ${6\}})${6}
+
+snippet fiod
+abbr    Tryton One2ManyDomain Field
+options head
+    ${1:field_name} = fields.One2ManyDomain('${2:model_name}', '${3:reverse_field_name}',
+    '${4:field_name}', domain=[
+            ('${5:attribute_name}', '${6:operand}', ${7:value}),${8}
+        ],${9})${10}
+
+snippet fimm
+abbr    Tryton Many2Many Field
+options head
+    ${1:field_name} = fields.Many2Many('${2:m2m_relation_name}',
+        '${3:origin}', '${4:target}', '${5:field_name}'${6:, ${7\}})${8}
+
+snippet fise
+abbr    Tryton Selection Field
+options head
+    ${1:field_name} = fields.Selection(${2:[('${3\}', '${4\}')${5:,
+        ${6\}\}]}${7:'${8:selection_method\}'}, '${9:name}'${10:, ${11\}})${12}
+
+snippet fifubo
+abbr    Tryton Function Boolean Field
+options head
+    ${1:field_name} = fields.Function(
+        fields.Boolean('${2:name}'${3:, ${4\}}),
+        '${5:get_$1}'${6:, setter='${7:set_$1\}'}${8:, searcher='${9:search_$1\}'})${10}
+
+snippet fifuch
+abbr    Tryton Function Char Field
+options head
+    ${1:field_name} = fields.Function(
+        fields.Char('${2:name}'${3:, ${4\}}),
+        '${5:get_$1}'${6:, setter='${7:set_$1\}'}${8:, searcher='${9:search_$1\}'})${10}
+
+snippet fifute
+abbr    Tryton Function Text Field
+options head
+    ${1:field_name} = fields.Function(
+        fields.Text('${2:name}'${3:, ${4\}}),
+        '${5:get_$1}'${6:, setter='${7:set_$1\}'}${8:, searcher='${9:search_$1\}'})${10}
+
+snippet fifuse
+abbr    Tryton Function Selection Field
+options head
+    ${1:field_name} = fields.Function(
+        fields.Selection(${2:[('${3\}', '${4\}')${5:,
+            ${6\}\}]}${7:'${8:selection_method\}'}, '${9:name}'${10:, ${11\}}),
+        '${12:get_$1}'${13:, setter='${14:set_$1\}'}${15:, searcher='${16:search_$1\}'})${17}
+
+snippet fifute
+abbr    Tryton Function Many2One Field
+options head
+    ${1:field_name} = fields.Function(
+        fields.Many2One('${2:model_name}', '${3:field_name}'
+            ${4:, ${5\}}),
+        '${6:get_$1}'${7:, setter='${8:set_$1\}'}${9:, searcher='${10:search_$1\}'})${11}
+
+snippet stin
+abbr    States Invisible
+    states={'invisible': ${1:pyson_expr}},${2}
+
+snippet stre
+abbr    States Readonly
+    states={'readonly': ${1:pyson_expr}},${2}
+
+snippet trcl
+abbr    Tryton Class
+    class ${1:class_name}(${2}):
+        '${3:class_fancy_name}'
+
+        __name__ = '${4:model_name}'${5}
+
+snippet ctx
+abbr    Context
+    context={'${1:value_name}': ${2:value}},${3}
+
+snippet Pg
+abbr    Pool().get(...)
+options head
+    ${1:var_name} = Pool().get('${2:model_name}')${3}
+
+snippet pg
+abbr    pool.get(...)
+options head
+    ${1:var_name} = pool.get('${2:model_name}')${3}
+
+snippet trco
+abbr    Transaction().context
+    Transaction().context${1}
+
+snippet trcog
+abbr    Transaction().context.get(...)
+    ${1:var_name} = Transaction().context.get('${2:value}')${3}
+
+snippet trcb
+abbr    Print Traceback
+    import traceback
+    traceback.print_stack()
+
+snippet dm
+abbr    domain
+    domain=[
+        ('${1:attribute_name}', '${2:operand}', ${3:value}),${4}
+    ],${5}
+
+snippet get1
+abbr    Get One instance from domain
+    ${1:var_name}, = ${2:model_name}.search([
+            ('${3:field}', '${4:=}', ${5:value})${6},
+        ]${7:, limit=1})${8}
+
+snippet dep
+abbr    @field.depends(...)
+options head
+    @fields.depends('${1}'{$2:, ${3\}})
+    ${4}
+
+snippet oc
+abbr    def on_change_...(self):
+options head
+    def on_change_${1}(self):
+        ${2}
+
+snippet ocw
+abbr    def on_change_with_...(self, name?):
+options head
+    def on_change_${1}(self${2, name=None}):
+        ${3}
+
+snippet ermes
+abbr    cls._error_messages.update(...)
+options head
+    cls._error_messages.update({
+            '${1}': '${2}',${3}
+            })${4}
+
+snippet sep
+abbr    print '#########...
+options head
+    print '#' * 80
+    print '${1:%s}'${2}
+
+snippet defdef
+abbr    def default_...(cls):
+options head
+    @classmethod
+    def default_${1:field_name}(cls):
+        ${2}return ${3}
+
+snippet __init__
+abbr    Tryton __init__ header
+    from trytond.pool import Pool
+    from .${1:Filename} import *
+
+
+    def register():
+        Pool.register(
+            ${2:class_name},${3}
+            module='${4:$1}', type_='${5:model}')${6}
+
+snippet req
+abbr    required=
+    required=${1:True},${2}
+
+snippet ondel
+abbr    ondelete=
+    ondelete='${1:CASCADE}',${2}
