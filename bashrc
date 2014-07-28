@@ -44,3 +44,5 @@ if [ -n "$DESKTOP_SESSION" ];then
         export GNOME_KEYRING_CONTROL
     fi
 fi
+
+export EDITOR=vim
