@@ -5,7 +5,7 @@ bb.username = jcavallo
 [ui]
 username = Jean CAVALLO <jean.cavallo@coopengo.com>
 ignore = ~/.hgignore
-style = ~/Tools/mercurial-cli-templates/map-cmdline.slog
+style = ~/dotfiles/mercurial_styles/map-cmdline.slog
 editor = vim
 
 [extensions]
