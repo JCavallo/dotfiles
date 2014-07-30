@@ -9,6 +9,10 @@
 "
 "===============================================================================
 
+" Disable vi-compatibility. Must be first to avoid multiline problems with the
+" \ separator
+set nocompatible
+
 " Note: Skip initialization for vim-tiny or vim-small.
 if !1 | finish | endif
 
@@ -73,9 +77,6 @@ NeoBundleCheck
 "===============================================================================
 " Global settings
 "===============================================================================
-
-" Disable vi-compatibility
-set nocompatible
 
 " Ignore the case of normal letters.
 set ignorecase
