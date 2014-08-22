@@ -143,6 +143,8 @@ function! s:unite_my_settings() "{{{
   imap <buffer> <C-z>      <Plug>(unite_toggle_transpose_window)
   nmap <buffer> '          <Plug>(unite_quick_match_default_action)
   nmap <buffer> cd         <Plug>(unite_quick_match_default_action)
+  nmap <buffer> <C-r>      <Plug>(unite_redraw)
+  imap <buffer> <C-r>      <Plug>(unite_redraw)
   nmap <buffer> <C-z>      <Plug>(unite_toggle_transpose_window)
   nmap <buffer> <C-j>      <Plug>(unite_toggle_auto_preview)
   nnoremap <silent><buffer> <Tab>     <C-w>w
