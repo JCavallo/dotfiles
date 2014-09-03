@@ -23,7 +23,7 @@ shelve=
 extdiff=
 
 [review]
-server = http://codereview.tryton.org
+server = http://rietveld.coopengo.com
 send_email = True
 account_type = GOOGLE
 
