@@ -60,6 +60,7 @@ function! s:vimfiler_my_settings() "{{{
   nnoremap <silent><buffer><expr> gy vimfiler#do_action('tabopen')
   nmap <buffer> p <Plug>(vimfiler_quick_look)
   nmap <buffer> <Tab> <Plug>(vimfiler_switch_to_other_window)
+  nmap <buffer> n <Plug>(vimfiler_new_file)
 
   " Migemo search.
   if !empty(unite#get_filters('matcher_migemo'))

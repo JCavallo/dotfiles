@@ -154,7 +154,7 @@ let python_highlight_all = 1
 
 if neobundle#tap('vimfiler.vim') "{{{
   "nmap    [Space]v   <Plug>(vimfiler_switch)
-  nnoremap <silent>   [Space]v   :<C-u>VimFiler -find<CR>
+  nnoremap <silent>   <leader>v   :<C-u>VimFiler -find<CR>
   nnoremap    [Space]ff   :<C-u>VimFilerExplorer<CR>
 
   let neobundle#hooks.on_source =
