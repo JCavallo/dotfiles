@@ -16,7 +16,7 @@ elseif has('mac')
   set guifont=Inconsolata:h9
 else
   " For Linux.
-  set guifont=Inconsolata:h9
+  set guifont=Inconsolata\ 9
 endif
 
 if has('win32') || has('win64')
@@ -33,10 +33,13 @@ if has('win32') || has('win64')
   nnoremap TT     :<C-u>TransparencyToggle<CR>
 else
   " Width of window.
-  set columns=151
+  set columns=100
   " Height of window.
-  set lines=41
+  set lines=50
 endif
+
+" Theme
+colorscheme flashy_vim
 
 "===============================================================================
 " Mouse configuration
