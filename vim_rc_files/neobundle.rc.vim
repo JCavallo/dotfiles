@@ -217,6 +217,13 @@ NeoBundleLazy 'kana/vim-smartchr', {
 " Better comments
 NeoBundle 'scrooloose/nerdcommenter'
 
+" Autoclose quotes, parenthesis...
+NeoBundleLazy 'Raimondi/delimitMate', {
+                \ 'autoload': {
+                    \ 'insert' : 1,
+                    \ },
+                \ }
+
 "===============================================================================
 " Other plugins, to test
 "===============================================================================
