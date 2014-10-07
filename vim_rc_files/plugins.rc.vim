@@ -54,7 +54,7 @@ if neobundle#tap('unite.vim') "{{{
   nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=files file_rec/async file/new<CR>
   " Quick grep
   nnoremap <silent><expr> [unite]g
-        \ ":\<C-u>Unite grep -buffer-name=grep%".tabpagenr()." -auto-preview -no-split -no-empty\<CR>"
+        \ ":\<C-u>Unite grep -buffer-name=grep%".tabpagenr()." -auto-preview -auto-highlight -no-split\<CR>"
   " Quick help
   nnoremap <silent> [unite]h :<C-u>Unite -buffer-name=help help<CR>
   " Quick buffer
@@ -63,7 +63,7 @@ if neobundle#tap('unite.vim') "{{{
   nnoremap <silent> [unite]k
         \ :<C-u>Unite change jump<CR>
   " Location List
-  nnoremap <silent> [unite]l :<C-u>Unite -buffer-name=location_list location_list<CR>
+  nnoremap <silent> [unite]l :<C-u>Unite -auto-highlight -buffer-name=location_list location_list<CR>
   " Quick outline
   nnoremap <silent> [unite]o
         \ :<C-u>Unite outline -start-insert -resume<CR>
@@ -82,7 +82,7 @@ if neobundle#tap('unite.vim') "{{{
         \ jump_point file_point buffer_tab:- file_mru
         \ file_rec/git file file_rec/async<CR>
   " Quick commands
-  nnoremap <silent> [unite]; :<C-u>Unite -buffer-name=history history/command command<CR>
+  nnoremap <silent> [unite]; :<C-u>Unite -buffer-name=history history/command<CR>
 
   " <C-t>: Tab pages
   nnoremap <silent><expr> <C-t>
@@ -108,13 +108,13 @@ if neobundle#tap('unite.vim') "{{{
 
   " Search.
   nnoremap <silent><expr> /
-        \ ":\<C-u>Unite -buffer-name=search%".bufnr('%')." -start-insert line:forward:wrap\<CR>"
+        \ ":\<C-u>Unite -buffer-name=search%".bufnr('%')." -auto-highlight -start-insert line:forward:wrap\<CR>"
   nnoremap <expr> g/  <SID>smart_search_expr('g/',
         \ ":\<C-u>Unite -buffer-name=search -start-insert line_migemo\<CR>")
   nnoremap <silent><expr> ?
-        \ ":\<C-u>Unite -buffer-name=search%".bufnr('%')." -start-insert line:backward\<CR>"
+        \ ":\<C-u>Unite -buffer-name=search%".bufnr('%')." -auto-highlight -start-insert line:backward\<CR>"
   nnoremap <silent><expr> *
-        \ ":\<C-u>UniteWithCursorWord -buffer-name=search%".bufnr('%')." line:forward:wrap\<CR>"
+        \ ":\<C-u>UniteWithCursorWord -buffer-name=search%".bufnr('%')." -auto-highlight line:forward:wrap\<CR>"
   nnoremap [unite]/       /
   nnoremap [unite]?       ?
   cnoremap <expr><silent><C-g>        (getcmdtype() == '/') ?
@@ -205,6 +205,7 @@ endif "}}}
 
 if neobundle#tap('nerdcommenter')
   let g:NERDSpaceDelims=1
+  call neobundle#untap()
 endif
 
 if neobundle#tap('syntastic')
@@ -225,5 +226,20 @@ if neobundle#tap('syntastic')
                             \ 'passive_filetypes': [] }
     let g:syntastic_python_flake8_post_args='--ignore=E123,E124,E126,E128,E711,W404,F403'
     let g:syntastic_python_pylint_post_args='--disable=E1101,W0613,C0111'
-    let g:syntastic_python_checkers=['pyflakes', 'flake8']
+    let g:syntastic_python_checkers=['flake8', 'pyflakes']
+endif
+
+if neobundle#tap('focus.vim') "{{{
+    let g:focus_use_default_mapping = 0
+    nmap [Window]z <Plug>FocusModeToggle
+  call neobundle#untap()
+endif "}}}
+
+if neobundle#tap('riv.vim')
+    let g:riv_i_tab_pum_next = 0
+    let g:riv_i_tab_user_cmd = ''
+    let g:riv_ignored_imaps = "<Tab>,<S-Tab>"
+    let g:riv_ignored_nmaps = "<Tab>,<S-Tab>"
+    let g:riv_ignored_vmaps = "<Tab>,<S-Tab>"
+  call neobundle#untap()
 endif
