@@ -50,7 +50,7 @@ NeoBundleLazy 'thinca/vim-unite-history', {
       \ }
 
 "Navigate quickfix easily
-NeoBundleLazy 'osyo-manga/unite-quickfix'
+NeoBundle 'osyo-manga/unite-quickfix'
 
 " Unite filetype specific integrationj
 NeoBundleLazy 'osyo-manga/unite-filetype'
@@ -120,6 +120,10 @@ NeoBundleLazy 'Shougo/vimshell.vim', {
 " That you can ssh into !
 NeoBundleLazy 'ujihisa/vimshell-ssh', {
       \ 'filetypes' : 'vimshell',
+      \ }
+
+NeoBundleLazy 'merlinrebrovic/focus.vim', {
+      \ 'mappings' : '<Plug>FocusModeToggle',
       \ }
 
 " Accelerated jk, So awesome...
@@ -216,13 +220,6 @@ NeoBundleLazy 'kana/vim-smartchr', {
 
 " Better comments
 NeoBundle 'scrooloose/nerdcommenter'
-
-" Autoclose quotes, parenthesis...
-NeoBundleLazy 'Raimondi/delimitMate', {
-                \ 'autoload': {
-                    \ 'insert' : 1,
-                    \ },
-                \ }
 
 "===============================================================================
 " Other plugins, to test
