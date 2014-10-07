@@ -102,7 +102,7 @@ call unite#custom#source(
 call unite#custom#source(
       \ 'file_rec,file_rec/async,file_rec/git,file_mru', 'converters',
       \ ['converter_file_directory'])
-call unite#filters#sorter_default#use(['sorter_rank'])
+call unite#filters#sorter_default#use(['sorter_selecta'])
 "}}}
 
 function! s:unite_my_settings() "{{{
