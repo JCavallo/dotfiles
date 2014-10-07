@@ -2,6 +2,11 @@
 " Initialize directories, load neobundle, disable unused features
 "===============================================================================
 
+" Make sure python is loaded when using neovim
+if has('nvim')
+    runtime! plugin/python_setup.vim
+endif
+
 " Use English interface.
 if IsWindows()
   " For Windows.
