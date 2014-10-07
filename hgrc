@@ -48,3 +48,7 @@ meld.vdiff = $local $base $other $output
 [defaults]
 log = -v
 glog = -v
+
+
+[tortoisehg]
+editor = gvim
