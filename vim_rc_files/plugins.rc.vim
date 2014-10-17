@@ -243,3 +243,8 @@ if neobundle#tap('riv.vim')
     let g:riv_ignored_vmaps = "<Tab>,<S-Tab>"
   call neobundle#untap()
 endif
+
+if neobundle#tap('InstantRst')
+    let g:instant_rst_browser = 'chrome'
+    call neobundle#untap()
+endif

@@ -206,8 +206,8 @@ NeoBundleLazy 'hynek/vim-python-pep8-indent', {
 NeoBundle 'JCavallo/tryton-vim'
 
 " Restructured Text : Preview and syntax
-NeoBundle 'greyblake/vim-preview'
 NeoBundle 'Rykka/riv.vim'
+NeoBundle 'Rykka/InstantRst'
 
 "===============================================================================
 " Other
