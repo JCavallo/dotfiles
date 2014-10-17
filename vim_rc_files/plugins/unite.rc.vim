@@ -113,24 +113,7 @@ function! s:unite_my_settings() "{{{
 
   call unite#custom#default_action('versions/git/status', 'commit')
 
-  " call unite#custom#default_action('directory', 'cd')
-
-  " Custom actions."{{{
-  let my_tabopen = {
-        \ 'description' : 'my tabopen items',
-        \ 'is_selectable' : 1,
-        \ }
-
-  function! my_tabopen.func(candidates) "{{{
-    call unite#take_action('tabopen', a:candidates)
-
-    let dir = isdirectory(a:candidates[0].word) ?
-          \ a:candidates[0].word : fnamemodify(a:candidates[0].word, ':p:h')
-    execute g:unite_kind_openable_lcd_command '`=dir`'
-  endfunction"}}}
-  call unite#custom#action('file,buffer', 'tabopen', my_tabopen)
-  unlet my_tabopen
-  "}}}
+  call unite#custom#default_action('directory', 'cd')
 
   " Overwrite settings.
   imap <buffer>  <BS>      <Plug>(unite_delete_backward_path)
