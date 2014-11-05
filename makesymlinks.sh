@@ -43,3 +43,7 @@ ln -s ~/dotfiles/vim_rc_files/ ~/.vim/rc
 mkdir ~/.vim/swap
 mkdir ~/.vim/backup
 mkdir ~/.vim/undodir
+
+# Add argcomplete to bash_completion
+mkdir ~/.bash_completion.d
+ln -s ~/dotfiles/bash_completion/python_argcomplete.sh ~/.bash_completion.d/python-argcomplete.sh
