@@ -6,10 +6,8 @@ let g:vimfiler_enable_clipboard = 0
 let g:vimfiler_safe_mode_by_default = 0
 
 let g:vimfiler_as_default_explorer = 1
-let g:vimfiler_detect_drives = IsWindows() ? [
-      \ 'C:/', 'D:/', 'E:/', 'F:/', 'G:/', 'H:/', 'I:/',
-      \ 'J:/', 'K:/', 'L:/', 'M:/', 'N:/'] :
-      \ split(glob('/mnt/*'), '\n') + split(glob('/media/*'), '\n') +
+let g:vimfiler_detect_drives = split(glob('/mnt/*'), '\n') +
+      \ split(glob('/media/*'), '\n') +
       \ split(glob('/Users/*'), '\n')
 
 " %p : full path
@@ -26,23 +24,15 @@ let g:vimfiler_sendto = {
       \ 'gedit' : 'gedit',
       \ }
 
-if IsWindows()
-  " Use trashbox.
-  let g:unite_kind_file_use_trashbox = 1
-else
-  " Like Textmate icons.
-  let g:vimfiler_tree_leaf_icon = ' '
-  let g:vimfiler_tree_opened_icon = '▾'
-  let g:vimfiler_tree_closed_icon = '▸'
-  let g:vimfiler_file_icon = ' '
-  let g:vimfiler_readonly_file_icon = '✗'
-  let g:vimfiler_marked_file_icon = '✓'
-endif
-" let g:vimfiler_readonly_file_icon = '[O]'
+" Like Textmate icons.
+let g:vimfiler_tree_leaf_icon = ' '
+let g:vimfiler_tree_opened_icon = '▾'
+let g:vimfiler_tree_closed_icon = '▸'
+let g:vimfiler_file_icon = ' '
+let g:vimfiler_readonly_file_icon = '✗'
+let g:vimfiler_marked_file_icon = '✓'
 
-let g:vimfiler_quick_look_command =
-      \ IsWindows() ? 'maComfort.exe -ql' :
-      \ IsMac() ? 'qlmanage -p' : 'gloobus-preview'
+let g:vimfiler_quick_look_command = 'gloobus-preview'
 
 autocmd MyAutoCmd FileType vimfiler call s:vimfiler_my_settings()
 function! s:vimfiler_my_settings() "{{{

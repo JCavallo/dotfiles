@@ -13,29 +13,13 @@
 " \ separator
 set nocompatible
 
-" Note: Skip initialization for vim-tiny or vim-small.
-if !1 | finish | endif
-
 function! s:source_rc(path)
   execute 'source' fnameescape(expand('~/.vim/rc/' . a:path))
 endfunction
 
-let s:is_windows = has('win16') || has('win32') || has('win64')
-let s:is_cygwin = has('win32unix')
 let s:is_sudo = $SUDO_USER != '' && $USER !=# $SUDO_USER
       \ && $HOME !=# expand('~'.$USER)
       \ && $HOME ==# expand('~'.$SUDO_USER)
-
-function! IsWindows()
-  return s:is_windows
-endfunction
-
-function! IsMac()
-  return !s:is_windows && !s:is_cygwin
-      \ && (has('mac') || has('macunix') || has('gui_macvim') ||
-      \   (!executable('xdg-open') &&
-      \     system('uname') =~? '^darwin'))
-endfunction
 
 "===============================================================================
 " Call init.rc
@@ -60,15 +44,6 @@ else
   call s:source_rc('neobundle.rc.vim')
   NeoBundleSaveCache
 endif
-
-if filereadable('vimrc_local.vim') ||
-      \ findfile('vimrc_local.vim', '.;') != ''
-  " Load develop version.
-  call neobundle#local(fnamemodify(
-        \ findfile('vimrc_local.vim', '.;'), ':h'))
-endif
-
-NeoBundleLocal ~/.vim/bundle
 
 call neobundle#end()
 
@@ -155,11 +130,7 @@ call s:source_rc('filetype.rc.vim')
 " Call platform specific rc files
 "===============================================================================
 
-if s:is_windows
-  call s:source_rc('windows.rc.vim')
-else
-  call s:source_rc('unix.rc.vim')
-endif
+call s:source_rc('unix.rc.vim')
 
 "===============================================================================
 " Mouse configuration

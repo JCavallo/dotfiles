@@ -13,11 +13,7 @@ set relativenumber
 
 " Show <TAB> and <CR>
 set list
-if IsWindows()
-  set listchars=tab:>-,trail:-,extends:>,precedes:<
-else
-  set listchars=tab:▸\ ,trail:-,extends:»,precedes:«,nbsp:%
-endif
+set listchars=tab:▸\ ,trail:-,extends:»,precedes:«,nbsp:%
 
 " Text display settings
 set linebreak

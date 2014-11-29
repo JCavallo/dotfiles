@@ -19,28 +19,20 @@ let g:vimshell_force_overwrite_statusline = 1
 
 autocmd MyAutoCmd FileType vimshell call s:vimshell_settings()
 function! s:vimshell_settings()
-  if IsWindows()
-    " Display user name on Windows.
-    "let g:vimshell_prompt = $USERNAME."% "
+  " Display user name on Linux.
+  let g:vimshell_prompt = $USER."% "
 
-    " Use ckw.
-    let g:vimshell_use_terminal_command = 'ckw -e'
-  else
-    " Display user name on Linux.
-    "let g:vimshell_prompt = $USER."% "
+  " Use zsh history.
+  let g:vimshell_external_history_path = expand('~/.zsh-history')
 
-    " Use zsh history.
-    let g:vimshell_external_history_path = expand('~/.zsh-history')
+  call vimshell#set_execute_file('bmp,jpg,png,gif', 'gexe eog')
+  call vimshell#set_execute_file('mp3,m4a,ogg', 'gexe amarok')
+  let g:vimshell_execute_file_list['zip'] = 'zipinfo'
+  call vimshell#set_execute_file('tgz,gz', 'gzcat')
+  call vimshell#set_execute_file('tbz,bz2', 'bzcat')
 
-    call vimshell#set_execute_file('bmp,jpg,png,gif', 'gexe eog')
-    call vimshell#set_execute_file('mp3,m4a,ogg', 'gexe amarok')
-    let g:vimshell_execute_file_list['zip'] = 'zipinfo'
-    call vimshell#set_execute_file('tgz,gz', 'gzcat')
-    call vimshell#set_execute_file('tbz,bz2', 'bzcat')
-
-    " Use gnome-terminal.
-    let g:vimshell_use_terminal_command = 'gnome-terminal -e'
-  endif
+  " Use gnome-terminal.
+  let g:vimshell_use_terminal_command = 'gnome-terminal -e'
 
   " Initialize execute file list.
   let g:vimshell_execute_file_list = {}

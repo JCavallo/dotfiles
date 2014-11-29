@@ -7,14 +7,8 @@ if has('nvim')
     runtime! plugin/python_setup.vim
 endif
 
-" Use English interface.
-if IsWindows()
-  " For Windows.
-  language message en
-else
-  " For Linux.
-  language message C
-endif
+" Use english
+language message C
 
 " Remap leader key
 let g:mapleader = ','
@@ -27,11 +21,6 @@ xnoremap ;  <Nop>
 " xnoremap m  <Nop>
 nnoremap ,  <Nop>
 xnoremap ,  <Nop>
-
-if IsWindows()
-  " Exchange path separator.
-  set shellslash
-endif
 
 " Everything should go in $CACHE
 let $CACHE = expand('~/.cache')
@@ -52,15 +41,6 @@ endif
 let s:neobundle_dir = expand('$CACHE/neobundle')
 
 if has('vim_starting') "{{{
-  " Set runtimepath.
-  if IsWindows()
-    let &runtimepath = join([
-          \ expand('~/.vim'),
-          \ expand('$VIM/runtime'),
-          \ expand('$VIMRUNTIME'),
-          \ expand('~/.vim/after')], ',')
-  endif
-
   " Load neobundle.
   if isdirectory('neobundle.vim')
     set runtimepath^=neobundle.vim

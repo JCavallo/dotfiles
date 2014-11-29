@@ -159,15 +159,12 @@ let default_context = {
 let g:unite_enable_short_source_names = 1
 " let g:unite_abbr_highlight = 'TabLine'
 
-if IsWindows()
-else
-  " Like Textmate icons.
-  let g:unite_marked_icon = '✗'
+" Like Textmate icons.
+let g:unite_marked_icon = '✗'
 
-  " Prompt choices.
-  "let g:unite_prompt = '❫ '
-  let default_context.prompt = '» '
-endif
+" Prompt choices.
+"let g:unite_prompt = '❫ '
+let default_context.prompt = '» '
 
 call unite#custom#profile('default', 'context', default_context)
 
@@ -195,10 +192,8 @@ elseif executable('ack-grep')
   let g:unite_source_grep_recursive_opt = ''
 endif
 
-let g:unite_build_error_icon    = '~/.vim/signs/err.'
-      \ . (IsWindows() ? 'bmp' : 'png')
-let g:unite_build_warning_icon  = '~/.vim/signs/warn.'
-      \ . (IsWindows() ? 'bmp' : 'png')
+let g:unite_build_error_icon    = '~/.vim/signs/err.png'
+let g:unite_build_warning_icon  = '~/.vim/signs/warn.png'
 
 " Insert mode at start
 let g:unite_enable_start_insert = 1
