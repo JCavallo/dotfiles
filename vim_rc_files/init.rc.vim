@@ -2,23 +2,15 @@
 " Initialize directories, load neobundle, disable unused features
 "===============================================================================
 
-" Make sure python is loaded when using neovim
-if has('nvim')
-    runtime! plugin/python_setup.vim
-endif
-
 " Use english
 language message C
 
 " Remap leader key
 let g:mapleader = ','
-" let g:maplocalleader = 'm'
 
 " Release keymappings for plug-in.
 nnoremap ;  <Nop>
 xnoremap ;  <Nop>
-" nnoremap m  <Nop>
-" xnoremap m  <Nop>
 nnoremap ,  <Nop>
 xnoremap ,  <Nop>
 
@@ -33,10 +25,6 @@ endif
 augroup MyAutoCmd
   autocmd!
 augroup END
-
-if filereadable(expand('~/.secret_vimrc'))
-  execute 'source' expand('~/.secret_vimrc')
-endif
 
 let s:neobundle_dir = expand('$CACHE/neobundle')
 
@@ -59,9 +47,10 @@ endif
 "}}}
 
 let g:neobundle#default_options = {}
-"
+
 "---------------------------------------------------------------------------
 " Disable default plugins
+"---------------------------------------------------------------------------
 
 " Disable menu.vim
 if has('gui_running')
