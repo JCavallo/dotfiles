@@ -6,59 +6,47 @@
 set autoindent smartindent
 
 augroup MyAutoCmd
-  autocmd FileType,Syntax * call s:my_on_filetype()
+    autocmd FileType,Syntax * call s:my_on_filetype()
 
-  " Enable gauche syntax.
-  autocmd FileType scheme nested let b:is_gauche=1 | setlocal lispwords=define |
-        \let b:current_syntax='' | syntax enable
-
-  " Auto reload VimScript.
-  autocmd BufWritePost,FileWritePost *.vim if &autoread
+    " Auto reload VimScript.
+    autocmd BufWritePost,FileWritePost *.vim if &autoread
         \ | source <afile> | echo 'source ' . bufname('%') | endif
 
-  " Manage long Rakefile easily
-  autocmd BufNewfile,BufRead Rakefile set foldmethod=syntax foldnestmax=1
+    " Enable omni completion.
+    autocmd FileType c setlocal omnifunc=ccomplete#Complete
+    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType java setlocal omnifunc=javacomplete#Complete
+    autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
+    if has('python3')
+        autocmd FileType python setlocal omnifunc=python3complete#Complete
+    else
+        autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+    endif
+    "autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+    "autocmd FileType sql setlocal omnifunc=sqlcomplete#Complete
+    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+    autocmd FileType xml setlocal foldmethod=syntax
+    autocmd FileType xml setlocal foldlevel=2
 
-  autocmd FileType gitcommit,qfreplace setlocal nofoldenable
+    autocmd FileType python setlocal foldmethod=syntax
+    autocmd FileType vim setlocal foldmethod=marker
 
-  autocmd FileType ref nnoremap <buffer> <TAB> <C-w>w
+    " Update filetype.
+    autocmd BufWritePost *
+        \ if &l:filetype ==# '' || exists('b:ftdetect')
+        \ |   unlet! b:ftdetect
+        \ |   filetype detect
+        \ | endif
 
-  " Enable omni completion.
-  " autocmd FileType ada setlocal omnifunc=adacomplete#Complete
-  " autocmd FileType c setlocal omnifunc=ccomplete#Complete
-  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-  autocmd FileType java setlocal omnifunc=javacomplete#Complete
-  autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
-  if has('python3')
-    autocmd FileType python setlocal omnifunc=python3complete#Complete
-  else
-    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-  endif
-  "autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-  "autocmd FileType sql setlocal omnifunc=sqlcomplete#Complete
-  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-  autocmd FileType xml setlocal foldmethod=syntax
-  autocmd FileType xml setlocal foldlevel=2
-
-  autocmd FileType python setlocal foldmethod=syntax
-  " autocmd FileType vim setlocal foldmethod=syntax
-
-  " Update filetype.
-  autocmd BufWritePost *
-  \ if &l:filetype ==# '' || exists('b:ftdetect')
-  \ |   unlet! b:ftdetect
-  \ |   filetype detect
-  \ | endif
-
-  " Improved include pattern.
-  autocmd FileType html
+    " Improved include pattern.
+    autocmd FileType html
         \ setlocal includeexpr=substitute(v:fname,'^\\/','','') |
         \ setlocal path+=./;/
-  autocmd FileType php setlocal path+=/usr/local/share/pear
-  autocmd FileType apache setlocal path+=./;/
+    autocmd FileType php setlocal path+=/usr/local/share/pear
+    autocmd FileType apache setlocal path+=./;/
 
-  autocmd Syntax * syntax sync minlines=100
+    autocmd Syntax * syntax sync minlines=100
 augroup END
 
 " PHP
@@ -91,7 +79,7 @@ let g:SimpleJsIndenter_CaseIndentLevel = -1
 
 " Go
 if $GOROOT != ''
-  set runtimepath+=$GOROOT/misc/vim
+    set runtimepath+=$GOROOT/misc/vim
 endif
 
 " Vim script
@@ -103,65 +91,61 @@ endif
 " python: P
 " tcl: t
 " mzscheme: m
-let g:vimsyn_folding = 'af'
+let g:vimsyn_folding = 'afPl'
 
 " http://mattn.kaoriya.net/software/vim/20140523124903.htm
 let g:markdown_fenced_languages = [
-      \  'coffee',
-      \  'css',
-      \  'erb=eruby',
-      \  'javascript',
-      \  'js=javascript',
-      \  'json=javascript',
-      \  'ruby',
-      \  'sass',
-      \  'xml',
-      \  'vim',
-      \]
+    \  'coffee',
+    \  'css',
+    \  'erb=eruby',
+    \  'javascript',
+    \  'js=javascript',
+    \  'json=javascript',
+    \  'ruby',
+    \  'sass',
+    \  'xml',
+    \  'vim',
+    \]
 
 " Syntax highlight for user commands.
 augroup syntax-highlight-extends
-  autocmd!
-  autocmd Syntax vim
-        \ call s:set_syntax_of_user_defined_commands()
+    autocmd!
+    autocmd Syntax vim call s:set_syntax_of_user_defined_commands()
 augroup END
 
 function! s:set_syntax_of_user_defined_commands() "{{{
-  redir => _
-  silent! command
-  redir END
+    redir => _
+    silent! command
+    redir END
 
-  let command_names = join(map(split(_, '\n')[1:],
-        \ "matchstr(v:val, '[!\"b]*\\s\\+\\zs\\u\\w*\\ze')"))
+    let command_names = join(map(split(_, '\n')[1:],
+            \ "matchstr(v:val, '[!\"b]*\\s\\+\\zs\\u\\w*\\ze')"))
 
-  if command_names == '' | return | endif
+    if command_names == '' | return | endif
 
-  execute 'syntax keyword vimCommand ' . command_names
+    execute 'syntax keyword vimCommand ' . command_names
 endfunction"}}}
 
 function! s:my_on_filetype() "{{{
-  " Use CustomFoldText().
-  if &filetype !=# 'help'
-    setlocal foldtext=CustomFoldText()
-  endif
-
-  if !&l:modifiable
-    setlocal nofoldenable
-    setlocal foldcolumn=0
-
-    if v:version >= 703
-      setlocal colorcolumn=
+    " Use CustomFoldText().
+    if &filetype !=# 'help'
+        setlocal foldtext=CustomFoldText()
     endif
-  endif
+
+    if !&l:modifiable
+        setlocal nofoldenable
+        setlocal foldcolumn=0
+        setlocal colorcolumn=
+    endif
 endfunction "}}}
 
 " Do not display completion messages
 " Patch: https://groups.google.com/forum/#!topic/vim_dev/WeBBjkXE8H8
 set noshowmode
 try
-  set shortmess+=c
+    set shortmess+=c
 catch /^Vim\%((\a\+)\)\=:E539: Illegal character/
-  autocmd MyAutoCmd VimEnter *
+    autocmd MyAutoCmd VimEnter *
         \ highlight ModeMsg guifg=bg guibg=bg |
         \ highlight Question guifg=bg guibg=bg
 endtry

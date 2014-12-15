@@ -24,9 +24,9 @@ set noautoread
 
 " Use clipboard register.
 if has('unnamedplus')
-  set clipboard& clipboard+=unnamedplus
+    set clipboard& clipboard+=unnamedplus
 else
-  set clipboard& clipboard+=unnamed
+    set clipboard& clipboard+=unnamed
 endif
 
 " Enable backspace delete indent and newline.
@@ -62,7 +62,7 @@ set foldmethod=syntax
 set foldlevelstart=1
 
 " Fold on one line
-function! CustomFoldText()
+function! CustomFoldText()  " {{{
     "get first non-blank line
     let fs = v:foldstart
     while getline(fs) =~ '^\s*$' | let fs = nextnonblank(fs + 1)
@@ -81,7 +81,7 @@ function! CustomFoldText()
     let foldPercentage = printf("[%.1f", (foldSize*1.0)/lineCount*100) . "%] "
     let expansionString = repeat(".", w - strwidth(foldSizeStr.line.foldLevelStr.foldPercentage))
     return line . expansionString . foldSizeStr . foldPercentage . foldLevelStr
-endf
+endfunction  "}}}
 
 set foldtext=CustomFoldText()
 
@@ -93,7 +93,7 @@ set isfname-==
 
 " Reload .vimrc automatically.
 autocmd MyAutoCmd BufWritePost .vimrc,vimrc,*.rc.vim
-      \ NeoBundleClearCache | silent source $MYVIMRC
+    \ NeoBundleClearCache | silent source $MYVIMRC
 
 " Keymapping timeout.
 set timeout timeoutlen=1000 ttimeoutlen=0
@@ -123,8 +123,8 @@ autocmd MyAutoCmd WinEnter * checktime
 
 " Disable paste.
 autocmd MyAutoCmd InsertLeave *
-      \ if &paste | set nopaste mouse=a | echo 'nopaste' | endif |
-      \ if &l:diff | diffupdate | endif
+    \ if &paste | set nopaste mouse=a | echo 'nopaste' | endif |
+    \ if &l:diff | diffupdate | endif
 
 " Update diff.
 autocmd MyAutoCmd InsertLeave * if &l:diff | diffupdate | endif
@@ -134,11 +134,11 @@ autocmd MyAutoCmd InsertLeave * if &l:diff | diffupdate | endif
 " http://vim-users.jp/2011/02/hack202/
 
 autocmd MyAutoCmd BufWritePre *
-      \ call s:mkdir_as_necessary(expand('<afile>:p:h'), v:cmdbang)
+    \ call s:mkdir_as_necessary(expand('<afile>:p:h'), v:cmdbang)
 function! s:mkdir_as_necessary(dir, force)
-  if !isdirectory(a:dir) && &l:buftype == '' &&
-        \ (a:force || input(printf('"%s" does not exist. Create? [y/N]',
-        \              a:dir)) =~? '^y\%[es]$')
-    call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
-  endif
+    if !isdirectory(a:dir) && &l:buftype == '' &&
+            \ (a:force || input(printf('"%s" does not exist. Create? [y/N]',
+            \              a:dir)) =~? '^y\%[es]$')
+        call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
+    endif
 endfunction

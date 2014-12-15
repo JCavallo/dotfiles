@@ -9,7 +9,6 @@ style = ~/dotfiles/mercurial_styles/map-cmdline.slog
 editor = vim
 
 [extensions]
-hgreview=
 prompt=~/dotfiles/hg_prompt.py
 hgext.purge=
 hgext.pager=
@@ -21,11 +20,6 @@ rebase=
 patchbomb=
 shelve=
 extdiff=
-
-[review]
-server = http://rietveld.coopengo.com
-send_email = True
-account_type = GOOGLE
 
 [pager]
 pager = LESS='FSRX' less

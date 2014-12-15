@@ -6,10 +6,10 @@ export HISTSIZE=10000
 PROMPT_COMMAND='history -a; history -n'
 
 if [ "$TERM" != "dumb" ]; then
-    [ -e "$HOME/.dir_colors" ] && 
+    [ -e "$HOME/.dir_colors" ] &&
     DIR_COLORS="$HOME/.dir_colors" [ -e "$DIR_COLORS" ] ||
-    DIR_COLORS="" 
-    eval "`dircolors -b $DIR_COLORS`" 
+    DIR_COLORS=""
+    eval "`dircolors -b $DIR_COLORS`"
     alias ls='ls --color=auto'
 fi
 
@@ -35,14 +35,4 @@ hg_ps1_2() {
 }
 
 export PS1='\[\e${BOLD}\e${RED}\]\w \[\e${GREEN}\]$(hg_ps1_1) \[\e${BLUE}\]$(hg_ps1_2)\[\e${DEFAULT}\e${OFF}\]\n\[\e${BOLD}\e${PINK}\]\u\[\e${DEFAULT}\e${OFF}\]@\[\e${BOLD}\e${ORANGE}\]\h\[\e${DEFAULT}\e${OFF}\] \[\e${BOLD}\e${RED}\]$ \[\e${DEFAULT}\e${OFF}\] '
-
-if [ -n "$DESKTOP_SESSION" ];then 
-    # No point to start gnome-keyring-daemon if ssh-agent is not up 
-    if [ -n "$SSH_AGENT_PID" ];then 
-        eval $(gnome-keyring-daemon --start) 
-        export SSH_AUTH_SOCK export GPG_AGENT_INFO
-        export GNOME_KEYRING_CONTROL
-    fi
-fi
-
 export EDITOR=vim

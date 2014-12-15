@@ -1,11 +1,6 @@
 "---------------------------------------------------------------------------
 " View:
-"
-
-" Anywhere SID.
-function! s:SID_PREFIX()
-  return matchstr(expand('<sfile>'), '<SNR>\d\+_\zeSID_PREFIX$')
-endfunction
+"---------------------------------------------------------------------------
 
 " Show line number.
 set number
@@ -34,51 +29,6 @@ set cmdheight=2
 " Show command on statusline.
 set showcmd
 
-" Show title.
-set title
-" Title length.
-set titlelen=95
-" Title string.
-let &titlestring="
-      \ %{expand('%:p:~:.')}%(%m%r%w%)
-      \ %<\(%{".s:SID_PREFIX()."strwidthpart(
-      \ fnamemodify(&filetype ==# 'vimfiler' ?
-      \ substitute(b:vimfiler.current_dir, '.\\zs/$', '', '') : getcwd(), ':~'),
-      \ &columns-len(expand('%:p:.:~')))}\) - VIM"
-
-" Set tabline.
-function! s:my_tabline()  "{{{
-  let s = ''
-
-  for i in range(1, tabpagenr('$'))
-    let bufnrs = tabpagebuflist(i)
-    let bufnr = bufnrs[tabpagewinnr(i) - 1]  " first window, first appears
-
-    let no = i  " display 0-origin tabpagenr.
-    let mod = getbufvar(bufnr, '&modified') ? '!' : ' '
-
-    " Use gettabvar().
-    let title =
-          \ !exists('*gettabvar') ?
-          \      fnamemodify(bufname(bufnr), ':t') :
-          \ gettabvar(i, 'title') != '' ?
-          \      gettabvar(i, 'title') :
-          \      fnamemodify((i == tabpagenr() ?
-          \       getcwd() : gettabvar(i, 'cwd')), ':t')
-
-    let title = '[' . title . ']'
-
-    let s .= '%'.i.'T'
-    let s .= '%#' . (i == tabpagenr() ? 'TabLineSel' : 'TabLine') . '#'
-    let s .= title
-    let s .= mod
-    let s .= '%#TabLineFill#'
-  endfor
-
-  let s .= '%#TabLineFill#%T%=%#TabLine#'
-  return s
-endfunction "}}}
-let &tabline = '%!'. s:SID_PREFIX() . 'my_tabline()'
 set showtabline=1
 
 " Turn down a long line appointed in 'breakat'
@@ -154,72 +104,6 @@ set display=lastline
 " View setting.
 set viewdir=$CACHE/vim_view viewoptions-=options viewoptions+=slash,unix
 
-function! s:strwidthpart(str, width) "{{{
-  if a:width <= 0
-    return ''
-  endif
-  let ret = a:str
-  let width = s:wcswidth(a:str)
-  while width > a:width
-    let char = matchstr(ret, '.$')
-    let ret = ret[: -1 - len(char)]
-    let width -= s:wcswidth(char)
-  endwhile
-
-  return ret
-endfunction"}}}
-
-if v:version >= 703
-  " For conceal.
-  set conceallevel=2 concealcursor=iv
-
-  set colorcolumn=79
-
-  " Use builtin function.
-  function! s:wcswidth(str)
-    return strwidth(a:str)
-  endfunction
-  finish
-endif
-
-function! s:wcswidth(str)
-  if a:str =~# '^[\x00-\x7f]*$'
-    return strlen(a:str)
-  end
-
-  let mx_first = '^\(.\)'
-  let str = a:str
-  let width = 0
-  while 1
-    let ucs = char2nr(substitute(str, mx_first, '\1', ''))
-    if ucs == 0
-      break
-    endif
-    let width += s:_wcwidth(ucs)
-    let str = substitute(str, mx_first, '', '')
-  endwhile
-  return width
-endfunction
-
-" UTF-8 only.
-function! s:_wcwidth(ucs)
-  let ucs = a:ucs
-  if (ucs >= 0x1100
-        \  && (ucs <= 0x115f
-        \  || ucs == 0x2329
-        \  || ucs == 0x232a
-        \  || (ucs >= 0x2e80 && ucs <= 0xa4cf
-        \      && ucs != 0x303f)
-        \  || (ucs >= 0xac00 && ucs <= 0xd7a3)
-        \  || (ucs >= 0xf900 && ucs <= 0xfaff)
-        \  || (ucs >= 0xfe30 && ucs <= 0xfe6f)
-        \  || (ucs >= 0xff00 && ucs <= 0xff60)
-        \  || (ucs >= 0xffe0 && ucs <= 0xffe6)
-        \  || (ucs >= 0x20000 && ucs <= 0x2fffd)
-        \  || (ucs >= 0x30000 && ucs <= 0x3fffd)
-        \  ))
-    return 2
-  endif
-  return 1
-endfunction
-"}}}
+" For conceal.
+set conceallevel=2 concealcursor=iv
+set colorcolumn=79

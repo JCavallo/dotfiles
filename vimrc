@@ -14,12 +14,12 @@
 set nocompatible
 
 function! s:source_rc(path)
-  execute 'source' fnameescape(expand('~/.vim/rc/' . a:path))
+    execute 'source' fnameescape(expand('~/.vim/rc/' . a:path))
 endfunction
 
 let s:is_sudo = $SUDO_USER != '' && $USER !=# $SUDO_USER
-      \ && $HOME !=# expand('~'.$USER)
-      \ && $HOME ==# expand('~'.$SUDO_USER)
+    \ && $HOME !=# expand('~'.$USER)
+    \ && $HOME ==# expand('~'.$SUDO_USER)
 
 "===============================================================================
 " Call init.rc
@@ -39,10 +39,10 @@ call s:source_rc('init.rc.vim')
 call neobundle#begin(expand('$CACHE/neobundle'))
 
 if neobundle#has_cache()
-  NeoBundleLoadCache
+    NeoBundleLoadCache
 else
-  call s:source_rc('neobundle.rc.vim')
-  NeoBundleSaveCache
+    call s:source_rc('neobundle.rc.vim')
+    NeoBundleSaveCache
 endif
 
 call neobundle#end()
@@ -86,7 +86,7 @@ syntax enable
 "===============================================================================
 
 try
-  source ~/.vimrc.local
+    source ~/.vimrc.local
 catch
 endtry
 
@@ -138,19 +138,14 @@ call s:source_rc('unix.rc.vim')
 
 " Using the mouse on a terminal.
 if has('mouse')
-  set mouse=a
-  if has('mouse_sgr') || v:version > 703 ||
-        \ v:version == 703 && has('patch632')
+    set mouse=a
     set ttymouse=sgr
-  else
-    set ttymouse=xterm2
-  endif
 
-  " Paste.
-  nnoremap <RightMouse> "+p
-  xnoremap <RightMouse> "+p
-  inoremap <RightMouse> <C-r><C-o>+
-  cnoremap <RightMouse> <C-r>+
+    " Paste.
+    nnoremap <RightMouse> "+p
+    xnoremap <RightMouse> "+p
+    inoremap <RightMouse> <C-r><C-o>+
+    cnoremap <RightMouse> <C-r>+
 endif
 
 "===============================================================================
@@ -158,7 +153,7 @@ endif
 "===============================================================================
 
 if has('gui_running')
-  call s:source_rc('gui.rc.vim')
+    call s:source_rc('gui.rc.vim')
 endif
 
 "===============================================================================
