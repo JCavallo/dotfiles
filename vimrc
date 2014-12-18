@@ -120,6 +120,13 @@ call s:source_rc('filetype.rc.vim')
  call s:source_rc('plugins.rc.vim')
 
 "===============================================================================
+" Call extra_commands.rc.vim
+" Custom not plugin commands
+"===============================================================================
+
+ call s:source_rc('extra_commands.rc.vim')
+
+"===============================================================================
 " Call mappings.rc.vim
 " Mapping file.
 "===============================================================================
@@ -141,6 +148,8 @@ if has('mouse')
     set mouse=a
     set ttymouse=sgr
 
+    " Copy
+    vnoremap <LeftMouse> "+y
     " Paste.
     nnoremap <RightMouse> "+p
     xnoremap <RightMouse> "+p
@@ -157,13 +166,6 @@ if has('gui_running')
 endif
 
 "===============================================================================
-" Call extra_commands.rc.vim
-" Custom not plugin commands
-"===============================================================================
-
- call s:source_rc('extra_commands.rc.vim')
-
-"===============================================================================
 " End
 "===============================================================================
 
@@ -171,7 +173,6 @@ endif
 let t:cwd = getcwd()
 
 call neobundle#call_hook('on_source')
-
 set secure
 
 "===============================================================================

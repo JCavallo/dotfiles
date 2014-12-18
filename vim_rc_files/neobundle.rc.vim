@@ -30,6 +30,9 @@ NeoBundleLazy 'kana/vim-niceblock',  {
     \ 'mappings': '<Plug>',
     \ }
 
+" External fuzzy file search
+NeoBundle 'junegunn/fzf'
+
 "===============================================================================
 " Interface
 "===============================================================================
@@ -66,7 +69,7 @@ NeoBundleLazy 'tacroe/unite-mark'
 NeoBundleLazy 'thinca/vim-unite-history'
 
 "Navigate quickfix easily
-NeoBundleLazy 'osyo-manga/unite-quickfix'
+NeoBundle 'osyo-manga/unite-quickfix'
 
 " Unite filetype specific integration
 NeoBundleLazy 'osyo-manga/unite-filetype'
@@ -182,7 +185,7 @@ NeoBundleLazy 'hynek/vim-python-pep8-indent', {
     \ }
 
 " Tryton Specific
-NeoBundleLazy 'JCavallo/tryton-vim', {
+NeoBundle 'JCavallo/tryton-vim', {
     \ 'filetypes': ['python', 'xml'],
     \ }
 

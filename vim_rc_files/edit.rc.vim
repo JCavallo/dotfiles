@@ -2,6 +2,7 @@
 " Edit options
 "===============================================================================
 
+" Tabs {{{
 " Smart insert tab setting.
 set smarttab
 " Exchange tab to spaces.
@@ -14,6 +15,9 @@ set softtabstop=4
 set shiftwidth=4
 " Round indent by shiftwidth.
 set shiftround
+" Enable smart indent.
+set autoindent smartindent
+" }}}
 
 " Enable modeline.
 set modeline
@@ -32,21 +36,23 @@ endif
 " Enable backspace delete indent and newline.
 set backspace=indent,eol,start
 
+" Matchs {{{
 " Highlight parenthesis.
 set showmatch
-" Highlight when CursorMoved.
 set cpoptions-=m
 set matchtime=3
+
 " Highlight <>.
 set matchpairs+=<:>
+" }}}
 
 " Display another buffer when current buffer isn't saved.
 set hidden
 
+" Autocomplete setting {{{
 " Ignore case on insert completion.
 set infercase
 
-" Autocomplete setting
 set completeopt=menu,longest
 set wildmode=list:longest,full
 set wildignore+=*.o,*.obj,.git,*.pyc
@@ -54,10 +60,10 @@ set wildignore+=eggs/**
 set wildignore+=*.egg-info/**
 set wildignore+=.hg,*.orig,*.rej
 set wildoptions=tagfile
+" }}}
 
-" Enable folding.
+" Folding {{{
 set foldenable
-" Fold everything at start
 set foldmethod=syntax
 set foldlevelstart=1
 
@@ -84,16 +90,17 @@ function! CustomFoldText()  " {{{
 endfunction  "}}}
 
 set foldtext=CustomFoldText()
+" }}}
 
 " Use grep.
-set grepprg=grep\ -inH
+if executable("ag")
+    set grepprg=ag\ --nogroup
+else
+    set grepprg=grep\ -inH
+endif
 
 " Exclude = from isfilename.
 set isfname-==
-
-" Reload .vimrc automatically.
-autocmd MyAutoCmd BufWritePost .vimrc,vimrc,*.rc.vim
-    \ NeoBundleClearCache | silent source $MYVIMRC
 
 " Keymapping timeout.
 set timeout timeoutlen=1000 ttimeoutlen=0
@@ -101,7 +108,7 @@ set timeout timeoutlen=1000 ttimeoutlen=0
 " CursorHold time.
 set updatetime=1000
 
-" History and undo
+" History and undo {{{
 set undodir=~/.vim/undodir
 set undofile
 set undolevels=1000 "maximum number of changes that can be undone
@@ -111,15 +118,13 @@ set directory=~/.vim/swap
 
 " Sets how many lines of history vim has to remember
 set history=10000
+" }}}
 
 " Enable virtualedit in visual block mode, add virtual space at end of line
 set virtualedit=block,onemore
 
 " Set keyword help.
 set keywordprg=:help
-
-" Check timestamp more for 'autoread'.
-autocmd MyAutoCmd WinEnter * checktime
 
 " Disable paste.
 autocmd MyAutoCmd InsertLeave *

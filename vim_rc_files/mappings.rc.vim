@@ -56,9 +56,6 @@ nnoremap <Leader>sf z=
 " <Leader>w: Write current buffer
 nnoremap <Leader>w :w<cr>
 
-" <Leader>,: Switch to previous split
-nnoremap <Leader>, <C-w>p
-
 "===============================================================================
 " Command-line Mode Key Mappings
 "===============================================================================

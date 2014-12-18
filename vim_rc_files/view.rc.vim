@@ -16,7 +16,7 @@ set textwidth=79
 set autoindent
 
 " Limit to 80 char
-set colorcolumn=80  " 80 char limit
+set colorcolumn=80
 
 " Do not wrap long line.
 set nowrap
@@ -63,11 +63,6 @@ if !&verbose
   set spelllang=en_us
 endif
 
-" Completion setting.
-set completeopt=menuone
-" Don't complete from other buffer.
-set complete=.
-"set complete=.,w,b,i,t
 " Set popup menu max height.
 set pumheight=20
 
@@ -86,7 +81,7 @@ set winwidth=30
 " Set minimal height for current window.
 set winheight=1
 " Set maximam maximam command line window.
-set cmdwinheight=5
+set cmdwinheight=10
 " Equal window size.
 set equalalways
 
@@ -106,4 +101,3 @@ set viewdir=$CACHE/vim_view viewoptions-=options viewoptions+=slash,unix
 
 " For conceal.
 set conceallevel=2 concealcursor=iv
-set colorcolumn=79
