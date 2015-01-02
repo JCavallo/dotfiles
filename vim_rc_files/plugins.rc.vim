@@ -290,9 +290,12 @@ endif "}}}
 "     call neobundle#untap()
 " endif "}}}
 
-" if neobundle#tap('tryton-vim') "{{{
-"     call neobundle#untap()
-" endif "}}}
+if neobundle#tap('tryton-vim') "{{{
+    let g:tryton_default_mappings = 1
+    let g:tryton_trytond_path = "$VIRTUAL_ENV/tryton-workspace/trytond"
+    nmap <leader>com 0yf df oreview http://rietveld.coopengo.com/jkp$xXOjkgg0fFf:lyFFf:lldFFjojkkpxXXX
+    call neobundle#untap()
+endif "}}}
 
 if neobundle#tap('riv.vim') "{{{
     let g:riv_i_tab_pum_next = 0

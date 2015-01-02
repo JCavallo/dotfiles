@@ -150,7 +150,7 @@ NeoBundle 'JCavallo/flashy-vim'
 "===============================================================================
 
 " Easier moving
-NeoBundleLazy 'Lokaltog/vim-easymotion', {
+NeoBundle 'Lokaltog/vim-easymotion', {
     \ 'mappings': '<Plug>',
     \ }
 
@@ -186,7 +186,8 @@ NeoBundleLazy 'hynek/vim-python-pep8-indent', {
 
 " Tryton Specific
 NeoBundle 'JCavallo/tryton-vim', {
-    \ 'filetypes': ['python', 'xml'],
+    \ 'filetypes': ['python', 'xml', 'trpy', 'trxml'],
+    \ 'mappings': '<Plug>(tryton-',
     \ }
 
 " Restructured Text: Preview and syntax
