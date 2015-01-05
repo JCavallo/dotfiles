@@ -53,11 +53,6 @@ call unite#custom#source(
 call unite#filters#sorter_default#use(['sorter_selecta'])
 " }}}
 
-" Default actions {{{
-call unite#custom#default_action('file_rec,file_rec/async,grep,grep/async',
-    \ 'open')
-" }}}
-
 " Custom settings for unite windows {{{
 autocmd MyAutoCmd FileType unite call s:unite_my_settings()
 
