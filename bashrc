@@ -17,6 +17,8 @@ alias la='ls -Fa'
 alias ll='ls -Fls'
 alias cdve='cd $VIRTUAL_ENV'
 alias ag="LESS='FSRX' ag --pager less"
+# Apply latest patch in ~/tmp/
+alias hgpl="ls -d -t ~/tmp/* | grep .*diff | head -n 1;ls -d -t ~/tmp/* | grep .*diff | head -n 1 | xargs cat | hg patch --no-commit -"
 
 DEFAULT="[37;1m"
 PINK="[35;1m"
