@@ -293,6 +293,9 @@ endif "}}}
 if neobundle#tap('tryton-vim') "{{{
     let g:tryton_default_mappings = 1
     let g:tryton_trytond_path = "$VIRTUAL_ENV/tryton-workspace/trytond"
+    let g:tryton_server_host_name = 'localhost'
+    let g:tryton_server_port = '8080'
+    let g:tryton_server_login = 'admin'
     nmap <leader>com 0yf df oreview http://rietveld.coopengo.com/jkp$xXOjkgg0fFf:lyFFf:lldFFjojkkpxXXX
     call neobundle#untap()
 endif "}}}
