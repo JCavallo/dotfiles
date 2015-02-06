@@ -42,15 +42,19 @@ call unite#custom#profile('source/grep', 'context', {
 
 " Set default filters {{{
 call unite#custom#source(
-    \ 'buffer,file_rec,file_rec/async,file_rec/git', 'matchers',
+    \ 'buffer,file_rec,file_rec/async,file_rec/git,rec/async', 'matchers',
     \ ['converter_relative_word', 'matcher_fuzzy'])
 call unite#custom#source(
     \ 'file_mru', 'matchers',
     \ ['matcher_project_files', 'matcher_fuzzy'])
 call unite#custom#source(
-    \ 'file_rec,file_rec/async,file_rec/git,file_mru', 'converters',
+    \ 'file_rec,file_rec/async,file_rec/git,file_mru,rec/async', 'converters',
     \ ['converter_file_directory'])
 call unite#filters#sorter_default#use(['sorter_selecta'])
+" }}}
+
+" Set default actions {{{
+call unite#custom#default_action('directory', 'rec/async')
 " }}}
 
 " Custom settings for unite windows {{{
@@ -72,6 +76,7 @@ function! s:unite_my_settings()
     imap <buffer> <C-r> <Plug>(unite_redraw)
     nmap <buffer> <C-z> <Plug>(unite_toggle_transpose_window)
     nmap <buffer> <C-j> <Plug>(unite_toggle_auto_preview)
+    nmap <buffer> h <Plug>(unite_exit)
     nnoremap <silent><buffer> <Tab> <C-w>w
     nnoremap <silent><buffer><expr> l
         \ unite#smart_map('l', unite#do_action('default'))
