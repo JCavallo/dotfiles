@@ -1,6 +1,8 @@
 [auth]
 bb.prefix = https://bitbucket.org/coopengo/
 bb.username = jcavallo
+coop.prefix = https://hg.coopengo.com/
+coop.username = jcavallo
 
 [ui]
 username = Jean CAVALLO <jean.cavallo@coopengo.com>
@@ -10,6 +12,7 @@ editor = vim
 
 [extensions]
 prompt=~/dotfiles/hg_prompt.py
+hgreview=
 hgext.purge=
 hgext.pager=
 hgext.color=
@@ -46,3 +49,6 @@ glog = -v
 
 [tortoisehg]
 editor = gvim
+
+[trusted]
+users = root
