@@ -35,8 +35,16 @@ hg_ps1_1() {
 hg_ps1_2() {
     hg prompt "{status}" 2> /dev/null
 }
+hg_ps1_3() {
+    REVIEW=$(hg review --id 2> /dev/null)
+    if [ "$REVIEW" != "" ]; then
+        echo "[$REVIEW] "
+    else
+        echo ""
+    fi
+}
 
-export PS1='\[\e${BOLD}\e${RED}\]\w \[\e${GREEN}\]$(hg_ps1_1) \[\e${BLUE}\]$(hg_ps1_2)\[\e${DEFAULT}\e${OFF}\]\n\[\e${BOLD}\e${PINK}\]\u\[\e${DEFAULT}\e${OFF}\]@\[\e${BOLD}\e${ORANGE}\]\h\[\e${DEFAULT}\e${OFF}\] \[\e${BOLD}\e${RED}\]$ \[\e${DEFAULT}\e${OFF}\] '
+export PS1='\[\e${BOLD}\e${RED}\]\w \[\e${GREEN}\]$(hg_ps1_1) \[\e${ORANGE}\]$(hg_ps1_3)\[\e${BLUE}\]$(hg_ps1_2)\[\e${DEFAULT}\e${OFF}\]\n\[\e${BOLD}\e${PINK}\]\u\[\e${DEFAULT}\e${OFF}\]@\[\e${BOLD}\e${ORANGE}\]\h\[\e${DEFAULT}\e${OFF}\] \[\e${BOLD}\e${RED}\]$ \[\e${DEFAULT}\e${OFF}\] '
 export EDITOR=vim
 
 set -o vi

@@ -23,6 +23,7 @@ rebase=
 patchbomb=
 shelve=
 extdiff=
+hgreview=
 
 [pager]
 pager = LESS='FSRX' less
