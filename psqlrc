@@ -1,7 +1,59 @@
+\set QUIET 1
+
+-- formatting
+\x auto
+
+\set VERBOSITY verbose
+\set ON_ERROR_ROLLBACK interactive
+-- show execution times
+\timing
+-- limit paging
+\pset pager off
+-- replace nulls
+\pset null ¤
 \pset linestyle unicode
 \pset border 2
-\pset null ¤
-\set PROMPT1 '%[%033[33;1m%]%x%[%033[0m%]%[%033[1m%]%/%[%033[0m%]%R%# '
+
+-- colorize
+--\set PROMPT1 '%[%033[33;1m%]%x%[%033[0m%]%[%033[1m%]%/%[%033[0m%]%R%# '
+\set PROMPT1 '%[%033[1m%]%M %n@%/%R%[%033[0m%]%# '
+\set PROMPT1 '%[%033[1;32m%]%M%[%033[1;31m%]%>%[%033[1;35m%] %n@%[%033[1;33m%]%/%[%033[1;31m%] %#%x %[%033[0m%]'
+--harolds
+--\set PROMPT1 '%[%033[1m%]%M/%/%R%[%033[0m%]%# '
+\set PROMPT2 '[more] %R > '
+
+
+
+--logging
+-- Use a separate history file per-database.
+\set HISTFILE ~/.psql_history- :DBNAME
+-- If a command is run more than once in a row, only store it once in the
+-- history.
+\set HISTCONTROL ignoredups
+
+-- Autocomplete keywords (like SELECT) in upper-case, even if you started
+-- typing them in lower case.
+\set COMP_KEYWORD_CASE upper
+
+-- greeting
+\echo '\nWelcome, my magistrate\n'
+
+--helpful queries
+\set uptime 'select now() - backend_start as uptime from pg_stat_activity where pid = pg_backend_pid();'
 \set show_slow_queries 'SELECT (total_time / 1000 / 60) as total_minutes, (total_time/calls) as average_time, query FROM pg_stat_statements ORDER BY 1 DESC LIMIT 100;'
-\pset pager off
-\pset format wrapped
+\set settings 'select name, setting,unit,context from pg_settings;'
+\set conninfo 'select usename, count(*) from pg_stat_activity group by usename;'
+\set activity 'select datname, pid, usename, application_name,client_addr, client_hostname, client_port, query, state from pg_stat_activity;'
+\set waits 'SELECT pg_stat_activity.pid, pg_stat_activity.query, pg_stat_activity.waiting, now() - pg_stat_activity.query_start AS \"totaltime\", pg_stat_activity.backend_start FROM pg_stat_activity WHERE pg_stat_activity.query !~ \'%IDLE%\'::text AND pg_stat_activity.waiting = true;'
+\set dbsize 'SELECT datname, pg_size_pretty(pg_database_size(datname)) db_size FROM pg_database ORDER BY db_size;'
+\set tablesize 'SELECT nspname || \'.\' || relname AS \"relation\", pg_size_pretty(pg_relation_size(C.oid)) AS "size" FROM pg_class C LEFT JOIN pg_namespace N ON (N.oid = C.relnamespace) WHERE nspname NOT IN (\'pg_catalog\', \'information_schema\') ORDER BY pg_relation_size(C.oid) DESC LIMIT 40;'
+\set uselesscol 'SELECT nspname, relname, attname, typname, (stanullfrac*100)::int AS null_percent, case when stadistinct &gt;= 0 then stadistinct else abs(stadistinct)*reltuples end AS \"distinct\", case 1 when stakind1 then stavalues1 when stakind2 then stavalues2 end AS \"values\" FROM pg_class c JOIN pg_namespace ns ON (ns.oid=relnamespace) JOIN pg_attribute ON (c.oid=attrelid) JOIN pg_type t ON (t.oid=atttypid) JOIN pg_statistic ON (c.oid=starelid AND staattnum=attnum) WHERE nspname NOT LIKE E\'pg\\\\_%\' AND nspname != \'information_schema\' AND relkind=\'r\' AND NOT attisdropped AND attstattarget != 0 AND reltuples &gt;= 100 AND stadistinct BETWEEN 0 AND 1 ORDER BY nspname, relname, attname;'
+
+
+-- 4 helpful queries from radek http://radek.cc/2009/08/15/psqlrc-tricks-table-sizes/
+\set trashindexes '( select s.schemaname as sch, s.relname as rel, s.indexrelname as idx, s.idx_scan as scans, pg_size_pretty(pg_relation_size(s.relid)) as ts, pg_size_pretty(pg_relation_size(s.indexrelid)) as "is" from pg_stat_user_indexes s join pg_index i on i.indexrelid=s.indexrelid left join pg_constraint c on i.indrelid=c.conrelid and array_to_string(i.indkey, '' '') = array_to_string(c.conkey, '' '') where i.indisunique is false and pg_relation_size(s.relid) > 1000000 and s.idx_scan < 100000 and c.confrelid is null order by s.idx_scan asc, pg_relation_size(s.relid) desc )'
+\set missingindexes '( select src_table, dst_table, fk_name, pg_size_pretty(s_size) as s_size, pg_size_pretty(d_size) as d_size, d from ( select distinct on (1,2,3,4,5) textin(regclassout(c.conrelid)) as src_table, textin(regclassout(c.confrelid)) as dst_table, c.conname as fk_name, pg_relation_size(c.conrelid) as s_size, pg_relation_size(c.confrelid) as d_size, array_upper(di.indkey::int[], 1) + 1 - array_upper(c.conkey::int[], 1) as d from pg_constraint c left join pg_index di on di.indrelid = c.conrelid and array_to_string(di.indkey, '' '') ~ (''^'' || array_to_string(c.conkey, '' '') || ''( |$)'') join pg_stat_user_tables st on st.relid = c.conrelid where c.contype = ''f'' order by 1,2,3,4,5,6 asc) mfk where mfk.d is distinct from 0 and mfk.s_size > 1000000 order by mfk.s_size desc, mfk.d desc )'
+\set rtsize '(select table_schema, table_name, pg_relation_size( quote_ident( table_schema ) || \'.\' || quote_ident( table_name ) ) as size, pg_total_relation_size( quote_ident( table_schema ) || \'.\' || quote_ident( table_name ) ) as total_size  from information_schema.tables where table_type = \'BASE TABLE\' and table_schema not in (\'information_schema\', \'pg_catalog\') order by pg_relation_size( quote_ident( table_schema ) || \'.\' || quote_ident( table_name ) ) desc, table_schema, table_name)'
+\set tsize '(select table_schema, table_name, pg_size_pretty(size) as size, pg_size_pretty(total_size) as total_size from (:rtsize) x order by x.size desc, x.total_size desc, table_schema, table_name)'
+
+\unset QUIET
