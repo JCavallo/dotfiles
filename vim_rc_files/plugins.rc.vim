@@ -26,7 +26,7 @@ if neobundle#tap('syntastic') "{{{
     let g:syntastic_mode_map = { 'mode': 'active',
         \ 'active_filetypes': ['python'],
         \ 'passive_filetypes': [] }
-    let g:syntastic_python_flake8_post_args='--ignore=E123,E124,E126,E128,E711,W404,F403'
+    let g:syntastic_python_flake8_post_args='--ignore=E123,E124,E126,E128,E711,W404,F403,W503'
     let g:syntastic_python_pylint_post_args='--disable=E1101,W0613,C0111'
     let g:syntastic_python_checkers=['flake8', 'pyflakes']
     call neobundle#untap()
