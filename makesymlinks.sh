@@ -47,3 +47,11 @@ mkdir ~/.vim/undodir
 # Add argcomplete to bash_completion
 mkdir ~/.bash_completion.d
 ln -s ~/dotfiles/bash_completion/python_argcomplete.sh ~/.bash_completion.d/python-argcomplete.sh
+
+# Load fzf
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install# Load fzf
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install# Load fzf
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+sudo ~/.fzf/install
