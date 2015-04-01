@@ -12,7 +12,6 @@ editor = vim
 
 [extensions]
 prompt=~/dotfiles/hg_prompt.py
-hgreview=
 hgext.purge=
 hgext.pager=
 hgext.color=

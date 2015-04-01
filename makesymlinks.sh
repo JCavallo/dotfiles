@@ -50,8 +50,35 @@ ln -s ~/dotfiles/bash_completion/python_argcomplete.sh ~/.bash_completion.d/pyth
 
 # Load fzf
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-~/.fzf/install# Load fzf
-git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-~/.fzf/install# Load fzf
-git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 sudo ~/.fzf/install
+
+# Create temporary directory
+mkdir ~/tmp
+
+# Build latest vim
+sudo apt-get install libncurses5-dev libgnome2-dev libgnomeui-dev libgtk2.0-dev libatk1.0-dev libbonoboui2-dev libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev ruby-dev libperl-dev liblua5.2-dev lua5.2 mercurial
+hg clone https://code.google.com/p/vim/ ~/tmp/vim
+cd ~/tmp/vim
+./configure --with-features=huge --enable-rubyinterp --enable-pythoninterp --enable-perlinterp --enable-luainterp --enable-gui=gtk2 --enable-cscope --prefix=/usr
+make VIMRUNTIMEDIR=/usr/share/vim/vim74
+sudo make install
+
+# Install hgreview
+sudo apt-get install python-pip
+cd ~/tmp
+hg clone https://bitbucket.org/techtonik/python-review/
+cd python-review/
+./refresh.py
+sudo ./setup.py install
+cd ..
+hg clone https://bitbucket.org/nicoe/hgreview
+cd hgreview
+sudo python setup.py install
+cd ~
+
+# Install Inconsolata font
+mkdir ~/.fonts
+cd ~/.fonts
+wget http://www.levien.com/type/myfonts/Inconsolata.otf
+sudo fc-cache -f
+cd ~
