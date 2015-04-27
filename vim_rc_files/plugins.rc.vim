@@ -282,6 +282,10 @@ endif "}}}
 "     call neobundle#untap()
 " endif "}}}
 
+" if neobundle#tap('vim-diff-fold') "{{{
+"     call neobundle#untap()
+" endif "}}}
+
 " if neobundle#tap('simple-javascript-indenter') "{{{
 "     call neobundle#untap()
 " endif "}}}

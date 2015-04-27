@@ -174,6 +174,11 @@ NeoBundleLazy 'elzr/vim-json', {
     \   'filetypes': 'json',
     \ }
 
+" Better diff files (folding)
+NeoBundleLazy 'sgeb/vim-diff-fold', {
+    \   'filetypes': ['diff', 'patch'],
+    \ }
+
 " Indent javascript
 NeoBundleLazy 'jiangmiao/simple-javascript-indenter', {
     \ 'filetypes': 'javascript',
