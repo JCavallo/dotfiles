@@ -69,9 +69,9 @@ cnoremap <c-a> <home>
 cnoremap <C-d> <Del>
 cnoremap <c-e> <end>
 
-" Ctrl-[hl]: Move left/right by word
-cnoremap <c-h> <s-left>
-cnoremap <c-l> <s-right>
+" Ctrl-[bw]: Move left/right by word
+cnoremap <c-b> <s-left>
+cnoremap <c-w> <s-right>
 
 " <C-k>, K: delete to end.
 cnoremap <C-k> <C-\>e getcmdpos() == 1 ?
@@ -86,7 +86,7 @@ cnoremap <c-f> <left>
 cnoremap <c-g> <right>
 
 " Unite completion
-cmap <C-o> <Plug>(unite_cmdmatch_complete)
+cnoremap <C-o> <Plug>(unite_cmdmatch_complete)
 
 " Ctrl-v: Paste
 cnoremap <c-v> <c-r>"
