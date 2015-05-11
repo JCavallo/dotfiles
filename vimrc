@@ -38,9 +38,7 @@ call s:source_rc('init.rc.vim')
 
 call neobundle#begin(expand('$CACHE/neobundle'))
 
-if neobundle#has_cache()
-    NeoBundleLoadCache
-else
+if neobundle#load_cache()
     call s:source_rc('neobundle.rc.vim')
     NeoBundleSaveCache
 endif
