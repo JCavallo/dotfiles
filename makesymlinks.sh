@@ -8,7 +8,7 @@
 
 dir=~/dotfiles                    # dotfiles directory
 olddir=~/dotfiles_old             # old dotfiles backup directory
-files="agignore bashrc gitconfig gitignore hgignore hgrc inputrc psqlrc tmux.conf vimrc"    # list of files/folders to symlink in homedir
+files="agignore bashrc gitconfig gitignore hgignore hgrc inputrc nvimrc psqlrc tmux.conf vimrc"    # list of files/folders to symlink in homedir
 
 ##########
 
@@ -34,18 +34,18 @@ done
 mv ~/.vim ~/dotfiles_old/
 
 # Create vim directory
-mkdir ~/.vim
+mkdir -p ~/.vim
 
 # Link rc directory
 ln -s ~/dotfiles/vim_rc_files/ ~/.vim/rc
 
 # Create subdirectories
-mkdir ~/.vim/swap
-mkdir ~/.vim/backup
-mkdir ~/.vim/undodir
+mkdir -p ~/.vim/swap
+mkdir -p ~/.vim/backup
+mkdir -p ~/.vim/undodir
 
 # Add argcomplete to bash_completion
-mkdir ~/.bash_completion.d
+mkdir -p ~/.bash_completion.d
 ln -s ~/dotfiles/bash_completion/python_argcomplete.sh ~/.bash_completion.d/python-argcomplete.sh
 
 # Load fzf
@@ -53,7 +53,7 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 sudo ~/.fzf/install
 
 # Create temporary directory
-mkdir ~/tmp
+mkdir -p ~/tmp
 
 # Build latest vim
 sudo apt-get install libncurses5-dev libgnome2-dev libgnomeui-dev libgtk2.0-dev libatk1.0-dev libbonoboui2-dev libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev ruby-dev libperl-dev liblua5.2-dev lua5.2 mercurial
@@ -77,7 +77,7 @@ sudo python setup.py install
 cd ~
 
 # Install Inconsolata font
-mkdir ~/.fonts
+mkdir -p ~/.fonts
 cd ~/.fonts
 wget http://www.levien.com/type/myfonts/Inconsolata.otf
 sudo fc-cache -f
