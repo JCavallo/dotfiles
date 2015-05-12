@@ -47,7 +47,10 @@ hg_ps1_3() {
 }
 
 export PS1='\[\e${BOLD}\e${RED}\]\w \[\e${GREEN}\]$(hg_ps1_1) \[\e${ORANGE}\]$(hg_ps1_3)\[\e${BLUE}\]$(hg_ps1_2)\[\e${DEFAULT}\e${OFF}\]\n\[\e${BOLD}\e${PINK}\]\u\[\e${DEFAULT}\e${OFF}\]@\[\e${BOLD}\e${ORANGE}\]\h\[\e${DEFAULT}\e${OFF}\] \[\e${BOLD}\e${RED}\]$ \[\e${DEFAULT}\e${OFF}\] '
+
+
 export EDITOR=vim
+export TERM=xterm-256color
 
 set -o vi
 source ~/.fzf.bash
