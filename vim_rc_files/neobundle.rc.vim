@@ -68,6 +68,9 @@ NeoBundleLazy 'tacroe/unite-mark'
 " Use unite to see command history
 NeoBundleLazy 'thinca/vim-unite-history'
 
+" Use unite to navigate tags
+NeoBundle 'tsukkee/unite-tag'
+
 "Navigate quickfix easily
 NeoBundle 'osyo-manga/unite-quickfix'
 
@@ -135,6 +138,9 @@ NeoBundleLazy 'ujihisa/vimshell-ssh', {
 NeoBundleLazy 'rhysd/accelerated-jk', {
     \ 'mappings': '<Plug>(accelerated_jk_',
     \ }
+
+" Use unite to browse hg
+NeoBundle 'vim-hg-unite'
 
 " Approximate theme colors
 NeoBundle 'godlygeek/csapprox', {'terminal': 1}

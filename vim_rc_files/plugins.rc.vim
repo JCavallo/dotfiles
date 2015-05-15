@@ -83,6 +83,8 @@ if neobundle#tap('unite.vim') "{{{
         \ history/yank<CR>
     " Quick sessions
     nnoremap <silent> [unite]s :<C-u>Unite -buffer-name=sessions session<CR>
+    " Quick tags
+    nnoremap <silent> [unite]t :<C-u>UniteWithCursorWord -buffer-name=tag tag<CR>
     " Quick window switch
     nnoremap <silent> [unite]w :<C-u>Unite window<CR>
     " Quick yank history
@@ -153,6 +155,10 @@ endif "}}}
 " endif "}}}
 
 " if neobundle#tap('vim-unite-history') "{{{
+"     call neobundle#untap()
+" endif "}}}
+
+" if neobundle#tap('unite-tag') "{{{
 "     call neobundle#untap()
 " endif "}}}
 
@@ -249,6 +255,10 @@ if neobundle#tap('accelerated-jk') "{{{
     nmap gk k
     call neobundle#untap()
 endif "}}}
+
+" if neobundle#tap('vim-hg-unite') "{{{
+"     call neobundle#untap()
+" endif "}}}
 
 " if neobundle#tap('csapprox') "{{{
 "     call neobundle#untap()
