@@ -140,7 +140,7 @@ NeoBundleLazy 'rhysd/accelerated-jk', {
     \ }
 
 " Use unite to browse hg
-NeoBundle 'vim-hg-unite'
+NeoBundle 'JCavallo/vim-hg-unite'
 
 " Approximate theme colors
 NeoBundle 'godlygeek/csapprox', {'terminal': 1}
