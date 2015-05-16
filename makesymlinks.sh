@@ -30,6 +30,9 @@ for file in $files; do
     ln -s $dir/$file ~/.$file
 done
 
+# Create local binary folder
+mkdir -p ~/bin
+
 # Move existing .vim
 mv ~/.vim ~/dotfiles_old/
 

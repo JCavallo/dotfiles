@@ -51,6 +51,7 @@ export PS1='\[\e${BOLD}\e${RED}\]\w \[\e${GREEN}\]$(hg_ps1_1) \[\e${ORANGE}\]$(h
 
 export EDITOR=vim
 export TERM=xterm-256color
+export PATH=$PATH:/home/giovanni/bin
 
 set -o vi
 source ~/.fzf.bash
