@@ -79,6 +79,6 @@ cd ~
 # Install Inconsolata font
 mkdir -p ~/.fonts
 cd ~/.fonts
-wget http://www.levien.com/type/myfonts/Inconsolata.otf
+wget -o Inconsolata.otf https://github.com/powerline/fonts/blob/master/Inconsolata/Inconsolata%20for%20Powerline.otf?raw=true
 sudo fc-cache -f
 cd ~
