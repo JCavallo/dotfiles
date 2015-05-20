@@ -28,7 +28,7 @@ if neobundle#tap('syntastic') "{{{
         \ 'passive_filetypes': [] }
     let g:syntastic_python_flake8_post_args='--ignore=E123,E124,E126,E128,E711,W404,F403,W503'
     let g:syntastic_python_pylint_post_args='--disable=E1101,W0613,C0111'
-    let g:syntastic_python_checkers=['flake8', 'pyflakes']
+    let g:syntastic_python_checkers=['flake8']
     call neobundle#untap()
 endif "}}}
 
