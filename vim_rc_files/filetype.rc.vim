@@ -69,7 +69,7 @@ let g:python_highlight_all = 1
 autocmd MyAutoCmd FileType sql setlocal omnifunc=sqlcomplete#Complete
 " format sql, requires sqlparse installed in virtual env
 autocmd MyAutoCmd FileType sql
-    \ nnoremap <leader>xx :execute 'silent %w !sqlformat -r -o % %' \| execute ':e!'<CR>
+    \ nnoremap <leader>xx :execute 'silent %w !sqlformat -r -k upper -i lower -o % %' \| execute ':e!'<CR>
 " }}}
 
 " XML {{{
