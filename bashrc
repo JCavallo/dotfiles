@@ -50,7 +50,11 @@ export PS1='\[\e${BOLD}\e${RED}\]\w \[\e${GREEN}\]$(hg_ps1_1) \[\e${ORANGE}\]$(h
 
 
 export EDITOR=vim
-export TERM=xterm-256color
+if [ -z "$FBTERM"]; then
+    export TERM=xterm-256color
+else
+    export TERM=fbterm
+fi
 export PATH=$PATH:/home/giovanni/bin
 
 set -o vi

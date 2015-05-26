@@ -8,7 +8,7 @@
 
 dir=~/dotfiles                    # dotfiles directory
 olddir=~/dotfiles_old             # old dotfiles backup directory
-files="agignore bashrc gitconfig gitignore hgignore hgrc inputrc nvimrc psqlrc tmux.conf vimrc"    # list of files/folders to symlink in homedir
+files="agignore bashrc bash_profile gitconfig gitignore hgignore hgrc inputrc nvimrc psqlrc tmux.conf vimrc"    # list of files/folders to symlink in homedir
 
 ##########
 
@@ -85,3 +85,8 @@ cd ~/.fonts
 wget -o Inconsolata.otf https://github.com/powerline/fonts/blob/master/Inconsolata/Inconsolata%20for%20Powerline.otf?raw=true
 sudo fc-cache -f
 cd ~
+
+# Install fbterm (replace tty)
+sudo apt-get install fbterm
+sudo gpasswd -a giovanni video
+sudo chmod u+s /usr/bin/fbterm
