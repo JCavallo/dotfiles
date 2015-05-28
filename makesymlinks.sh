@@ -32,6 +32,7 @@ done
 
 # Create local binary folder
 mkdir -p ~/bin
+ln -s ~/dotfiles/tools/* ~/bin/
 
 # Move existing .vim
 mv ~/.vim ~/dotfiles_old/
@@ -78,6 +79,8 @@ hg clone https://bitbucket.org/nicoe/hgreview
 cd hgreview
 sudo python setup.py install
 cd ~
+cp ~/tmp/python-review/rietveld/upload.py ~/bin/
+chmod +x ~/bin/upload.py
 
 # Install Inconsolata font
 mkdir -p ~/.fonts
