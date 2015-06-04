@@ -1,0 +1,23 @@
+#!/usr/bin/env python
+import sys
+import os
+
+from subprocess import Popen, PIPE
+
+process = Popen(['hg', 'review', '--id'], stdout=PIPE)
+review_id, errors = process.communicate()
+review_id = review_id.split('\n')[0]
+
+if not review_id:
+    print "No review id found"
+    sys.exit()
+
+process = Popen(['hg', 'root'], stdout=PIPE)
+root_path, errors = process.communicate()
+root_path = root_path.split('\n')[0]
+
+process = Popen(['rm', os.path.join(root_path, '.hg', 'review_id')])
+process.communicate()
+
+process = Popen(['hg', 'commit', '-m', 'RV%s' % review_id])
+process.communicate()
