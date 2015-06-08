@@ -144,7 +144,9 @@ call s:source_rc('unix.rc.vim')
 " Using the mouse on a terminal.
 if has('mouse')
     set mouse=a
-    set ttymouse=sgr
+    if !has('nvim')
+        set ttymouse=sgr
+    endif
 
     " Copy
     vnoremap <LeftMouse> "+y
