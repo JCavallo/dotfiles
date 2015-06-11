@@ -219,6 +219,14 @@ if neobundle#tap('vim-airline') "{{{
     call neobundle#untap()
 endif "}}}
 
+if neobundle#tap('rainbow_parentheses.vim') "{{{
+    au VimEnter * RainbowParenthesesToggle
+    au Syntax * RainbowParenthesesLoadRound
+    au Syntax * RainbowParenthesesLoadSquare
+    au Syntax * RainbowParenthesesLoadBraces
+    call neobundle#untap()
+endif "}}}
+
 " if neobundle#tap('neossh.vim') "{{{
 "     call neobundle#untap()
 " endif "}}}

@@ -98,6 +98,9 @@ NeoBundleLazy 'Shougo/neocomplete.vim', {
 " Status Line
 NeoBundle 'bling/vim-airline'
 
+" Better parenthesis
+NeoBundle 'kien/rainbow_parentheses.vim'
+
 " Connect over ssh
 NeoBundleLazy 'Shougo/neossh.vim', {
     \ 'filetypes': 'vimfiler',
