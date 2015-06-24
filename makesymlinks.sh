@@ -82,11 +82,13 @@ cd ~
 cp ~/tmp/python-review/rietveld/upload.py ~/bin/
 chmod +x ~/bin/upload.py
 
-# Install Inconsolata font
-mkdir -p ~/.fonts
-cd ~/.fonts
-wget -o Inconsolata.otf https://github.com/powerline/fonts/blob/master/Inconsolata/Inconsolata%20for%20Powerline.otf?raw=true
-sudo fc-cache -f
+# Install Power Line Fonts
+cd ~/tmp
+git clone https://github.com/powerline/fonts
+cd fonts
+./install.sh
+cd ..
+rm -r fonts
 cd ~
 
 # Install fbterm (replace tty)
