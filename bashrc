@@ -14,7 +14,7 @@ if [ "$TERM" != "dumb" ]; then
 fi
 
 alias la='ls -Fa'
-alias ll='ls -Fls'
+alias ll='ls -Flsh'
 alias cdve='cd $VIRTUAL_ENV'
 alias ag="LESS='FSRX' ag --pager less"
 # Apply latest patch in ~/tmp/
