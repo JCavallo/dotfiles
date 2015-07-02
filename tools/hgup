@@ -27,7 +27,7 @@ if not server_name:
     print "No 'review' section found in .hg/hgrc"
     sys.exit()
 
-command = ['/home/giovanni/bin/upload.py', '-s', server_name,
+command = ['/home/giovanni/bin/upload.py', '-s', server_name.strip('https://'),
     '--oauth2', '-r', 'Romain,Fred,jeremy,Fabrice', '--send_mail',
     '--assume_yes', '-m', message]
 
