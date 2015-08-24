@@ -15,7 +15,7 @@ nnoremap ,  <Nop>
 xnoremap ,  <Nop>
 
 " Everything should go in $CACHE
-let $CACHE = expand('~/.cache')
+let $CACHE = $FORCE_VIM_CACHE != '' ? $FORCE_VIM_CACHE : expand('~/.cache')
 if !isdirectory(expand($CACHE))
     call mkdir(expand($CACHE), 'p')
 endif
@@ -29,10 +29,9 @@ let s:neobundle_dir = expand('$CACHE/neobundle')
 
 if has('vim_starting') "{{{
     " Load neobundle.
-    if isdirectory('neobundle.vim')
-        set runtimepath^=neobundle.vim
-    elseif finddir('neobundle.vim', '.;') != ''
-        execute 'set runtimepath^=' . finddir('neobundle.vim', '.;')
+    if finddir('neobundle.vim', '.;') != ''
+        execute 'set runtimepath^=' .
+            \ fnamemodify(finddir('neobundle.vim', '.;'), ':p')
     elseif &runtimepath !~ '/neobundle.vim'
         if !isdirectory(s:neobundle_dir.'/neobundle.vim')
             execute printf('!git clone %s://github.com/Shougo/neobundle.vim.git',

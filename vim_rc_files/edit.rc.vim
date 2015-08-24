@@ -109,12 +109,12 @@ set timeout timeoutlen=1000 ttimeoutlen=0
 set updatetime=1000
 
 " History and undo {{{
-set undodir=~/.vim/undodir
+set undodir=$VIM_FOLDER/undodir
 set undofile
 set undolevels=1000 "maximum number of changes that can be undone
 set undoreload=10000 "maximum number lines to save for undo on a buffer reload
-set backupdir=~/.vim/backup,~/tmp
-set directory=~/.vim/swap
+set backupdir=$VIM_FOLDER/backup
+set directory=$VIM_FOLDER/swap
 
 " Sets how many lines of history vim has to remember
 set history=10000

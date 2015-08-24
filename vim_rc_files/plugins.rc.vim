@@ -33,6 +33,7 @@ if neobundle#tap('syntastic') "{{{
 endif "}}}
 
 if neobundle#tap('indentLine') "{{{
+    let g:indentLine_faster = 1
     let g:indentLine_char = "│"
     let g:indentLine_fileTypeExclude = ['xml', 'help']
     call neobundle#untap()
@@ -128,7 +129,7 @@ if neobundle#tap('unite.vim') "{{{
     nnoremap <silent><expr> n
         \ " :\<C-u>UniteResume search%" . bufnr('%') . " -no-start-insert\<CR>"
 
-    let neobundle#hooks.on_source = '~/.vim/rc/plugins/unite.rc.vim'
+    let neobundle#hooks.on_source = '$VIM_FOLDER/rc/plugins/unite.rc.vim'
     call neobundle#untap()
 endif "}}}
 
@@ -164,16 +165,12 @@ endif "}}}
 
 if neobundle#tap('unite-quickfix') "{{{
     let g:unite_quickfix_is_multiline = 0
-    call unite#custom_source('quickfix', 'converters',
-        \ 'converter_quickfix_highlight')
-    call unite#custom_source('location_list', 'converters',
-        \ 'converter_quickfix_highlight')
-    call neobundle#untap()
+    " call unite#custom_source('quickfix', 'converters',
+    "     \ 'converter_quickfix_highlight')
+    " call unite#custom_source('location_list', 'converters',
+    "     \ 'converter_quickfix_highlight')
+    " call neobundle#untap()
 endif "}}}
-
-" if neobundle#tap('unite-filetype') "{{{
-"     call neobundle#untap()
-" endif "}}}
 
 if neobundle#tap('ultisnips') "{{{
     let g:UltiSnipsExpandTrigger="<tab>"
@@ -182,15 +179,17 @@ if neobundle#tap('ultisnips') "{{{
     call neobundle#untap()
 endif "}}}
 
-if neobundle#tap('neocomplete.vim') "{{{
+if neobundle#tap('neocomplete.vim') && has('lua') "{{{
     let g:neocomplete#enable_at_startup = 1
-    let neobundle#hooks.on_source = '~/.vim/rc/plugins/neocomplete.rc.vim'
+    let neobundle#hooks.on_source = '$VIM_FOLDER/rc/plugins/neocomplete.rc.vim'
     call neobundle#untap()
 endif "}}}
 
-if neobundle#tap('neosnippet.vim') "{{{
-    let neobundle#hooks.on_source = '~/.vim/rc/plugins/neosnippet.rc.vim'
-    call neobundle#untap()
+if neobundle#tap('deoplete.nvim') && has('nvim') "{{{
+  let g:deoplete#enable_at_startup = 1
+  let neobundle#hooks.on_source = '$VIM_FOLDER/rc/plugins/deoplete.rc.vim'
+
+  call neobundle#untap()
 endif "}}}
 
 if neobundle#tap('vim-airline') "{{{
@@ -227,10 +226,6 @@ if neobundle#tap('rainbow_parentheses.vim') "{{{
     call neobundle#untap()
 endif "}}}
 
-" if neobundle#tap('neossh.vim') "{{{
-"     call neobundle#untap()
-" endif "}}}
-
 " if neobundle#tap('unite-sudo') "{{{
 "     call neobundle#untap()
 " endif "}}}
@@ -242,19 +237,9 @@ endif "}}}
 if neobundle#tap('vimfiler.vim') "{{{
     nnoremap <silent>   <leader>v   :<C-u>VimFiler -find<CR>
     nnoremap [Space]ff :<C-u>VimFilerExplorer<CR>
-    let neobundle#hooks.on_source = '~/.vim/rc/plugins/vimfiler.rc.vim'
+    let neobundle#hooks.on_source = '$VIM_FOLDER/rc/plugins/vimfiler.rc.vim'
     call neobundle#untap()
 endif "}}}
-
-if neobundle#tap('vimshell.vim') "{{{
-    nmap <C-@> <Plug>(vimshell_switch)
-    let neobundle#hooks.on_source = '~/.vim/rc/plugins/vimshell.rc.vim'
-    call neobundle#untap()
-endif "}}}
-
-" if neobundle#tap('vimshell-ssh') "{{{
-"     call neobundle#untap()
-" endif "}}}
 
 if neobundle#tap('accelerated-jk') "{{{
     nmap <silent>j <Plug>(accelerated_jk_gj)
@@ -312,16 +297,6 @@ endif "}}}
 "     call neobundle#untap()
 " endif "}}}
 
-if neobundle#tap('tryton-vim') "{{{
-    let g:tryton_default_mappings = 1
-    let g:tryton_trytond_path = "$VIRTUAL_ENV/tryton-workspace/trytond"
-    let g:tryton_server_host_name = 'localhost'
-    let g:tryton_server_port = '8080'
-    let g:tryton_server_login = 'admin'
-    nmap <leader>com 0yf df oreview http://rietveld.coopengo.com/jkp$xXOjkgg0fFf:lyFFf:lldFFjojkkpxXXX
-    call neobundle#untap()
-endif "}}}
-
 if neobundle#tap('riv.vim') "{{{
     let g:riv_i_tab_pum_next = 0
     let g:riv_i_tab_user_cmd = ''
@@ -336,10 +311,23 @@ if neobundle#tap('InstantRst') "{{{
     call neobundle#untap()
 endif "}}}
 
+" if neobundle#tap('nimrod.vim') "{{{
+"     call neobundle#untap()
+" endif "}}}
+
+if neobundle#tap('tryton-vim') "{{{
+    let g:tryton_default_mappings = 1
+    let g:tryton_trytond_path = "$VIRTUAL_ENV/tryton-workspace/trytond"
+    let g:tryton_server_host_name = 'localhost'
+    let g:tryton_server_port = '8080'
+    let g:tryton_server_login = 'admin'
+    nmap <leader>com 0yf df oreview http://rietveld.coopengo.com/jkp$xXOjkgg0fFf:lyFFf:lldFFjojkkpxXXX
+    call neobundle#untap()
+endif "}}}
+
 if neobundle#tap('vim-smartchr') "{{{
     let g:neocomplete#enable_at_startup = 1
-    let neobundle#hooks.on_source =
-        \ '~/.vim/rc/plugins/smartchr.rc.vim'
+    let neobundle#hooks.on_source = '$VIM_FOLDER/rc/plugins/smartchr.rc.vim'
     call neobundle#untap()
 endif "}}}
 

@@ -11,10 +11,16 @@
 
 " Disable vi-compatibility. Must be first to avoid multiline problems with the
 " \ separator
-set nocompatible
+if &compatible
+  set nocompatible
+endif
+
+let $VIM_FOLDER = $FORCE_VIM_FOLDER != '' ? $FORCE_VIM_FOLDER : '~/.vim'
+let $MYVIMRC = expand('%:p')
+
 
 function! s:source_rc(path)
-    execute 'source' fnameescape(expand('~/.vim/rc/' . a:path))
+    execute 'source' fnameescape(expand($VIM_FOLDER . '/rc/' . a:path))
 endfunction
 
 let s:is_sudo = $SUDO_USER != '' && $USER !=# $SUDO_USER
@@ -39,13 +45,25 @@ call s:source_rc('init.rc.vim')
 call neobundle#begin(expand('$CACHE/neobundle'))
 
 if neobundle#load_cache()
-    call s:source_rc('neobundle.rc.vim')
+    NeoBundleFetch 'Shougo/neobundle.vim'
+
+    NeoBundle 'Shougo/vimproc.vim', {
+        \ 'build' : {
+        \     'windows' : 'tools\\update-dll-mingw',
+        \     'cygwin' : 'make -f make_cygwin.mak',
+        \     'mac' : 'make -f make_mac.mak',
+        \     'unix' : 'make -f make_unix.mak',
+        \    }
+        \ }
+
+    call neobundle#load_toml(expand(
+            \ '$VIM_FOLDER/rc/neobundle.toml'), {'lazy' : 1})
     NeoBundleSaveCache
 endif
 
-call neobundle#end()
+call s:source_rc('plugins.rc.vim')
 
-NeoBundleCheck
+call neobundle#end()
 
 "===============================================================================
 " Global settings
@@ -80,6 +98,17 @@ filetype plugin on
 syntax enable
 
 "===============================================================================
+" Finalize plugin installation
+" Configure installed plugins. Part of the configuration may be in rc/plugins/*
+" config files which will be loaded on demand
+"===============================================================================
+
+if !has('vim_starting')
+    " Installation check.
+    NeoBundleCheck
+endif
+
+"===============================================================================
 " Local Settings
 "===============================================================================
 
@@ -108,14 +137,6 @@ call s:source_rc('view.rc.vim')
 "===============================================================================
 
 call s:source_rc('filetype.rc.vim')
-
-"===============================================================================
-" Call plugins.rc.vim
-" Configure installed plugins. Part of the configuration may be in rc/plugins/*
-" config files which will be loaded on demand
-"===============================================================================
-
- call s:source_rc('plugins.rc.vim')
 
 "===============================================================================
 " Call extra_commands.rc.vim
@@ -172,39 +193,4 @@ endif
 " Default home directory.
 let t:cwd = getcwd()
 
-call neobundle#call_hook('on_source')
 set secure
-
-"===============================================================================
-" General Settings
-"===============================================================================
-
-
-
-
-"===============================================================================
-" Ag : To bind to unite grep
-"===============================================================================
-
-" nmap <leader>aa <Esc>:Ag 
-" nmap <leader>ac <Esc>:Ag "class 
-" nmap <leader>an <Esc>:Ag "__name__ = '
-" nmap <leader>ad <Esc>:Ag "def 
-" nmap <leader>ax <Esc>:Ag -G xml 
-" nmap <leader>afm <Esc>:Ag "^ *[a-zA-Z_]* = fields\.Many2One\([\n ]*'
-" nmap <leader>afo <Esc>:Ag "^ *[a-zA-Z_]* = fields\.One2Many\([\n ]*'
-" nmap <leader>agg <Esc>:Ag -G coopbusiness 
-" nmap <leader>agn <Esc>:Ag -G coopbusiness "__name__ = '
-" nmap <leader>agc <Esc>:Ag -G coopbusiness "class 
-" nmap <leader>agd <Esc>:Ag -G coopbusiness "def 
-" nmap <leader>agx <Esc>:Ag -G coopbusiness.*xml 
-" nmap <leader>agfm <Esc>:Ag -G coopbusiness "^ *[a-zA-Z_]* = (fields\.Function\()?[\n ]*fields\.Many2One\([\n ]*'
-" nmap <leader>agfo <Esc>:Ag -G coopbusiness "^ *[a-zA-Z_]* = (fields\.Function\()?[\n ]*fields\.One2Many\([\n ]*'
-
-
-"===============================================================================
-" Unite Sessions
-"===============================================================================
-
-" Save session automatically.
-let g:unite_source_session_enable_auto_save = 1
