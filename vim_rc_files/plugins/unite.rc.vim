@@ -50,7 +50,12 @@ call unite#custom#source(
 call unite#custom#source(
     \ 'file_rec,file_rec/async,file_rec/git,file_mru,rec/async', 'converters',
     \ ['converter_file_directory'])
-call unite#filters#sorter_default#use(['sorter_selecta'])
+if has('nvim')
+    " sorter_selecta requires ruby, which neovim does not support yet
+    call unite#filters#sorter_default#use(['sorter_nothing'])
+else
+    call unite#filters#sorter_default#use(['sorter_selecta'])
+endif
 " }}}
 
 " Set default actions {{{

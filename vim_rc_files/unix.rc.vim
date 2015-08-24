@@ -39,6 +39,9 @@ else
   autocmd MyAutoCmd VimEnter,BufAdd *
         \ if !exists('g:colors_name') | GuiColorScheme flashy_vim
 
+  " Force usage of vim-airline
+  NeoBundleSource vim-airline
+
   " Disable error messages.
   let g:CSApprox_verbose_level = 0
 endif

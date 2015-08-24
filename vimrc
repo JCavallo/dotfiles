@@ -11,11 +11,9 @@
 
 " Disable vi-compatibility. Must be first to avoid multiline problems with the
 " \ separator
-if &compatible
-  set nocompatible
-endif
+set nocompatible
 
-let $VIM_FOLDER = $FORCE_VIM_FOLDER != '' ? $FORCE_VIM_FOLDER : '~/.vim'
+let $VIM_FOLDER = $FORCE_VIM_FOLDER != '' ? $FORCE_VIM_FOLDER : expand('~/.vim')
 let $MYVIMRC = expand('%:p')
 
 

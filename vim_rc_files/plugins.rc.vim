@@ -129,7 +129,8 @@ if neobundle#tap('unite.vim') "{{{
     nnoremap <silent><expr> n
         \ " :\<C-u>UniteResume search%" . bufnr('%') . " -no-start-insert\<CR>"
 
-    let neobundle#hooks.on_source = '$VIM_FOLDER/rc/plugins/unite.rc.vim'
+    let neobundle#hooks.on_source = expand(
+        \ $VIM_FOLDER . '/rc/plugins/unite.rc.vim')
     call neobundle#untap()
 endif "}}}
 
@@ -181,13 +182,15 @@ endif "}}}
 
 if neobundle#tap('neocomplete.vim') && has('lua') "{{{
     let g:neocomplete#enable_at_startup = 1
-    let neobundle#hooks.on_source = '$VIM_FOLDER/rc/plugins/neocomplete.rc.vim'
+    let neobundle#hooks.on_source = expand(
+        \ $VIM_FOLDER . '/rc/plugins/neocomplete.rc.vim')
     call neobundle#untap()
 endif "}}}
 
 if neobundle#tap('deoplete.nvim') && has('nvim') "{{{
   let g:deoplete#enable_at_startup = 1
-  let neobundle#hooks.on_source = '$VIM_FOLDER/rc/plugins/deoplete.rc.vim'
+    let neobundle#hooks.on_source = expand(
+        \ $VIM_FOLDER . '/rc/plugins/deoplete.rc.vim')
 
   call neobundle#untap()
 endif "}}}
@@ -197,6 +200,11 @@ if neobundle#tap('vim-airline') "{{{
     let g:airline#extensions#tabline#enabled = 1
     let g:airline#extensions#tabline#fnamemod = ':t'
     let g:airline_mode_map = {'n': 'NOR', 'i': 'INS', 'R': 'REP'}
+
+    if has('nvim')
+        " Manager teminal mode
+        let g:airline_mode_map.t = 'TER'
+    endif
 
     " if !exists('g:airline_symbols')
     "     let g:airline_symbols = {}
@@ -237,7 +245,8 @@ endif "}}}
 if neobundle#tap('vimfiler.vim') "{{{
     nnoremap <silent>   <leader>v   :<C-u>VimFiler -find<CR>
     nnoremap [Space]ff :<C-u>VimFilerExplorer<CR>
-    let neobundle#hooks.on_source = '$VIM_FOLDER/rc/plugins/vimfiler.rc.vim'
+    let neobundle#hooks.on_source = expand(
+        \ $VIM_FOLDER . '/rc/plugins/vimfiler.rc.vim')
     call neobundle#untap()
 endif "}}}
 
@@ -327,7 +336,8 @@ endif "}}}
 
 if neobundle#tap('vim-smartchr') "{{{
     let g:neocomplete#enable_at_startup = 1
-    let neobundle#hooks.on_source = '$VIM_FOLDER/rc/plugins/smartchr.rc.vim'
+    let neobundle#hooks.on_source = expand(
+        \ $VIM_FOLDER . '/rc/plugins/smartchr.rc.vim')
     call neobundle#untap()
 endif "}}}
 

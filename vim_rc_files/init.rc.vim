@@ -15,7 +15,7 @@ nnoremap ,  <Nop>
 xnoremap ,  <Nop>
 
 " Everything should go in $CACHE
-let $CACHE = $FORCE_VIM_CACHE != '' ? $FORCE_VIM_CACHE : expand('~/.cache')
+let $CACHE = $FORCE_VIM_CACHE != '' ? $FORCE_VIM_CACHE : '~/.cache'
 if !isdirectory(expand($CACHE))
     call mkdir(expand($CACHE), 'p')
 endif
@@ -25,7 +25,7 @@ augroup MyAutoCmd
     autocmd!
 augroup END
 
-let s:neobundle_dir = expand('$CACHE/neobundle')
+let s:neobundle_dir = expand($CACHE . '/neobundle')
 
 if has('vim_starting') "{{{
     " Load neobundle.
