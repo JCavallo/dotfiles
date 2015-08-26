@@ -28,16 +28,9 @@ if has('gui')
         \ 'bold' : 'bold',
         \ 'italic' : '', 'sp' : ''
         \ }
-  if !exists('g:colors_name')
-    execute 'colorscheme' globpath(&runtimepath,
-          \ 'colors/flashy_vim.vim') != '' ? 'flashy_vim' : 'desert'
-  endif
 else
   " Use guicolorscheme.vim
   NeoBundleSource vim-guicolorscheme
-
-  autocmd MyAutoCmd VimEnter,BufAdd *
-        \ if !exists('g:colors_name') | GuiColorScheme flashy_vim
 
   " Force usage of vim-airline
   NeoBundleSource vim-airline

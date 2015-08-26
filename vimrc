@@ -191,4 +191,7 @@ endif
 " Default home directory.
 let t:cwd = getcwd()
 
+" Set colorscheme
+GuiColorScheme flashy_vim
+
 set secure
