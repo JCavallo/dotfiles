@@ -205,7 +205,8 @@ filetypes = 'nim'
 # Tryton
 [[plugins]]
 repository = 'JCavallo/tryton-vim'
-filetypes = ['python', 'py', 'xml', 'trpy', 'trxml']
+filetypes = 'all'
+# filetypes = ['python', 'py', 'xml', 'trpy', 'trxml']
 
 # =========================================================================== #
 # Other

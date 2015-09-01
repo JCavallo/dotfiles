@@ -192,6 +192,10 @@ endif
 let t:cwd = getcwd()
 
 " Set colorscheme
-GuiColorScheme flashy_vim
+if has('gui')
+    colorscheme flashy_vim
+else
+    GuiColorScheme flashy_vim
+endif
 
 set secure

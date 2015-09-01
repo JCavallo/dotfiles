@@ -335,7 +335,6 @@ if neobundle#tap('tryton-vim') "{{{
 endif "}}}
 
 if neobundle#tap('vim-smartchr') "{{{
-    let g:neocomplete#enable_at_startup = 1
     let neobundle#hooks.on_source = expand(
         \ $VIM_FOLDER . '/rc/plugins/smartchr.rc.vim')
     call neobundle#untap()

@@ -29,11 +29,11 @@ if has('gui')
         \ 'italic' : '', 'sp' : ''
         \ }
 else
-  " Use guicolorscheme.vim
-  NeoBundleSource vim-guicolorscheme
-
   " Force usage of vim-airline
   NeoBundleSource vim-airline
+
+  " Use guicolorscheme.vim
+  NeoBundleSource vim-guicolorscheme
 
   " Disable error messages.
   let g:CSApprox_verbose_level = 0
