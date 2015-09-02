@@ -54,6 +54,11 @@ let g:markdown_fenced_languages = [
     \]
 " }}}
 
+" Nim {{{
+autocmd MyAutoCmd FileType nim setlocal foldmethod=indent
+autocmd MyAutoCmd FileType nim setlocal tabstop=2 softtabstop=2 shiftwidth=2
+" }}}
+"
 " Python {{{
 if has('python3')
     autocmd MyAutoCmd FileType python

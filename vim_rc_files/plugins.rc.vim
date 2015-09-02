@@ -320,9 +320,20 @@ if neobundle#tap('InstantRst') "{{{
     call neobundle#untap()
 endif "}}}
 
-" if neobundle#tap('nimrod.vim') "{{{
-"     call neobundle#untap()
-" endif "}}}
+if neobundle#tap('nimrod.vim') "{{{
+    function! JumpToDef()
+        if exists("*GotoDefinition_" . &filetype)
+            call GotoDefinition_{&filetype}()
+        else
+            execute "norm! \<C-]>"
+        endif
+    endf
+
+    " Jump to tag
+    nnoremap <M-g> :call JumpToDef()<cr>
+    inoremap <M-g> <esc>:call JumpToDef()<cr>i
+    call neobundle#untap()
+endif "}}}
 
 if neobundle#tap('tryton-vim') "{{{
     let g:tryton_default_mappings = 1
