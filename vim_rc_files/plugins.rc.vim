@@ -91,6 +91,9 @@ if neobundle#tap('unite.vim') "{{{
     nnoremap <silent> [unite]w :<C-u>Unite window<CR>
     " Quick yank history
     nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<CR>
+    " Quick mercurial status
+    nnoremap <silent> [unite]z :<C-u>Unite -buffer-name=status hg/status
+        \ -no-start-insert<CR>
     " General Fuzzy search
     nnoremap <silent> [unite]<Space>
         \ :<C-u>Unite -buffer-name=files -multi-line -unique -silent
