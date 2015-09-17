@@ -31,6 +31,11 @@ autocmd MyAutoCmd FileType c setlocal omnifunc=ccomplete#Complete
 autocmd MyAutoCmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 " }}}
 
+" Javascript {{{
+autocmd MyAutoCmd FileType javascript setlocal softtabstop=2 shiftwidth=2
+autocmd MyAutoCmd FileType javascript setlocal tabstop=2 foldmethod=indent
+" }}}
+
 " Html {{{
 autocmd MyAutoCmd FileType html setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd MyAutoCmd FileType html
