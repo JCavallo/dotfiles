@@ -11,4 +11,4 @@
 [diff]
 	tool = meld
 [alias]
-	l = log --graph --full-history --all --color --decorate --oneline
+	l = log --color --graph --full-history --all --pretty=format:'%Cred%h%Creset -%C(cyan)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset' --abbrev-commit --date iso
