@@ -3,3 +3,10 @@
 	email = jean.cavallo@hotmail.fr
 [core]
 	excludesfile = /home/giovanni/.gitignore
+	editor = nvim
+[color]
+	ui = true
+[push]
+	default = current
+[diff]
+	tool = meld
