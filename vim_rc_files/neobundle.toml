@@ -202,6 +202,11 @@ filetypes = 'rst'
 repository = 'zah/nimrod.vim'
 filetypes = 'nim'
 
+# Javascript
+[[plugins]]
+repository = 'jelera/vim-javascript-syntax'
+filetypes = 'javascript'
+
 # Tryton
 [[plugins]]
 repository = 'JCavallo/tryton-vim'
