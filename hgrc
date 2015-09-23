@@ -8,7 +8,7 @@ coop.username = jcavallo
 username = Jean CAVALLO <jean.cavallo@coopengo.com>
 ignore = ~/.hgignore
 style = ~/dotfiles/mercurial_styles/map-cmdline.slog
-editor = vim
+editor = nvim
 
 [extensions]
 prompt=~/dotfiles/hg_prompt.py
