@@ -51,6 +51,10 @@ call unite#custom#source(
     \ 'file_rec,file_rec/async,file_rec/git,file_mru,rec/async', 'converters',
     \ ['converter_file_directory'])
 call unite#filters#sorter_default#use(['sorter_selecta'])
+" Use fuzzy search for mercurial sources
+call unite#custom#source(
+    \ 'hg/log,hg/status', 'matchers',
+    \ ['matcher_fuzzy'])
 " }}}
 
 " Set default actions {{{
