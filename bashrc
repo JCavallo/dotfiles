@@ -49,9 +49,14 @@ git_ps1_1() {
     git branch 2> /dev/null | grep -e ^* | sed -E  s/^\\\*\ \(.+\)$/\\\1\ /
 }
 git_ps1_2() {
-    STATUS=$(git status -sb 2> /dev/null | tail -n +2 2> /dev/null)
-    if [ "$STATUS" != "" ]; then
-        echo "?"
+    status=$(git status -sb 2> /dev/null | tail -n +2 2> /dev/null)
+    if [ "${status}" != "" ]; then
+        modified=$(echo ${status} | grep "??")
+        if [ "${modified}" != "" ]; then
+            echo "?"
+        else
+            echo "!"
+        fi
     else
         echo ""
     fi
