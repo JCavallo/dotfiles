@@ -12,3 +12,4 @@
 	tool = meld
 [alias]
 	l = log --color --graph --full-history --all --pretty=format:'%Cred%h%Creset -%C(cyan)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset%n' --abbrev-commit --date iso
+	st = status -sb
