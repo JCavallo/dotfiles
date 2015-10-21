@@ -97,11 +97,6 @@ unite_source = ['ultisnips']
 repository = 'bling/vim-airline'
 filetypes = 'all'
 
-# Parenthesis
-[[plugins]]
-repository = 'kien/rainbow_parentheses.vim'
-filetypes = 'all'
-
 # Better undo
 [[plugins]]
 repository = 'sjl/gundo.vim'

@@ -6,7 +6,6 @@ nnoremap [Window]r :<C-u>vsplit \| terminal<CR>
 
 function! OpenTerminal()
     let term_buffer = bufnr("__DefaultTerm__")
-    echom "titi"
     if term_buffer != -1 && bufwinnr(term_buffer) != -1
         execute ":" . bufwinnr(term_buffer) . "wincmd w"
         normal A
