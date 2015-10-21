@@ -11,11 +11,12 @@
 
 " Disable vi-compatibility. Must be first to avoid multiline problems with the
 " \ separator
-set nocompatible
+if &compatible
+    set nocompatible
+endif
 
 let $VIM_FOLDER = $FORCE_VIM_FOLDER != '' ? $FORCE_VIM_FOLDER : expand('~/.vim')
 let $MYVIMRC = expand('%:p')
-
 
 function! s:source_rc(path)
     execute 'source' fnameescape(expand($VIM_FOLDER . '/rc/' . a:path))
@@ -34,7 +35,7 @@ let s:is_sudo = $SUDO_USER != '' && $USER !=# $SUDO_USER
 call s:source_rc('init.rc.vim')
 
 "===============================================================================
-" Call neobundle.rc
+" Install and initialize Neobundle
 " Neobundle use a specific cache to avoid reparsing all plugins when starting
 " vim. So we make sure it is properly configured, then call neobudle.rc, which
 " will load all plugins
@@ -43,25 +44,37 @@ call s:source_rc('init.rc.vim')
 call neobundle#begin(expand('$CACHE/neobundle'))
 
 if neobundle#load_cache()
-    NeoBundleFetch 'Shougo/neobundle.vim'
+  NeoBundleFetch 'Shougo/neobundle.vim'
 
-    NeoBundle 'Shougo/vimproc.vim', {
-        \ 'build' : {
-        \     'windows' : 'tools\\update-dll-mingw',
-        \     'cygwin' : 'make -f make_cygwin.mak',
-        \     'mac' : 'make -f make_mac.mak',
-        \     'unix' : 'make -f make_unix.mak',
-        \    }
-        \ }
+  call neobundle#load_toml(expand($VIM_FOLDER . '/rc/neobundle.toml'))
+  call neobundle#load_toml(expand($VIM_FOLDER . '/rc/neobundlelazy.toml'),
+    \ {'lazy': 1})
 
-    call neobundle#load_toml(expand(
-            \ '$VIM_FOLDER/rc/neobundle.toml'), {'lazy' : 1})
-    NeoBundleSaveCache
+  NeoBundleSaveCache
 endif
 
 call s:source_rc('plugins.rc.vim')
 
 call neobundle#end()
+
+" Load indent files to automatically do language-dependent indenting
+filetype indent on
+
+" Load ftplugin
+filetype plugin on
+
+syntax enable
+
+"===============================================================================
+" Finalize plugin installation
+" Configure installed plugins. Part of the configuration may be in rc/plugins/*
+" config files which will be loaded on demand
+"===============================================================================
+
+if !has('vim_starting')
+    " Installation check.
+    NeoBundleCheck
+endif
 
 "===============================================================================
 " Global settings
@@ -86,25 +99,6 @@ set wrapscan
 " Default encoding is UTF8
 set encoding=utf-8
 set fileencoding=utf8
-
-" Load indent files to automatically do language-dependent indenting
-filetype indent on
-
-" Load ftplugin
-filetype plugin on
-
-syntax enable
-
-"===============================================================================
-" Finalize plugin installation
-" Configure installed plugins. Part of the configuration may be in rc/plugins/*
-" config files which will be loaded on demand
-"===============================================================================
-
-if !has('vim_starting')
-    " Installation check.
-    NeoBundleCheck
-endif
 
 "===============================================================================
 " Local Settings
@@ -157,31 +151,16 @@ call s:source_rc('filetype.rc.vim')
 call s:source_rc('unix.rc.vim')
 
 "===============================================================================
-" Mouse configuration
-"===============================================================================
-
-" Using the mouse on a terminal.
-if has('mouse')
-    set mouse=a
-    if !has('nvim')
-        set ttymouse=sgr
-    endif
-
-    " Copy
-    vnoremap <LeftMouse> "+y
-    " Paste.
-    nnoremap <RightMouse> "+p
-    xnoremap <RightMouse> "+p
-    inoremap <RightMouse> <C-r><C-o>+
-    cnoremap <RightMouse> <C-r>+
-endif
-
 "===============================================================================
 " Gui configuration
 "===============================================================================
 
 if has('gui_running')
     call s:source_rc('gui.rc.vim')
+endif
+
+if has('nvim')
+  call s:source_rc('neovim.rc.vim')
 endif
 
 "===============================================================================
@@ -191,11 +170,10 @@ endif
 " Default home directory.
 let t:cwd = getcwd()
 
-" Set colorscheme
-if has('gui')
-    colorscheme flashy_vim
-else
-    GuiColorScheme flashy_vim
-endif
+" Force unite load
+NeoBundleSource unite.vim
+map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
 set secure

@@ -102,6 +102,12 @@ endif
 " Exclude = from isfilename.
 set isfname-==
 
+" Reload .vimrc automatically.
+if $MYVIMRC != ''
+    autocmd MyAutoCmd BufWritePost .vimrc,vimrc,*.rc.vim,neobundle.toml
+        \ NeoBundleClearCache | source $MYVIMRC | redraw
+endif
+
 " Keymapping timeout.
 set timeout timeoutlen=1000 ttimeoutlen=0
 
@@ -109,8 +115,8 @@ set timeout timeoutlen=1000 ttimeoutlen=0
 set updatetime=1000
 
 " History and undo {{{
-set undodir=$VIM_FOLDER/undodir
 set undofile
+set undodir=$VIM_FOLDER/undodir
 set undolevels=1000 "maximum number of changes that can be undone
 set undoreload=10000 "maximum number lines to save for undo on a buffer reload
 set backupdir=$VIM_FOLDER/backup

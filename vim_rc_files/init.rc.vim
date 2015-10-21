@@ -25,20 +25,19 @@ augroup MyAutoCmd
     autocmd!
 augroup END
 
-let s:neobundle_dir = expand($CACHE . '/neobundle')
-
 if has('vim_starting') "{{{
     " Load neobundle.
-    if finddir('neobundle.vim', '.;') != ''
-        execute 'set runtimepath^=' .
-            \ fnamemodify(finddir('neobundle.vim', '.;'), ':p')
+    let s:neobundle_dir = finddir('neobundle.vim', '.;')
+    if s:neobundle_dir != ''
+        execute 'set runtimepath^=' . fnamemodify(s:neobundle_dir, ':p')
     elseif &runtimepath !~ '/neobundle.vim'
-        if !isdirectory(s:neobundle_dir.'/neobundle.vim')
+        let s:neobundle_dir = expand($CACHE . '/neobundle') . '/neobundle.vim'
+        if !isdirectory(s:neobundle_dir)
             execute printf('!git clone %s://github.com/Shougo/neobundle.vim.git',
                 \ (exists('$http_proxy') ? 'https' : 'git'))
-                \ s:neobundle_dir.'/neobundle.vim'
+                \ s:neobundle_dir
         endif
-        execute 'set runtimepath^=' . s:neobundle_dir.'/neobundle.vim'
+        execute 'set runtimepath^=' . s:neobundle_dir
     endif
 endif
 "}}}
@@ -60,5 +59,6 @@ if !&verbose
 endif
 
 let g:loaded_netrwPlugin = 1
+let g:loaded_matchparen = 1
 let g:loaded_2html_plugin = 1
 let g:loaded_vimballPlugin = 1

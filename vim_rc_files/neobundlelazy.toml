@@ -1,0 +1,226 @@
+# =========================================================================== #
+# Global Plugins
+# =========================================================================== #
+
+# Syntax Checker
+[[plugins]]
+repository = 'scrooloose/syntastic'
+filetypes = 'all'
+
+# Better Indent Lines
+[[plugins]]
+repository = 'Yggdroot/indentLine'
+filetypes = 'all'
+
+# Allow to bI / bA in Line Visual rather than only Visual Block
+[[plugins]]
+repository = 'kana/vim-niceblock'
+mappings = '<Plug>'
+
+# =========================================================================== #
+# Interface
+# =========================================================================== #
+
+# Completion for Vim
+[[plugins]]
+repository = 'Shougo/neocomplete.vim'
+depends = 'Shougo/context_filetype.vim'
+insert = 1
+
+# Completion for Neovim
+[[plugins]]
+repository = 'Shougo/deoplete.nvim'
+depends = 'Shougo/context_filetype.vim'
+insert = 1
+
+# Recently Used files
+[[plugins]]
+repository = 'Shougo/neomru.vim'
+filetypes = 'all'
+
+# Better buffers in Unite
+[[plugins]]
+repository = 'Shougo/tabpagebuffer.vim'
+filetypes = 'all'
+
+# Better sudoing
+[[plugins]]
+repository = 'Shougo/unite-sudo'
+
+# Unite Framework
+[[plugins]]
+repository = 'Shougo/unite.vim'
+depends = 'Shougo/neomru.vim'
+
+  [plugins.commands]
+  name = 'Unite'
+  complete = 'customlist,unite#complete_source'
+
+# Resume sessions
+[[plugins]]
+repository = 'Shougo/unite-session'
+filetypes = 'all'
+
+# Outline of current file
+[[plugins]]
+repository = 'Shougo/unite-outline'
+
+# Use unite for Help
+[[plugins]]
+repository = 'Shougo/unite-help'
+
+# Use unite to browse marks
+[[plugins]]
+repository = 'tacroe/unite-mark'
+
+# Use unite to see command history
+[[plugins]]
+repository = 'thinca/vim-unite-history'
+
+# Use unite to navigate tags
+[[plugins]]
+repository = 'tsukkee/unite-tag'
+
+# Use unite to navigate Quickfix
+[[plugins]]
+repository = 'osyo-manga/unite-quickfix'
+unite_source = ['quickfix', 'location_list']
+
+# Snippets
+[[plugins]]
+repository = 'SirVer/ultisnips'
+filetypes = 'all'
+unite_source = ['ultisnips']
+
+# Status Line
+[[plugins]]
+repository = 'bling/vim-airline'
+filetypes = 'all'
+
+# Parenthesis
+[[plugins]]
+repository = 'kien/rainbow_parentheses.vim'
+filetypes = 'all'
+
+# Better undo
+[[plugins]]
+repository = 'sjl/gundo.vim'
+filetypes = 'all'
+
+# Better file manager
+[[plugins]]
+repository = 'Shougo/vimfiler.vim'
+depends = 'Shougo/unite.vim'
+mappings = '<Plug>'
+explorer = '^\h\w*:'
+
+  [plugins.commands]
+  name = ['VimFiler']
+  complete = 'customlist,vimfiler#complete'
+
+# Accelerated jk, So awesome...
+[[plugins]]
+repository = 'rhysd/accelerated-jk'
+mappings =  '<Plug>'
+
+# Hg browser
+[[plugins]]
+repository = 'JCavallo/vim-hg-unite'
+filetypes = 'all'
+
+# Better colors
+[[plugins]]
+repository = 'godlygeek/csapprox'
+terminal = 1
+
+# Colorschemes
+[[plugins]]
+repository = 'thinca/vim-guicolorscheme'
+terminal = 1
+
+# THE colorscheme
+[[plugins]]
+repository = 'JCavallo/flashy-vim'
+filetypes = 'all'
+
+# =========================================================================== #
+# Motions
+# =========================================================================== #
+
+# Better moving
+[[plugins]]
+repository = 'Lokaltog/vim-easymotion'
+filetypes = 'all'
+mappings = '<Plug>'
+
+# Surround motion
+[[plugins]]
+repository = 'tpope/vim-surround'
+filetypes = 'all'
+
+# Repeat everything
+[[plugins]]
+repository = 'tpope/vim-repeat'
+filetypes = 'all'
+mappings = '.'
+
+# Block Select
+[[plugins]]
+repository = 'terryma/vim-expand-region'
+filetypes = 'all'
+
+# =========================================================================== #
+# Filetypes
+# =========================================================================== #
+
+# Better Json
+[[plugins]]
+repository = 'elzr/vim-json'
+filetypes = 'json'
+
+# Better diff
+[[plugins]]
+repository = 'sgeb/vim-diff-fold'
+filetypes = ['diff', 'patch']
+
+# Better Javascript
+[[plugins]]
+repository = 'jiangmiao/simple-javascript-indenter'
+filetypes = ['javascript', 'js']
+
+# RST Preview and Syntax
+[[plugins]]
+repository = 'Rykka/riv.vim'
+filetypes = 'rst'
+[[plugins]]
+repository = 'Rykka/InstantRst'
+filetypes = 'rst'
+
+# Nim syntax
+[[plugins]]
+repository = 'zah/nimrod.vim'
+filetypes = 'nim'
+
+# Javascript
+[[plugins]]
+repository = 'jelera/vim-javascript-syntax'
+filetypes = 'javascript'
+
+# Tryton
+[[plugins]]
+repository = 'JCavallo/tryton-vim'
+filetypes = ['python', 'py', 'xml']
+
+# =========================================================================== #
+# Other
+# =========================================================================== #
+
+# One key,  multiple values
+[[plugins]]
+repository = 'kana/vim-smartchr'
+insert = 1
+
+# Better Comments
+[[plugins]]
+repository = 'scrooloose/nerdcommenter'
+filetypes = 'all'

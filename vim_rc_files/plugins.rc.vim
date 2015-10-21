@@ -34,9 +34,10 @@ if neobundle#tap('syntastic') "{{{
 endif "}}}
 
 if neobundle#tap('indentLine') "{{{
-    let g:indentLine_faster = 1
+    " let g:indentLine_faster = 1
     let g:indentLine_char = "│"
     let g:indentLine_fileTypeExclude = ['xml', 'help']
+    nmap <silent><Leader>i :<C-u>IndentLinesToggle<CR>
     call neobundle#untap()
 endif "}}}
 
@@ -57,11 +58,14 @@ if neobundle#tap('unite.vim') "{{{
     " Quick mark search
     nnoremap <silent> [unite]e :<C-u>Unite -buffer-name=marks mark<CR>
     " Quick file search
-    nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=files file_rec/async
-        \ file/new<CR>
+    nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=files -multi-line
+        \ -unique -silent file_rec/async buffer_tab:- file/new<CR>
     " Quick grep
-    nnoremap <silent> [unite]g :<C-u>Unite grep -buffer-name=grep
-        \ -no-start-insert<CR>
+    nnoremap <silent> [unite]g :<C-u>Unite grep -buffer-name=grep`tabpagenr()`
+        \ -auto-preview -no-split -no-empty -no-start-insert -resume -quit<CR>
+    " Quick grep (no resume)
+    nnoremap <silent> [unite]d :<C-u>Unite grep -buffer-name=grep`tabpagenr()`
+        \ -auto-preview -no-split -no-empty -no-start-insert -quit<CR>
     " Quick help
     nnoremap <silent> [unite]h :<C-u>Unite -buffer-name=help help<CR>
     " Quick buffer
@@ -81,12 +85,13 @@ if neobundle#tap('unite.vim') "{{{
     nnoremap <silent> [unite]q :<C-u>Unite -auto-highlight -wrap -no-quit
         \ -buffer-name=quickfix quickfix<CR>
     " Quick registers
-    nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register
-        \ history/yank<CR>
+    nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register
+        \ -default-action=append register history/yank<CR>
     " Quick sessions
     nnoremap <silent> [unite]s :<C-u>Unite -buffer-name=sessions session<CR>
     " Quick tags
-    nnoremap <silent> [unite]t :<C-u>UniteWithCursorWord -buffer-name=tag tag<CR>
+    nnoremap <silent> [unite]t :<C-u>UniteWithCursorWord
+        \ -buffer-name=tag tag/include<CR>
     " Quick window switch
     nnoremap <silent> [unite]w :<C-u>Unite window<CR>
     " Quick yank history
@@ -102,9 +107,13 @@ if neobundle#tap('unite.vim') "{{{
     nnoremap <silent> [unite]; :<C-u>Unite -buffer-name=history
         \ history/command<CR>
 
+    " Jumps
+    nnoremap <silent> <C-k>
+        \ :<C-u>Unite change jump<CR>
+
     " <C-t>: Tab pages
     nnoremap <silent><expr> <C-t>
-        \ " :\<C-u>Unite -auto-resize -select=".(tabpagenr()-1)." tab\<CR>"
+        \ :<C-u>Unite -auto-resize -select=`(tabpagenr()-1)` tab<CR>"
 
     " Execute help.
     nnoremap <silent> <C-h> :<C-u>Unite -buffer-name=help help<CR>
@@ -113,15 +122,15 @@ if neobundle#tap('unite.vim') "{{{
     nnoremap <silent> g<C-h> :<C-u>UniteWithCursorWord help<CR>
 
     " Search.
-    nnoremap <silent><expr> /
-        \ " :\<C-u>Unite -buffer-name=search%" . bufnr('%')
-        \ . " -auto-highlight -start-insert line:forward:wrap\<CR>"
-    nnoremap <silent><expr> ?
-        \ " :\<C-u>Unite -buffer-name=search%" . bufnr('%')
-        \ . " -auto-highlight -start-insert line:backward\<CR>"
-    nnoremap <silent><expr> *
-        \ " :\<C-u>UniteWithCursorWord -buffer-name=search%" . bufnr('%')
-        \ . " -auto-highlight line:forward:wrap\<CR>"
+    nnoremap <silent> /
+        \ :<C-u>Unite -buffer-name=search%`bufnr('%')`
+        \ -auto-highlight -start-insert line:forward:wrap<CR>
+    nnoremap <silent> ?
+        \ :<C-u>Unite -buffer-name=search%`bufnr('%')`
+        \ -auto-highlight -start-insert line:backward<CR>
+    nnoremap <silent> *
+        \ :<C-u>UniteWithCursorWord -buffer-name=search%`bufnr('%')`
+        \ -auto-highlight line:forward:wrap<CR>
     nnoremap [unite]/ /
     nnoremap [unite]? ?
     cnoremap <expr><silent><C-g>
@@ -209,23 +218,6 @@ if neobundle#tap('vim-airline') "{{{
         let g:airline_mode_map.t = 'TER'
     endif
 
-    " if !exists('g:airline_symbols')
-    "     let g:airline_symbols = {}
-    " endif
-
-    " " unicode symbols
-    " let g:airline_left_sep = '»'
-    " let g:airline_left_sep = '▶'
-    " let g:airline_right_sep = '«'
-    " let g:airline_right_sep = '◀'
-    " let g:airline_symbols.linenr = '␊'
-    " let g:airline_symbols.linenr = '␤'
-    " let g:airline_symbols.linenr = '¶'
-    " let g:airline_symbols.branch = '⎇'
-    " let g:airline_symbols.paste = 'ρ'
-    " let g:airline_symbols.paste = 'Þ'
-    " let g:airline_symbols.paste = '∥'
-    " let g:airline_symbols.whitespace = 'Ξ'
     call neobundle#untap()
 endif "}}}
 
@@ -289,9 +281,12 @@ endif "}}}
 "     call neobundle#untap()
 " endif "}}}
 
-" if neobundle#tap('vim-expand-region') "{{{
-"     call neobundle#untap()
-" endif "}}}
+if neobundle#tap('vim-expand-region') "{{{
+    xmap v <Plug>(expand_region_expand)
+    xmap <C-v> <Plug>(expand_region_shrink)
+
+    call neobundle#untap()
+endif "}}}
 
 " if neobundle#tap('vim-json') "{{{
 "     call neobundle#untap()

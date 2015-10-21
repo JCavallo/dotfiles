@@ -2,92 +2,97 @@
 " Filetype settings
 "===============================================================================
 
-" All File Types {{{
-autocmd MyAutoCmd FileType,Syntax * call s:my_on_filetype()
-" Update filetype.
-autocmd MyAutoCmd BufWritePost *
-    \ if &l:filetype ==# '' || exists('b:ftdetect')
-    \ |   unlet! b:ftdetect
-    \ |   filetype detect
-    \ | endif
-autocmd MyAutoCmd Syntax * syntax sync minlines=100
-" }}}
+augroup MyAutoCmd
+    " All File Types {{{
+    autocmd FileType,Syntax,BufEnter,BufWinEnter * call s:my_on_filetype()
+    " Update filetype.
+    autocmd BufWritePost *
+        \ if &l:filetype ==# '' || exists('b:ftdetect')
+        \ |   unlet! b:ftdetect
+        \ |   filetype detect
+        \ | endif
+    " }}}
 
-" Vim Script {{{
-autocmd MyAutoCmd BufWritePost,FileWritePost .vimrc,vimrc,*.rc.vim
-    \ NeoBundleClearCache | silent source $MYVIMRC
-autocmd MyAutoCmd BufWritePost,FileWritePost *.vim
-    \ if &autoread | source <afile> | echo 'source ' . bufname('%') | endif
-autocmd MyAutoCmd FileType vim setlocal foldmethod=marker
-autocmd MyAutoCmd Syntax vim call s:set_syntax_of_user_defined_commands()
-let g:vimsyn_folding = 'afPl'
-" }}}
+    " Vim Script {{{
+    autocmd BufWritePost,FileWritePost .vimrc,vimrc,*.rc.vim
+        \ NeoBundleClearCache | silent source $MYVIMRC
+    autocmd BufWritePost,FileWritePost *.vim
+        \ if &autoread | source <afile> | echo 'source ' . bufname('%') | endif
+    autocmd FileType vim setlocal foldmethod=marker
+    autocmd Syntax vim call s:set_syntax_of_user_defined_commands()
+    let g:vimsyn_folding = 'afPl'
+    " }}}
 
-" C {{{
-autocmd MyAutoCmd FileType c setlocal omnifunc=ccomplete#Complete
-" }}}
+    " C {{{
+    autocmd FileType c setlocal omnifunc=
+    " }}}
 
-" CSS {{{
-autocmd MyAutoCmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-" }}}
+    " CSS {{{
+    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+    " }}}
 
-" Javascript {{{
-autocmd MyAutoCmd FileType javascript setlocal softtabstop=2 shiftwidth=2
-autocmd MyAutoCmd FileType javascript setlocal tabstop=2 foldmethod=indent
-" }}}
+    " Javascript {{{
+    autocmd FileType javascript setlocal softtabstop=2 shiftwidth=2
+    autocmd FileType javascript setlocal tabstop=2 foldmethod=indent
+    " }}}
 
-" Html {{{
-autocmd MyAutoCmd FileType html setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd MyAutoCmd FileType html
-    \ setlocal includeexpr=substitute(v:fname,'^\\/','','') |
-    \ setlocal path+=./;/
-" }}}
+    " Html {{{
+    autocmd FileType html setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType html
+        \ setlocal includeexpr=substitute(v:fname,'^\\/','','') |
+        \ setlocal path+=./;/
+    " }}}
 
-" Markdown {{{
-autocmd MyAutoCmd FileType markdown setlocal omnifunc=htmlcomplete#CompleteTags
-let g:markdown_fenced_languages = [
-    \  'coffee',
-    \  'css',
-    \  'erb=eruby',
-    \  'javascript',
-    \  'js=javascript',
-    \  'json=javascript',
-    \  'ruby',
-    \  'sass',
-    \  'xml',
-    \  'vim',
-    \]
-" }}}
+    " Markdown {{{
+    autocmd FileType markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    let g:markdown_fenced_languages = [
+        \  'coffee',
+        \  'css',
+        \  'erb=eruby',
+        \  'javascript',
+        \  'js=javascript',
+        \  'json=javascript',
+        \  'ruby',
+        \  'sass',
+        \  'xml',
+        \  'vim',
+        \]
+    " }}}
 
-" Nim {{{
-autocmd MyAutoCmd FileType nim setlocal foldmethod=indent
-autocmd MyAutoCmd FileType nim setlocal tabstop=2 softtabstop=2 shiftwidth=2
-" }}}
-"
-" Python {{{
-if has('python3')
-    autocmd MyAutoCmd FileType python
-        \ setlocal omnifunc=python3complete#Complete
-else
-    autocmd MyAutoCmd FileType python setlocal omnifunc=pythoncomplete#Complete
-endif
-autocmd MyAutoCmd FileType python setlocal foldmethod=syntax
-let g:python_highlight_all = 1
-" }}}
+    " Nim {{{
+    autocmd FileType nim setlocal foldmethod=indent
+    autocmd FileType nim setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    " }}}
 
-" SQL {{{
-autocmd MyAutoCmd FileType sql setlocal omnifunc=sqlcomplete#Complete
-" format sql, requires sqlparse installed in virtual env
-autocmd MyAutoCmd FileType sql
-    \ nnoremap <leader>xx :execute 'silent %w !sqlformat -r -k upper -i lower -o % %' \| execute ':e!'<CR>
-" }}}
+    " Python {{{
+    if has('python3')
+        autocmd FileType python
+            \ setlocal omnifunc=python3complete#Complete
+    else
+        autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+    endif
+    autocmd FileType python setlocal foldmethod=syntax
+    let g:python_highlight_all = 1
+    " }}}
 
-" XML {{{
-autocmd MyAutoCmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-autocmd MyAutoCmd FileType xml setlocal foldmethod=syntax
-autocmd MyAutoCmd FileType xml setlocal foldlevel=2
-let g:xml_syntax_folding = 1
-" }}}
+    " TrPy {{{
+    autocmd BufWinEnter trpy setlocal syntax=python.trpy
+    " }}}
+
+    " SQL {{{
+    autocmd FileType sql setlocal omnifunc=sqlcomplete#Complete
+    " format sql, requires sqlparse installed in virtual env
+    autocmd FileType sql
+        \ nnoremap <leader>xx :execute 'silent %w !sqlformat -r -k upper -i lower -o % %' \| execute ':e!'<CR>
+    " }}}
+
+    " XML {{{
+    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+    autocmd FileType xml setlocal foldmethod=syntax
+    autocmd FileType xml setlocal foldlevel=2
+    let g:xml_syntax_folding = 1
+    " }}}
+augroup END
 
 function! s:set_syntax_of_user_defined_commands() "{{{
     redir => _
@@ -95,15 +100,20 @@ function! s:set_syntax_of_user_defined_commands() "{{{
     redir END
 
     let command_names = join(map(split(_, '\n')[1:],
-            \ "matchstr(v:val, '[!\"b]*\\s\\+\\zs\\u\\w*\\ze')"))
+        \ "matchstr(v:val, '[!\"b]*\\s\\+\\zs\\u\\w*\\ze')"))
+
     if command_names == '' | return | endif
     execute 'syntax keyword vimCommand ' . command_names
 endfunction"}}}
 
+
 function! s:my_on_filetype() "{{{
+    " Use CustomFoldText().
+    if &filetype !=# 'help'
+        setlocal foldtext=CustomFoldText()
+    endif
+
     if !&l:modifiable
-        setlocal nofoldenable
-        setlocal foldcolumn=0
         setlocal colorcolumn=
     endif
 endfunction "}}}

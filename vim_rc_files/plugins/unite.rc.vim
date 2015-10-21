@@ -3,6 +3,7 @@
 "---------------------------------------------------------------------------
 
 " Global settings {{{
+let g:unite_enable_auto_select = 0
 let g:unite_source_history_yank_enable = 1
 let g:unite_source_file_mru_limit = 1000
 let g:unite_source_rec_max_cache_files = 10000
@@ -59,6 +60,7 @@ call unite#custom#source(
 
 " Set default actions {{{
 call unite#custom#default_action('directory', 'rec/async')
+call unite#custom#default_action('file', 'context_split')
 " }}}
 
 " Custom settings for unite windows {{{
@@ -98,6 +100,23 @@ function! s:unite_my_settings()
         \ empty(unite#mappings#get_current_filters()) ? ['sorter_reverse'] : [])
 endfunction
 " }}}
+
+" Custom split action
+let s:my_split = {'is_selectable': 1}
+function! s:my_split.func(candidate)
+    let split_action = 'vsplit'
+    if bufwinnr(a:candidate[0].word) != -1
+        let split_action = 'switch'
+    elseif bufname('#') == ''
+        let split_action = 'open'
+    elseif winwidth(winnr('#')) <= 1.5 * (&tw ? &tw : 80)
+        echo winwidth(winnr('#'))
+        let split_action = 'split'
+    endif
+    call unite#take_action(split_action, a:candidate)
+endfunction
+call unite#custom_action('openable', 'context_split', s:my_split)
+unlet s:my_split
 
 " Set search sources executables {{{
 if executable('ag')
