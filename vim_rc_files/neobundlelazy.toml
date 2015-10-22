@@ -128,6 +128,11 @@ filetypes = 'all'
 repository = 'godlygeek/csapprox'
 terminal = 1
 
+# Better parentheses
+[[plugins]]
+repository = 'kien/rainbow_parentheses.vim'
+filetypes = 'all'
+
 # Colorschemes
 [[plugins]]
 repository = 'thinca/vim-guicolorscheme'
