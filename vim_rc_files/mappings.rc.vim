@@ -374,6 +374,8 @@ nnoremap gb 'g:delmark g<cr>
 nnoremap gt mggg
 " gp to visually select pasted text
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
+" gV to visually select last inserted test
+nnoremap gV `[v`]
 " h: Left
 " i: Insert before cursor
 " j: Down

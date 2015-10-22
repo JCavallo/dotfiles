@@ -16,7 +16,9 @@ if &compatible
 endif
 
 let $VIM_FOLDER = $FORCE_VIM_FOLDER != '' ? $FORCE_VIM_FOLDER : expand('~/.vim')
-let $MYVIMRC = expand('%:p')
+if !has('nvim')
+    let $MYVIMRC = expand('%:h')
+endif
 
 function! s:source_rc(path)
     execute 'source' fnameescape(expand($VIM_FOLDER . '/rc/' . a:path))
@@ -97,8 +99,10 @@ set hlsearch
 set wrapscan
 
 " Default encoding is UTF8
-set encoding=utf-8
-set fileencoding=utf8
+if has('vim_starting')
+    set encoding=utf-8
+    set fileencoding=utf8
+endif
 
 "===============================================================================
 " Local Settings

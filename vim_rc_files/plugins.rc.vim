@@ -231,7 +231,7 @@ endif "}}}
 
 if neobundle#tap('vimfiler.vim') "{{{
     nnoremap <silent>   <leader>v   :<C-u>VimFiler -find<CR>
-    nnoremap [Space]ff :<C-u>VimFilerExplorer<CR>
+    nnoremap <leader>ff :<C-u>VimFilerExplorer<CR>
     let neobundle#hooks.on_source = expand(
         \ $VIM_FOLDER . '/rc/plugins/vimfiler.rc.vim')
     call neobundle#untap()
