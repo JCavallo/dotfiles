@@ -2,13 +2,21 @@
 import sys
 import os
 import ConfigParser
+import json
 
 from subprocess import Popen, PIPE
 
-if len(sys.argv) != 2:
-    print "Usage : hgup 'message'"
+with open(os.path.join(os.getenv('HOME'), '.review_groups'), 'r') as f:
+    groups = json.loads(f.read())
+
+if len(sys.argv) != 3:
+    print "Usage : hgup 'message' user"
+    print ''
+    print '\n\t'.join(['Possible groups :\n\t'] + groups.keys())
+    print ''
     sys.exit()
 message = sys.argv[1]
+group = sys.argv[2]
 
 process = Popen(['hg', 'review', '--id'], stdout=PIPE)
 review_id, errors = process.communicate()
@@ -28,7 +36,7 @@ if not server_name:
     sys.exit()
 
 command = ['/home/giovanni/bin/upload.py', '-s', server_name.strip('https://'),
-    '--oauth2', '-r', 'Romain,Fred,jeremy,Fabrice', '--send_mail',
+    '--oauth2', '-r', groups.get(group, group), '--send_mail',
     '--assume_yes', '-m', message]
 
 if not review_id:
