@@ -6,8 +6,13 @@ import json
 
 from subprocess import Popen, PIPE
 
-with open(os.path.join(os.getenv('HOME'), '.review_groups'), 'r') as f:
-    groups = json.loads(f.read())
+try:
+    with open(os.path.join(os.getenv('HOME'), '.review_groups'), 'r') as f:
+        groups = json.loads(f.read())
+except:
+    print "Could not find .review_groups in your home directory"
+    print ''
+    sys.exit()
 
 if len(sys.argv) != 3:
     print "Usage : hgup 'message' user"
