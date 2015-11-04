@@ -59,13 +59,20 @@ sudo ~/.fzf/install
 # Create temporary directory
 mkdir -p ~/tmp
 
-# Build latest vim
-sudo apt-get install libncurses5-dev libgnome2-dev libgnomeui-dev libgtk2.0-dev libatk1.0-dev libbonoboui2-dev libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev ruby-dev libperl-dev liblua5.2-dev lua5.2 mercurial
-hg clone https://code.google.com/p/vim/ ~/tmp/vim
-cd ~/tmp/vim
-./configure --with-features=huge --enable-rubyinterp --enable-pythoninterp --enable-perlinterp --enable-luainterp --enable-gui=gtk2 --enable-cscope --prefix=/usr
-make VIMRUNTIMEDIR=/usr/share/vim/vim74
+# Create projects directory
+mkdir -p ~/Projets
+
+# Build latest neovim
+cd ~/Projets
+git clone https://github.com/neovim/neovim Neovim
+sudo apt-get install libtool libtool-bin autoconf automake cmake g++ pkg-config unzip
+cd Neovim
+make CMAKE_BUILD_TYPE=Release
 sudo make install
+mkdir -p ~/.config
+mkdir -p ~/.config/nvim
+cd ~/.config/nvim
+ln -s ~/dotfiles/nvimrc init.vim
 
 # Install hgreview
 sudo apt-get install python-pip
