@@ -49,10 +49,10 @@ if neobundle#load_cache()
   NeoBundleFetch 'Shougo/neobundle.vim'
 
   call neobundle#load_toml(expand($VIM_FOLDER . '/rc/neobundle.toml'))
-  call neobundle#load_toml(expand($VIM_FOLDER . '/rc/neobundlelazy.toml'),
-    \ {'lazy': 1})
+  call neobundle#load_toml(expand($VIM_FOLDER . '/rc/neobundlelazy.toml'))
 
   NeoBundleSaveCache
+  NeoBundleCheck
 endif
 
 call s:source_rc('plugins.rc.vim')

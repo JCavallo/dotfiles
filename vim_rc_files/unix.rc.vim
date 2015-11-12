@@ -1,5 +1,5 @@
-"===============================================================================
 " Unix specific configuration
+"===============================================================================
 "===============================================================================
 
 " Set path.
@@ -40,12 +40,6 @@ if &term =~# 'xterm'
 endif
 
 if has('gui')
-    " Use CSApprox.vim
-    NeoBundleSource csapprox
-
-    " Load theme
-    NeoBundleSource flashy-vim
-
     " Convert colorscheme in Konsole.
     let g:CSApprox_konsole = 1
     let g:CSApprox_attr_map = {
@@ -53,21 +47,13 @@ if has('gui')
         \ 'italic' : 'italic',
         \ 'sp' : ''
         \ }
-    if !exists('g:colors_name')
-        execute 'colorscheme' globpath(&runtimepath,
-            \ 'colors/flashy_vim.vim') != '' ? 'flashy_vim' : 'desert'
-    endif
 else
-    " Use guicolorscheme.vim
-    NeoBundleSource vim-guicolorscheme
-
-    " Load theme
-    NeoBundleSource flashy-vim
-
-    GuiColorScheme flashy_vim
-
     " Disable error messages.
     let g:CSApprox_verbose_level = 0
+endif
+if !exists('g:colors_name')
+    execute 'colorscheme' globpath(&runtimepath,
+        \ 'colors/flashy_vim.vim') != '' ? 'flashy_vim' : 'desert'
 endif
 
 " Using the mouse on a terminal.

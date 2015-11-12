@@ -253,10 +253,6 @@ endif "}}}
 "     call neobundle#untap()
 " endif "}}}
 
-" if neobundle#tap('vim-guicolorscheme') "{{{
-"     call neobundle#untap()
-" endif "}}}
-
 " if neobundle#tap('flashy-vim') "{{{
 "     call neobundle#untap()
 " endif "}}}

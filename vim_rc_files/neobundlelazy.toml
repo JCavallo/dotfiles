@@ -2,6 +2,11 @@
 # Global Plugins
 # =========================================================================== #
 
+# Parallel plugin loading
+[[plugins]]
+repository = 'Shougo/vimproc.vim'
+build = 'make'
+
 # Syntax Checker
 [[plugins]]
 repository = 'scrooloose/syntastic'
