@@ -52,8 +52,7 @@ else
     let g:CSApprox_verbose_level = 0
 endif
 if !exists('g:colors_name')
-    execute 'colorscheme' globpath(&runtimepath,
-        \ 'colors/flashy_vim.vim') != '' ? 'flashy_vim' : 'desert'
+    colorscheme flashy_vim
 endif
 
 " Using the mouse on a terminal.
