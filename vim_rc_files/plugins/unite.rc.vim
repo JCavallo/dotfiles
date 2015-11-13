@@ -54,7 +54,7 @@ call unite#custom#source(
 call unite#filters#sorter_default#use(['sorter_selecta'])
 " Use fuzzy search for mercurial sources
 call unite#custom#source(
-    \ 'hg/log,hg/status', 'matchers',
+    \ 'hg/status,hg/shelve', 'matchers',
     \ ['matcher_fuzzy'])
 " }}}
 
