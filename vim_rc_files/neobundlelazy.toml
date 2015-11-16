@@ -128,6 +128,11 @@ mappings =  '<Plug>'
 repository = 'JCavallo/vim-hg-unite'
 filetypes = 'all'
 
+# Git browser
+[[plugins]]
+repository = 'kmnk/vim-unite-giti'
+filetypes = 'all'
+
 # Better colors
 [[plugins]]
 repository = 'godlygeek/csapprox'
