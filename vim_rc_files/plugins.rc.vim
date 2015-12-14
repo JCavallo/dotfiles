@@ -62,10 +62,10 @@ if neobundle#tap('unite.vim') "{{{
         \ -unique -silent file_rec/async buffer_tab:- file/new<CR>
     " Quick grep
     nnoremap <silent> [unite]g :<C-u>Unite grep -buffer-name=grep`tabpagenr()`
-        \ -auto-preview -no-split -no-empty -no-start-insert -resume -quit<CR>
+        \ -no-split -no-empty -no-start-insert -resume -quit<CR>
     " Quick grep (no resume)
     nnoremap <silent> [unite]d :<C-u>Unite grep -buffer-name=grep`tabpagenr()`
-        \ -auto-preview -no-split -no-empty -no-start-insert -quit<CR>
+        \ -no-split -no-empty -no-start-insert -quit<CR>
     " Quick help
     nnoremap <silent> [unite]h :<C-u>Unite -buffer-name=help help<CR>
     " Quick buffer
