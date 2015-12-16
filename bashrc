@@ -21,6 +21,7 @@ alias ag="LESS='FSRX' ag --pager less"
 alias hgpl="ls -d -t ~/tmp/* | grep .*diff | head -n 1;ls -d -t ~/tmp/* | grep .*diff | head -n 1 | xargs cat | hg patch --no-commit -"
 # Clean up everything
 alias hgdel="hg revert --all;hg purge;hg review --clean"
+alias gitdel="git reset --hard;rm `git rev-parse --show-toplevel 2> /dev/null`/.git/review_id 2> /dev/null"
 
 DEFAULT="[37;1m"
 PINK="[35;1m"
@@ -61,9 +62,17 @@ git_ps1_2() {
         echo ""
     fi
 }
+git_ps1_3() {
+    REVIEW=$(cat `git rev-parse --show-toplevel 2> /dev/null`/.git/review_id 2> /dev/null)
+    if [ "$REVIEW" != "" ]; then
+        echo "[$REVIEW] "
+    else
+        echo ""
+    fi
+}
 
 
-export PS1='\[\e${BOLD}\e${RED}\]\w \[\e${GREEN}\]$(hg_ps1_1)$(git_ps1_1) \[\e${ORANGE}\]$(hg_ps1_3)\[\e${BLUE}\]$(hg_ps1_2)$(git_ps1_2)\[\e${DEFAULT}\e${OFF}\]\n\[\e${BOLD}\e${PINK}\]\u\[\e${DEFAULT}\e${OFF}\]@\[\e${BOLD}\e${ORANGE}\]\h\[\e${DEFAULT}\e${OFF}\] \[\e${BOLD}\e${RED}\]$ \[\e${DEFAULT}\e${OFF}\] '
+export PS1='\[\e${BOLD}\e${RED}\]\w \[\e${GREEN}\]$(hg_ps1_1)$(git_ps1_1)\[\e${ORANGE}\]$(hg_ps1_3)$(git_ps1_3)\[\e${BLUE}\]$(hg_ps1_2)$(git_ps1_2)\[\e${DEFAULT}\e${OFF}\]\n\[\e${BOLD}\e${PINK}\]\u\[\e${DEFAULT}\e${OFF}\]@\[\e${BOLD}\e${ORANGE}\]\h\[\e${DEFAULT}\e${OFF}\] \[\e${BOLD}\e${RED}\]$ \[\e${DEFAULT}\e${OFF}\] '
 
 
 export EDITOR=nvim

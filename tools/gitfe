@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+echo | hg review -R ~/tmp/testhg --fetch --keep -y -i $1 2> /dev/null | grep "application de" | sed -e 's/application de //' | xargs git apply
+echo $1 > `git rev-parse --show-toplevel`/.git/review_id
