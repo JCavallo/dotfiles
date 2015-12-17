@@ -47,7 +47,18 @@ hg_ps1_3() {
     fi
 }
 git_ps1_1() {
-    git branch 2> /dev/null | grep -e ^* | sed -E  s/^\\\*\ \(.+\)$/\\\1\ /
+    branch=$(git branch 2> /dev/null | grep -e ^* | sed -E  s/^\\\*\ \(.+\)$/\\\1\ /)
+    if [ "${branch}" != "" ]; then
+        clean_branch=${branch::-1}
+        rietveld=$(git config --get branch.${clean_branch}.rietveldissue)
+        if [ "${rietveld}" != "" ]; then
+            echo "$clean_branch (rev $rietveld) "
+        else
+            echo $($branch )
+        fi
+    else
+        echo " "
+    fi
 }
 git_ps1_2() {
     status=$(git status -sb 2> /dev/null | tail -n +2 2> /dev/null)
