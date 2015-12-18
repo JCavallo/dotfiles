@@ -66,7 +66,7 @@ git_ps1_3() {
     cur_branch=$(git branch 2> /dev/null | grep -e ^* | sed -E  s/^\\\*\ \(.+\)$/\\\1\ /)
     if [ "$cur_branch" != "" ]; then
         clean_branch=${cur_branch::-1}
-        rietveld=$(git config --get branch.${clean_branch}.rietveldissue)
+        rietveld=$(git config --get branch.${clean_branch}.rietveldissue 2> /dev/null)
         if [ "${rietveld}" != "" ]; then
             echo "[linked $rietveld] "
             return
