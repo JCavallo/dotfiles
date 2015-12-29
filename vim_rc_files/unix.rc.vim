@@ -51,9 +51,6 @@ else
     " Disable error messages.
     let g:CSApprox_verbose_level = 0
 endif
-if !exists('g:colors_name')
-    colorscheme flashy_vim
-endif
 
 " Using the mouse on a terminal.
 if has('mouse') && !has('nvim')
