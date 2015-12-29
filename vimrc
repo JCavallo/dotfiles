@@ -49,7 +49,6 @@ if neobundle#load_cache()
   NeoBundleFetch 'Shougo/neobundle.vim'
 
   call neobundle#load_toml(expand($VIM_FOLDER . '/rc/neobundle.toml'))
-  call neobundle#load_toml(expand($VIM_FOLDER . '/rc/neobundlelazy.toml'))
 
   NeoBundleSaveCache
   NeoBundleCheck
@@ -155,7 +154,6 @@ call s:source_rc('filetype.rc.vim')
 call s:source_rc('unix.rc.vim')
 
 "===============================================================================
-"===============================================================================
 " Gui configuration
 "===============================================================================
 
@@ -180,4 +178,7 @@ map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
+NeoBundleSource flashy_vim
+
 set secure
+colorscheme flashy_vim
