@@ -1,3 +1,9 @@
 #!/usr/bin/env sh
-echo | hg review -R ~/tmp/testhg --fetch --keep -y -i $1 2> /dev/null | grep "application de" | sed -e 's/application de //' | xargs git apply
-echo $1 > `git rev-parse --show-toplevel`/.git/review_id
+hg revert --all -R ~/tmp/testhg
+hg purge -R ~/tmp/testhg
+echo | hg review -R ~/tmp/testhg --fetch --keep -y -i $1 2> /dev/null | grep "^\\(application de\\|applying\\) " | sed -e 's/application de //' | sed -e 's/applying //' | xargs git apply
+git branch rietveld/imported_$1 1> /dev/null
+git checkout rietveld/imported_$1 1> /dev/null
+git add . 1> /dev/null
+git commit -m "Rietveld patch $1" 1> /dev/null
+git config --add branch.rietveld/imported_$1.rietveldissue $1 1> /dev/null

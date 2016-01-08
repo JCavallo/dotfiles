@@ -22,6 +22,7 @@ alias hgpl="ls -d -t ~/tmp/* | grep .*diff | head -n 1;ls -d -t ~/tmp/* | grep .
 # Clean up everything
 alias hgdel="hg revert --all;hg purge;hg review --clean"
 alias gitdel="git reset --hard;rm `git rev-parse --show-toplevel 2> /dev/null`/.git/review_id 2> /dev/null"
+alias mrg_bas="git merge-base HEAD origin/master"
 
 DEFAULT="[37;1m"
 PINK="[35;1m"
