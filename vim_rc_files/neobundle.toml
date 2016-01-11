@@ -206,10 +206,19 @@ filetypes = 'rst'
 repository = 'Rykka/InstantRst'
 filetypes = 'rst'
 
+# Markdown
+[[plugins]]
+repository = 'rhysd/nyaovim-markdown-preview'
+filetypes = 'markdown'
+
 # Nim syntax
 [[plugins]]
 repository = 'zah/nimrod.vim'
 filetypes = 'nim'
+
+# Coffeescript
+[[plugins]]
+repository = 'kchmck/vim-coffee-script'
 
 # Javascript
 [[plugins]]
