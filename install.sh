@@ -102,3 +102,13 @@ cd ~
 sudo apt-get install fbterm
 sudo gpasswd -a giovanni video
 sudo chmod u+s /usr/bin/fbterm
+
+# Handle remote neovim
+cd ~/tmp
+git clone https://github.com/mhinz/neovim-remote.git neovim-remote
+cd neovim-remote
+git checkout master
+chmod +x nvr
+cp nvr ~/bin
+cd ~/tmp
+rm -rf neovim-remote

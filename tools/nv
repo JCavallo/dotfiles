@@ -1,0 +1,15 @@
+#!/bin/sh
+BASE=$VIRTUAL_ENV
+if [ -z $BASE ]; then
+    BASE=root
+else
+    BASE=`basename $BASE`
+fi
+
+BASE=/tmp/nvim_${BASE}.sock
+
+if [ -e $BASE ]; then
+    nvr --servername $BASE --remote $@
+else
+    NVIM_LISTEN_ADDRESS=$BASE nvim $@
+fi
