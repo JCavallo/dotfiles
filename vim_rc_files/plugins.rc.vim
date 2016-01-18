@@ -200,7 +200,7 @@ if neobundle#tap('neocomplete.vim') && has('lua') && !has('nvim') "{{{
 endif "}}}
 
 if neobundle#tap('deoplete.nvim') && has('nvim') && has('python3') "{{{
-  let g:deoplete#enable_at_startup = 1
+    let g:deoplete#enable_at_startup = 1
     let neobundle#hooks.on_source = expand(
         \ $VIM_FOLDER . '/rc/plugins/deoplete.rc.vim')
 

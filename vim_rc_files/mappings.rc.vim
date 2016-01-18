@@ -105,32 +105,6 @@ nnoremap <SID>(command-line-norange) q:<C-u>
 nmap ;;  <SID>(command-line-enter)
 xmap ;;  <SID>(command-line-enter)
 
-autocmd MyAutoCmd CmdwinEnter * call s:init_cmdwin()
-autocmd MyAutoCmd CmdwinLeave * let g:neocomplcache_enable_auto_select = 1
-
-function! s:init_cmdwin()
-  let g:neocomplcache_enable_auto_select = 0
-  let b:neocomplcache_sources_list = ['vim_complete']
-
-  nnoremap <buffer><silent> q :<C-u>quit<CR>
-  nnoremap <buffer><silent> <TAB> :<C-u>quit<CR>
-  inoremap <buffer><expr><CR> neocomplete#close_popup()."\<CR>"
-  inoremap <buffer><expr><C-h> col('.') == 1 ?
-        \ "\<ESC>:quit\<CR>" : neocomplete#cancel_popup()."\<C-h>"
-  inoremap <buffer><expr><BS> col('.') == 1 ?
-        \ "\<ESC>:quit\<CR>" : neocomplete#cancel_popup()."\<C-h>"
-
-  " Completion.
-  inoremap <buffer><expr><TAB>  pumvisible() ?
-        \ "\<C-n>" : <SID>check_back_space() ? "\<TAB>" : "\<C-x>\<C-u>\<C-p>"
-
-  " Remove history lines.
-  silent execute printf("1,%ddelete _", min([&history - 20, line("$") - 20]))
-  call cursor(line('$'), 0)
-
-  startinsert!
-endfunction
-
 "===============================================================================
 " Normal Mode Shift Key Mappings
 "===============================================================================
