@@ -16,6 +16,8 @@ except:
 if len(sys.argv) != 3:
     print "Usage : gitup 'message' user"
     print ''
+    print 'Message may be empty ("")'
+    print ''
     print '\n\t'.join(['Possible groups :\n\t'] + groups.keys())
     print ''
     sys.exit()
@@ -29,6 +31,10 @@ if errs:
     print errs
     sys.exit()
 
-process = Popen(['git', 'cl', 'upload', mrg_bas[:-1], '-m', message, '-r',
-        groups.get(group, group)])
+cmd = ['git', 'cl', 'upload', mrg_bas[:-1], '-r', groups.get(group, group)]
+if message:
+    cmd += ['-m', message]
+else:
+    cmd += ['-u']
+process = Popen(cmd)
 process.communicate()

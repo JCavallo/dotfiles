@@ -1,3 +1,4 @@
 # Exclude *.pyc files
 *.pyc
 .-rplugin~
+*.orig
