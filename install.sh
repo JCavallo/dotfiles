@@ -30,6 +30,9 @@ for file in $files; do
     ln -s $dir/$file ~/.$file
 done
 
+# Create config folder
+mkdir -p ~/.config
+
 # Create local binary folder
 mkdir -p ~/bin
 ln -s ~/dotfiles/tools/* ~/bin/
@@ -112,3 +115,10 @@ chmod +x nvr
 cp nvr ~/bin
 cd ~/tmp
 rm -rf neovim-remote
+
+# Install tmux
+echo tmux not installed, you will have to do it manually
+
+# Install tmux plugin
+mkdir -p ~/.config/tmux_plug
+git clone https://github.com/tmux-plugins/tmux-yank ~/.config/tmux_plug/tmux-yank
