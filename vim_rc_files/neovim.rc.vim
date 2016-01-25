@@ -1,4 +1,8 @@
-tnoremap <A-a> <C-\><C-n>
+" Easier terminal exit
+tnoremap <A-a> <C-\><C-n>?\w<CR>$:noh<CR>
+
+" Use C-v to paste
+tnoremap <C-v> <C-\><C-n>pa
 
 " New terminal in split
 nnoremap [Window]t :call OpenTerminal()<CR>
