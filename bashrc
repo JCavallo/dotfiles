@@ -37,6 +37,8 @@ YELLOW="[30;103m"
 YELLOWBLUE="[93;106m"
 BLUE="[30;106m"
 BLUEBLACK="[96;49m"
+DARKGREY="[37;100m"
+DARKGREYDARKGREEN="[90;42m"
 DARKGREEN="[30;42m"
 DARKGREENPINK="[32;45m"
 PINK="[30;45m"
@@ -109,7 +111,7 @@ git_ps1_3() {
 
 virtual_env_ps1() {
     if [ ! -z $VIRTUAL_ENV ]; then
-        echo "`basename $VIRTUAL_ENV` "
+        echo " `basename $VIRTUAL_ENV` "
     else
         echo ""
     fi
@@ -137,8 +139,12 @@ PS1+='\e${BLUEBLACK}'
 # New line
 PS1+='\e${DEFAULT}\n'
 
+# Time
+PS1+='\e${DARKGREY} $(date +%H:%M:%S) '
+PS1+='\e${DARKGREYDARKGREEN}'
+
 # Virtual Env
-PS1+='\e${DARKGREEN} $(virtual_env_ps1)'
+PS1+='\e${DARKGREEN}$(virtual_env_ps1)'
 PS1+='\e${DARKGREENPINK}'
 
 # User
