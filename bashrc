@@ -97,13 +97,13 @@ git_ps1_3() {
         clean_branch=${cur_branch::-1}
         rietveld=$(git config --get branch.${clean_branch}.rietveldissue 2> /dev/null)
         if [ "${rietveld}" != "" ]; then
-            echo " linked $rietveld "
+            echo " $rietveld "
             return
         fi
     fi
     REVIEW=$(cat `git rev-parse --show-toplevel 2> /dev/null`/.git/review_id 2> /dev/null)
     if [ "$REVIEW" != "" ]; then
-        echo " applied $REVIEW "
+        echo " ($REVIEW) "
     else
         echo ""
     fi
