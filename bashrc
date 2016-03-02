@@ -29,6 +29,12 @@ DEFAULT="[0m"
 BLINK="[5m"
 BLINKRESET="[25m"
 
+PINK="[30;45m"
+PINKLIGHTBLUE="[35;104m"
+LIGHTBLUE="[30;104m"
+LIGHTBLUEDARKGREEN="[94;42m"
+DARKGREEN="[30;42m"
+DARKGREENRED="[32;101m"
 RED="[30;101m"
 REDGREEN="[91;102m"
 GREEN="[30;102m"
@@ -38,13 +44,7 @@ YELLOWBLUE="[93;106m"
 BLUE="[30;106m"
 BLUEBLACK="[96;49m"
 DARKGREY="[37;100m"
-DARKGREYDARKGREEN="[90;42m"
-DARKGREEN="[30;42m"
-DARKGREENPINK="[32;45m"
-PINK="[30;45m"
-PINKLIGHTBLUE="[35;104m"
-LIGHTBLUE="[30;104m"
-LIGHTBLUEBLACK="[94;49m"
+DARKGREYBLACK="[90;49m"
 
 hg_ps1_1() {
     BRANCH=`hg prompt "{branch}" 2> /dev/null`
@@ -117,11 +117,36 @@ virtual_env_ps1() {
     fi
 }
 
+current_path_ps1() {
+    if [ -z $VIRTUAL_ENV ]; then
+        echo " `pwd` "
+    else
+        value=`echo ${PWD#"$VIRTUAL_ENV"}`
+        if [ "$value" != "" ]; then
+            echo " $value "
+        else
+            echo ""
+        fi
+    fi
+}
+
 # Init
 PS1='\n'
 
+# User
+PS1+='\e${PINK} \u '
+PS1+='\e${PINKLIGHTBLUE}'
+
+# Host
+PS1+='\e${LIGHTBLUE} \h '
+PS1+='\e${LIGHTBLUEDARKGREEN}'
+
+# Virtual Env
+PS1+='\e${DARKGREEN}$(virtual_env_ps1)'
+PS1+='\e${DARKGREENRED}'
+
 # Filepath
-PS1+='\e${RED} \w '
+PS1+='\e${RED}$(current_path_ps1)'
 PS1+='\e${REDGREEN}'
 
 # Branch
@@ -141,19 +166,10 @@ PS1+='\e${DEFAULT}\n'
 
 # Time
 PS1+='\e${DARKGREY} $(date +%H:%M:%S) '
-PS1+='\e${DARKGREYDARKGREEN}'
+PS1+='\e${DARKGREYBLACK}'
 
-# Virtual Env
-PS1+='\e${DARKGREEN}$(virtual_env_ps1)'
-PS1+='\e${DARKGREENPINK}'
-
-# User
-PS1+='\e${PINK} \u '
-PS1+='\e${PINKLIGHTBLUE}'
-
-# Host
-PS1+='\e${LIGHTBLUE} \h '
-PS1+='\e${LIGHTBLUEBLACK} \e${DEFAULT}'
+# End
+PS1+='\e${DEFAULT}  '
 
 export PS1
 
