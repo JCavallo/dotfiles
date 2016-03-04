@@ -11,7 +11,7 @@ tnoremap <C-v> <C-\><C-n>pa
 nnoremap [Window]t :call OpenTerminal()<CR>
 nnoremap [Window]r :<C-u>vsplit \| terminal<CR>
 
-function! OpenTerminal()
+function! OpenTerminal()  " {{{
     let term_buffer = bufnr("__DefaultTerm__")
     if term_buffer != -1 && bufwinnr(term_buffer) != -1
         execute ":" . bufwinnr(term_buffer) . "wincmd w"
@@ -25,12 +25,33 @@ function! OpenTerminal()
         execute ":terminal"
         execute ":file __DefaultTerm__"
     endif
-endfunction
+endfunction  " }}}
+
+" Open psql in split
+nnoremap [Window]q :call OpenPsql()<CR>
+
+function! OpenPsql()  " {{{
+    let term_buffer = bufnr("__PsqlTerm__")
+    if term_buffer != -1 && bufwinnr(term_buffer) != -1
+        execute ":" . bufwinnr(term_buffer) . "wincmd w"
+        normal A
+    elseif term_buffer != -1
+        execute ":vsplit"
+        execute ":buffer " . term_buffer
+        normal A
+    else
+        execute "let parameters = unite#util#input('" .
+            \ "psql ')"
+        execute ":vsplit"
+        execute ":terminal psql " . parameters
+        execute ":file __PsqlTerm__"
+    endif
+endfunction  " }}}
 
 " Open Python in split
 nnoremap [Window]p :call OpenPython()<CR>
 
-function! OpenPython()
+function! OpenPython()  " {{{
     let python_buffer = bufnr("__PythonTerm__")
     if python_buffer != -1 && bufwinnr(python_buffer) != -1
         execute ":" . bufwinnr(python_buffer) . "wincmd w"
@@ -48,10 +69,10 @@ function! OpenPython()
         endif
         execute ":file __PythonTerm__"
     endif
-endfunction
+endfunction  " }}}
 
 " Run select lines in python term
-vnoremap <A-p> RunSelectedPython()
+vnoremap <A-p> :<C-U>call RunSelectedPython()<CR><Esc>
 
 function! RunSelectedPython()  " {{{
     let reg_save = @*
@@ -71,7 +92,6 @@ function! RunSelectedPython()  " {{{
                     \ len(line) - len(substitute(line, '^\s*', '', ''))])
         endif
     endfor
-
     let final_lines = []
     for line in lines
         if line !=  ""
