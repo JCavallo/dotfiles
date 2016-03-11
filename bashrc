@@ -181,7 +181,7 @@ if [ -z "$FBTERM"]; then
 else
     export TERM=fbterm
 fi
-export PATH=$PATH:/home/giovanni/bin
+export PATH=$PATH:/home/giovanni/bin:/home/giovanni/.local/bin
 
 # Local customized path and environment settings, etc.
 if [ -f ~/.bash_local ]; then
