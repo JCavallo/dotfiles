@@ -1,0 +1,69 @@
+#!/usr/bin/env python
+from __future__ import print_function
+
+import sys
+import subprocess
+
+USAGE = '''
+    Usage : wie
+
+    Complete work on current branch. Does not (obviously) work on master.
+
+'''
+
+
+def run_cmd(cmd, handle_error=True):
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    res, errs = p.communicate()
+    if not handle_error:
+        return res, errs
+    if errs:
+        print(errs, file=sys.stderr)
+        sys.exit()
+    return res, errs
+
+# Get branch list
+branches, errs = run_cmd(['git', 'branch'], False)
+
+if errs:
+    print(errs, file=sys.stderr)
+    print(USAGE)
+    sys.exit()
+
+cur_branch = [x.lstrip('* ')
+    for x in branches.split('\n') if x.startswith('* ')][0]
+
+if len(sys.argv) != 1 or cur_branch == 'master':
+    print(USAGE)
+    sys.exit()
+
+run_cmd(['git', 'checkout', 'master'])
+
+print('Merging...')
+run_cmd(['git', 'merge', '--squash', cur_branch])
+
+print('Removing branch')
+run_cmd(['git', 'branch', '-D', cur_branch])
+
+# Get stellar list
+db_list, errs = run_cmd(['stellar', 'list'])
+
+if not db_list or errs:
+    if errs:
+        print(errs, file=sys.stderr)
+    else:
+        print('Stellar uninitialized, nothing can be done')
+    sys.exit()
+
+db_list = [x.split(':')[0] for x in db_list.split('\n') if x]
+
+if 'clean' not in db_list:
+    print("'clean' snapshot not found, stopping here")
+    sys.exit()
+
+if cur_branch in db_list:
+    print('Deleting db ' + cur_branch)
+    run_cmd(['stellar', 'remove', cur_branch])
+
+print('Cleaning db for new issue')
+run_cmd(['stellar', 'restore', 'clean'])

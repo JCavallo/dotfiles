@@ -5,7 +5,7 @@ import sys
 import subprocess
 
 USAGE = '''
-    Usage : wkon <issue_number>
+    Usage : wis <issue_number>
 
     Best behaviour with stellar installed, with a small database, and an
     existing snapshot named 'clean' for reference.
