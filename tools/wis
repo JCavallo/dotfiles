@@ -46,7 +46,14 @@ checkout_command = ['git', 'checkout']
 if branch:
     branch = branch[0]
 else:
-    branch = issue + '/unnamed_issue'
+    # Jump back to master
+    _, errs = run_cmd(['git', 'checkout', 'master'], False)
+
+    if errs and not ('Already on ' in errs or 'Switched to ' in errs):
+        print(errs, file=sys.stderr)
+        sys.exit()
+    if '/' not in issue:
+        branch = issue + '/unnamed_issue'
     checkout_command.append('-b')
 checkout_command.append(branch)
 
@@ -55,6 +62,13 @@ _, errs = run_cmd(checkout_command, False)
 if errs and not ('Already on ' in errs or 'Switched to ' in errs):
     print(errs, file=sys.stderr)
     sys.exit()
+
+if '/' in issue:
+    issue = issue.split('/')[0]
+
+cur_issue = None
+if cur_branch and '/' in cur_branch:
+    cur_issue = cur_branch.split('/')[0]
 
 # Get stellar list
 db_list, errs = run_cmd(['stellar', 'list'])
@@ -73,17 +87,17 @@ if 'clean' not in db_list:
     sys.exit()
 
 if cur_branch and cur_branch != 'master':
-    print('Saving current db ' + cur_branch)
+    print('Saving current db ' + cur_issue)
     for db in db_list:
         if cur_branch.startswith(db):
             run_cmd(['stellar', 'replace', db])
             break
     else:
-        run_cmd(['stellar', 'snapshot', cur_branch])
+        run_cmd(['stellar', 'snapshot', cur_issue])
 
-if branch in db_list:
-    print('Restoring db ' + branch)
-    run_cmd(['stellar', 'restore', branch])
+if issue in db_list:
+    print('Restoring db ' + issue)
+    run_cmd(['stellar', 'restore', issue])
 else:
     print('Cleaning db for new issue')
     run_cmd(['stellar', 'restore', 'clean'])
