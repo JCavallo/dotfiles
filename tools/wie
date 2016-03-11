@@ -5,9 +5,10 @@ import sys
 import subprocess
 
 USAGE = '''
-    Usage : wie
+    Usage : wie [issue_number]
 
-    Complete work on current branch. Does not (obviously) work on master.
+    Complete work on current branch, or branch matching issue number if set.
+    Does not (obviously) work on master.
 
 '''
 
@@ -32,18 +33,29 @@ if errs:
 
 cur_branch = [x.lstrip('* ')
     for x in branches.split('\n') if x.startswith('* ')][0]
+branches = [x.lstrip('* ') for x in branches.split('\n') if x]
 
-if len(sys.argv) != 1 or cur_branch == 'master':
+if (len(sys.argv) != 1 and cur_branch != 'master') or (
+        len(sys.argv) != 2 and cur_branch == 'master'):
     print(USAGE)
     sys.exit()
 
-run_cmd(['git', 'checkout', 'master'])
+if cur_branch == 'master':
+    cur_branch = [x for x in branches if x.startswith(sys.argv[1])][0]
+else:
+    _, errs = run_cmd(['git', 'checkout', 'master'], False)
+
+    if errs and not ('Already on ' in errs or 'Switched to ' in errs):
+        print(errs, file=sys.stderr)
+        sys.exit()
 
 print('Merging...')
-run_cmd(['git', 'merge', '--squash', cur_branch])
+run_cmd(['git', 'merge', '--squash', cur_branch], False)
+
+run_cmd(['git', 'mergetool'], False)
 
 print('Removing branch')
-run_cmd(['git', 'branch', '-D', cur_branch])
+run_cmd(['git', 'branch', '-D', cur_branch], False)
 
 # Get stellar list
 db_list, errs = run_cmd(['stellar', 'list'])
