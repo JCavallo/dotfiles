@@ -18,10 +18,14 @@ function! OpenTerminal()  " {{{
         normal A
     elseif term_buffer != -1
         execute ":vsplit"
+        execute ":vertical resize 130"
+        execute ":set winfixwidth"
         execute ":buffer " . term_buffer
         normal A
     else
         execute ":vsplit"
+        execute ":vertical resize 130"
+        execute ":set winfixwidth"
         execute ":terminal"
         execute ":file __DefaultTerm__"
     endif
@@ -37,12 +41,16 @@ function! OpenPsql()  " {{{
         normal A
     elseif term_buffer != -1
         execute ":vsplit"
+        execute ":vertical resize 130"
+        execute ":set winfixwidth"
         execute ":buffer " . term_buffer
         normal A
     else
         execute "let parameters = unite#util#input('" .
             \ "psql ')"
         execute ":vsplit"
+        execute ":vertical resize 130"
+        execute ":set winfixwidth"
         execute ":terminal psql " . parameters
         execute ":file __PsqlTerm__"
     endif
@@ -58,10 +66,14 @@ function! OpenPython()  " {{{
         normal A
     elseif python_buffer != -1
         execute ":vsplit"
+        execute ":vertical resize 130"
+        execute ":set winfixwidth"
         execute ":buffer " . python_buffer
         normal A
     else
         execute ":vsplit"
+        execute ":vertical resize 130"
+        execute ":set winfixwidth"
         if executable("ptpython")
             execute ":terminal ptpython --vi"
         else
