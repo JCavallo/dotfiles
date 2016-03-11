@@ -70,6 +70,12 @@ cur_issue = None
 if cur_branch and '/' in cur_branch:
     cur_issue = cur_branch.split('/')[0]
 
+# Check for stellar
+stellar_path, _ = run_cmd(['which', 'stellar'])
+if not stellar_path:
+    print('Stellar not found, no db for you, you should use it')
+    sys.exit()
+
 # Get stellar list
 db_list, errs = run_cmd(['stellar', 'list'])
 

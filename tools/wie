@@ -57,6 +57,12 @@ run_cmd(['git', 'mergetool'], False)
 print('Removing branch')
 run_cmd(['git', 'branch', '-D', cur_branch], False)
 
+# Check for stellar
+stellar_path, _ = run_cmd(['which', 'stellar'])
+if not stellar_path:
+    print('Stellar not found, no db for you, you should use it')
+    sys.exit()
+
 # Get stellar list
 db_list, errs = run_cmd(['stellar', 'list'])
 
