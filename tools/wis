@@ -1,0 +1,89 @@
+#!/usr/bin/env python
+from __future__ import print_function
+
+import sys
+import subprocess
+
+USAGE = '''
+    Usage : wkon <issue_number>
+
+    Best behaviour with stellar installed, with a small database, and an
+    existing snapshot named 'clean' for reference.
+
+'''
+
+
+def run_cmd(cmd, handle_error=True):
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    res, errs = p.communicate()
+    if not handle_error:
+        return res, errs
+    if errs:
+        print(errs, file=sys.stderr)
+        sys.exit()
+    return res, errs
+
+# Get branch list
+branches, errs = run_cmd(['git', 'branch'], False)
+
+if errs:
+    print(errs, file=sys.stderr)
+    print(USAGE)
+    sys.exit()
+
+cur_branch = [x.lstrip('* ')
+    for x in branches.split('\n') if x.startswith('* ')][0]
+branches = [x.lstrip('* ') for x in branches.split('\n') if x]
+
+if len(sys.argv) != 2:
+    print(USAGE)
+    sys.exit()
+
+issue = sys.argv[1]
+branch = [x for x in branches if x.startswith(issue)]
+
+checkout_command = ['git', 'checkout']
+if branch:
+    branch = branch[0]
+else:
+    branch = issue + '/unnamed_issue'
+    checkout_command.append('-b')
+checkout_command.append(branch)
+
+_, errs = run_cmd(checkout_command, False)
+
+if errs and not ('Already on ' in errs or 'Switched to ' in errs):
+    print(errs, file=sys.stderr)
+    sys.exit()
+
+# Get stellar list
+db_list, errs = run_cmd(['stellar', 'list'])
+
+if not db_list or errs:
+    if errs:
+        print(errs, file=sys.stderr)
+    else:
+        print('Stellar uninitialized, nothing can be done')
+    sys.exit()
+
+db_list = [x.split(':')[0] for x in db_list.split('\n') if x]
+
+if 'clean' not in db_list:
+    print("'clean' snapshot not found, stopping here")
+    sys.exit()
+
+if cur_branch and cur_branch != 'master':
+    print('Saving current db ' + cur_branch)
+    for db in db_list:
+        if cur_branch.startswith(db):
+            run_cmd(['stellar', 'replace', db])
+            break
+    else:
+        run_cmd(['stellar', 'snapshot', cur_branch])
+
+if branch in db_list:
+    print('Restoring db ' + branch)
+    run_cmd(['stellar', 'restore', branch])
+else:
+    print('Cleaning db for new issue')
+    run_cmd(['stellar', 'restore', 'clean'])
