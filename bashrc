@@ -6,6 +6,8 @@ export HISTSIZE=10000
 PROMPT_COMMAND='history -a; history -n'
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
+export LANG=en_US.UTF-8
+
 if [ "$TERM" != "dumb" ]; then
     [ -e "$HOME/.dir_colors" ] &&
     DIR_COLORS="$HOME/.dir_colors" [ -e "$DIR_COLORS" ] ||
