@@ -5,10 +5,9 @@ import sys
 import subprocess
 
 USAGE = '''
-    Usage : wis <issue_number>
+    Usage : wim
 
-    Best behaviour with stellar installed, with a small database, and an
-    existing snapshot named 'clean' for reference.
+    Suspend work on current branch, and jump back to master with a clean db.
 
 '''
 
@@ -35,42 +34,19 @@ cur_branch = [x.lstrip('* ')
     for x in branches.split('\n') if x.startswith('* ')][0]
 branches = [x.lstrip('* ') for x in branches.split('\n') if x]
 
-if len(sys.argv) != 2:
+if (len(sys.argv) != 1 and cur_branch != 'master') or (
+        len(sys.argv) != 2 and cur_branch == 'master'):
     print(USAGE)
     sys.exit()
 
-issue = sys.argv[1]
-branch = [x for x in branches if x.startswith(issue)]
-
-checkout_command = ['git', 'checkout']
-if branch:
-    branch = branch[0]
+if cur_branch == 'master':
+    cur_branch = [x for x in branches if x.startswith(sys.argv[1])][0]
 else:
-    # Jump back to master
     _, errs = run_cmd(['git', 'checkout', 'master'], False)
 
     if errs and not ('Already on ' in errs or 'Switched to ' in errs):
         print(errs, file=sys.stderr)
         sys.exit()
-    if '/' not in issue:
-        branch = issue + '/unnamed_issue'
-    else:
-        branch = issue
-    checkout_command.append('-b')
-checkout_command.append(branch)
-
-_, errs = run_cmd(checkout_command, False)
-
-if errs and not ('Already on ' in errs or 'Switched to ' in errs):
-    print(errs, file=sys.stderr)
-    sys.exit()
-
-if '/' in issue:
-    issue = issue.split('/')[0]
-
-cur_issue = None
-if cur_branch and '/' in cur_branch:
-    cur_issue = cur_branch.split('/')[0]
 
 # Check for stellar
 stellar_path, _ = run_cmd(['which', 'stellar'])
@@ -94,6 +70,10 @@ if 'clean' not in db_list:
     print("'clean' snapshot not found, stopping here")
     sys.exit()
 
+cur_issue = None
+if cur_branch and '/' in cur_branch:
+    cur_issue = cur_branch.split('/')[0]
+
 if cur_branch and cur_branch != 'master' and cur_issue:
     print('Saving current db ' + cur_issue)
     for db in db_list:
@@ -103,9 +83,5 @@ if cur_branch and cur_branch != 'master' and cur_issue:
     else:
         run_cmd(['stellar', 'snapshot', cur_issue])
 
-if issue in db_list:
-    print('Restoring db ' + issue)
-    run_cmd(['stellar', 'restore', issue])
-else:
-    print('Cleaning db for new issue')
-    run_cmd(['stellar', 'restore', 'clean'])
+print('Restoring clean db')
+run_cmd(['stellar', 'restore', 'clean'])
