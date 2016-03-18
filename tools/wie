@@ -79,9 +79,13 @@ if 'clean' not in db_list:
     print("'clean' snapshot not found, stopping here")
     sys.exit()
 
-if cur_branch in db_list:
-    print('Deleting db ' + cur_branch)
-    run_cmd(['stellar', 'remove', cur_branch])
+if '/' in cur_branch:
+    cur_issue = cur_branch.split('/')[0]
+else:
+    cur_issue = cur_branch
+if cur_issue in db_list:
+    print('Deleting db ' + cur_issue)
+    run_cmd(['stellar', 'remove', cur_issue])
 
 print('Cleaning db for new issue')
 run_cmd(['stellar', 'restore', 'clean'])
