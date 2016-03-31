@@ -4,12 +4,16 @@ tnoremap <A-a> <C-\><C-n>?\w<CR>$:noh<CR>:wincmd p<CR>
 " Hide terminal
 tnoremap <A-z> <C-\><C-n>?\w<CR>$:noh<CR>:quit<CR>
 
+" Kill terminal
+tnoremap <A-s> <C-\><C-n>:bdelete!<CR>
+
 " Use C-v to paste
 tnoremap <C-v> <C-\><C-n>pa
 
 " New terminal in split
 nnoremap [Window]t :call OpenTerminal()<CR>
 nnoremap [Window]r :<C-u>vsplit \| terminal<CR>
+nnoremap St :call DeleteNamedBuffer("__DefaultTerm__")<CR>
 
 function! OpenTerminal()  " {{{
     let term_buffer = bufnr("__DefaultTerm__")
@@ -33,6 +37,7 @@ endfunction  " }}}
 
 " Open psql in split
 nnoremap [Window]q :call OpenPsql()<CR>
+nnoremap Sq :call DeleteNamedBuffer("__PsqlTerm__")<CR>
 
 function! OpenPsql()  " {{{
     let term_buffer = bufnr("__PsqlTerm__")
@@ -58,6 +63,7 @@ endfunction  " }}}
 
 " Open Python in split
 nnoremap [Window]p :call OpenPython()<CR>
+nnoremap Sp :call DeleteNamedBuffer("__PythonTerm__")<CR>
 
 function! OpenPython()  " {{{
     let python_buffer = bufnr("__PythonTerm__")
@@ -128,4 +134,13 @@ function! RunSelectedPython()  " {{{
     " <F6><C-\><C-n>
     wincmd p
     let @* = reg_save
+endfunction  " }}}
+
+" Delete Buffer
+function! DeleteNamedBuffer(buf_name)  " {{{
+    let nbr = bufnr(a:buf_name )
+    if nbr == -1
+    else
+        execute ":silent bdelete! " . nbr
+    endif
 endfunction  " }}}
