@@ -5,10 +5,12 @@ import sys
 import subprocess
 
 USAGE = '''
-    Usage : wis <issue_number>
+    Usage : wis [-k] <issue_number>
 
     Best behaviour with stellar installed, with a small database, and an
     existing snapshot named 'clean' for reference.
+
+    -k : keep database to use for new issue
 
 '''
 
@@ -34,6 +36,12 @@ if errs:
 cur_branch = [x.lstrip('* ')
     for x in branches.split('\n') if x.startswith('* ')][0]
 branches = [x.lstrip('* ') for x in branches.split('\n') if x]
+
+keep_db = True
+try:
+    sys.argv.remove('-k')
+except ValueError:
+    keep_db = False
 
 if len(sys.argv) != 2:
     print(USAGE)
@@ -106,6 +114,8 @@ if cur_branch and cur_branch != 'master' and cur_issue:
 if issue in db_list:
     print('Restoring db ' + issue)
     run_cmd(['stellar', 'restore', issue])
-else:
+elif not keep_db:
     print('Cleaning db for new issue')
     run_cmd(['stellar', 'restore', 'clean'])
+else:
+    print('Keep current db')
