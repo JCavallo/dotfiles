@@ -91,7 +91,7 @@ if neobundle#tap('unite.vim') "{{{
     nnoremap <silent> [unite]s :<C-u>Unite -buffer-name=sessions session<CR>
     " Quick tags
     nnoremap <silent> [unite]t :<C-u>UniteWithCursorWord
-        \ -buffer-name=tag tag/include<CR>
+        \ -buffer-name=tag tag<CR>
     " Quick window switch
     nnoremap <silent> [unite]w :<C-u>Unite window<CR>
     " Quick yank history
