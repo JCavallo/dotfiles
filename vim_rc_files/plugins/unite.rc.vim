@@ -9,10 +9,10 @@ let g:unite_source_file_mru_limit = 1000
 let g:unite_source_rec_max_cache_files = 10000
 let g:unite_matcher_fuzzy_max_input_length = 50
 let g:unite_ignore_source_files = ['function.vim', 'command.vim']
-let g:unite_enable_start_insert = 1
 let default_context = {
     \ 'cursor_line_highlight': 'TabLineSel',
-    \ 'enable_short_source_names': 1,
+    \ 'enable_short_source_names': 0,
+    \ 'start_insert': 1,
     \ 'marked_icon': '✗',
     \ 'prompt': '» ',
     \ 'vertical': 0,
