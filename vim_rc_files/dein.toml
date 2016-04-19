@@ -1,0 +1,183 @@
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
+[[plugins]]
+repo = 'Shougo/vimproc.vim'
+build = 'make'
+
+# Syntax Checker
+[[plugins]]
+repo = 'scrooloose/syntastic'
+on_path = '.*'
+hook_add = '''
+    let g:syntastic_enable_balloons = 0
+    let g:syntastic_check_on_open = 1
+    let g:syntastic_enable_signs = 1
+    let g:syntastic_auto_jump = 0
+    let g:syntastic_enable_highlighting = 1
+    let g:syntastic_always_populate_loc_list = 1
+    let g:syntastic_auto_loc_list = 0
+    let g:syntastic_error_symbol='✗'
+    let g:syntastic_style_error_symbol='▶'
+    let g:syntastic_warning_symbol='✗'
+    let g:syntastic_style_warning_symbol='▶'
+    let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
+    let g:syntastic_mode_map = { 'mode': 'active',
+        \ 'active_filetypes': ['python'],
+        \ 'passive_filetypes': [] }
+    let g:syntastic_python_flake8_post_args='--ignore=E123,E124,E126,E127,E128,E711,W404,F403,W503'
+    let g:syntastic_python_pylint_post_args='--disable=E1101,W0613,C0111'
+    let g:syntastic_python_checkers=['flake8']
+    let g:syntastic_javascript_checkers=['jshint']
+'''
+
+# Better Indent Lines
+[[plugins]]
+repo = 'Yggdroot/indentLine'
+on_path = '.*'
+hook_add = '''
+    let g:indentLine_char = "│"
+    let g:indentLine_fileTypeExclude = ['xml', 'help']
+'''
+
+[[plugins]]
+repo = 'thinca/vim-unite-history'
+on_source = 'unite.vim'
+
+# Snippets
+[[plugins]]
+repo = 'SirVer/ultisnips'
+on_source = 'unite.vim'
+hook_add = '''
+    let g:UltiSnipsExpandTrigger="<tab>"
+    let g:UltiSnipsJumpForwardTrigger="<tab>"
+    let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+'''
+
+# Hg browser
+[[plugins]]
+repo = 'JCavallo/vim-hg-unite'
+on_source = 'unite.vim'
+
+# Git browser
+[[plugins]]
+repo = 'kmnk/vim-unite-giti'
+on_source = 'unite.vim'
+
+# Better parentheses
+[[plugins]]
+repo = 'kien/rainbow_parentheses.vim'
+
+# THE colorscheme
+[[plugins]]
+repo = 'JCavallo/flashy-vim'
+
+# Status Line
+[[plugins]]
+repo = 'bling/vim-airline'
+depends = 'unite.vim'
+hook_add = '''
+    let g:airline_powerline_fonts = 1
+    let g:airline#extensions#tabline#enabled = 1
+    let g:airline#extensions#tabline#fnamemod = ':t'
+    let g:airline_mode_map = {'n': 'NOR', 'i': 'INS', 'R': 'REP'}
+
+    if has('nvim')
+        " Manager teminal mode
+        let g:airline_mode_map.t = 'TER'
+    endif
+'''
+
+# Better undo
+[[plugins]]
+repo = 'sjl/gundo.vim'
+
+# Surround motion
+[[plugins]]
+repo = 'tpope/vim-surround'
+
+# Repeat everything
+[[plugins]]
+repo = 'tpope/vim-repeat'
+
+# Block Select
+[[plugins]]
+repo = 'terryma/vim-expand-region'
+hook_add = '''
+    xmap v <Plug>(expand_region_expand)
+    xmap <C-v> <Plug>(expand_region_shrink)
+'''
+
+# Better Comments
+[[plugins]]
+repo = 'scrooloose/nerdcommenter'
+hook_add = '''
+    let g:NERDSpaceDelims=1
+'''
+
+[[plugins]]
+repo = 'hail2u/vim-css3-syntax'
+
+[[plugins]]
+repo = 'Shougo/unite-sudo'
+
+[[plugins]]
+repo = 'mxw/vim-jsx'
+on_ft = 'javascript'
+
+[[plugins]]
+repo = 'jiangmiao/simple-javascript-indenter'
+on_ft = 'javascript'
+
+[[plugins]]
+repo = 'thinca/vim-ft-diff_fold'
+on_ft = 'diff'
+
+[[plugins]]
+repo = 'thinca/vim-ft-vim_fold'
+on_ft = 'vim'
+
+[[plugins]]
+repo = 'thinca/vim-ft-help_fold'
+on_ft = 'help'
+
+[[plugins]]
+repo = 'cespare/vim-toml'
+on_ft = 'toml'
+
+[[plugins]]
+repo = 'elzr/vim-json'
+on_ft = 'json'
+
+[[plugins]]
+repo = 'kana/vim-textobj-user'
+
+# Operators
+[[plugins]]
+repo = 'kana/vim-operator-user'
+
+[[plugins]]
+repo = 'hynek/vim-python-pep8-indent'
+on_ft = 'python'
+
+[[plugins]]
+repo = 'rcmdnk/vim-markdown'
+on_ft = ['markdown', 'mkd']
+
+[[plugins]]
+repo = 'Shougo/unite-build'
+
+[[plugins]]
+repo = 'Shougo/unite-help'
+on_source = 'unite.vim'
+
+[[plugins]]
+repo = 'jelera/vim-javascript-syntax'
+on_ft = 'javascript'
+
+[[plugins]]
+repo = 'machakann/vim-vimhelplint'
+hook_add = '''
+    autocmd MyAutoCmd FileType
+    \ help nnoremap <silent><buffer> ,r  :<C-u>VimhelpLint!<CR>
+'''

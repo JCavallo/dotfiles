@@ -20,21 +20,47 @@ if !has('nvim')
     let $MYVIMRC = expand('%:h')
 endif
 
-function! s:source_rc(path)
-    execute 'source' fnameescape(expand($VIM_FOLDER . '/rc/' . a:path))
-endfunction
+function! s:source_rc(path, ...) abort "{{{
+    let use_global = get(a:000, 0, !has('vim_starting'))
+    let abspath = resolve(expand($VIM_FOLDER . '/rc/' . a:path))
+    if !use_global
+        execute 'source' fnameescape(abspath)
+        return
+    endif
+
+    " substitute all 'set' to 'setglobal'
+    let content = map(readfile(abspath),
+            \ 'substitute(v:val, "^\\W*\\zsset\\ze\\W", "setglobal", "")')
+    " create tempfile and source the tempfile
+    let tempfile = tempname()
+    try
+        call writefile(content, tempfile)
+        execute printf('source %s', fnameescape(tempfile))
+    finally
+        if filereadable(tempfile)
+        call delete(tempfile)
+        endif
+    endtry
+endfunction "}}}
 
 let s:is_sudo = $SUDO_USER != '' && $USER !=# $SUDO_USER
     \ && $HOME !=# expand('~'.$USER)
     \ && $HOME ==# expand('~'.$SUDO_USER)
 
+" Set augroup.
+augroup MyAutoCmd
+    autocmd!
+augroup END
+
 "===============================================================================
 " Call init.rc
-" This will preload neobundle, create necessary directories if needed, clean up
+" This will preload dein, create necessary directories if needed, clean up
 " mapping
 "===============================================================================
 
-call s:source_rc('init.rc.vim')
+if has('vim_starting')
+    call s:source_rc('init.rc.vim')
+endif
 
 "===============================================================================
 " Install and initialize Neobundle
@@ -43,39 +69,16 @@ call s:source_rc('init.rc.vim')
 " will load all plugins
 "===============================================================================
 
-call neobundle#begin(expand('$CACHE/neobundle'))
-
-if neobundle#load_cache()
-  NeoBundleFetch 'Shougo/neobundle.vim'
-
-  call neobundle#load_toml(expand($VIM_FOLDER . '/rc/neobundle.toml'))
-
-  NeoBundleSaveCache
-  NeoBundleCheck
-endif
-
-call s:source_rc('plugins.rc.vim')
-
-call neobundle#end()
-
-" Load indent files to automatically do language-dependent indenting
-filetype indent on
-
-" Load ftplugin
-filetype plugin on
-
-syntax enable
-
-"===============================================================================
-" Finalize plugin installation
-" Configure installed plugins. Part of the configuration may be in rc/plugins/*
-" config files which will be loaded on demand
-"===============================================================================
+call s:source_rc('dein.rc.vim')
 
 if !has('vim_starting')
-    " Installation check.
-    NeoBundleCheck
+    call dein#call_hook('source')
+    call dein#call_hook('post_source')
+
 endif
+
+syntax enable
+filetype plugin indent on
 
 "===============================================================================
 " Global settings
@@ -172,14 +175,9 @@ endif
 " Default home directory.
 let t:cwd = getcwd()
 
-" Force unite load
-NeoBundleSource unite.vim
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
-
-NeoBundleSource flashy_vim
-NeoBundleSource nyaovim-markdown-preview
 
 set secure
 colorscheme flashy_vim

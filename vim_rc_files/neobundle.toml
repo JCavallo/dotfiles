@@ -66,11 +66,6 @@ depends = 'Shougo/neomru.vim'
   name = 'Unite'
   complete = 'customlist,unite#complete_source'
 
-# Resume sessions
-[[plugins]]
-repository = 'Shougo/unite-session'
-filetypes = 'all'
-
 # Outline of current file
 [[plugins]]
 repository = 'Shougo/unite-outline'

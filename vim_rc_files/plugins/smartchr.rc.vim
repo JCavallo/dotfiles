@@ -18,22 +18,4 @@ augroup MyAutoCmd
   autocmd FileType python inoremap <buffer> <expr> , smartchr#one_of(',', ', ')
   autocmd FileType python inoremap <buffer> <expr> + smartchr#one_of(' + ', ' += ', '+')
   autocmd FileType xml inoremap <buffer> <expr> = smartchr#one_of('=', ' = ', ' == ')
-
-  autocmd FileType haskell,int-ghci
-        \ inoremap <buffer> <expr> + smartchr#loop('+', ' ++ ')
-        \| inoremap <buffer> <expr> - smartchr#loop('-', ' -> ', ' <- ')
-        \| inoremap <buffer> <expr> $ smartchr#loop(' $ ', '$')
-        \| inoremap <buffer> <expr> \ smartchr#loop('\ ', '\')
-        \| inoremap <buffer> <expr> : smartchr#loop(':', ' :: ', ' : ')
-        \| inoremap <buffer> <expr> . smartchr#loop('.', ' . ', '..')
-
-  autocmd FileType scala
-        \ inoremap <buffer> <expr> - smartchr#loop('-', ' -> ', ' <- ')
-        \| inoremap <buffer> <expr> = smartchr#loop(' = ', '=', ' => ')
-        \| inoremap <buffer> <expr> : smartchr#loop(': ', ':', ' :: ')
-        \| inoremap <buffer> <expr> . smartchr#loop('.', ' => ')
-
-  autocmd FileType eruby
-        \ inoremap <buffer> <expr> > smartchr#loop('>', '%>')
-        \| inoremap <buffer> <expr> < smartchr#loop('<', '<%', '<%=')
 augroup END
