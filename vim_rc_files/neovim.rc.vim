@@ -11,9 +11,10 @@ tnoremap <A-s> <C-\><C-n>:bdelete!<CR>
 tnoremap <C-v> <C-\><C-n>pa
 
 " New terminal in split
-nnoremap [Window]t :call OpenTerminal()<CR>
-nnoremap [Window]r :<C-u>vsplit \| terminal<CR>
-nnoremap St :call DeleteNamedBuffer("__DefaultTerm__")<CR>
+nnoremap St :call OpenTerminal()<CR>
+nnoremap Sr :<C-u>vsplit \| terminal<CR>
+nnoremap Sdt :call DeleteNamedBuffer("__DefaultTerm__")<CR>
+nnoremap Sht :call HideNamedBuffer("__DefaultTerm__")<CR>
 
 function! OpenTerminal()  " {{{
     let term_buffer = bufnr("__DefaultTerm__")
@@ -36,8 +37,9 @@ function! OpenTerminal()  " {{{
 endfunction  " }}}
 
 " Open psql in split
-nnoremap [Window]q :call OpenPsql()<CR>
-nnoremap Sq :call DeleteNamedBuffer("__PsqlTerm__")<CR>
+nnoremap Sq :call OpenPsql()<CR>
+nnoremap Shq :call DeleteNamedBuffer("__PsqlTerm__")<CR>
+nnoremap Shq :call HideNamedBuffer("__PsqlTerm__")<CR>
 
 function! OpenPsql()  " {{{
     let term_buffer = bufnr("__PsqlTerm__")
@@ -62,8 +64,9 @@ function! OpenPsql()  " {{{
 endfunction  " }}}
 
 " Open Python in split
-nnoremap [Window]p :call OpenPython()<CR>
-nnoremap Sp :call DeleteNamedBuffer("__PythonTerm__")<CR>
+nnoremap Sp :call OpenPython()<CR>
+nnoremap Sdp :call DeleteNamedBuffer("__PythonTerm__")<CR>
+nnoremap Shp :call HideNamedBuffer("__PythonTerm__")<CR>
 
 function! OpenPython()  " {{{
     let python_buffer = bufnr("__PythonTerm__")
@@ -144,3 +147,14 @@ function! DeleteNamedBuffer(buf_name)  " {{{
         execute ":silent bdelete! " . nbr
     endif
 endfunction  " }}}
+
+" Hide Buffer
+function! HideNamedBuffer(buf_name)  " {{{
+    let nbr = bufnr(a:buf_name )
+    if nbr == -1
+    else
+        if nbr != -1 && bufwinnr(nbr) != -1
+            execute ":silent quit " . nbr
+        endif
+    endif
+endfunction " }}}
