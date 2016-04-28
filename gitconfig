@@ -1,6 +1,6 @@
 [user]
 	name = Jean Cavallo
-	email = jean.cavallo@coopengo.com
+	email = jean.cavallo@hotmail.fr
 [core]
 	excludesfile = /home/giovanni/.gitignore
 	editor = nvim
@@ -14,3 +14,30 @@
 	l = log --color --graph --full-history --all --pretty=format:'%Cred%h%Creset -%C(cyan)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset%n' --abbrev-commit --date iso
 	ll = log --color --graph --full-history --pretty=format:'%Cred%h%Creset -%C(cyan)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset%n' --abbrev-commit --date iso
 	st = status -sb
+	unstage = reset -q HEAD --
+	discard = checkout --
+	nevermind = !git reset --hard HEAD && git clean -d -f
+	uncommit = reset --mixed HEAD~
+	save = commit -m
+	resave = commit --amend
+	invert = revert
+	last = log -1 HEAD --format=format:"%Cred%H"
+	summary = status -u -s
+	branchout = checkout -b
+	branches = branch -a
+	tags = tag
+	stashes = stash list
+	prestage = diff -w --word-diff=color
+	precommit = diff --cached -w --word-diff=color --word-diff-regex='[^[:space:]<>]+'
+	move = mv
+	remove = rm
+	unmerged = branch --no-merged
+	unstash = stash pop
+	what = show -w
+	untrack = rm -r --cached
+	rewrite = rebase -i
+	amend = commit --amend
+	back = checkout "-"
+	contributors = shortlog -s -n
+	filetrail = git log --follow -p -w
+	mergetrail = log --ancestry-path --merges
