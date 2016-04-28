@@ -6,7 +6,7 @@ let g:dein#enable_notification = 1
 let g:dein#notification_icon = expand($VIM_FOLDER . '/rc/signs/warn.png')
 
 let s:path = expand($CACHE . '/dein')
-if !dein#load_state(s:path)
+if 0 && !dein#load_state(s:path)
     finish
 endif
 

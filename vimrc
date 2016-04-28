@@ -75,10 +75,9 @@ if !has('vim_starting')
     call dein#call_hook('source')
     call dein#call_hook('post_source')
 
+    syntax enable
+    filetype plugin indent on
 endif
-
-syntax enable
-filetype plugin indent on
 
 "===============================================================================
 " Global settings
@@ -134,7 +133,25 @@ call s:source_rc('view.rc.vim')
 " This will set filetype specific options
 "===============================================================================
 
-call s:source_rc('filetype.rc.vim')
+" call s:source_rc('filetype.rc.vim')
+autocmd MyAutoCmd FileType,Syntax,BufNewFile,BufNew,BufRead
+    \ * call s:my_on_filetype()
+
+function! s:my_on_filetype() abort "{{{
+    if &l:filetype == '' && bufname('%') == ''
+        return
+    endif
+
+    redir => filetype_out
+    silent! filetype
+    redir END
+    if filetype_out =~# 'OFF'
+        " Lazy loading
+        silent! filetype plugin indent on
+        syntax enable
+        filetype detect
+    endif
+endfunction "}}}
 
 "===============================================================================
 " Call extra_commands.rc.vim
