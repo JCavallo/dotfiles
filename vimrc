@@ -133,7 +133,7 @@ call s:source_rc('view.rc.vim')
 " This will set filetype specific options
 "===============================================================================
 
-" call s:source_rc('filetype.rc.vim')
+call s:source_rc('filetype.rc.vim')
 autocmd MyAutoCmd FileType,Syntax,BufNewFile,BufNew,BufRead
     \ * call s:my_on_filetype()
 
