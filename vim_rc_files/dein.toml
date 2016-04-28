@@ -44,16 +44,6 @@ hook_add = '''
 repo = 'thinca/vim-unite-history'
 on_source = 'unite.vim'
 
-# Snippets
-[[plugins]]
-repo = 'SirVer/ultisnips'
-on_source = 'unite.vim'
-hook_add = '''
-    let g:UltiSnipsExpandTrigger="<tab>"
-    let g:UltiSnipsJumpForwardTrigger="<tab>"
-    let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-'''
-
 # Hg browser
 [[plugins]]
 repo = 'JCavallo/vim-hg-unite'
@@ -67,6 +57,13 @@ on_source = 'unite.vim'
 # Better parentheses
 [[plugins]]
 repo = 'kien/rainbow_parentheses.vim'
+filetypes = '.*'
+hook_add = '''
+    au VimEnter * RainbowParenthesesToggle
+    au Syntax * RainbowParenthesesLoadRound
+    au Syntax * RainbowParenthesesLoadSquare
+    au Syntax * RainbowParenthesesLoadBraces
+'''
 
 # THE colorscheme
 [[plugins]]
