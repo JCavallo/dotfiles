@@ -54,6 +54,11 @@ on_source = 'unite.vim'
 repo = 'kmnk/vim-unite-giti'
 on_source = 'unite.vim'
 
+# Unite quickfix
+[[plugins]]
+repo = 'osyo-manga/unite-quickfix'
+on_source = 'unite.vim'
+
 # Better parentheses
 [[plugins]]
 repo = 'kien/rainbow_parentheses.vim'
