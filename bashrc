@@ -1,4 +1,5 @@
 export WORKON_HOME=/home/giovanni/Projets/python_envs
+source /home/giovanni/.local/bin/virtualenvwrapper.sh
 source /etc/bash_completion
 # source /home/giovanni/.bash_completion.d/python-argcomplete.sh
 shopt -s histappend
@@ -121,15 +122,24 @@ virtual_env_ps1() {
 }
 
 current_path_ps1() {
-    if [ -z $VIRTUAL_ENV ]; then
-        echo " `pwd` "
-    else
-        value=`echo ${PWD#"$VIRTUAL_ENV"}`
+    local PROJECT_PATH
+    PROJECT_PATH=`cat $VIRTUAL_ENV/.project 2> /dev/null`
+    if [ "$PROJECT_PATH" = "" ] || [ ! -d "$PROJECT_PATH" ]; then
+        if [ -z $VIRTUAL_ENV ]; then
+            PROJECT_PATH=
+        else
+            PROJECT_PATH=$VIRTUAL_ENV
+        fi
+    fi
+    if [ ! "$PROJECT_PATH" = "" ] && [ -d "$PROJECT_PATH" ]; then
+        value=`echo ${PWD#"$PROJECT_PATH"}`
         if [ "$value" != "" ]; then
             echo " $value "
         else
             echo ""
         fi
+    else
+        echo " `pwd` "
     fi
 }
 
