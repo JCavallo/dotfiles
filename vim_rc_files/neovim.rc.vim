@@ -1,4 +1,7 @@
-" Easier terminal exit
+" Exit terminal mode
+tnoremap <A-q> <C-\><C-n>?\w<CR>$:noh<CR>
+
+" Exit terminal and switch window
 tnoremap <A-a> <C-\><C-n>?\w<CR>$:noh<CR>:wincmd p<CR>
 
 " Hide terminal
