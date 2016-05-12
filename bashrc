@@ -105,12 +105,6 @@ git_ps1_3() {
             return
         fi
     fi
-    REVIEW=$(cat `git rev-parse --show-toplevel 2> /dev/null`/.git/review_id 2> /dev/null)
-    if [ "$REVIEW" != "" ]; then
-        echo " ($REVIEW) "
-    else
-        echo ""
-    fi
 }
 
 virtual_env_ps1() {
@@ -202,3 +196,5 @@ fi
 
 set -o vi
 source ~/.fzf.bash
+
+# vim:set ft=sh:
