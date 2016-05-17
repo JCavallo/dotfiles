@@ -1,0 +1,163 @@
+import os
+import subprocess
+import datetime
+
+$WORKON_HOME = '/home/giovanni/Projets/python_envs'
+$HISTSIZE = 10000
+$PROMPT_COMMAND = 'history -a; history -n'
+$VIRTUAL_ENV_DISABLE_PROMPT = 1
+$VIRTUAL_ENV = ''
+
+aliases['la'] = 'ls -Fa'
+aliases['ll'] = 'ls -Flsh'
+aliases['cdve'] = 'cd $VIRTUAL_ENV'
+aliases['ag'] = "LESS='FSRX' ag --pager less"
+# Apply latest patch in ~/tmp/
+aliases['hgpl'] = "ls -d -t ~/tmp/* | grep .*diff | head -n 1;" \
+    "ls -d -t ~/tmp/* | grep .*diff | head -n 1 | xargs cat | " \
+    "hg patch --no-commit -"
+# Clean up everything
+aliases['hgdel'] = "hg revert --all;hg purge;hg review --clean"
+aliases['gitdel'] = "git reset --hard;rm `git rev-parse --show-toplevel 2> " \
+    "/dev/null`/.git/review_id 2> /dev/null;git clean -fd"
+aliases['mrg_bas'] = "git merge-base HEAD origin/master"
+aliases['gitcm'] = "git checkout master"
+
+$EDITOR = 'nvim'
+$PATH.append('/home/giovanni/bin')
+$PATH.append('/home/giovanni/.local/bin')
+
+_ORIG_PATH = list($PATH)
+
+
+def _workon(args, stdin=None):
+    venv = args[0]
+    venv_path = os.path.join($WORKON_HOME, venv)
+    if not os.path.exists(venv_path):
+        raise OSError("No such virtualenv: %s", venv_path)
+    $PATH = [os.path.join(venv_path, 'bin')] + _ORIG_PATH
+    $VIRTUAL_ENV = venv_path
+    project_path = _get_output('cat ' + $VIRTUAL_ENV + '/.project')
+    if not project_path or not os.path.isdir(project_path):
+        project_path = $VIRTUAL_ENV
+    cd @(project_path)
+
+
+def _deactivate(args, stdin=None):
+    $VIRTUAL_ENV = ''
+    $PATH = list(_ORIG_PATH)
+
+
+aliases['workon'] = _workon
+aliases['deactivate'] = _deactivate
+
+
+def _get_output(cmd):
+    try:
+        return subprocess.check_output(cmd + ' 2> /dev/null',
+            shell=True)[:-1].decode('utf-8')
+    except:
+        return ''
+
+
+def _xonsh_colorize(text, base_col, before_col=None, final_col=False):
+    result = ''
+    if before_col:
+        result += '{' + before_col + '}{BACKGROUND_' + base_col + '}'
+    result += '{BLACK}{BACKGROUND_' + base_col + '}' + text
+    if final_col is True:
+        result += '{BACKGROUND_BLACK}{' + base_col + '}{NO_COLOR} '
+    return result
+
+
+def _xonsh_virtualenv():
+    if $VIRTUAL_ENV:
+        base_name = _get_output('basename ' + $VIRTUAL_ENV)
+        return ' ' + base_name + ' '
+
+
+def _xonsh_current_path():
+    if not $VIRTUAL_ENV:
+        the_path = $(pwd)[:-1]
+    else:
+        project_path = _get_output('cat ' + $VIRTUAL_ENV + '/.project')
+        if not project_path or not os.path.isdir(project_path):
+            project_path = $VIRTUAL_ENV
+        the_path = $(pwd)[:-1]
+        rel_path = os.path.relpath(the_path, project_path)
+        if rel_path == '.':
+            the_path = ''
+        elif rel_path and not rel_path.startswith('..'):
+            the_path = rel_path
+
+    if not the_path:
+        return ''
+
+    if len(the_path) > 30:
+        the_path = the_path.split(os.sep)
+        the_path = os.sep.join([x[0] for x in the_path[:-1] if x] +
+            [the_path[-1]])
+
+    return ' ' + the_path + ' '
+
+
+def _xonsh_current_branch():
+    git_branch = _get_output('git branch')
+    git_branch = [x[2:] for x in git_branch.split('\n')
+        if x.startswith('*')]
+    if git_branch:
+        return ' ' + git_branch[0] + ' '
+    hg_branch = _get_output('hg prompt "{branch}"')
+    if hg_branch:
+        return ' ' + hg_branch + ' '
+
+
+def _xonsh_rietveld():
+    git_branch = _get_output('git branch')
+    git_branch = [x[2:] for x in git_branch.split('\n')
+        if x.startswith('*')]
+    if git_branch:
+        rietveld = _get_output('git config --get branch.' + git_branch[0] +
+            '.rietveldissue')
+        if rietveld:
+            return ' ' + rietveld + ' '
+    hg_rietveld = _get_output('hg review --id')
+    if hg_rietveld:
+        return ' ' + hg_rietveld + ' '
+
+
+def _xonsh_status():
+    git_status = _get_output('git status -sb 2> /dev/null | tail -n +2')
+    if git_status:
+        new = any(['??' in x for x in git_status.split('\n')])
+        return ' ? ' if new else ' ! '
+    hg_status = _get_output('hg prompt "{status}"')
+    if hg_status:
+        return ' ' + hg_status + ' '
+
+
+def _xonsh_time():
+    return ' ' + datetime.datetime.now().strftime('%H:%M:%S') + ' '
+
+
+$FORMATTER_DICT['virtual_env'] = _xonsh_virtualenv
+$FORMATTER_DICT['current_path'] = _xonsh_current_path
+$FORMATTER_DICT['current_branch'] = _xonsh_current_branch
+$FORMATTER_DICT['rietveld'] = _xonsh_rietveld
+$FORMATTER_DICT['status'] = _xonsh_status
+$FORMATTER_DICT['current_time'] = _xonsh_time
+
+
+$PROMPT = '\n\n'
+
+$PROMPT += _xonsh_colorize(' {user} ', '#ff87d7')
+$PROMPT += _xonsh_colorize(' {hostname} ', '#87afff', '#ff87d7')
+$PROMPT += _xonsh_colorize('{virtual_env}', 'GREEN', '#87afff')
+$PROMPT += _xonsh_colorize('{current_path}', 'INTENSE_RED', 'GREEN')
+$PROMPT += _xonsh_colorize('{current_branch}', 'INTENSE_GREEN', 'INTENSE_RED')
+$PROMPT += _xonsh_colorize('{rietveld}', 'YELLOW', 'INTENSE_GREEN')
+$PROMPT += _xonsh_colorize('{status}', 'CYAN', 'YELLOW', True)
+
+$PROMPT += '\n'
+$PROMPT += _xonsh_colorize('{current_time}', '#8a8a8a', final_col=True)
+$PROMPT += '{NO_COLOR} '
