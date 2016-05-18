@@ -2,17 +2,24 @@
 import os
 import subprocess
 import datetime
+try:
+    from setproctitle import setproctitle
+except ImportError:
+    setproctitle = lambda t: None
+
+setproctitle('xonsh')
 
 $WORKON_HOME = '/home/giovanni/Projets/python_envs'
 $HISTSIZE = 10000
 $PROMPT_COMMAND = 'history -a; history -n'
 $VIRTUAL_ENV_DISABLE_PROMPT = 1
 $VIRTUAL_ENV = ''
+$LESS = 'FSRX'
 
 aliases['la'] = 'ls -Fa'
 aliases['ll'] = 'ls -Flsh'
 aliases['cdve'] = 'cd $VIRTUAL_ENV'
-aliases['ag'] = "LESS='FSRX' ag --pager less"
+aliases['ag'] = "ag --pager less"
 # Apply latest patch in ~/tmp/
 aliases['hgpl'] = "ls -d -t ~/tmp/* | grep .*diff | head -n 1;" \
     "ls -d -t ~/tmp/* | grep .*diff | head -n 1 | xargs cat | " \
