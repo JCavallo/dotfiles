@@ -1,3 +1,4 @@
+# vim:set ft=python:
 import os
 import subprocess
 import datetime
@@ -140,12 +141,18 @@ def _xonsh_time():
     return ' ' + datetime.datetime.now().strftime('%H:%M:%S') + ' '
 
 
+def _xonsh_caps():
+    if _get_output('xset -q  2> /dev/null | grep Caps | cut -b 23') == 'n':
+        return ' ▲ '
+
+
 $FORMATTER_DICT['virtual_env'] = _xonsh_virtualenv
 $FORMATTER_DICT['current_path'] = _xonsh_current_path
 $FORMATTER_DICT['current_branch'] = _xonsh_current_branch
 $FORMATTER_DICT['rietveld'] = _xonsh_rietveld
 $FORMATTER_DICT['status'] = _xonsh_status
 $FORMATTER_DICT['current_time'] = _xonsh_time
+$FORMATTER_DICT['caps_lock'] = _xonsh_caps
 
 
 $PROMPT = '\n\n'
@@ -159,5 +166,7 @@ $PROMPT += _xonsh_colorize('{rietveld}', 'YELLOW', 'INTENSE_GREEN')
 $PROMPT += _xonsh_colorize('{status}', 'CYAN', 'YELLOW', True)
 
 $PROMPT += '\n'
-$PROMPT += _xonsh_colorize('{current_time}', '#8a8a8a', final_col=True)
+$PROMPT += _xonsh_colorize('{current_time}', '#8a8a8a')
+$PROMPT += _xonsh_colorize('{caps_lock}', 'RED', '#8a8a8a',
+    final_col=True)
 $PROMPT += '{NO_COLOR} '
