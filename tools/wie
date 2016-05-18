@@ -5,10 +5,12 @@ import sys
 import subprocess
 
 USAGE = '''
-    Usage : wie [issue_number]
+    Usage : wie [-k] [issue_number]
 
     Complete work on current branch, or branch matching issue number if set.
     Does not (obviously) work on master.
+
+    -k : keep database to use for new issue
 
 '''
 
@@ -34,6 +36,12 @@ if errs:
 cur_branch = [x.lstrip('* ')
     for x in branches.split('\n') if x.startswith('* ')][0]
 branches = [x.lstrip('* ') for x in branches.split('\n') if x]
+
+keep_db = True
+try:
+    sys.argv.remove('-k')
+except ValueError:
+    keep_db = False
 
 if (len(sys.argv) != 1 and cur_branch != 'master') or (
         len(sys.argv) != 2 and cur_branch == 'master'):
@@ -86,6 +94,10 @@ else:
 if cur_issue in db_list:
     print('Deleting db ' + cur_issue)
     run_cmd(['stellar', 'remove', cur_issue])
+
+if keep_db:
+    print('No new db')
+    sys.exit()
 
 print('Cleaning db for new issue')
 run_cmd(['stellar', 'restore', 'clean'])
