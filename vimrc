@@ -198,3 +198,4 @@ map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans
 
 set secure
 colorscheme flashy_vim
+call s:my_on_filetype()
