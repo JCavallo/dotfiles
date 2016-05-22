@@ -1,6 +1,12 @@
 export WORKON_HOME=/home/giovanni/Projets/python_envs
-source /home/giovanni/.local/bin/virtualenvwrapper.sh
-source /etc/bash_completion
+if [ -f /home/giovanni/.local/bin/virtualenvwrapper.sh ]; then
+    source /home/giovanni/.local/bin/virtualenvwrapper.sh
+fi
+if [ -f /etc/bash_completion ]; then
+    source /etc/bash_completion
+elif [ -f /etc/bash.bashrc ]; then
+    source /etc/bash.bashrc
+fi
 # source /home/giovanni/.bash_completion.d/python-argcomplete.sh
 shopt -s histappend
 export HISTSIZE=10000
