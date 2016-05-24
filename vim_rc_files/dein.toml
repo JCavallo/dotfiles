@@ -62,13 +62,6 @@ on_source = 'unite.vim'
 # Better parentheses
 [[plugins]]
 repo = 'kien/rainbow_parentheses.vim'
-filetypes = '.*'
-hook_add = '''
-    au VimEnter * RainbowParenthesesToggle
-    au Syntax * RainbowParenthesesLoadRound
-    au Syntax * RainbowParenthesesLoadSquare
-    au Syntax * RainbowParenthesesLoadBraces
-'''
 
 # THE colorscheme
 [[plugins]]
