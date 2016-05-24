@@ -121,7 +121,11 @@ set undolevels=1000 "maximum number of changes that can be undone
 set undoreload=10000 "maximum number lines to save for undo on a buffer reload
 set backupdir=$VIM_FOLDER/backup
 set directory=$VIM_FOLDER/swap
-set viminfo='50,<1000,s100,n~/.viminfo
+if has('nvim')
+    set viminfo='50,<1000,s100,n~/.nviminfo
+else
+    set viminfo='50,<1000,s100,n~/.viminfo
+endif
 
 " Sets how many lines of history vim has to remember
 set history=10000
