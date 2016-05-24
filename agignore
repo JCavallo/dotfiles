@@ -1,1 +1,6 @@
 *.orig
+/node_modules/
+/log/
+/logs/
+/build/
+/tmp/
