@@ -204,3 +204,6 @@ set -o vi
 source ~/.fzf.bash
 
 # vim:set ft=sh:
+
+export NVM_DIR="/home/giovanni/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
