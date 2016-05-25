@@ -163,6 +163,21 @@ on_ft = ['markdown', 'mkd']
 repo = 'Shougo/unite-build'
 
 [[plugins]]
+repo = 'basyura/unite-yarm'
+hook_add = '''
+    let g:unite_yarm_server_url = 'https://redmine.coopengo.com'
+    let g:unite_yarm_access_key = 'set in vimrc.local'
+    let g:unite_yarm_limit = 25
+    let g:unite_yarm_backup_dir = '/tmp/yarm'
+'''
+
+[[plugins]]
+repo = 'mattn/webapi-vim'
+
+[[plugins]]
+repo = 'tyru/open-browser.vim'
+
+[[plugins]]
 repo = 'Shougo/unite-help'
 on_source = 'unite.vim'
 
