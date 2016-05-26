@@ -52,6 +52,13 @@ call unite#custom#source(
     \ 'file_rec,file_rec/async,file_rec/git,file_mru,rec/async', 'converters',
     \ ['converter_file_directory'])
 call unite#filters#sorter_default#use(['sorter_selecta'])
+
+" Ignore wildignore
+call unite#custom#source('file_rec',
+    \ 'ignore_globs', split(&wildignore, ','))
+call unite#custom#source('file_rec/async',
+    \ 'ignore_globs', split(&wildignore, ','))
+
 " Use fuzzy search for mercurial sources
 call unite#custom#source(
     \ 'hg/status,hg/shelve', 'matchers',

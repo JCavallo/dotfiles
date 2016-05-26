@@ -38,7 +38,7 @@ hook_add = '''
     nnoremap <silent> [unite]e :<C-u>Unite -buffer-name=marks mark<CR>
     " Quick file search
     nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=files -multi-line
-        \ -unique -silent file_rec/async buffer_tab:- file/new<CR>
+        \ -unique -silent file_rec buffer_tab:- file/new<CR>
     " Quick grep
     nnoremap <silent> [unite]g :<C-u>Unite grep -buffer-name=grep`tabpagenr()`
         \ -no-split -no-empty -no-start-insert -resume -quit<CR>

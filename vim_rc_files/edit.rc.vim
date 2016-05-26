@@ -57,6 +57,7 @@ set completeopt=menu,longest
 set wildmode=list:longest,full
 set wildignore+=*.o,*.obj,.git,*.pyc
 set wildignore+=eggs/**
+set wildignore+=node_modules/**
 set wildignore+=*.egg-info/**
 set wildignore+=.hg,*.orig,*.rej
 set wildoptions=tagfile
