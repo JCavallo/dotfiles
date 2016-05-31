@@ -262,9 +262,9 @@ hook_add = '''
     nnoremap W     w
     nmap b <Plug>(easymotion-linebackward)
     nnoremap B     b
-    nmap [Alt]j <Plug>(easymotion-j)
-    nmap [Alt]k <Plug>(easymotion-k)
-    nmap ' <Plug>(easymotion-prefix)
+    nmap <M-j> <Plug>(easymotion-j)
+    nmap <M-k> <Plug>(easymotion-k)
+    nmap <Leader>, <Plug>(easymotion-prefix)
 
     let g:EasyMotion_startofline = 0
     let g:EasyMotion_show_prompt = 0
