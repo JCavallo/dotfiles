@@ -20,4 +20,8 @@ augroup MyAutoCmd
   autocmd FileType xml inoremap <buffer> <expr> = smartchr#one_of('=', ' = ', ' == ')
   autocmd FileType javascript inoremap <buffer> <expr> = smartchr#one_of(' = ', ' === ', '=')
   autocmd FileType javascript inoremap <buffer> <expr> : smartchr#one_of(': ', ':')
+  autocmd FileType javascript inoremap <buffer> <expr> . smartchr#loop('.', ' => ')
+  autocmd FileType javascript inoremap <buffer> <expr> < smartchr#one_of(' < ', ' <= ', '<')
+  autocmd FileType javascript inoremap <buffer> <expr> > smartchr#one_of(' > ', ' >= ', '>')
+  autocmd FileType javascript inoremap <buffer> <expr> ! smartchr#loop('!', ' !== ')
 augroup END
