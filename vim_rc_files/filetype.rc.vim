@@ -23,6 +23,10 @@ augroup MyAutoCmd
     let g:vimsyn_folding = 'afPl'
     " }}}
 
+    " Bash {{{
+    autocmd BufEnter /tmp/bash* setlocal filetype=sh
+    " }}}
+
     " C {{{
     autocmd FileType c setlocal omnifunc=
     " }}}
@@ -105,7 +109,6 @@ function! s:set_syntax_of_user_defined_commands() "{{{
     if command_names == '' | return | endif
     execute 'syntax keyword vimCommand ' . command_names
 endfunction"}}}
-
 
 function! s:my_on_filetype() "{{{
     " Use CustomFoldText().
