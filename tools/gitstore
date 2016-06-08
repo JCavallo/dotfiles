@@ -1,0 +1,72 @@
+#!/usr/bin/env python
+from __future__ import print_function
+
+import sys
+import subprocess
+
+USAGE = '''
+    Usage : gitstore target [users]
+
+    cherry-pick last commit on current branch on ther [target] branch,
+    upload it to rietveld (if [users] are defined),
+    then switch back to the initial branch.
+
+'''
+
+
+def run_cmd(cmd, handle_error=True):
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    res, errs = p.communicate()
+    if not handle_error:
+        return res, errs
+    if errs:
+        print(errs, file=sys.stderr)
+        sys.exit()
+    return res, errs
+
+# Get branch list
+branches, errs = run_cmd(['git', 'branch'], False)
+
+if errs:
+    print(errs, file=sys.stderr)
+    print(USAGE)
+    sys.exit()
+
+cur_branch = [x.lstrip('* ')
+    for x in branches.split('\n') if x.startswith('* ')][0]
+branches = [x.lstrip('* ') for x in branches.split('\n') if x]
+
+if len(sys.argv) > 3 or len(sys.argv) < 2:
+    print(USAGE)
+    sys.exit()
+
+if cur_branch.startswith(sys.argv[1]):
+    print('Already on branch %s !' % cur_branch)
+    print('')
+    sys.exit()
+
+upload = None
+if len(sys.argv) == 3:
+    upload = sys.argv[2]
+
+target = [x for x in branches if x.startswith(sys.argv[1])][0]
+
+print('Stashing, just in case')
+run_cmd(['git', 'stash', 'save', 'tmp_for_gitstore'], False)
+
+print('Switching branch to %s' % target)
+run_cmd(['git', 'checkout', target], False)
+
+print('Cherry picking')
+run_cmd(['git', 'cherry-pick', cur_branch])
+
+if upload:
+    print('Uploading')
+    subprocess.Popen(['gitup', '\"\"', upload]).communicate()
+
+print('Switching back to %s' % cur_branch)
+run_cmd(['git', 'checkout', cur_branch], False)
+
+print('Restoring stash')
+subprocess.Popen(
+    ['git', 'stash', 'apply', 'stash^{/tmp_for_gitstore}']).communicate()
