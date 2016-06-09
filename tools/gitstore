@@ -5,11 +5,13 @@ import sys
 import subprocess
 
 USAGE = '''
-    Usage : gitstore target [users]
+    Usage : gitstore [-n] target [users]
 
     cherry-pick last commit on current branch on ther [target] branch,
     upload it to rietveld (if [users] are defined),
     then switch back to the initial branch.
+
+    -n : Force branch creation from master
 
 '''
 
@@ -36,6 +38,12 @@ cur_branch = [x.lstrip('* ')
     for x in branches.split('\n') if x.startswith('* ')][0]
 branches = [x.lstrip('* ') for x in branches.split('\n') if x]
 
+create_branch = True
+try:
+    sys.argv.remove('-n')
+except ValueError:
+    create_branch = False
+
 if len(sys.argv) > 3 or len(sys.argv) < 2:
     print(USAGE)
     sys.exit()
@@ -49,24 +57,44 @@ upload = None
 if len(sys.argv) == 3:
     upload = sys.argv[2]
 
-target = [x for x in branches if x.startswith(sys.argv[1])][0]
+if not create_branch:
+    target = [x for x in branches if x.startswith(sys.argv[1])]
+    if len(target) == 1:
+        target = target[0]
+    elif len(target) > 1:
+        print('"%s" is not a unique branch prefix' % sys.argv[1])
+        [print('    ' + x) for x in target]
+        print('')
+        sys.exit()
+    elif not target:
+        print('No branch found matching %s' % sys.argv[1])
+        print('')
+        run_cmd(['git', 'branches'])
+        sys.exit()
+else:
+    target = sys.argv[1]
 
 print('Stashing, just in case')
 run_cmd(['git', 'stash', 'save', 'tmp_for_gitstore'], False)
 
-print('Switching branch to %s' % target)
-run_cmd(['git', 'checkout', target], False)
+if not create_branch:
+    print('Switching branch to %s' % target)
+    run_cmd(['git', 'checkout', target], False)
+else:
+    print('Creating new branch %s' % target)
+    run_cmd(['git', 'checkout', 'master'], False)
+    run_cmd(['git', 'checkout', '-b', target], False)
 
 print('Cherry picking')
 run_cmd(['git', 'cherry-pick', cur_branch])
 
 if upload:
     print('Uploading')
-    subprocess.Popen(['gitup', '\"\"', upload]).communicate()
+    subprocess.Popen(['gitup', '', upload]).communicate()
 
 print('Switching back to %s' % cur_branch)
 run_cmd(['git', 'checkout', cur_branch], False)
 
 print('Restoring stash')
 subprocess.Popen(
-    ['git', 'stash', 'apply', 'stash^{/tmp_for_gitstore}']).communicate()
+    ['git', 'stash', 'pop']).communicate()
