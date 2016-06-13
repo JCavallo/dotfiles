@@ -54,7 +54,7 @@ _ = '''
     setl formatoptions-=ro | setl formatoptions+=mMBl
 
     " Disable auto wrap.
-    if &l:textwidth != 70 && &filetype !=# 'help'
+    if &l:textwidth != 79 && &filetype !=# 'help'
         setlocal textwidth=0
     endif
 
