@@ -17,7 +17,7 @@ for env_name in os.listdir(base_dir):
         with open(project_file, 'r') as f:
             full_path = f.read().strip()
 
-    print('Project path : %s' % full_path)
+    print('\nProject path : %s' % full_path)
 
     for cur_dir in os.listdir(full_path):
         if not os.path.exists(os.path.join(full_path, cur_dir, '.git')):
@@ -34,9 +34,11 @@ for env_name in os.listdir(base_dir):
         remotes = set([x.split(' ')[0].split('/')[-1]
                 for x in branches if x.startswith('remotes')]) | {'cur_dev'}
         locales = set([x for x in branches if not x.startswith('remotes')
-                and x not in remotes and 'HEAD detached' not in x])
+                and x not in remotes and not x.startswith('(HEAD ')])
         if not locales:
             continue
         print('    %s :' % cur_dir)
         for branch in locales:
             print('        %s' % branch)
+
+print('\n')
