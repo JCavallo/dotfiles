@@ -1,0 +1,42 @@
+#!/usr/bin/env python
+import os
+import sys
+import subprocess
+
+base_dir = os.environ.get('WORKON_HOME')
+if not base_dir:
+    print('$WORKON_HOME not set, exiting')
+    sys.exit()
+
+for env_name in os.listdir(base_dir):
+    full_path = os.path.join(base_dir, env_name)
+    if not os.path.isdir(full_path):
+        continue
+    project_file = os.path.join(full_path, '.project')
+    if os.path.exists(project_file):
+        with open(project_file, 'r') as f:
+            full_path = f.read().strip()
+
+    print('Project path : %s' % full_path)
+
+    for cur_dir in os.listdir(full_path):
+        if not os.path.exists(os.path.join(full_path, cur_dir, '.git')):
+            continue
+        p = subprocess.Popen(['git', '-C', os.path.join(full_path, cur_dir),
+                'branch', '-a', '--list', '--no-color'],
+                stdout=subprocess.PIPE)
+        res, errs = p.communicate()
+        if errs:
+            print('    %s :' % cur_dir)
+            print('        ERROR : %s' % errs)
+            continue
+        branches = [x.strip('*').strip() for x in res.strip().split('\n')]
+        remotes = set([x.split(' ')[0].split('/')[-1]
+                for x in branches if x.startswith('remotes')]) | {'cur_dev'}
+        locales = set([x for x in branches if not x.startswith('remotes')
+                and x not in remotes and 'HEAD detached' not in x])
+        if not locales:
+            continue
+        print('    %s :' % cur_dir)
+        for branch in locales:
+            print('        %s' % branch)
