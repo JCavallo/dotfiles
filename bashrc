@@ -56,6 +56,12 @@ BLUEBLACK="[96;49m"
 DARKGREY="[37;100m"
 DARKGREYBLACK="[90;49m"
 
+ps_k() {
+    ps ax | grep $1 | sed -r -e "s/^ +([0-9]+) .+/\1/" | xargs kill -9
+}
+ps_chk() {
+    ps ax | grep $1
+}
 hg_ps1_1() {
     BRANCH=`hg prompt "{branch}" 2> /dev/null`
     if [ "$BRANCH" != "" ]; then
