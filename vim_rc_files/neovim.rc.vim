@@ -41,7 +41,7 @@ endfunction  " }}}
 
 " Open psql in split
 nnoremap Sq :call OpenPsql()<CR>
-nnoremap Shq :call DeleteNamedBuffer("__PsqlTerm__")<CR>
+nnoremap Sdq :call DeleteNamedBuffer("__PsqlTerm__")<CR>
 nnoremap Shq :call HideNamedBuffer("__PsqlTerm__")<CR>
 
 function! OpenPsql()  " {{{
@@ -64,6 +64,78 @@ function! OpenPsql()  " {{{
         execute ":terminal psql " . parameters
         execute ":file __PsqlTerm__"
     endif
+endfunction  " }}}
+
+" Open node in split
+nnoremap Sn :call OpenNode()<CR>
+nnoremap Sdn :call DeleteNamedBuffer("__NodeTerm__")<CR>
+nnoremap Shn :call HideNamedBuffer("__NodeTerm__")<CR>
+
+function! OpenNode()  " {{{
+    let node_buffer = bufnr("__NodeTerm__")
+    if node_buffer != -1 && bufwinnr(node_buffer) != -1
+        execute ":" . bufwinnr(node_buffer) . "wincmd w"
+        normal A
+    elseif node_buffer != -1
+        execute ":vsplit"
+        execute ":vertical resize 130"
+        execute ":set winfixwidth"
+        execute ":buffer " . node_buffer
+        normal A
+    else
+        execute ":vsplit"
+        execute ":vertical resize 130"
+        execute ":set winfixwidth"
+        execute ":terminal repl-plus"
+        execute ":file __NodeTerm__"
+    endif
+endfunction  " }}}
+
+" Run select lines in node term
+vnoremap <A-n> :<C-U>call RunSelectedNode()<CR><Esc>
+
+function! RunSelectedNode()  " {{{
+    let reg_save = @*
+    silent exe "normal! gvy"
+
+    let [lnum1, col1] = getpos("'<")[1:2]
+    let [lnum2, col2] = getpos("'>")[1:2]
+    if lnum1 > lnum2
+        let [lnum1, lnum2] = [lnum2, lnum1]
+    endif
+    let lines = getline(lnum1, lnum2)
+
+    let min_spaces = 100
+    for line in lines
+        if line != ""
+            let min_spaces = min([min_spaces,
+                    \ len(line) - len(substitute(line, '^\s*', '', ''))])
+        endif
+    endfor
+    let final_lines = []
+    for line in lines
+        if line !=  ""
+            let new_line = line[min_spaces :]
+            call add(final_lines, new_line)
+        else
+            call add(final_lines, line)
+        endif
+    endfor
+    call add(final_lines, '')
+
+    let @* = join(final_lines, '')
+
+    call OpenNode()
+
+    " Currently terminal cannot handle Fn keys :'(
+    " https://github.com/neovim/neovim/issues/4343
+
+    " startinsert
+    " <F6>
+    silent exe "normal! p"
+    " <F6><C-\><C-n>
+    wincmd p
+    let @* = reg_save
 endfunction  " }}}
 
 " Open Python in split
