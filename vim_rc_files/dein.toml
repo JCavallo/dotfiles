@@ -163,12 +163,13 @@ on_ft = ['markdown', 'mkd']
 repo = 'Shougo/unite-build'
 
 [[plugins]]
-repo = 'basyura/unite-yarm'
+repo = 'JCavallo/unite-yarm'
 hook_add = '''
     let g:unite_yarm_server_url = 'https://redmine.coopengo.com'
     let g:unite_yarm_access_key = 'set in vimrc.local'
-    let g:unite_yarm_limit = 25
-    let g:unite_yarm_backup_dir = '/tmp/yarm'
+    let g:unite_yarm_limit = 100
+    let g:unite_yarm_backup_dir = '~/tmp/yarm'
+    let g:unite_yarm_title_fields = ['fixed_version']
 '''
 
 [[plugins]]
