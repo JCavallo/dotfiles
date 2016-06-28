@@ -73,6 +73,9 @@ hook_add = '''
         \ -buffer-name=tag tag<CR>
     " Quick window switch
     nnoremap <silent> [unite]w :<C-u>Unite window<CR>
+    " Quick my redmine issues
+    nnoremap <silent> [unite]xm :<C-u>Unite yarm:assigned=me
+        \ -buffer-name=Redmine\ -\ Mine -multi-line<CR>
     " Quick yank history
     nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<CR>
     " Quick mercurial status
