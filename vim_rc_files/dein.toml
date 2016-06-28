@@ -170,10 +170,10 @@ hook_add = '''
     let g:unite_yarm_limit = 1000
     let g:unite_yarm_backup_dir = '~/tmp/yarm'
     let g:unite_yarm_title_fields = [
-        \ ['status', 9, '[]', 'KeyWord'],
-        \ ['assigned_to', 21, '()', 'StorageClass'],
-        \ ['project', 16, '{}',  'Label'],
-        \ ['fixed_version', 10, '<>', 'Statement']
+        \ ['status', 9, 'KeyWord'],
+        \ ['assigned_to', 21, 'StorageClass'],
+        \ ['project', 16,  'Label'],
+        \ ['fixed_version', 20, 'Statement']
         \ ]
 '''
 
