@@ -1,6 +1,6 @@
 [user]
 	name = Jean Cavallo
-	email = jean.cavallo@coopengo.com
+	email = jean.cavallo@hotmail.com
 [core]
 	excludesfile = /home/giovanni/.gitignore
 	editor = nvim
