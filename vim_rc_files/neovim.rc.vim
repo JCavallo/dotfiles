@@ -104,23 +104,15 @@ function! RunSelectedNode()  " {{{
         let [lnum1, lnum2] = [lnum2, lnum1]
     endif
     let lines = getline(lnum1, lnum2)
-
-    let min_spaces = 100
+    let unified_line = ''
     for line in lines
-        if line != ""
-            let min_spaces = min([min_spaces,
-                    \ len(line) - len(substitute(line, '^\s*', '', ''))])
+        if line == '//'
+            continue
         endif
+        let stripped_line = split(line, '// ', 1)[0]
+        let unified_line .= stripped_line . ' '
     endfor
-    let final_lines = []
-    for line in lines
-        if line !=  ""
-            let new_line = line[min_spaces :]
-            call add(final_lines, new_line)
-        else
-            call add(final_lines, line)
-        endif
-    endfor
+    let final_lines = [unified_line]
     call add(final_lines, '')
 
     let @* = join(final_lines, '')
