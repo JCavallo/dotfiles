@@ -25,6 +25,8 @@ augroup MyAutoCmd
 
     " Bash {{{
     autocmd BufEnter /tmp/bash* setlocal filetype=sh
+    autocmd FileType sh setlocal foldmethod=indent foldlevel=0
+    autocmd FileType sh setlocal tabstop=4 softtabstop=4 shiftwidth=4
     " }}}
 
     " C {{{
