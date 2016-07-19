@@ -30,6 +30,7 @@ if neobundle#tap('syntastic') "{{{
     let g:syntastic_python_pylint_post_args='--disable=E1101,W0613,C0111'
     let g:syntastic_python_checkers=['flake8']
     let g:syntastic_javascript_checkers=['jshint']
+    let g:syntastic_xml_checkers=['xmllint']
     call neobundle#untap()
 endif "}}}
 
