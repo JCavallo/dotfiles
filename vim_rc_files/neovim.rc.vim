@@ -221,7 +221,7 @@ function! HideNamedBuffer(buf_name)  " {{{
     if nbr == -1
     else
         if nbr != -1 && bufwinnr(nbr) != -1
-            execute ":silent quit " . nbr
+            execute ":silent quit " . bufwinnr(nbr)
         endif
     endif
 endfunction " }}}
