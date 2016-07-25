@@ -238,20 +238,6 @@ hook_add = '''
     inoremap <M-g> <esc>:call JumpToDef()<cr>i
 '''
 
-# Tryton
-[[plugins]]
-on_ft = ['python', 'py', 'xml']
-repo = 'JCavallo/tryton-vim'
-on_source = 'unite.vim'
-hook_add = '''
-    let g:tryton_default_mappings = 1
-    let g:tryton_trytond_path = "$PROJECT_PATH/trytond"
-    let g:tryton_server_host_name = 'localhost'
-    let g:tryton_server_port = '7999'
-    let g:tryton_server_login = 'admin'
-    nmap <leader>com 0yf df oreview http://rietveld.coopengo.com/jkp$xXOjkgg0fFf:lyFFf:lldFFjojkkpxXXX
-'''
-
 [[plugins]]
 repo = 'Konfekt/FastFold'
 on_i = 1
