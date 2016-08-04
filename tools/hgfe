@@ -19,7 +19,7 @@ elif not review_id:
     print 'Usage (if no current review) : hgfe review_id'
     sys.exit()
 
-process = Popen(['hg', 'review', '--fetch', '--issue', review_id],
+process = Popen(['hg', 'review', '--keep', '--fetch', '--issue', review_id],
     stdout=PIPE, stdin=PIPE)
 
 # \n to accept the email
