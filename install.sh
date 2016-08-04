@@ -33,6 +33,10 @@ done
 # Create config folder
 mkdir -p ~/.config
 
+# Hangups
+mkdir -p ~/.config/hangups
+cp ~/dotfiles/hangups.conf ~/.config/hangups
+
 # Create local binary folder
 mkdir -p ~/bin
 ln -s ~/dotfiles/tools/* ~/bin/
