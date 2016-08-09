@@ -39,6 +39,31 @@ function! OpenTerminal()  " {{{
     endif
 endfunction  " }}}
 
+" Open hangups in split
+nnoremap Sc :call OpenHangups()<CR>
+nnoremap Sdc :call DeleteNamedBuffer("__HangupsTerm__")<CR>
+nnoremap Shc :call HideNamedBuffer("__HangupsTerm__")<CR>
+
+function! OpenHangups()  " {{{
+    let term_buffer = bufnr("__HangupsTerm__")
+    if term_buffer != -1 && bufwinnr(term_buffer) != -1
+        execute ":" . bufwinnr(term_buffer) . "wincmd w"
+        normal A
+    elseif term_buffer != -1
+        execute ":vsplit"
+        execute ":vertical resize 130"
+        execute ":set winfixwidth"
+        execute ":buffer " . term_buffer
+        normal A
+    else
+        execute ":vsplit"
+        execute ":vertical resize 130"
+        execute ":set winfixwidth"
+        execute ":terminal hangups"
+        execute ":file __HangupsTerm__"
+    endif
+endfunction  " }}}
+
 " Open psql in split
 nnoremap Sq :call OpenPsql()<CR>
 nnoremap Sdq :call DeleteNamedBuffer("__PsqlTerm__")<CR>
