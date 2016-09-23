@@ -25,13 +25,13 @@ function! OpenTerminal()  " {{{
         execute ":" . bufwinnr(term_buffer) . "wincmd w"
         normal A
     elseif term_buffer != -1
-        execute ":vsplit"
+        execute ":vert botright split"
         execute ":vertical resize 130"
         execute ":set winfixwidth"
         execute ":buffer " . term_buffer
         normal A
     else
-        execute ":vsplit"
+        execute ":vert botright split"
         execute ":vertical resize 130"
         execute ":set winfixwidth"
         execute ":terminal"
@@ -50,13 +50,13 @@ function! OpenHangups()  " {{{
         execute ":" . bufwinnr(term_buffer) . "wincmd w"
         normal A
     elseif term_buffer != -1
-        execute ":vsplit"
+        execute ":vert botright split"
         execute ":vertical resize 130"
         execute ":set winfixwidth"
         execute ":buffer " . term_buffer
         normal A
     else
-        execute ":vsplit"
+        execute ":vert botright split"
         execute ":vertical resize 130"
         execute ":set winfixwidth"
         execute ":terminal hangups"
@@ -75,7 +75,7 @@ function! OpenPsql()  " {{{
         execute ":" . bufwinnr(term_buffer) . "wincmd w"
         normal A
     elseif term_buffer != -1
-        execute ":vsplit"
+        execute ":vert botright split"
         execute ":vertical resize 130"
         execute ":set winfixwidth"
         execute ":buffer " . term_buffer
@@ -83,7 +83,7 @@ function! OpenPsql()  " {{{
     else
         execute "let parameters = unite#util#input('" .
             \ "psql ')"
-        execute ":vsplit"
+        execute ":vert botright split"
         execute ":vertical resize 130"
         execute ":set winfixwidth"
         execute ":terminal psql " . parameters
@@ -102,13 +102,13 @@ function! OpenNode()  " {{{
         execute ":" . bufwinnr(node_buffer) . "wincmd w"
         normal A
     elseif node_buffer != -1
-        execute ":vsplit"
+        execute ":vert botright split"
         execute ":vertical resize 130"
         execute ":set winfixwidth"
         execute ":buffer " . node_buffer
         normal A
     else
-        execute ":vsplit"
+        execute ":vert botright split"
         execute ":vertical resize 130"
         execute ":set winfixwidth"
         execute ":terminal repl-plus"
@@ -166,13 +166,13 @@ function! OpenPython()  " {{{
         execute ":" . bufwinnr(python_buffer) . "wincmd w"
         normal A
     elseif python_buffer != -1
-        execute ":vsplit"
+        execute ":vert botright split"
         execute ":vertical resize 130"
         execute ":set winfixwidth"
         execute ":buffer " . python_buffer
         normal A
     else
-        execute ":vsplit"
+        execute ":vert botright split"
         execute ":vertical resize 130"
         execute ":set winfixwidth"
         if executable("ptpython")
