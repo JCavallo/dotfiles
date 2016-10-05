@@ -197,3 +197,9 @@ hook_add = '''
     autocmd MyAutoCmd FileType
     \ help nnoremap <silent><buffer> ,r  :<C-u>VimhelpLint!<CR>
 '''
+
+[[plugins]]
+repo = 'ekalinin/Dockerfile.vim'
+hook_add = '''
+    autocmd BufRead,BufNewFile *.df setf Dockerfile
+'''
