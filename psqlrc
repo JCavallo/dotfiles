@@ -1,8 +1,5 @@
 \set QUIET 1
 
--- formatting
-\x auto
-
 \set VERBOSITY verbose
 \set ON_ERROR_ROLLBACK interactive
 -- show execution times
@@ -11,6 +8,9 @@
 \pset pager off
 -- replace nulls
 \pset null ¤
+-- formatting
+\x on
+\pset format wrapped
 \pset linestyle unicode
 \pset border 2
 
