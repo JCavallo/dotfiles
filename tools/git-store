@@ -5,11 +5,14 @@ import sys
 import subprocess
 
 USAGE = '''
-    Usage : gitstore [-n] target [users]
+    Usage : gitstore [-u] [-n] target
 
-    cherry-pick last commit on current branch on ther [target] branch,
-    upload it to rietveld (if [users] are defined),
-    then switch back to the initial branch.
+    cherry-pick last commit on current branch on there [target] branch,
+    push it to my fork (if [-u] is set), then switch back to the initial
+    branch.
+
+    -u : Push target branch to remote configured with :
+        git config --add upload.fork <mine>
 
     -n : Force branch creation from master
 
@@ -44,7 +47,20 @@ try:
 except ValueError:
     create_branch = False
 
-if len(sys.argv) > 3 or len(sys.argv) < 2:
+target_remote = ''
+try:
+    sys.argv.remove('-u')
+    target_remote = 'tmp'
+except ValueError:
+    pass
+if target_remote:
+    target_remote = run_cmd(['git', 'config', '--get', 'upload.fork'], False)
+    if not target_remote:
+        print(USAGE)
+        sys.exit()
+    target_remote = target_remote[0][:-1]
+
+if len(sys.argv) != 2:
     print(USAGE)
     sys.exit()
 
@@ -52,10 +68,6 @@ if cur_branch.startswith(sys.argv[1]):
     print('Already on branch %s !' % cur_branch)
     print('')
     sys.exit()
-
-upload = None
-if len(sys.argv) == 3:
-    upload = sys.argv[2]
 
 if not create_branch:
     target = [x for x in branches if x.startswith(sys.argv[1])]
@@ -88,9 +100,10 @@ else:
 print('Cherry picking')
 run_cmd(['git', 'cherry-pick', cur_branch])
 
-if upload:
-    print('Uploading')
-    subprocess.Popen(['gitup', '', upload]).communicate()
+if target_remote:
+    print(target_remote)
+    print('Pushing to %s' % target_remote)
+    subprocess.Popen(['git', 'push', target_remote]).communicate()
 
 print('Switching back to %s' % cur_branch)
 run_cmd(['git', 'checkout', cur_branch], False)

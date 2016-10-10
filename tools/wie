@@ -57,11 +57,6 @@ else:
         print(errs, file=sys.stderr)
         sys.exit()
 
-print('Merging...')
-run_cmd(['git', 'merge', '--squash', cur_branch], False)
-
-run_cmd(['git', 'mergetool'], False)
-
 print('Removing branch')
 run_cmd(['git', 'branch', '-D', cur_branch], False)
 
