@@ -44,6 +44,10 @@ hook_add = '''
 repo = 'thinca/vim-unite-history'
 on_source = 'unite.vim'
 
+# Multiple cursors
+[[plugins]]
+repo = 'terryma/vim-multiple-cursors'
+
 # Hg browser
 [[plugins]]
 repo = 'JCavallo/vim-hg-unite'
