@@ -20,7 +20,6 @@ hook_source = 'call echodoc#enable()'
 
 [[plugins]]
 repo = 'Shougo/unite.vim'
-depends = 'neomru.vim'
 hook_source = '''
     execute 'source ' . expand($VIM_FOLDER) . '/rc/plugins/unite.rc.vim'
 '''

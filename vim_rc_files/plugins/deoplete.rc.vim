@@ -3,6 +3,9 @@
 "---------------------------------------------------------------------------
 set completeopt+=noinsert
 
+" Close preview after completion
+autocmd CompleteDone * pclose!
+
 " <TAB>: completion.
 imap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
@@ -19,6 +22,7 @@ inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<C-h>"
 
 " <C-h>, <BS>: close popup and delete backword char.
 inoremap <expr><BS> deoplete#mappings#smart_close_popup()."\<C-h>"
+inoremap <expr><C-h> deoplete#mappings#smart_close_popup()."\<C-h>"
 
 inoremap <expr><C-g> deoplete#mappings#undo_completion()
 " <C-l>: redraw candidates
@@ -30,9 +34,7 @@ function! s:my_cr_function() abort
     return deoplete#mappings#close_popup() . "\<CR>"
 endfunction
 
-" <C-h>: close popup
-inoremap <expr> <C-h>  deoplete#mappings#smart_close_popup()
-
+call deoplete#custom#set('ghc', 'sorters', ['sorter_word'])
 " call deoplete#custom#set('_', 'matchers', ['matcher_head'])
 " call deoplete#custom#set('_', 'matchers', ['matcher_full_fuzzy'])
 " call deoplete#custom#set('_', 'disabled_syntaxes', ['Comment', 'String'])

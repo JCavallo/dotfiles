@@ -8,7 +8,7 @@ build = 'make'
 # Syntax Checker
 [[plugins]]
 repo = 'scrooloose/syntastic'
-on_path = '.*'
+on_if = 1
 hook_add = '''
     let g:syntastic_enable_balloons = 0
     let g:syntastic_check_on_open = 1
@@ -34,10 +34,10 @@ hook_add = '''
 # Better Indent Lines
 [[plugins]]
 repo = 'Yggdroot/indentLine'
-on_path = '.*'
+on_if = 1
 hook_add = '''
     let g:indentLine_char = "│"
-    let g:indentLine_fileTypeExclude = ['xml', 'help']
+    let g:indentLine_fileTypeExclude = ['help']
 '''
 
 [[plugins]]
@@ -51,11 +51,6 @@ repo = 'terryma/vim-multiple-cursors'
 # Hg browser
 [[plugins]]
 repo = 'JCavallo/vim-hg-unite'
-on_source = 'unite.vim'
-
-# Git browser
-[[plugins]]
-repo = 'kmnk/vim-unite-giti'
 on_source = 'unite.vim'
 
 # Unite quickfix
@@ -102,10 +97,6 @@ repo = 'tpope/vim-repeat'
 # Block Select
 [[plugins]]
 repo = 'terryma/vim-expand-region'
-hook_add = '''
-    xmap v <Plug>(expand_region_expand)
-    xmap <C-v> <Plug>(expand_region_shrink)
-'''
 
 # Better Comments
 [[plugins]]
@@ -149,27 +140,12 @@ repo = 'elzr/vim-json'
 on_ft = 'json'
 
 [[plugins]]
-repo = 'kana/vim-textobj-user'
-
-# Operators
-[[plugins]]
-repo = 'kana/vim-operator-user'
-
-[[plugins]]
-repo = 'hynek/vim-python-pep8-indent'
-on_ft = 'python'
-
-[[plugins]]
 repo = 'rcmdnk/vim-markdown'
-on_ft = ['markdown', 'mkd']
-
-[[plugins]]
-repo = 'Shougo/unite-build'
+on_ft = ['markdown', 'mkd', 'md']
 
 [[plugins]]
 repo = 'JCavallo/unite-yarm'
 hook_add = '''
-    let g:unite_yarm_server_url = 'https://redmine.coopengo.com'
     let g:unite_yarm_access_key = 'set in vimrc.local'
     let g:unite_yarm_limit = 1000
     let g:unite_yarm_backup_dir = '~/tmp/yarm'
@@ -204,6 +180,7 @@ hook_add = '''
 
 [[plugins]]
 repo = 'ekalinin/Dockerfile.vim'
+on_ft = ['df', 'Dockerfile', 'dockerfile', 'docker']
 hook_add = '''
     autocmd BufRead,BufNewFile *.df setf Dockerfile
 '''

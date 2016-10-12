@@ -4,7 +4,7 @@
 
 [[plugins]]
 repo = 'zchee/deoplete-jedi'
-on_ft = 'python'
+on_ft = ['python', 'trpy']
 
 # Tryton
 [[plugins]]

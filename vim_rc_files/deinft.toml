@@ -1,12 +1,13 @@
 hook_add = '''
-" Python
-let g:python_highlight_all = 1
-
-" Vim
-let g:vimsyntax_noerror = 1
-let g:vim_indent_cont = 4
+" Update filetype.
+autocmd MyAutoCmd BufWritePost * nested
+    \ if &l:filetype ==# '' || exists('b:ftdetect')
+    \ |   unlet! b:ftdetect
+    \ |   filetype detect
+    \ | endif
 
 " Bash
+autocmd BufEnter /tmp/bash* setlocal filetype=sh
 let g:is_bash = 1
 
 " JavaScript
@@ -14,12 +15,6 @@ let g:SimpleJsIndenter_BriefMode = 1
 let g:SimpleJsIndenter_CaseIndentLevel = -1
 
 " Markdown
-let g:markdown_fenced_languages = []
-
-" python.vim
-let python_highlight_all = 1
-
-" http://mattn.kaoriya.net/software/vim/20140523124903.htm
 let g:markdown_fenced_languages = [
       \  'coffee',
       \  'css',
@@ -33,15 +28,16 @@ let g:markdown_fenced_languages = [
       \  'vim',
       \]
 
-" Folding
-let g:xml_syntax_folding = 1
+" Python
+let g:python_highlight_all = 1
 
-" Update filetype.
-autocmd MyAutoCmd BufWritePost * nested
-    \ if &l:filetype ==# '' || exists('b:ftdetect')
-    \ |   unlet! b:ftdetect
-    \ |   filetype detect
-    \ | endif
+" Vim
+let g:vimsyntax_noerror = 1
+let g:vim_indent_cont = 4
+let g:vimsyn_folding = 'afPl'
+
+" XML
+let g:xml_syntax_folding = 1
 
 " Reload .vimrc automatically.
 autocmd MyAutoCmd BufWritePost .vimrc,vimrc,*.rc.vim,*.toml source $MYVIMRC | redraw
@@ -50,19 +46,6 @@ autocmd MyAutoCmd BufWritePost .vimrc,vimrc,*.rc.vim,*.toml source $MYVIMRC | re
 [ftplugin]
 
 _ = '''
-    " Disable automatically insert comment.
-    setl formatoptions-=ro | setl formatoptions+=mMBl
-
-    " Disable auto wrap.
-    if &l:textwidth != 79 && &filetype !=# 'help'
-        setlocal textwidth=0
-    endif
-
-    " Use FoldCCtext().
-    if &filetype !=# 'help'
-        setlocal foldtext=FoldCCtext()
-    endif
-
     if !&l:modifiable
         setlocal nofoldenable
         setlocal foldcolumn=0
@@ -70,26 +53,66 @@ _ = '''
     endif
 '''
 
-python = 'setlocal foldmethod=indent'
-trpy = 'setlocal foldmethod=syntax'
+c = 'setlocal omnifunc='
+
+css = 'setlocal omnifunc=csscomplete#CompleteCSS'
+
+javascript = '''
+setlocal softtabstop=2 shiftwidth=2
+setlocal tabstop=2 foldmethod=indent
+'''
+
+python = '''
+setlocal foldmethod=indent
+if has('python3')
+    setlocal omnifunc=python3complete#Complete
+else
+    setlocal omnifunc=pythoncomplete#Complete
+endif
+'''
+
+sql = '''
+setlocal omnifunc=sqlcomplete#Complete
+nnoremap <leader>xx :execute 'silent %w !sqlformat -r -k upper -i lower -o % %' \| execute ':e!'<CR>
+'''
+
+trpy = '''
+setlocal syntax=python.trpy
+setlocal foldmethod=syntax
+'''
 
 html = '''
+setlocal omnifunc=htmlcomplete#CompleteTags
 setlocal includeexpr=substitute(v:fname,'^\\/','','')
 setlocal path+=./;/
+'''
+
+markdown = '''
+setlocal omnifunc=htmlcomplete#CompleteTags
+'''
+
+nim = '''
+setlocal foldmethod=indent
+setlocal tabstop=2 softtabstop=2 shiftwidth=2
+'''
+
+sh = '''
+setlocal foldmethod=indent foldlevel=0
+setlocal tabstop=4 softtabstop=4 shiftwidth=4
 '''
 
 vim = '''
 if 5000 < line('$')
   syntax sync minlines=200
 endif
-
-" Auto reload VimScript.
-autocmd MyAutoCmd BufWritePost,FileWritePost *.vim nested
-    \ if &l:autoread > 0 | source <afile> |
-    \   echo 'source ' . bufname('%') |
-    \ endif
-
+setlocal foldmethod=marker
 setlocal nomodeline
+'''
+
+xml = '''
+setlocal omnifunc=xmlcomplete#CompleteTags
+setlocal foldmethod=syntax
+setlocal foldlevel=2
 '''
 
 qfreplace = 'setlocal nofoldenable'
