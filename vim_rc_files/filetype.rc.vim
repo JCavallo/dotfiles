@@ -3,8 +3,6 @@
 "===============================================================================
 
 augroup MyAutoCmd
-    " All File Types {{{
-    autocmd FileType,Syntax,BufEnter,BufWinEnter * call s:my_on_filetype()
     " Update filetype.
     autocmd BufWritePost *
         \ if &l:filetype ==# '' || exists('b:ftdetect')
@@ -111,14 +109,3 @@ function! s:set_syntax_of_user_defined_commands() "{{{
     if command_names == '' | return | endif
     execute 'syntax keyword vimCommand ' . command_names
 endfunction"}}}
-
-function! s:my_on_filetype() "{{{
-    " Use CustomFoldText().
-    if &filetype !=# 'help'
-        setlocal foldtext=CustomFoldText()
-    endif
-
-    if !&l:modifiable
-        setlocal colorcolumn=
-    endif
-endfunction "}}}

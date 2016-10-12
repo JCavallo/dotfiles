@@ -43,10 +43,6 @@ function! s:source_rc(path, ...) abort "{{{
     endtry
 endfunction "}}}
 
-let s:is_sudo = $SUDO_USER != '' && $USER !=# $SUDO_USER
-    \ && $HOME !=# expand('~'.$USER)
-    \ && $HOME ==# expand('~'.$SUDO_USER)
-
 " Set augroup.
 augroup MyAutoCmd
     autocmd!
@@ -134,18 +130,23 @@ call s:source_rc('view.rc.vim')
 "===============================================================================
 
 call s:source_rc('filetype.rc.vim')
-autocmd MyAutoCmd FileType,Syntax,BufNewFile,BufNew,BufRead
+autocmd MyAutoCmd FileType,Syntax,BufNewFile,BufNew,BufRead,BufWinEnter
     \ * call s:my_on_filetype()
 
 function! s:my_on_filetype() abort "{{{
+    if &filetype !=# 'help'
+        setlocal foldtext=CustomFoldText()
+    endif
+
+    if !&l:modifiable
+        setlocal colorcolumn=
+    endif
+
     if &l:filetype == '' && bufname('%') == ''
         return
     endif
 
-    redir => filetype_out
-    silent! filetype
-    redir END
-    if filetype_out =~# 'OFF'
+    if execute('filetype') =~# 'OFF'
         " Lazy loading
         silent! filetype plugin indent on
         syntax enable
@@ -192,10 +193,14 @@ endif
 " Default home directory.
 let t:cwd = getcwd()
 
-map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+" Try to set colorscheme
+silent! colorscheme flashy_vim
 
+" Force detection for first opened file since event were triggered before
+" autocommand definition
+if has('vim_starting')
+    call s:my_on_filetype()
+endif
+
+" Lock modifications
 set secure
-colorscheme flashy_vim
-call s:my_on_filetype()

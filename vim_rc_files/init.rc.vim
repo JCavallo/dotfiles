@@ -20,23 +20,18 @@ if !isdirectory(expand($CACHE))
     call mkdir(expand($CACHE), 'p')
 endif
 
-" Clean group MyAytoCmd
-augroup MyAutoCmd
-    autocmd!
-augroup END
-
 " Load dein. {{{
 let s:dein_dir = finddir('dein.vim', '.;')
 if s:dein_dir != '' || &runtimepath !~ '/dein.vim'
     if s:dein_dir == '' && &runtimepath !~ '/dein.vim'
         let s:dein_dir = expand($CACHE . '/dein')
-            \. '/repos/github.com/Shougo/dein.vim'
+            \ . '/repos/github.com/Shougo/dein.vim'
         if !isdirectory(s:dein_dir)
-        execute '!git clone https://github.com/Shougo/dein.vim' s:dein_dir
+            execute '!git clone https://github.com/Shougo/dein.vim' s:dein_dir
         endif
     endif
     execute ' set runtimepath^=' . substitute(
-            \ fnamemodify(s:dein_dir, ':p') , '/$', '', '')
+        \ fnamemodify(s:dein_dir, ':p') , '/$', '', '')
 endif
 "}}}
 
@@ -64,10 +59,8 @@ let g:loaded_netrw             = 1
 let g:loaded_netrwPlugin       = 1
 let g:loaded_netrwSettings     = 1
 let g:loaded_netrwFileHandlers = 1
-let g:loaded_matchparen        = 1
 let g:loaded_LogiPat           = 1
 let g:loaded_logipat           = 1
 let g:loaded_tutor_mode_plugin = 1
 let g:loaded_spellfile_plugin  = 1
 let g:loaded_man               = 1
-let g:loaded_matchit           = 1

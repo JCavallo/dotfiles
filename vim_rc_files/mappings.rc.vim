@@ -15,6 +15,11 @@ nnoremap <F5> :set paste!<cr>
 
 " <F7>/<Shift-F7>: Add / Remove vimpdb breakpoint
 
+" <F10> : Handy shortcut to check cursor coloring
+nnoremap <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") .
+    \ '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+    \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+
 "===============================================================================
 " Leader Key Mappings
 "===============================================================================
