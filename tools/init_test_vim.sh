@@ -1,4 +1,6 @@
 #!/bin/sh
+mkdir -p /tmp/vim_
+mkdir -p /tmp/cache_
 rm -rf /tmp/vim_/*
 rm -rf /tmp/cache_/*
 cd /tmp/vim_/
