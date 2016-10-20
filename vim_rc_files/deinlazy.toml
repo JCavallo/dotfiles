@@ -210,24 +210,6 @@ repo = 'kannokanno/previm'
 on_cmd = 'PrevimOpen'
 depends = 'open-browser.vim'
 
-# Nim syntax
-[[plugins]]
-on_ft = 'nim'
-repo = 'zah/nimrod.vim'
-hook_add = '''
-    function! JumpToDef()
-        if exists("*GotoDefinition_" . &filetype)
-            call GotoDefinition_{&filetype}()
-        else
-            execute "norm! \<C-]>"
-        endif
-    endf
-
-    " Jump to tag
-    nnoremap <M-g> :call JumpToDef()<cr>
-    inoremap <M-g> <esc>:call JumpToDef()<cr>i
-'''
-
 [[plugins]]
 repo = 'Konfekt/FastFold'
 on_i = 1
