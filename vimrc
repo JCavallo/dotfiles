@@ -54,26 +54,16 @@ augroup END
 " mapping
 "===============================================================================
 
-if has('vim_starting')
-    call s:source_rc('init.rc.vim')
-endif
+call s:source_rc('init.rc.vim')
 
 "===============================================================================
-" Install and initialize Neobundle
-" Neobundle use a specific cache to avoid reparsing all plugins when starting
-" vim. So we make sure it is properly configured, then call neobudle.rc, which
+" Install and initialize Dein
+" Dein use a specific cache to avoid reparsing all plugins when starting
+" vim. So we make sure it is properly configured, then call dein.rc, which
 " will load all plugins
 "===============================================================================
 
 call s:source_rc('dein.rc.vim')
-
-if !has('vim_starting')
-    call dein#call_hook('source')
-    call dein#call_hook('post_source')
-
-    syntax enable
-    filetype plugin indent on
-endif
 
 "===============================================================================
 " Global settings
@@ -96,19 +86,15 @@ set hlsearch
 set wrapscan
 
 " Default encoding is UTF8
-if has('vim_starting')
-    set encoding=utf-8
-    set fileencoding=utf8
-endif
+set encoding=utf-8
+set fileencoding=utf8
 
 "===============================================================================
-" Local Settings
+" Call plugins.rc
+" This will load plugins configuration
 "===============================================================================
 
-try
-    source ~/.vimrc.local
-catch
-endtry
+call s:source_rc('plugins.rc.vim')
 
 "===============================================================================
 " Call edit.rc
@@ -129,6 +115,7 @@ call s:source_rc('view.rc.vim')
 " This will set filetype specific options
 "===============================================================================
 
+call s:source_rc('filetype.rc.vim')
 autocmd MyAutoCmd FileType,Syntax,BufNewFile,BufNew,BufRead,BufWinEnter
     \ * call s:my_on_filetype()
 
@@ -138,6 +125,8 @@ function! s:my_on_filetype() abort "{{{
     endif
 
     if !&l:modifiable
+        setlocal nofoldenable
+        setlocal foldcolumn=0
         setlocal colorcolumn=
     endif
 
@@ -152,6 +141,15 @@ function! s:my_on_filetype() abort "{{{
         filetype detect
     endif
 endfunction "}}}
+
+"===============================================================================
+" Local Settings
+"===============================================================================
+
+try
+    source ~/.vimrc.local
+catch
+endtry
 
 "===============================================================================
 " Call extra_commands.rc.vim
