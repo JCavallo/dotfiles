@@ -103,12 +103,6 @@ endif
 " Exclude = from isfilename.
 set isfname-==
 
-" Reload .vimrc automatically.
-if $MYVIMRC != ''
-    autocmd MyAutoCmd BufWritePost .vimrc,vimrc,*.rc.vim,neobundle.toml
-        \ NeoBundleClearCache | source $MYVIMRC | redraw
-endif
-
 " Keymapping timeout.
 set timeout timeoutlen=1000 ttimeoutlen=0
 

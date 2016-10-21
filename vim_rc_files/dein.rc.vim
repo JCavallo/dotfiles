@@ -14,6 +14,7 @@ call dein#begin(s:path)
 
 " Core plugins
 call dein#add('Shougo/dein.vim')
+call dein#add('Shougo/vimproc.vim', {'build': 'make'})
 call dein#add('Shougo/unite.vim')
 call dein#add('Shougo/deoplete.nvim')
 call dein#add('neomake/neomake')
