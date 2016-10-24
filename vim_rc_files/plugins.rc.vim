@@ -61,55 +61,16 @@ autocmd BufRead,BufNewFile *.df set filetype=Dockerfile
 
 " VimFiler {{{
 execute 'source ' . expand($VIM_FOLDER) . '/rc/plugins/vimfiler.rc.vim'
-nnoremap <silent>   <leader>v   :<C-u>VimFiler -find<CR>
-nnoremap <leader>ff :<C-u>VimFilerExplorer<CR>
-" }}}
-
-" Junkfile {{{
-nnoremap <silent> [Window]e :<C-u>Unite junkfile/new junkfile -start-insert<CR>
 " }}}
 
 " Outline {{{
 let g:unite_source_outline_indent_width = 4
 " }}}
 
-" Nice Blocks {{{
-xmap I  <Plug>(niceblock-I)
-xmap A  <Plug>(niceblock-A)
-" }}}
-
-" Accelerated jk {{{
-nmap <silent>j <Plug>(accelerated_jk_gj)
-nmap <silent>k <Plug>(accelerated_jk_gk)
-" }}}
-
-" Operator Replace {{{
-xmap p <Plug>(operator-replace)
-" }}}
-
-" Operator surround {{{
-nmap <silent>sa <Plug>(operator-surround-append)a
-nmap <silent>sd <Plug>(operator-surround-delete)a
-nmap <silent>sr <Plug>(operator-surround-replace)a
-nmap <silent>sc <Plug>(operator-surround-replace)a
-" }}}
-
 " Easy Motion {{{
-nmap w <Plug>(easymotion-lineforward)
-nnoremap W     w
-nmap b <Plug>(easymotion-linebackward)
-nnoremap B     b
-nmap <M-j> <Plug>(easymotion-j)
-nmap <M-k> <Plug>(easymotion-k)
-nmap <Leader>, <Plug>(easymotion-prefix)
-
 let g:EasyMotion_startofline = 0
 let g:EasyMotion_show_prompt = 0
 let g:EasyMotion_verbose = 0
-" }}}
-
-" SmartChr {{{
-execute 'source ' . expand($VIM_FOLDER) . '/rc/plugins/smartchr.rc.vim'
 " }}}
 
 " Jedi {{{

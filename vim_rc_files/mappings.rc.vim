@@ -36,6 +36,9 @@ nnoremap <Leader>d :bdelete<cr>
 " <Leader>e: Fast editing of the .vimrc
 nnoremap <Leader>e :e! ~/.vimrc<cr>
 
+" <Leader>f : Vim filer
+nnoremap <leader>f :<C-u>VimFilerExplorer<CR>
+
 " Return to previously shown buffer
 nnoremap <Leader>m :e#<CR>
 
@@ -58,8 +61,14 @@ nnoremap <Leader>sa zg]s
 nnoremap <Leader>sd 1z=
 nnoremap <Leader>sf z=
 
+" <Leader>v: Vimfiler with current file
+nnoremap <silent> <leader>v   :<C-u>VimFiler -find<CR>
+
 " <Leader>w: Write current buffer
 nnoremap <Leader>w :w<cr>
+
+" <Leader>, : Easy motion
+nnoremap <Leader>, <Plug>(easymotion-prefix)
 
 "===============================================================================
 " Command-line Mode Key Mappings
@@ -89,6 +98,10 @@ cnoremap <c-n> <down>
 cnoremap <c-p> <up>
 cnoremap <c-f> <left>
 cnoremap <c-g> <right>
+cnoremap <expr><silent><C-,>
+    \ (getcmdtype() == '/') ?
+    \ "\<ESC>:Unite -buffer-name=search line:forward:wrap -input="
+    \ . getcmdline() . "\<CR>" : "\<C-g>"
 
 " Unite completion
 cnoremap <C-o> <Plug>(unite_cmdmatch_complete)
@@ -144,14 +157,14 @@ nnoremap - <c-x>
 nnoremap <silent> <C-f> <C-f>
 nnoremap <silent> <C-b> <C-b>
 
-" Ctrl-h: Move word back.
-noremap <c-h> b
+" Ctrl-h: Help
+nnoremap <silent> <C-h> :<C-u>Unite -buffer-name=help help<CR>
 
 " Ctrl-j: Scroll + move down through the file
 noremap <c-j> 3<c-e>3j
 
-" Ctrl-k: Scroll + move up through the file
-noremap <c-k> 3<c-y>3k
+" Ctrl-k: Unite jump
+nnoremap <silent> <C-k> :<C-u>Unite change jump<CR>
 
 " Ctrl-l: Move word forward.
 noremap <c-l> w
@@ -172,13 +185,8 @@ nnoremap <c-s><c-r> :%s/<c-r><c-w>//gc<left><left><left>
 " Ctrl-sw: Quickly surround word
 nnoremap <c-s><c-w> viw
 
-" Ctrl-t*: Tab operations (When was the last time I used tabs?)
-nnoremap <c-t><c-n> :tabnew<cr>
-nnoremap <c-t><c-w> :tabclose<cr>
-nnoremap <c-t><c-j> :tabprev<cr>
-nnoremap <c-t><c-h> :tabprev<cr>
-nnoremap <c-t><c-k> :tabnext<cr>
-nnoremap <c-t><c-l> :tabnext<cr>
+" Ctrl-t: Unite tabs
+nnoremap <silent> <C-t> :<C-u>Unite tab<CR>
 
 " Ctrl-v: Paste (works with system clipboard due to clipboard setting earlier)
 nnoremap <c-v> p
@@ -194,6 +202,60 @@ nnoremap <c-x> <c-w>w
 " Use jk or kj to exit insert mode
 inoremap jk <ESC>l
 inoremap kj <ESC>l
+
+" Smart ','
+inoremap <expr> , smartchr#one_of(', ', ',')
+
+" Smart '='
+inoremap <expr> =
+    \ search('\(&\<bar><bar>\<bar>+\<bar>-\<bar>/\<bar>>\<bar><\) \%#', 'bcn')? '<bs>= '
+    \ : search('\(*\<bar>!\)\%#', 'bcn') ? '= '
+    \ : smartchr#one_of(' = ', '=', ' == ')
+autocmd MyAutoCmd FileType javascript inoremap <buffer> <expr> = smartchr#one_of(' = ', ' === ', '=')
+autocmd MyAutoCmd FileType xml inoremap <buffer> <expr> = smartchr#one_of('=', ' = ', ' == ')
+
+" Smart '.'
+autocmd MyAutoCmd FileType c,cpp inoremap <buffer> <expr> . smartchr#loop('.', '->', '...')
+autocmd MyAutoCmd FileType vim inoremap <buffer> <expr> . smartchr#loop('.', ' . ', '..', '...')
+autocmd MyAutoCmd FileType javascript inoremap <buffer> <expr> . smartchr#loop('.', ' => ')
+autocmd MyAutoCmd FileType perl,php inoremap <buffer> <expr> . smartchr#loop(' . ', '->', '.')
+
+" Smart '-'
+autocmd MyAutoCmd FileType perl,php inoremap <buffer> <expr> - smartchr#loop('-', '->')
+
+" Smart '+'
+autocmd MyAutoCmd FileType python inoremap <buffer> <expr> + smartchr#one_of(' + ', ' += ', '+')
+
+" Smart ':'
+autocmd MyAutoCmd FileType javascript inoremap <buffer> <expr> : smartchr#one_of(': ', ':')
+autocmd MyAutoCmd FileType python inoremap <buffer> <expr> : smartchr#one_of(': ', ':\n')
+
+" SMart '<>'
+inoremap <expr> < smartchr#one_of(' < ', ' <= ', '<')
+inoremap <expr> > smartchr#one_of(' > ', ' >= ', '>')
+
+" Smart '!'
+inoremap <expr> ! smarchr#loop('!', ' != ')
+autocmd MyAutoCmd FileType javascript inoremap <buffer> <expr> ! smartchr#loop('!', ' !== ')
+
+" <TAB>: completion.
+imap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ deoplete#mappings#manual_complete()
+
+" <S-TAB>: completion back.
+inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<C-h>"
+function! s:check_back_space() abort "{{{
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+endfunction"}}}
+
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function() abort
+    return deoplete#mappings#close_popup() . "\<CR>"
+endfunction
 
 "===============================================================================
 " Insert Mode Ctrl Key Mappings
@@ -211,11 +273,12 @@ inoremap <c-e> <esc>A
 " Ctrl-f: Move cursor left
 inoremap <c-f> <Left>
 
-" Ctrl-g: Move cursor right
-inoremap <c-g> <Right>
+" Ctrl-g: Undo completion
+inoremap <expr><C-g> deoplete#mappings#undo_completion()
 
-" Ctrl-h: Move word left
-inoremap <c-h> <c-o>b
+" Ctrl-h: Close completion popup
+inoremap <expr><BS> deoplete#mappings#smart_close_popup()."\<C-h>"
+inoremap <expr><C-h> deoplete#mappings#smart_close_popup()."\<C-h>"
 
 " Ctrl-i: Tab
 
@@ -225,8 +288,8 @@ inoremap <expr> <c-j> pumvisible() ? "\<C-e>\<Down>" : "\<Down>"
 " Ctrl-k: Move cursor up
 inoremap <expr> <c-k> pumvisible() ? "\<C-e>\<Up>" : "\<Up>"
 
-" Ctrl-l: Move word right
-inoremap <c-l> <c-o>w
+" Ctrl-l: Refresh popup
+inoremap <expr><C-l> deoplete#mappings#refresh()
 
 " Ctrl-n: Auto complete next
 
@@ -281,11 +344,11 @@ nnoremap <m-d> db
 " Alt-h: Go to previous buffer
 nnoremap <silent> h :bprevious<CR>
 
-" Alt-j: Move current line down
-nnoremap <silent> j mz:m+<cr>`z==
+" Alt-j: Smart down
+nnoremap <M-j> <Plug>(easymotion-j)
 
-" Alt-k: Move current line up
-nnoremap <silent> k mz:m-2<cr>`z==
+" Alt-k: Smart up
+nnoremap <M-k> <Plug>(easymotion-k)
 
 " Alt-l: Go to next buffer
 nnoremap <silent> l :bnext<CR>
@@ -336,6 +399,8 @@ nnoremap <space>= <c-w>=
 
 " a: Insert after cursor
 " b: Move word backward
+nnoremap b <Plug>(easymotion-linebackward)
+nnoremap B b
 " c: Change into the blackhole register to not clobber the last yank
 nnoremap c "_c
 " d: Delete
@@ -355,14 +420,20 @@ nnoremap gt mggg
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 " gV to visually select last inserted test
 nnoremap gV `[v`]
+" g<C-h> : Jump to help
+nnoremap <silent> g<C-h> :<C-u>UniteWithCursorWord help<CR>
 " h: Left
 " i: Insert before cursor
-" j: Down
-" k: Up
+" j: Accelerated Down
+nmap <silent>j <Plug>(accelerated_jk_gj)
+" k: Accelerated Up
+nmap <silent>k <Plug>(accelerated_jk_gk)
 " l: Right
 " M: Marks. Free m for other commands
 nnoremap M m
 " n: Unite resume
+nnoremap <silent><expr> n
+    \ " :\<C-u>UniteResume search%" . bufnr('%') . " -no-start-insert\<CR>"
 " o: Insert line below cursor
 " p: Paste
 nnoremap p gp
@@ -376,6 +447,8 @@ nnoremap <silent> q :<C-u>call <sid>smart_close()<CR>
 " v: Visual mode
 " u: Undo
 " w: Move word forward
+nnoremap w <Plug>(easymotion-lineforward)
+nnoremap W w
 " x: Delete char
 " y: Yank
 " z: Folds
@@ -389,7 +462,22 @@ nmap \ <Leader>c<space>
 noremap ; ,
 " ,: Leader
 " .: Repeat last command
-" /" Search
+
+" /: Search
+nnoremap <silent> /
+    \ :<C-u>Unite -buffer-name=search%`bufnr('%')`
+    \ -auto-highlight -start-insert line:forward:wrap<CR>
+
+" ?: Backward search
+nnoremap <silent> ?
+    \ :<C-u>Unite -buffer-name=search%`bufnr('%')`
+    \ -auto-highlight -start-insert line:backward<CR>
+
+" *: Search in file with word under cursor
+nnoremap <silent> *
+    \ :<C-u>UniteWithCursorWord -buffer-name=search%`bufnr('%')`
+    \ -auto-highlight line:forward:wrap<CR>
+
 " Up Down Left Right resize splits
 nnoremap <up> <c-w>+
 nnoremap <down> <c-w>-
@@ -407,12 +495,80 @@ nnoremap <silent> <*> :call CursorPing()<CR>
 " The prefix key.
 nnoremap [Window] <Nop>
 nmap     s [Window]
+nnoremap <silent> [Window]e  :<C-u>Unite junkfile/new junkfile -start-insert<CR>
 nnoremap <silent> [Window]p  :<C-u>call <SID>split_nicely()<CR>
 nnoremap <silent> [Window]v  :<C-u>vsplit<CR>
 nnoremap <silent> [Window]h  :<C-u>split<CR>
 nnoremap <silent> [Window]c  :<C-u>call <sid>smart_close()<CR>
 nnoremap <silent> -  :<C-u>call <SID>smart_close()<CR>
 nnoremap <silent> [Window]o  :<C-u>only<CR>
+
+" Space : Unite mappings {{{
+nnoremap [unite] <Nop>
+nmap <space> [unite]
+" Quick sources
+nnoremap <silent> [unite]a :<C-u>Unite -buffer-name=sources source<CR>
+" Quick bookmarks
+nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
+" Quick mark search
+nnoremap <silent> [unite]e :<C-u>Unite -buffer-name=marks mark<CR>
+" Quick file search
+nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=files -multi-line
+    \ -unique -silent file_rec buffer_tab:- file/new<CR>
+" Quick grep
+nnoremap <silent> [unite]g :<C-u>Unite grep -buffer-name=grep`tabpagenr()`
+    \ -no-split -no-empty -no-start-insert -resume -quit<CR>
+" Quick grep (no resume)
+nnoremap <silent> [unite]d :<C-u>Unite grep -buffer-name=grep`tabpagenr()`
+    \ -no-split -no-empty -no-start-insert -quit<CR>
+" Quick help
+nnoremap <silent> [unite]h :<C-u>Unite -buffer-name=help help<CR>
+" Quick buffer
+nnoremap <silent> [unite]i :<C-u>Unite -buffer-name=buffer buffer<CR>
+" Previous changes navigation
+nnoremap <silent> [unite]k :<C-u>Unite change jump<CR>
+" Location List
+nnoremap <silent> [unite]l :<C-u>Unite -auto-highlight -wrap
+    \ -buffer-name=location_list location_list<CR>
+" Next
+nnoremap [unite]n n
+" Quick outline
+nnoremap <silent> [unite]o :<C-u>Unite outline -start-insert -resume<CR>
+" Previous
+nnoremap <silent> [unite]p :UnitePrevious<CR>
+" Quickfix window
+nnoremap <silent> [unite]q :<C-u>Unite -auto-highlight -wrap -no-quit
+    \ -buffer-name=quickfix quickfix<CR>
+" Quick registers
+nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register
+    \ -default-action=append register history/yank<CR>
+" Quick sessions
+nnoremap <silent> [unite]s :<C-u>Unite -buffer-name=sessions session<CR>
+" Quick tags
+nnoremap <silent> [unite]t :<C-u>UniteWithCursorWord
+    \ -buffer-name=tag tag<CR>
+" Quick window switch
+nnoremap <silent> [unite]w :<C-u>Unite window<CR>
+" Quick my redmine issues
+nnoremap <silent> [unite]xm :<C-u>Unite yarm:assigned=me
+    \ -buffer-name=Redmine\ -\ Mine -multi-line<CR>
+" Quick yank history
+nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<CR>
+" Quick mercurial status
+nnoremap <silent> [unite]z :<C-u>Unite -buffer-name=status hg/status<CR>
+" General Fuzzy search
+nnoremap <silent> [unite]<Space>
+    \ :<C-u>Unite -buffer-name=files -multi-line -unique -silent
+    \ jump_point file_point buffer_tab:- file_mru
+    \ file_rec/git file file_rec/async<CR>
+" Quick commands
+nnoremap <silent> [unite]; :<C-u>Unite -buffer-name=history
+    \ history/command<CR>
+" Clear standard searches
+nnoremap [unite]/ /
+nnoremap [unite]? ?
+nnoremap [unite]* *
+" }}}
 
 " A .vimrc snippet that allows you to move around windows beyond tabs
 nnoremap <silent> <tab> :call <SID>NextWindow()<CR>
@@ -529,6 +685,10 @@ endfunction
 "===============================================================================
 " Visual Mode Key Mappings
 "===============================================================================
+
+" Niceblocks
+xnoremap I  <Plug>(niceblock-I)
+xnoremap A  <Plug>(niceblock-A)
 
 " y: Yank and go to end of selection
 xnoremap y y`]

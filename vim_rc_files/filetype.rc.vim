@@ -58,7 +58,8 @@ endif
 
 " SQL {{{
 autocmd MyAutoCmd Filetype sql setlocal omnifunc=sqlcomplete#Complete
-nnoremap <leader>xx :execute 'silent %w !sqlformat -r -k upper -i lower -o % %' \| execute ':e!'<CR>
+autocmd MyAutoCmd Filetype sql
+    \ nnoremap <leader>xx :execute 'silent %w !sqlformat -r -k upper -i lower -o % %' \| execute ':e!'<CR>
 " }}}
 
 " Tryton {{{
