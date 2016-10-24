@@ -227,8 +227,7 @@ autocmd MyAutoCmd FileType perl,php inoremap <buffer> <expr> - smartchr#loop('-'
 autocmd MyAutoCmd FileType python inoremap <buffer> <expr> + smartchr#one_of(' + ', ' += ', '+')
 
 " Smart ':'
-autocmd MyAutoCmd FileType javascript inoremap <buffer> <expr> : smartchr#one_of(': ', ':')
-autocmd MyAutoCmd FileType python inoremap <buffer> <expr> : smartchr#one_of(': ', ':\n')
+inoremap <expr> : smartchr#one_of(': ', ':')
 
 " SMart '<>'
 inoremap <expr> < smartchr#one_of(' < ', ' <= ', '<')
