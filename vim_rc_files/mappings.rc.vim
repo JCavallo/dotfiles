@@ -68,7 +68,7 @@ nnoremap <silent> <leader>v   :<C-u>VimFiler -find<CR>
 nnoremap <Leader>w :w<cr>
 
 " <Leader>, : Easy motion
-nnoremap <Leader>, <Plug>(easymotion-prefix)
+nmap <Leader>, <Plug>(easymotion-prefix)
 
 "===============================================================================
 " Command-line Mode Key Mappings
@@ -227,14 +227,15 @@ autocmd MyAutoCmd FileType perl,php inoremap <buffer> <expr> - smartchr#loop('-'
 autocmd MyAutoCmd FileType python inoremap <buffer> <expr> + smartchr#one_of(' + ', ' += ', '+')
 
 " Smart ':'
-inoremap <expr> : smartchr#one_of(': ', ':')
+autocmd MyAutoCmd FileType javascript inoremap <buffer> <expr> : smartchr#loop(': ', ':')
+autocmd MyAutoCmd FileType python inoremap <buffer> <expr> : smartchr#loop(':', ': ')
 
 " SMart '<>'
 inoremap <expr> < smartchr#one_of(' < ', ' <= ', '<')
 inoremap <expr> > smartchr#one_of(' > ', ' >= ', '>')
 
 " Smart '!'
-inoremap <expr> ! smarchr#loop('!', ' != ')
+inoremap <expr> ! smartchr#loop('!', ' != ')
 autocmd MyAutoCmd FileType javascript inoremap <buffer> <expr> ! smartchr#loop('!', ' !== ')
 
 " <TAB>: completion.
@@ -344,10 +345,10 @@ nnoremap <m-d> db
 nnoremap <silent> h :bprevious<CR>
 
 " Alt-j: Smart down
-nnoremap <M-j> <Plug>(easymotion-j)
+nmap <M-j> <Plug>(easymotion-j)
 
 " Alt-k: Smart up
-nnoremap <M-k> <Plug>(easymotion-k)
+nmap <M-k> <Plug>(easymotion-k)
 
 " Alt-l: Go to next buffer
 nnoremap <silent> l :bnext<CR>
@@ -398,7 +399,7 @@ nnoremap <space>= <c-w>=
 
 " a: Insert after cursor
 " b: Move word backward
-nnoremap b <Plug>(easymotion-linebackward)
+nmap b <Plug>(easymotion-linebackward)
 nnoremap B b
 " c: Change into the blackhole register to not clobber the last yank
 nnoremap c "_c
@@ -446,7 +447,7 @@ nnoremap <silent> q :<C-u>call <sid>smart_close()<CR>
 " v: Visual mode
 " u: Undo
 " w: Move word forward
-nnoremap w <Plug>(easymotion-lineforward)
+nmap w <Plug>(easymotion-lineforward)
 nnoremap W w
 " x: Delete char
 " y: Yank
@@ -509,6 +510,9 @@ nmap <space> [unite]
 nnoremap <silent> [unite]a :<C-u>Unite -buffer-name=sources source<CR>
 " Quick bookmarks
 nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
+" Files in current buffer directory
+nnoremap <silent> [unite]c :<C-u>UniteWithBufferDir -buffer-name=files -multi-line
+    \ -unique -silent file_rec buffer_tab:- file/new<CR>
 " Quick mark search
 nnoremap <silent> [unite]e :<C-u>Unite -buffer-name=marks mark<CR>
 " Quick file search
