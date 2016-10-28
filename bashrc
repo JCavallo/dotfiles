@@ -19,7 +19,7 @@ if [ "$TERM" != "dumb" ]; then
     [ -e "$HOME/.dir_colors" ] &&
     DIR_COLORS="$HOME/.dir_colors" [ -e "$DIR_COLORS" ] ||
     DIR_COLORS=""
-    eval "`dircolors -b $DIR_COLORS`"
+    eval "$(dircolors -b $DIR_COLORS)"
     alias ls='ls --color=auto'
 fi
 
@@ -31,12 +31,12 @@ alias ag="LESS='FSRX' ag --pager less"
 alias hgpl="ls -d -t ~/tmp/* | grep .*diff | head -n 1;ls -d -t ~/tmp/* | grep .*diff | head -n 1 | xargs cat | hg patch --no-commit -"
 # Clean up everything
 alias hgdel="hg revert --all;hg purge;hg review --clean"
-alias gitdel="git reset --hard;rm `git rev-parse --show-toplevel 2> /dev/null`/.git/review_id 2> /dev/null;git clean -fd"
+alias gitdel="git reset --hard;rm \$(git rev-parse --show-toplevel 2> /dev/null)/.git/review_id 2> /dev/null;git clean -fd"
 alias mrg_bas="git merge-base HEAD origin/master"
 alias gitcm="git checkout master"
 
 viewdiff() {
-    git diff $* > /tmp/viewdiff.diff;nvim /tmp/viewdiff.diff
+    git diff "$*" > /tmp/viewdiff.diff;nvim /tmp/viewdiff.diff
 }
 
 DEFAULT="[0m"
@@ -61,13 +61,13 @@ DARKGREY="[37;100m"
 DARKGREYBLACK="[90;49m"
 
 ps_k() {
-    ps ax | grep $1 | sed -r -e "s/^ +([0-9]+) .+/\1/" | xargs kill -9
+    pgrep "$1" | xargs kill -9
 }
 ps_chk() {
-    ps ax | grep $1
+    ps ax | grep "$1"
 }
 hg_ps1_1() {
-    BRANCH=`hg prompt "{branch}" 2> /dev/null`
+    BRANCH=$(hg prompt "{branch}" 2> /dev/null)
     if [ "$BRANCH" != "" ]; then
         echo " $BRANCH"
     else
@@ -75,7 +75,7 @@ hg_ps1_1() {
     fi
 }
 hg_ps1_2() {
-    STATUS=`hg prompt "{status}" 2> /dev/null`
+    STATUS=$(hg prompt "{status}" 2> /dev/null)
     if [ "$STATUS" != "" ]; then
         echo " $STATUS"
     else
@@ -91,7 +91,7 @@ hg_ps1_3() {
     fi
 }
 git_ps1_1() {
-    BRANCH=`git branch 2> /dev/null | grep -e ^* | sed -E  s/^\\\*\ \(.+\)$/\\\1\ /`
+    BRANCH=$(git branch 2> /dev/null | grep -e ^* | sed -E  s/^\\\*\ \(.+\)$/\\\1\ /)
     if [ "$BRANCH" != "" ]; then
         echo " $BRANCH"
     else
@@ -101,7 +101,7 @@ git_ps1_1() {
 git_ps1_2() {
     status=$(git status -sb 2> /dev/null | tail -n +2 2> /dev/null)
     if [ "${status}" != "" ]; then
-        modified=$(echo ${status} | grep "??")
+        modified=$(echo "${status}" | grep "??")
         if [ "${modified}" != "" ]; then
             echo " ? "
         else
@@ -115,7 +115,7 @@ git_ps1_3() {
     cur_branch=$(git branch 2> /dev/null | grep -e ^* | sed -E  s/^\\\*\ \(.+\)$/\\\1\ /)
     if [ "$cur_branch" != "" ]; then
         clean_branch=${cur_branch::-1}
-        rietveld=$(git config --get branch.${clean_branch}.rietveldissue 2> /dev/null)
+        rietveld=$(git config --get branch."${clean_branch}".rietveldissue 2> /dev/null)
         if [ "${rietveld}" != "" ]; then
             echo " $rietveld "
             return
@@ -124,8 +124,8 @@ git_ps1_3() {
 }
 
 virtual_env_ps1() {
-    if [ ! -z $VIRTUAL_ENV ]; then
-        echo " `basename $VIRTUAL_ENV` "
+    if [ ! -z "$VIRTUAL_ENV" ]; then
+        echo " $(basename "$VIRTUAL_ENV") "
     else
         echo ""
     fi
@@ -133,23 +133,23 @@ virtual_env_ps1() {
 
 current_path_ps1() {
     local PROJECT_PATH
-    PROJECT_PATH=`cat $VIRTUAL_ENV/.project 2> /dev/null`
+    PROJECT_PATH=$(cat "$VIRTUAL_ENV"/.project 2> /dev/null)
     if [ "$PROJECT_PATH" = "" ] || [ ! -d "$PROJECT_PATH" ]; then
-        if [ -z $VIRTUAL_ENV ]; then
+        if [ -z "$VIRTUAL_ENV" ]; then
             PROJECT_PATH=
         else
             PROJECT_PATH=$VIRTUAL_ENV
         fi
     fi
     if [ ! "$PROJECT_PATH" = "" ] && [ -d "$PROJECT_PATH" ]; then
-        value=`echo ${PWD#"$PROJECT_PATH"}`
+        value=$(echo "${PWD#"$PROJECT_PATH"}")
         if [ "$value" != "" ]; then
             echo " $value "
         else
             echo ""
         fi
     else
-        echo " `pwd` "
+        echo " $(pwd) "
     fi
 }
 
@@ -177,7 +177,8 @@ PS1+='\[\e${GREEN}\]$(hg_ps1_1)$(git_ps1_1)'
 PS1+='\[\e${GREENYELLOW}\]'
 
 # Rietveld
-PS1+='\[\e${YELLOW}\]$(hg_ps1_3)$(git_ps1_3)'
+# PS1+='\[\e${YELLOW}\]$(hg_ps1_3)$(git_ps1_3)'
+PS1+='\[\e${YELLOW}\]'
 PS1+='\[\e${YELLOWBLUE}\]'
 
 # Status
@@ -196,9 +197,8 @@ PS1+='\[\e${DEFAULT}\]  '
 
 export PS1
 
-
 export EDITOR=nvim
-if [ -z "$FBTERM"]; then
+if [ -z "$FBTERM" ]; then
     export TERM=xterm-256color
 else
     export TERM=fbterm
