@@ -231,8 +231,8 @@ autocmd MyAutoCmd FileType javascript inoremap <buffer> <expr> : smartchr#loop('
 autocmd MyAutoCmd FileType python inoremap <buffer> <expr> : smartchr#loop(':', ': ')
 
 " SMart '<>'
-inoremap <expr> < smartchr#one_of(' < ', ' <= ', '<')
-inoremap <expr> > smartchr#one_of(' > ', ' >= ', '>')
+inoremap <expr> < smartchr#one_of('<', ' <= ', ' < ')
+inoremap <expr> > smartchr#one_of('>', ' >= ', ' > ')
 
 " Smart '!'
 inoremap <expr> ! smartchr#loop('!', ' != ')
