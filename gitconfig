@@ -1,6 +1,6 @@
 [user]
 	name = Jean Cavallo
-	email = jean.cavallo@hotmail.com
+	email = jean.cavallo@hotmail.fr
 [core]
 	excludesfile = /home/giovanni/.gitignore
 	editor = nvim
@@ -13,6 +13,7 @@
 [alias]
 	l = log --color --graph --full-history --all --pretty=format:'%Cred%h%Creset -%C(cyan)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset%n' --abbrev-commit --date iso
 	ll = log --color --graph --full-history --pretty=format:'%Cred%h%Creset -%C(cyan)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset%n' --abbrev-commit --date iso
+	co = checkout
 	st = status -sb
 	unstage = reset -q HEAD --
 	discard = checkout --
