@@ -84,17 +84,17 @@ ln -s ~/dotfiles/nvimrc init.vim
 # Install hgreview
 sudo apt-get install python-pip
 cd ~/tmp
-hg clone https://bitbucket.org/techtonik/python-review/
-cd python-review/
-./refresh.py
-sudo ./setup.py install
-cd ..
-hg clone https://bitbucket.org/nicoe/hgreview
-cd hgreview
-sudo python setup.py install
-cd ~
-cp ~/tmp/python-review/rietveld/upload.py ~/bin/
-chmod +x ~/bin/upload.py
+# hg clone https://bitbucket.org/techtonik/python-review/
+# cd python-review/
+# ./refresh.py
+# sudo ./setup.py install
+# cd ..
+# hg clone https://bitbucket.org/nicoe/hgreview
+# cd hgreview
+# sudo python setup.py install
+# cd ~
+# cp ~/tmp/python-review/rietveld/upload.py ~/bin/
+# chmod +x ~/bin/upload.py
 
 # Install Power Line Fonts
 cd ~/tmp

@@ -6,9 +6,9 @@ let g:dein#enable_notification = 1
 let g:dein#notification_icon = expand($VIM_FOLDER . '/rc/signs/warn.png')
 
 let s:path = expand($CACHE . '/dein')
-if !dein#load_state(s:path)
-    finish
-endif
+" if !dein#load_state(s:path)
+"     finish
+" endif
 
 call dein#begin(s:path)
 
@@ -86,11 +86,12 @@ call dein#add('zchee/deoplete-jedi')
 call dein#add('zchee/deoplete-clang')
 call dein#add('davidhalter/jedi-vim')
 
-"Syntax plugins
+" Colorschemes plugins
 call dein#add('JCavallo/flashy-vim')
+call dein#add('Canop/patine')
 
 call dein#end()
-call dein#save_state()
+" call dein#save_state()
 
 filetype plugin indent on
 syntax enable
