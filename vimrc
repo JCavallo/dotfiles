@@ -140,6 +140,7 @@ function! s:my_on_filetype() abort "{{{
         syntax enable
         filetype detect
     endif
+    call rainbow_parentheses#activate()
 endfunction "}}}
 
 "===============================================================================

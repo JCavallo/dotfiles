@@ -58,12 +58,12 @@ call dein#add('kana/vim-operator-replace')
 call dein#add('rhysd/vim-operator-surround')
 
 " Visual plugins
-call dein#add('kien/rainbow_parentheses.vim')
 call dein#add('Yggdroot/indentLine')
 call dein#add('tyru/open-browser.vim')
 call dein#add('Shougo/vimfiler.vim')
 call dein#add('kannokanno/previm')
 call dein#add('Konfekt/FastFold')
+call dein#add('junegunn/rainbow_parentheses.vim')
 
 " Filetype plugins
 call dein#add('hail2u/vim-css3-syntax')
