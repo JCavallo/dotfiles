@@ -9,7 +9,6 @@
 -- replace nulls
 \pset null ¤
 -- formatting
-\x on
 \pset format wrapped
 \pset linestyle unicode
 \pset border 2
