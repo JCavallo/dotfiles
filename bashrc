@@ -9,6 +9,8 @@ elif [ -f /etc/bash.bashrc ]; then
 fi
 # source /home/giovanni/.bash_completion.d/python-argcomplete.sh
 shopt -s histappend
+# Enable "**" matching for recursive directory use
+shopt -s globstar
 export HISTSIZE=10000
 PROMPT_COMMAND='history -a; history -n'
 export VIRTUAL_ENV_DISABLE_PROMPT=1
