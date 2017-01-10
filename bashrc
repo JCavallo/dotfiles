@@ -37,6 +37,7 @@ alias gitdel="git reset --hard;rm \$(git rev-parse --show-toplevel 2> /dev/null)
 alias mrg_bas="git merge-base HEAD origin/master"
 alias gitcm="git checkout master"
 alias htop="TERM=screen htop"
+alias pg_activity="TERM=screen pg_activity"
 
 viewdiff() {
     git diff "$*" > /tmp/viewdiff.diff;nvim /tmp/viewdiff.diff
