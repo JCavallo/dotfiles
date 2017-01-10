@@ -41,7 +41,6 @@ call dein#add('Shougo/unite-sudo')
 call dein#add('JCavallo/unite-yarm')
 call dein#add('Shougo/unite-help')
 call dein#add('Shougo/neomru.vim')
-call dein#add('Shougo/neoyank.vim')
 call dein#add('tsukkee/unite-tag')
 
 " Edition plugins
@@ -89,6 +88,9 @@ call dein#add('davidhalter/jedi-vim')
 " Colorschemes plugins
 call dein#add('JCavallo/flashy-vim')
 call dein#add('Canop/patine')
+
+" Misc plugins
+call dein#add('vimwiki/vimwiki')
 
 call dein#end()
 " call dein#save_state()

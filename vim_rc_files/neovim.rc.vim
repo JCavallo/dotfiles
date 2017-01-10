@@ -91,6 +91,46 @@ function! OpenPsql()  " {{{
     endif
 endfunction  " }}}
 
+" Run select lines in sql term
+vnoremap <A-s> :<C-U>call RunSelectedSQL()<CR><Esc>
+
+function! RunSelectedSQL()  " {{{
+    let reg_save = @*
+    silent exe "normal! gvy"
+
+    let [lnum1, col1] = getpos("'<")[1:2]
+    let [lnum2, col2] = getpos("'>")[1:2]
+    if lnum1 > lnum2
+        let [lnum1, lnum2] = [lnum2, lnum1]
+    endif
+    let lines = getline(lnum1, lnum2)
+    let unified_line = ''
+    for line in lines
+        if line == '--'
+            continue
+        endif
+        let stripped_line = split(line, '-- ', 1)[0]
+        let unified_line .= stripped_line . ' '
+    endfor
+    let final_lines = [unified_line]
+    call add(final_lines, ' ')
+    call add(final_lines, ';')
+
+    let @* = join(final_lines, '')
+
+    call OpenPsql()
+
+    " Currently terminal cannot handle Fn keys :'(
+    " https://github.com/neovim/neovim/issues/4343
+
+    " startinsert
+    " <F6>
+    silent exe "normal! p"
+    " <F6><C-\><C-n>
+    wincmd p
+    let @* = reg_save
+endfunction  " }}}
+
 " Open node in split
 nnoremap Sn :call OpenNode()<CR>
 nnoremap Sdn :call DeleteNamedBuffer("__NodeTerm__")<CR>
@@ -184,7 +224,7 @@ function! OpenPython()  " {{{
     endif
 endfunction  " }}}
 
-" Run select lines in python term
+" Run selected lines in python term
 vnoremap <A-p> :<C-U>call RunSelectedPython()<CR><Esc>
 
 function! RunSelectedPython()  " {{{

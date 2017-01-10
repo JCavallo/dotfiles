@@ -429,8 +429,9 @@ nmap <silent>j <Plug>(accelerated_jk_gj)
 " k: Accelerated Up
 nmap <silent>k <Plug>(accelerated_jk_gk)
 " l: Right
-" M: Marks. Free m for other commands
-nnoremap M m
+" m: Set mark
+" M: Jump to mark
+nnoremap M '
 " n: Unite resume
 nnoremap <silent><expr> n
     \ " :\<C-u>UniteResume search%" . bufnr('%') . " -no-start-insert\<CR>"
