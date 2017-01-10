@@ -36,6 +36,7 @@ alias hgdel="hg revert --all;hg purge;hg review --clean"
 alias gitdel="git reset --hard;rm \$(git rev-parse --show-toplevel 2> /dev/null)/.git/review_id 2> /dev/null;git clean -fd"
 alias mrg_bas="git merge-base HEAD origin/master"
 alias gitcm="git checkout master"
+alias htop="TERM=screen htop"
 
 viewdiff() {
     git diff "$*" > /tmp/viewdiff.diff;nvim /tmp/viewdiff.diff
