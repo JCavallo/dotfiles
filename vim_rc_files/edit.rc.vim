@@ -53,7 +53,7 @@ set hidden
 " Ignore case on insert completion.
 set infercase
 
-set completeopt=menu,longest,preview
+set completeopt=menu,longest
 set wildmode=list:longest,full
 set wildignore+=*.o,*.obj,.git,*.pyc
 set wildignore+=eggs/**

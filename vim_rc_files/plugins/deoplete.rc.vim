@@ -33,6 +33,7 @@ let g:deoplete#omni#input_patterns = {}
 let g:deoplete#omni#input_patterns.python = ''
 let g:deoplete#omni#functions = {}
 let g:deoplete#omni#functions.lua = 'xolox#lua#omnifunc'
+let g:deoplete#omni#functions.nim = 'omni#nim'
 
 " inoremap <silent><expr> <C-t> deoplete#mappings#manual_complete('file')
 

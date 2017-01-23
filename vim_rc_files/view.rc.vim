@@ -10,6 +10,9 @@ set relativenumber
 set list
 set listchars=tab:▸\ ,trail:-,extends:»,precedes:«,nbsp:%
 
+" Disable Mode displaying (airline is here)
+set noshowmode
+
 " Text display settings
 set linebreak
 set textwidth=79

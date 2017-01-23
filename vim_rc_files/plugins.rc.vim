@@ -117,3 +117,7 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:rainbow#max_level = 16
 let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
 " }}}
+
+" Echodoc {{{
+let g:echodoc_enable_at_startup = 1
+" }}}
