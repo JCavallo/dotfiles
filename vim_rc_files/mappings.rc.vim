@@ -560,11 +560,10 @@ nnoremap <silent> [unite]xm :<C-u>Unite yarm:assigned=me
 nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<CR>
 " Quick mercurial status
 nnoremap <silent> [unite]z :<C-u>Unite -buffer-name=status hg/status<CR>
-" General Fuzzy search
+" MRU search
 nnoremap <silent> [unite]<Space>
     \ :<C-u>Unite -buffer-name=files -multi-line -unique -silent
-    \ jump_point file_point buffer_tab:- file_mru
-    \ file_rec/git file file_rec/async<CR>
+    \ jump_point file_point buffer_tab:- file_mru<CR>
 " Quick commands
 nnoremap <silent> [unite]; :<C-u>Unite -buffer-name=history
     \ history/command<CR>
