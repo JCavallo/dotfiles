@@ -19,15 +19,15 @@ echo "done"
 
 # change to the dotfiles directory
 echo -n "Changing to the $dir directory ..."
-cd $dir
+cd $dir || exit
 echo "done"
 
 # move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks from the homedir to any files in the ~/dotfiles directory specified in $files
 for file in $files; do
     echo "Moving any existing dotfiles from ~ to $olddir"
-    mv ~/.$file ~/dotfiles_old/
-    echo "Creating symlink to $file in home directory."
-    ln -s $dir/$file ~/.$file
+    mv ~/."$file" ~/dotfiles_old/
+    echo Creating symlink to "$file" in home directory.
+    ln -s "$dir"/"$file" ~/."$file"
 done
 
 # Create config folder
@@ -70,20 +70,20 @@ mkdir -p ~/tmp
 mkdir -p ~/Projets
 
 # Build latest neovim
-cd ~/Projets
+cd ~/Projets || exit
 git clone https://github.com/neovim/neovim Neovim
-sudo apt-get install libtool libtool-bin autoconf automake cmake g++ pkg-config unzip
-cd Neovim
+sudo apt-get install libtool libtool-bin autoconf automake cmake g++ pkg-config unzip libunibilium-dev
+cd Neovim || exit
 make CMAKE_BUILD_TYPE=Release
 sudo make install
 mkdir -p ~/.config
 mkdir -p ~/.config/nvim
-cd ~/.config/nvim
+cd ~/.config/nvim || exit
 ln -s ~/dotfiles/nvimrc init.vim
 
 # Install hgreview
 sudo apt-get install python-pip
-cd ~/tmp
+cd ~/tmp || exit
 # hg clone https://bitbucket.org/techtonik/python-review/
 # cd python-review/
 # ./refresh.py
@@ -97,13 +97,13 @@ cd ~/tmp
 # chmod +x ~/bin/upload.py
 
 # Install Power Line Fonts
-cd ~/tmp
+cd ~/tmp || exit
 git clone https://github.com/powerline/fonts
-cd fonts
+cd fonts || exit
 ./install.sh
 cd ..
 rm -r fonts
-cd ~
+cd ~ || exit
 
 # Install fbterm (replace tty)
 sudo apt-get install fbterm
@@ -111,17 +111,17 @@ sudo gpasswd -a giovanni video
 sudo chmod u+s /usr/bin/fbterm
 
 # Handle remote neovim
-cd ~/tmp
+cd ~/tmp || exit
 git clone https://github.com/mhinz/neovim-remote.git neovim-remote
-cd neovim-remote
+cd neovim-remote || exit
 git checkout master
 chmod +x nvr
 cp nvr ~/bin
-cd ~/tmp
+cd ~/tmp || exit
 rm -rf neovim-remote
 
 # Install tmux
-echo tmux not installed, you will have to do it manually
+echo "tmux not installed, you will have to do it manually"
 
 # Install tmux plugin
 mkdir -p ~/.config/tmux_plug
