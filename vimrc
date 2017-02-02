@@ -119,6 +119,7 @@ call s:source_rc('filetype.rc.vim')
 autocmd MyAutoCmd FileType,Syntax,BufNewFile,BufNew,BufRead,BufWinEnter
     \ * call s:my_on_filetype()
 
+
 function! s:my_on_filetype() abort "{{{
     if &filetype !=# 'help'
         setlocal foldtext=CustomFoldText()
@@ -193,6 +194,12 @@ let t:cwd = getcwd()
 
 " Try to set colorscheme
 silent! colorscheme flashy_vim
+autocmd MyAutoCmd BufWritePost,BufEnter * Neomake
+autocmd ColorScheme *
+    \ hi NeomakeErrorSign ctermfg=red ctermbg=darkgrey |
+    \ hi NeomakeWarningSign ctermfg=yellow ctermbg=darkgrey |
+    \ hi NeomakeMessageSign ctermfg=white ctermbg=darkgrey |
+    \ hi NeomakeInfoSign ctermfg=blue ctermbg=darkgrey
 
 " Force detection for first opened file since event were triggered before
 " autocommand definition

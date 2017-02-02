@@ -4,6 +4,15 @@
 execute 'source ' . expand($VIM_FOLDER) . '/rc/plugins/unite.rc.vim'
 " }}}
 
+" Neomake {{{
+let g:neomake_python_enabled_makers = ['flake8']
+let g:neomake_trpy_enabled_makers = ['flake8']
+let g:neomake_javascript_enabled_makers = ['jshint']
+let g:neomake_nim_enabled_makers = ['nim']
+let g:neomake_nim_nim_remove_invalid_entries = 1
+let g:quickfixsigns_protect_sign_rx = '^neomake_'
+" }}}
+
 " Syntastic {{{
 let g:syntastic_enable_balloons = 0
 let g:syntastic_check_on_open = 1
@@ -18,8 +27,8 @@ let g:syntastic_warning_symbol='✗'
 let g:syntastic_style_warning_symbol='▶'
 let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
 let g:syntastic_mode_map = { 'mode': 'active',
-    \ 'active_filetypes': ['python'],
-    \ 'passive_filetypes': [] }
+    \ 'active_filetypes': [],
+    \ 'passive_filetypes': ['python', 'nim'] }
 let g:syntastic_python_flake8_post_args='--ignore=E123,E124,E126,E127,E128,E711,W404,F403,W503'
 let g:syntastic_python_pylint_post_args='--disable=E1101,W0613,C0111'
 let g:syntastic_python_checkers=['flake8']
