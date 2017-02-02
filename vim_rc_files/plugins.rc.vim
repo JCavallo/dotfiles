@@ -4,6 +4,18 @@
 execute 'source ' . expand($VIM_FOLDER) . '/rc/plugins/unite.rc.vim'
 " }}}
 
+" Denite {{{
+let s:menus = {}
+let s:menus.custom_commands = {
+    \ 'description': 'Useful file commands'
+    \ }
+let s:menus.custom_commands.command_candidates = [
+    \ ['Format JSON', '%!python -mjson.tool'],
+    \ ['Git blame', '%!git blame %'],
+    \ ]
+call denite#custom#var('menu', 'menus', s:menus)
+" }}}
+
 " Neomake {{{
 let g:neomake_python_enabled_makers = ['flake8']
 let g:neomake_trpy_enabled_makers = ['flake8']
