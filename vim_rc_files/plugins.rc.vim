@@ -11,6 +11,10 @@ let g:neomake_javascript_enabled_makers = ['jshint']
 let g:neomake_nim_enabled_makers = ['nim']
 let g:neomake_nim_nim_remove_invalid_entries = 1
 let g:quickfixsigns_protect_sign_rx = '^neomake_'
+let g:neomake_warning_sign = {
+    \   'text': '✖',
+    \   'texthl': 'NeomakeWarningSign',
+    \ }
 " }}}
 
 " Syntastic {{{
