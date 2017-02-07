@@ -193,13 +193,13 @@ endif
 let t:cwd = getcwd()
 
 " Try to set colorscheme
-silent! colorscheme flashy_vim
 autocmd MyAutoCmd BufWritePost,BufEnter * Neomake
 autocmd ColorScheme *
-    \ hi NeomakeErrorSign ctermfg=red ctermbg=darkgrey |
-    \ hi NeomakeWarningSign ctermfg=yellow ctermbg=darkgrey |
-    \ hi NeomakeMessageSign ctermfg=white ctermbg=darkgrey |
-    \ hi NeomakeInfoSign ctermfg=blue ctermbg=darkgrey
+    \ hi NeomakeErrorSign cterm=bold ctermfg=196 ctermbg=235 |
+    \ hi NeomakeWarningSign cterm=bold ctermfg=226 ctermbg=235 |
+    \ hi NeomakeMessageSign cterm=bold ctermfg=white ctermbg=235 |
+    \ hi NeomakeInfoSign cterm=bold ctermfg=45 ctermbg=235
+silent! colorscheme flashy_vim
 
 " Force detection for first opened file since event were triggered before
 " autocommand definition
