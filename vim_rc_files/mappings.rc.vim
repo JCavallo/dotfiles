@@ -39,6 +39,53 @@ nnoremap <Leader>e :e! ~/.vimrc<cr>
 " <Leader>f : Vim filer
 nnoremap <leader>f :<C-u>VimFilerExplorer<CR>
 
+" <Leafer>la : Add logging, lA to add above
+nnoremap <Leader>la :<C-u>call <SID>AddLogging(0)<CR>
+nnoremap <Leader>lA :<C-u>call <SID>AddLogging(-1)<CR>
+
+function! s:AddLogging(delta)  " {{{
+    if &filetype != 'python' && &filetype != 'python.trpy'
+        return
+    endif
+    let cur_pos = getpos('.')
+    let [head_num, head_col] = searchpos(
+        \ '^import logging as tmp_logging;import pprint as tmp_pprint  # TMP_VIMLOG', 'nb')
+    if head_num == 0 && head_col == 0
+        call setpos('.', [0, 0, 1, 0])
+        call search('^[^#]')
+        call append(getpos('.')[2] + 1,
+            \ 'import logging as tmp_logging;import pprint as tmp_pprint  # TMP_VIMLOG')
+        call append(getpos('.')[2] + 2,
+            \ 'def _print(x):  # TMP_VIMLOG')
+        call append(getpos('.')[2] + 3,
+            \ "    tmp_logging.getLogger('root').critical(tmp_pprint.pformat(x, indent=1, width=130))  # TMP_VIMLOG")
+        let cur_pos[1] += 3
+        call setpos('.', cur_pos)
+    endif
+    let cur_pos[2] = 1
+    call setpos('.', cur_pos)
+    call search('[^ ]')
+    let indent = getpos('.')[2] - 1
+    call append(cur_pos[1] + a:delta,
+        \ "_print()  # TMP_VIMLOG")
+    let cur_pos[1] += 1 + a:delta
+    let cur_pos[2] = 8 + indent
+    call setpos('.', cur_pos)
+    execute(':normal I' . repeat(' ', indent))
+    call setpos('.', cur_pos)
+    startinsert
+endfunction  " }}}
+
+" <Leafer>lr : Remove logging
+nnoremap <Leader>lr :<C-u>call <SID>RemoveLogging()<CR>
+
+function! s:RemoveLogging()  " {{{
+    if &filetype != 'python' && &filetype != 'python.trpy'
+        return
+    endif
+    execute('g/# TMP_VIMLOG/d')
+endfunction  " }}}
+
 " Return to previously shown buffer
 nnoremap <Leader>m :e#<CR>
 
