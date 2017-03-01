@@ -47,6 +47,7 @@ DEFAULT="[0m"
 BLINK="[5m"
 BLINKRESET="[25m"
 
+WHITE="[97;49m"
 PINK="[30;45m"
 PINKLIGHTBLUE="[35;104m"
 LIGHTBLUE="[30;104m"
@@ -158,7 +159,7 @@ current_path_ps1() {
 }
 
 # Init
-PS1='\n\[\033[G\]'
+PS1='\n\[\033[G\]\[\e[1m\]\[\e${WHITE}\]┌─\[\e${DEFAULT}\]'
 
 # User
 PS1+='\[\e${PINK}\] \u '
@@ -190,7 +191,7 @@ PS1+='\[\e${BLUE}\]\[\e${BLINK}\]$(hg_ps1_2)$(git_ps1_2)\[\e${BLINKRESET}\]'
 PS1+='\[\e${BLUEBLACK}\]'
 
 # New line
-PS1+='\[\e${DEFAULT}\]\n'
+PS1+='\[\e${DEFAULT}\]\n\[\e${WHITE}\]\[\e[1m\]\[\e${WHITE}\]└─\[\e${DEFAULT}\]'
 
 # Time
 PS1+='\[\e${DARKGREY}\] $(date +%H:%M:%S) '
