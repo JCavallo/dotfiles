@@ -1,5 +1,5 @@
-" Unix specific configuration
 "===============================================================================
+" Unix specific configuration
 "===============================================================================
 
 " Set path.
@@ -53,13 +53,16 @@ else
 endif
 
 " Using the mouse on a terminal.
-if has('mouse') && !has('nvim')
+" if has('mouse') && !has('nvim')
+if has('mouse')
     set mouse=a
-    if has('mouse_sgr') || v:version > 703 ||
-            \ v:version == 703 && has('patch632')
-        set ttymouse=sgr
-    else
-        set ttymouse=xterm2
+    if !has('nvim')
+        if has('mouse_sgr') || v:version > 703 ||
+                \ v:version == 703 && has('patch632')
+            set ttymouse=sgr
+        else
+            set ttymouse=xterm2
+        endif
     endif
 
     " Paste.
@@ -67,4 +70,10 @@ if has('mouse') && !has('nvim')
     xnoremap <RightMouse> "+p
     inoremap <RightMouse> <C-r><C-o>+
     cnoremap <RightMouse> <C-r>+
+
+    " Undo / Redo
+    " unmap <MouseUp>
+    " unmap <MouseDown>
+    " nnoremap <ScrollWheelUp> u
+    " nnoremap <ScrollWheelDown> <c-r>
 endif
