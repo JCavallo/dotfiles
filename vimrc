@@ -192,6 +192,27 @@ endif
 " Default home directory.
 let t:cwd = getcwd()
 
+function! Localvimrc() 
+    let path = getcwd()
+    let path = path . "/"
+    let currpath = "/"
+
+    while 1
+        let filename = currpath . ".sub_vimrc"
+        if filereadable(filename)
+            exec 'source ' . escape(filename, ' ~|!"$%&()=?{[]}+*#'."'")
+            "echo 'Loaded ' . filename
+        endif
+        if path == currpath
+            break
+        endif
+        let pos = matchend(path, "/", strlen(currpath))
+        let currpath = strpart(path, 0, pos)
+    endwhile
+endfunction
+
+call Localvimrc()
+
 " Try to set colorscheme
 autocmd MyAutoCmd BufWritePost,BufEnter * Neomake
 autocmd ColorScheme *
