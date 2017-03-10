@@ -39,7 +39,7 @@ nnoremap <Leader>e :e! ~/.vimrc<cr>
 " <Leader>f : Vim filer
 nnoremap <leader>f :<C-u>VimFilerExplorer<CR>
 
-" <Leafer>la : Add logging, lA to add above
+" <Leader>la : Add logging, lA to add above
 nnoremap <Leader>la :<C-u>call <SID>AddLogging(0)<CR>
 nnoremap <Leader>lA :<C-u>call <SID>AddLogging(-1)<CR>
 
@@ -49,16 +49,16 @@ function! s:AddLogging(delta)  " {{{
     endif
     let cur_pos = getpos('.')
     let [head_num, head_col] = searchpos(
-        \ '^import logging as tmp_logging;import pprint as tmp_pprint  # TMP_VIMLOG', 'nb')
+        \ '^import logging as tmp_logging;import pprint as tmp_pprint  # PYPRINT', 'nb')
     if head_num == 0 && head_col == 0
         call setpos('.', [0, 0, 1, 0])
         call search('^[^#]')
         call append(getpos('.')[2] + 1,
-            \ 'import logging as tmp_logging;import pprint as tmp_pprint  # TMP_VIMLOG')
+            \ 'import logging as tmp_logging;import pprint as tmp_pprint  # PYPRINT')
         call append(getpos('.')[2] + 2,
-            \ 'def _print(x):  # TMP_VIMLOG')
+            \ 'def _print(x):  # PYPRINT')
         call append(getpos('.')[2] + 3,
-            \ "    tmp_logging.getLogger('root').critical(tmp_pprint.pformat(x, indent=1, width=130))  # TMP_VIMLOG")
+            \ "    tmp_logging.getLogger('root').critical(tmp_pprint.pformat(x, indent=1, width=130))  # PYPRINT")
         let cur_pos[1] += 3
         call setpos('.', cur_pos)
     endif
@@ -67,7 +67,7 @@ function! s:AddLogging(delta)  " {{{
     call search('[^ ]')
     let indent = getpos('.')[2] - 1
     call append(cur_pos[1] + a:delta,
-        \ "_print()  # TMP_VIMLOG")
+        \ "_print()  # PYPRINT")
     let cur_pos[1] += 1 + a:delta
     let cur_pos[2] = 8 + indent
     call setpos('.', cur_pos)
@@ -76,14 +76,63 @@ function! s:AddLogging(delta)  " {{{
     startinsert
 endfunction  " }}}
 
-" <Leafer>lr : Remove logging
+" <Leader>lr : Remove logging
 nnoremap <Leader>lr :<C-u>call <SID>RemoveLogging()<CR>
 
 function! s:RemoveLogging()  " {{{
     if &filetype != 'python' && &filetype != 'python.trpy'
         return
     endif
-    execute('g/# TMP_VIMLOG/d')
+    execute('g/# PYPRINT/d')
+endfunction  " }}}
+
+" <Leader>p: Copy the full path of the current file to the clipboard
+nnoremap <silent> <Leader>p :let @+=expand("%:p")<cr>:echo "Copied current file
+      \ path '".expand("%:p")."' to clipboard"<cr>
+
+" <Leader>pa : Add pudb (pa -> after, pA -> before)
+nnoremap <Leader>pa :<C-u>call <SID>AddPudb(0)<CR>
+nnoremap <Leader>pA :<C-u>call <SID>AddPudb(-1)<CR>
+
+function! s:AddPudb(delta)  " {{{
+    if &filetype != 'python' && &filetype != 'python.trpy'
+        return
+    endif
+    let cur_pos = getpos('.')
+    let [head_num, head_col] = searchpos(
+        \ '^from pudb.remote import set_trace as tmp_set_trace  # PYPUDB', 'nb')
+    if head_num == 0 && head_col == 0
+        call setpos('.', [0, 0, 1, 0])
+        call search('^[^#]')
+        call append(getpos('.')[2] + 1,
+            \ 'from pudb.remote import set_trace as tmp_set_trace  # PYPUDB')
+        call append(getpos('.')[2] + 2,
+            \ 'def _pudb_trace():  # PYPUDB')
+        call append(getpos('.')[2] + 3,
+            \ "    tmp_set_trace(term_size=(200, " . winheight(0) . "), port=6899)  # PYPUDB")
+        let cur_pos[1] += 3
+        call setpos('.', cur_pos)
+    endif
+    let cur_pos[2] = 1
+    call setpos('.', cur_pos)
+    call search('[^ ]')
+    let indent = getpos('.')[2] - 1
+    call append(cur_pos[1] + a:delta,
+        \ "_pudb_trace()  # PYPUDB")
+    let cur_pos[1] += 1 + a:delta
+    call setpos('.', cur_pos)
+    execute(':normal I' . repeat(' ', indent))
+    call setpos('.', cur_pos)
+endfunction  " }}}
+
+" <Leafer>pr : Remove pudb
+nnoremap <Leader>pr :<C-u>call <SID>RemovePudb()<CR>
+
+function! s:RemovePudb()  " {{{
+    if &filetype != 'python' && &filetype != 'python.trpy'
+        return
+    endif
+    execute('g/# PYPUDB/d')
 endfunction  " }}}
 
 " Return to previously shown buffer
@@ -91,10 +140,6 @@ nnoremap <Leader>m :e#<CR>
 
 " <Leader>o: only
 nnoremap <Leader>o :only<cr>
-
-" <Leader>p: Copy the full path of the current file to the clipboard
-nnoremap <silent> <Leader>p :let @+=expand("%:p")<cr>:echo "Copied current file
-      \ path '".expand("%:p")."' to clipboard"<cr>
 
 " open/close the quickfix window
 nnoremap <leader>qo :copen<CR>

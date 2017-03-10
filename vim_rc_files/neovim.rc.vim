@@ -290,3 +290,28 @@ function! HideNamedBuffer(buf_name)  " {{{
         endif
     endif
 endfunction " }}}
+
+" Open Pudb
+nnoremap Su :call OpenPudb()<CR>
+nnoremap Sup :call DeleteNamedBuffer("__PudbTerm__")<CR>
+nnoremap Sup :call HideNamedBuffer("__PudbTerm__")<CR>
+
+function! OpenPudb()  " {{{
+    let pudb_buffer = bufnr("__PudbTerm__")
+    if pudb_buffer != -1 && bufwinnr(pudb_buffer) != -1
+        execute ":" . bufwinnr(pudb_buffer) . "wincmd w"
+        normal A
+    elseif pudb_buffer != -1
+        execute ":vert botright split"
+        execute ":vertical resize 200"
+        execute ":set winfixwidth"
+        execute ":buffer " . pudb_buffer
+        normal A
+    else
+        execute ":vert botright split"
+        execute ":vertical resize 200"
+        execute ":set winfixwidth"
+        execute ":terminal telnet localhost 6899"
+        execute ":file __PudbTerm__"
+    endif
+endfunction  " }}}
