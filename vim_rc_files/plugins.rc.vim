@@ -6,7 +6,6 @@ execute 'source ' . expand($VIM_FOLDER) . '/rc/plugins/unite.rc.vim'
 
 " Neomake {{{
 let g:neomake_python_enabled_makers = ['flake8']
-let g:neomake_trpy_enabled_makers = ['flake8']
 let g:neomake_javascript_enabled_makers = ['jshint']
 let g:neomake_nim_enabled_makers = ['nim']
 let g:neomake_nim_nim_remove_invalid_entries = 1
