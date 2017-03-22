@@ -4,3 +4,12 @@
 "\C-j": history-search-forward
 set show-all-if-ambiguous on
 set completion-ignore-case on
+set editing-mode vi
+$if mode=vi
+    # "\C-\":vi-movement-mode
+    #set keymap vi-insert
+    #"jj":vi-movement-mode
+    # "\M-\":vi-insertion-mode
+    "jk":vi-movement-mode
+    "kj":vi-movement-mode
+$endif
