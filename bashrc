@@ -215,10 +215,15 @@ if [ -f ~/.bash_local ]; then
     . ~/.bash_local
 fi
 
+_git_store ()
+{
+  __gitcomp_nl "$(__git_heads)"
+}
+
 set -o vi
 source ~/.fzf.bash
 
-# vim:set ft=sh:
-
 export NVM_DIR="/home/giovanni/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+# vim:set ft=sh:
