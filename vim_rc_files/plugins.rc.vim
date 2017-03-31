@@ -14,6 +14,7 @@ let g:neomake_warning_sign = {
     \   'text': '✖',
     \   'texthl': 'NeomakeWarningSign',
     \ }
+let g:neomake_tempfile_enabled = 0
 " }}}
 
 " Syntastic {{{

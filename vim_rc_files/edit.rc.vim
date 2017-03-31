@@ -134,11 +134,8 @@ set keywordprg=:help
 
 " Disable paste.
 autocmd MyAutoCmd InsertLeave *
-    \ if &paste | set nopaste mouse=a | echo 'nopaste' | endif |
-    \ if &l:diff | diffupdate | endif
+    \ if &paste | set nopaste mouse=a | echo 'nopaste' | endif
 
-" Update diff.
-autocmd MyAutoCmd InsertLeave * if &l:diff | diffupdate | endif
 
 " Make directory automatically.
 " --------------------------------------
