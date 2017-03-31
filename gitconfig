@@ -6,6 +6,8 @@
 	editor = nvim
 [color]
 	ui = true
+[upload]
+	fork = mine
 [push]
 	default = current
 [diff]
@@ -26,6 +28,7 @@
 	summary = status -u -s
 	branchout = checkout -b
 	branches = branch -a
+	br = branch -vv
 	tags = tag
 	stashes = stash list
 	prestage = diff
