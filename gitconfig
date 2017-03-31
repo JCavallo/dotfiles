@@ -27,7 +27,7 @@
 	last = log -1 HEAD --format=format:"%Cred%H"
 	summary = status -u -s
 	branchout = checkout -b
-	branches = branch -a
+	branches = branch -a -vv
 	br = branch -vv
 	tags = tag
 	stashes = stash list
