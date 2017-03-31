@@ -64,11 +64,6 @@ if len(sys.argv) != 2:
     print(USAGE)
     sys.exit()
 
-if cur_branch.startswith(sys.argv[1]):
-    print('Already on branch %s !' % cur_branch)
-    print('')
-    sys.exit()
-
 if not create_branch:
     target = [x for x in branches if x.startswith(sys.argv[1])]
     if len(target) == 1:
@@ -89,7 +84,9 @@ else:
 print('Stashing, just in case')
 run_cmd(['git', 'stash', 'save', 'tmp_for_gitstore'], False)
 
-if not create_branch:
+if target == cur_branch:
+    print('Already on %s, only pushing' % target)
+elif not create_branch:
     print('Switching branch to %s' % target)
     run_cmd(['git', 'checkout', target], False)
 else:
@@ -97,16 +94,20 @@ else:
     run_cmd(['git', 'checkout', 'master'], False)
     run_cmd(['git', 'checkout', '-b', target], False)
 
-print('Cherry picking')
-run_cmd(['git', 'cherry-pick', cur_branch])
+if target != cur_branch:
+    print('Cherry picking')
+    run_cmd(['git', 'cherry-pick', cur_branch])
 
 if target_remote:
     print(target_remote)
     print('Pushing to %s' % target_remote)
     subprocess.Popen(['git', 'push', target_remote]).communicate()
+    run_cmd(['git', 'branch', '--set-upstream-to=%s/%s' % (target_remote,
+        target), target], False)
 
-print('Switching back to %s' % cur_branch)
-run_cmd(['git', 'checkout', cur_branch], False)
+if target != cur_branch:
+    print('Switching back to %s' % cur_branch)
+    run_cmd(['git', 'checkout', cur_branch], False)
 
 print('Restoring stash')
 subprocess.Popen(
