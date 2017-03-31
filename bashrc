@@ -38,6 +38,7 @@ alias mrg_bas="git merge-base HEAD origin/master"
 alias gitcm="git checkout master"
 alias htop="TERM=screen htop"
 alias pg_activity="TERM=screen pg_activity"
+alias grp="grep --line-buffered"
 
 viewdiff() {
     git diff "$*" > /tmp/viewdiff.diff;nvim /tmp/viewdiff.diff
