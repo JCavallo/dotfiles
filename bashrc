@@ -1,3 +1,8 @@
+if hash keychain 2>/dev/null; then
+    eval "$(keychain --eval --agents ssh id_rsa)"
+    clear
+fi
+
 export WORKON_HOME=/home/giovanni/Projets/python_envs
 if [ -f /home/giovanni/.local/bin/virtualenvwrapper.sh ]; then
     source /home/giovanni/.local/bin/virtualenvwrapper.sh
@@ -38,7 +43,7 @@ alias mrg_bas="git merge-base HEAD origin/master"
 alias gitcm="git checkout master"
 alias htop="TERM=screen htop"
 alias pg_activity="TERM=screen pg_activity"
-alias grp="grep --line-buffered"
+alias grp="grep -I --line-buffered"
 
 viewdiff() {
     git diff "$*" > /tmp/viewdiff.diff;nvim /tmp/viewdiff.diff
@@ -160,7 +165,7 @@ current_path_ps1() {
 }
 
 # Init
-PS1='\n\[\033[G\]\[\e[1m\]\[\e${WHITE}\]┌─\[\e${DEFAULT}\]'
+PS1='\n\[\033[G\]\[\e[1m\]\[\e${WHITE}\]  ┌─\[\e${DEFAULT}\]'
 
 # User
 PS1+='\[\e${PINK}\] \u '
