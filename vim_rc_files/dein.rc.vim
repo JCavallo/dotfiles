@@ -64,6 +64,7 @@ call dein#add('kannokanno/previm')
 call dein#add('Konfekt/FastFold')
 call dein#add('junegunn/rainbow_parentheses.vim')
 call dein#add('Shougo/echodoc.vim')
+call dein#add('vim-scripts/AnsiEsc.vim')
 
 " Filetype plugins
 call dein#add('hail2u/vim-css3-syntax')
