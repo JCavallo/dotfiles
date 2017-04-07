@@ -12,5 +12,5 @@ tmux new-window -t $new_shell -n "$1 Code"
 tmux new-window -t $new_code -n "$1 Shell"
 tmux select-window -t $new_shell
 sleep 2
-tmux send-keys -t $new_shell "workon $2;clear" C-m
-tmux send-keys -t $new_code "workon $2;clear;$EDITOR" C-m
+tmux send-keys -t $new_shell "workon $2;clear;$EDITOR" C-m
+tmux send-keys -t $new_code "workon $2;clear" C-m
