@@ -1,0 +1,10 @@
+#!/bin/bash
+tmux new-window -t 2 -n "Hangups"
+tmux new-window -t 3 -n "Htop"
+tmux new-window -t 4 -n "PtPython"
+tmux new-window -t 5 -n "Dotfiles"
+sleep 2
+tmux send-keys -t 2 "hangups" C-m
+tmux send-keys -t 3 "htop" C-m
+tmux send-keys -t 4 "ptpython --vi" C-m
+tmux select-window -t 2
