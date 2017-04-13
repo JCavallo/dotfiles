@@ -12,6 +12,7 @@
 \pset format wrapped
 \pset linestyle unicode
 \pset border 2
+\x auto
 
 -- colorize
 --\set PROMPT1 '%[%033[33;1m%]%x%[%033[0m%]%[%033[1m%]%/%[%033[0m%]%R%# '
