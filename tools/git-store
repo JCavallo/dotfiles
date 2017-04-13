@@ -99,7 +99,6 @@ if target != cur_branch:
     run_cmd(['git', 'cherry-pick', cur_branch])
 
 if target_remote:
-    print(target_remote)
     print('Pushing to %s' % target_remote)
     subprocess.Popen(['git', 'push', target_remote]).communicate()
     run_cmd(['git', 'branch', '--set-upstream-to=%s/%s' % (target_remote,
