@@ -665,8 +665,8 @@ nnoremap [unite]? ?
 nnoremap [unite]* *
 
 " Denite
-nnoremap [unite]<Space>c :<C-u>DeniteBufferDir file_rec<CR>
-nnoremap [unite]<Space>f :<C-u>Denite file_rec<CR>
+nnoremap [unite]<Space>c :<C-u>DeniteBufferDir -updatetime=100 file_rec<CR>
+nnoremap [unite]<Space>f :<C-u>Denite -updatetime=100 file_rec<CR>
 " }}}
 
 " A .vimrc snippet that allows you to move around windows beyond tabs
