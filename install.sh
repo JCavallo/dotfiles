@@ -8,7 +8,7 @@
 
 dir=~/dotfiles                    # dotfiles directory
 olddir=~/dotfiles_old             # old dotfiles backup directory
-files="agignore bashrc bash_profile gitconfig gitignore hgignore hgrc inputrc nvimrc psqlrc tmux.conf tmux.conf.local vimrc xonshrc"    # list of files/folders to symlink in homedir
+files="agignore bashrc bash_profile gitconfig gitignore hgignore hgrc inputrc nvimrc psqlrc tmux.conf tmux.conf.local vimrc Xdefaults xonshrc"    # list of files/folders to symlink in homedir
 
 ##########
 
@@ -83,6 +83,7 @@ ln -s ~/dotfiles/nvimrc init.vim
 
 # Install hgreview
 sudo apt-get install python-pip
+pip install --user neovim
 cd ~/tmp || exit
 # hg clone https://bitbucket.org/techtonik/python-review/
 # cd python-review/
@@ -121,7 +122,7 @@ cd ~/tmp || exit
 rm -rf neovim-remote
 
 # Install tmux
-echo "tmux not installed, you will have to do it manually"
+sudo apt-get install tmux rxvt-unicode-256color
 
 # Install tmux plugin
 mkdir -p ~/.config/tmux_plug
