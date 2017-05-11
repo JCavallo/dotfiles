@@ -504,10 +504,8 @@ nnoremap <silent> t :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>t
 nnoremap <silent> F :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>F
 nnoremap <silent> T :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>T
 " g: Many functions
-" gb sends back to before gtoping
-nnoremap gb 'g:delmark g<cr>
-" mark current position before going top
-nnoremap gt mggg
+" Edit top of file in small window below
+nnoremap gt :rightbelow 15split<CR>:set winfixheight<CR>gg
 " gp to visually select pasted text
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 " gV to visually select last inserted test
