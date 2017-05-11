@@ -8,7 +8,7 @@ tnoremap <A-a> <C-\><C-n>?\w<CR>$:noh<CR>:wincmd p<CR>
 tnoremap <A-z> <C-\><C-n>?\w<CR>$:noh<CR>:quit<CR>
 
 " Kill terminal
-tnoremap <A-s> <C-\><C-n>:bdelete!<CR>
+tnoremap <A-q> <C-\><C-n>:bdelete!<CR>
 
 " Use C-v to paste
 tnoremap <C-v> <C-\><C-n>pa
