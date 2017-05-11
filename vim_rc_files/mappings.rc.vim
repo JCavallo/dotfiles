@@ -296,39 +296,39 @@ inoremap jk <ESC>l
 inoremap kj <ESC>l
 
 " Smart ','
-inoremap <expr> , smartchr#one_of(', ', ',')
+" inoremap <expr> , smartchr#one_of(', ', ',')
 
 " Smart '='
-inoremap <expr> =
-    \ search('\(&\<bar><bar>\<bar>+\<bar>-\<bar>/\<bar>>\<bar><\) \%#', 'bcn')? '<bs>= '
-    \ : search('\(*\<bar>!\)\%#', 'bcn') ? '= '
-    \ : smartchr#one_of(' = ', '=', ' == ')
-autocmd MyAutoCmd FileType javascript inoremap <buffer> <expr> = smartchr#one_of(' = ', ' === ', '=')
-autocmd MyAutoCmd FileType xml inoremap <buffer> <expr> = smartchr#one_of('=', ' = ', ' == ')
+" inoremap <expr> =
+"     \ search('\(&\<bar><bar>\<bar>+\<bar>-\<bar>/\<bar>>\<bar><\) \%#', 'bcn')? '<bs>= '
+"     \ : search('\(*\<bar>!\)\%#', 'bcn') ? '= '
+"     \ : smartchr#one_of(' = ', '=', ' == ')
+" autocmd MyAutoCmd FileType javascript inoremap <buffer> <expr> = smartchr#one_of(' = ', ' === ', '=')
+" autocmd MyAutoCmd FileType xml inoremap <buffer> <expr> = smartchr#one_of('=', ' = ', ' == ')
 
 " Smart '.'
-autocmd MyAutoCmd FileType c,cpp inoremap <buffer> <expr> . smartchr#loop('.', '->', '...')
-autocmd MyAutoCmd FileType vim inoremap <buffer> <expr> . smartchr#loop('.', ' . ', '..', '...')
-autocmd MyAutoCmd FileType javascript inoremap <buffer> <expr> . smartchr#loop('.', ' => ')
-autocmd MyAutoCmd FileType perl,php inoremap <buffer> <expr> . smartchr#loop(' . ', '->', '.')
+" autocmd MyAutoCmd FileType c,cpp inoremap <buffer> <expr> . smartchr#loop('.', '->', '...')
+" autocmd MyAutoCmd FileType vim inoremap <buffer> <expr> . smartchr#loop('.', ' . ', '..', '...')
+" autocmd MyAutoCmd FileType javascript inoremap <buffer> <expr> . smartchr#loop('.', ' => ')
+" autocmd MyAutoCmd FileType perl,php inoremap <buffer> <expr> . smartchr#loop(' . ', '->', '.')
 
 " Smart '-'
-autocmd MyAutoCmd FileType perl,php inoremap <buffer> <expr> - smartchr#loop('-', '->')
+" autocmd MyAutoCmd FileType perl,php inoremap <buffer> <expr> - smartchr#loop('-', '->')
 
 " Smart '+'
-autocmd MyAutoCmd FileType python inoremap <buffer> <expr> + smartchr#one_of(' + ', ' += ', '+')
+" autocmd MyAutoCmd FileType python inoremap <buffer> <expr> + smartchr#one_of(' + ', ' += ', '+')
 
 " Smart ':'
-autocmd MyAutoCmd FileType javascript inoremap <buffer> <expr> : smartchr#loop(': ', ':')
-autocmd MyAutoCmd FileType python inoremap <buffer> <expr> : smartchr#loop(':', ': ')
+" autocmd MyAutoCmd FileType javascript inoremap <buffer> <expr> : smartchr#loop(': ', ':')
+" autocmd MyAutoCmd FileType python inoremap <buffer> <expr> : smartchr#loop(':', ': ')
 
 " SMart '<>'
-inoremap <expr> < smartchr#one_of('<', ' <= ', ' < ')
-inoremap <expr> > smartchr#one_of('>', ' >= ', ' > ')
+" inoremap <expr> < smartchr#one_of('<', ' <= ', ' < ')
+" inoremap <expr> > smartchr#one_of('>', ' >= ', ' > ')
 
 " Smart '!'
-inoremap <expr> ! smartchr#loop('!', ' != ')
-autocmd MyAutoCmd FileType javascript inoremap <buffer> <expr> ! smartchr#loop('!', ' !== ')
+" inoremap <expr> ! smartchr#loop('!', ' != ')
+" autocmd MyAutoCmd FileType javascript inoremap <buffer> <expr> ! smartchr#loop('!', ' !== ')
 
 " <TAB>: completion.
 imap <silent><expr> <TAB>
