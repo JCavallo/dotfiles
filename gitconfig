@@ -16,6 +16,7 @@
 	l = log --color --graph --full-history --all --pretty=format:'%Cred%h%Creset -%C(cyan)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset%n' --abbrev-commit --date iso
 	ll = log --color --graph --full-history --pretty=format:'%Cred%h%Creset -%C(cyan)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset%n' --abbrev-commit --date iso
 	co = checkout
+	cp = cherry-pick --strategy=recursive -X no-renames
 	st = status -sb
 	unstage = reset -q HEAD --
 	discard = checkout --
