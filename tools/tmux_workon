@@ -6,8 +6,8 @@ if [ "$existing" = '1' ]; then
     exit
 fi
 current_number=$(tmux list-windows | wc -l)
-new_shell=$(("$current_number" + 1))
-new_code=$(("$current_number" + 2))
+new_shell="$((current_number + 1))"
+new_code="$((current_number + 2))"
 tmux new-window -t $new_shell -n "$1 Code"
 tmux new-window -t $new_code -n "$1 Shell"
 tmux select-window -t $new_shell
