@@ -108,7 +108,8 @@ cd ~ || exit
 
 # Install fbterm (replace tty)
 sudo apt-get install fbterm
-sudo gpasswd -a giovanni video
+sudo usermod -aG video giovanni
+sudo setcap 'cap_sys_tty_config+ep' $(command -v fbterm)
 sudo chmod u+s /usr/bin/fbterm
 
 # Handle remote neovim
