@@ -600,27 +600,27 @@ nmap <space> [unite]
 " Quick sources
 nnoremap <silent> [unite]a :<C-u>Unite -buffer-name=sources source<CR>
 " Quick bookmarks
-nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
+" nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
 " Files in current buffer directory
-nnoremap <silent> [unite]c :<C-u>UniteWithBufferDir -buffer-name=files -multi-line
-    \ -unique -silent file_rec buffer_tab:- file/new<CR>
+" nnoremap <silent> [unite]c :<C-u>UniteWithBufferDir -buffer-name=files -multi-line
+"     \ -unique -silent file_rec buffer_tab:- file/new<CR>
 " Quick mark search
-nnoremap <silent> [unite]e :<C-u>Unite -buffer-name=marks mark<CR>
+" nnoremap <silent> [unite]e :<C-u>Unite -buffer-name=marks mark<CR>
 " Quick file search
-nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=files -multi-line
-    \ -unique -silent file_rec buffer_tab:- file/new<CR>
+" nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=files -multi-line
+"     \ -unique -silent file_rec buffer_tab:- file/new<CR>
 " Quick grep
-nnoremap <silent> [unite]g :<C-u>Unite grep -buffer-name=grep`tabpagenr()`
-    \ -no-split -no-empty -no-start-insert -resume -quit<CR>
+" nnoremap <silent> [unite]g :<C-u>Unite grep -buffer-name=grep`tabpagenr()`
+"     \ -no-split -no-empty -no-start-insert -resume -quit<CR>
 " Quick grep (no resume)
-nnoremap <silent> [unite]d :<C-u>Unite grep -buffer-name=grep`tabpagenr()`
-    \ -no-split -no-empty -no-start-insert -quit<CR>
+" nnoremap <silent> [unite]d :<C-u>Unite grep -buffer-name=grep`tabpagenr()`
+"     \ -no-split -no-empty -no-start-insert -quit<CR>
 " Quick help
-nnoremap <silent> [unite]h :<C-u>Unite -buffer-name=help help<CR>
+" nnoremap <silent> [unite]h :<C-u>Unite -buffer-name=help help<CR>
 " Quick buffer
-nnoremap <silent> [unite]i :<C-u>Unite -buffer-name=buffer buffer<CR>
+" nnoremap <silent> [unite]i :<C-u>Unite -buffer-name=buffer buffer<CR>
 " Previous changes navigation
-nnoremap <silent> [unite]k :<C-u>Unite change jump<CR>
+" nnoremap <silent> [unite]k :<C-u>Unite change jump<CR>
 " Location List
 nnoremap <silent> [unite]l :<C-u>Unite -auto-highlight -wrap
     \ -buffer-name=location_list location_list<CR>
@@ -634,37 +634,44 @@ nnoremap <silent> [unite]p :UnitePrevious<CR>
 nnoremap <silent> [unite]q :<C-u>Unite -auto-highlight -wrap -no-quit
     \ -buffer-name=quickfix quickfix<CR>
 " Quick registers
-nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register
-    \ -default-action=append register history/yank<CR>
+" nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register
+"     \ -default-action=append register history/yank<CR>
 " Quick sessions
-nnoremap <silent> [unite]s :<C-u>Unite -buffer-name=sessions session<CR>
+" nnoremap <silent> [unite]s :<C-u>Unite -buffer-name=sessions session<CR>
 " Quick tags
-nnoremap <silent> [unite]t :<C-u>UniteWithCursorWord
-    \ -buffer-name=tag tag<CR>
+" nnoremap <silent> [unite]t :<C-u>UniteWithCursorWord
+"     \ -buffer-name=tag tag<CR>
 " Quick window switch
-nnoremap <silent> [unite]w :<C-u>Unite window<CR>
+" nnoremap <silent> [unite]w :<C-u>Unite window<CR>
 " Quick my redmine issues
 nnoremap <silent> [unite]xm :<C-u>Unite yarm:assigned=me
     \ -buffer-name=Redmine\ -\ Mine -multi-line<CR>
 " Quick yank history
-nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<CR>
+" nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<CR>
 " Quick mercurial status
-nnoremap <silent> [unite]z :<C-u>Unite -buffer-name=status hg/status<CR>
+" nnoremap <silent> [unite]z :<C-u>Unite -buffer-name=status hg/status<CR>
 " MRU search
 nnoremap <silent> [unite]<Space>
     \ :<C-u>Unite -buffer-name=files -multi-line -unique -silent
     \ jump_point file_point buffer_tab:- file_mru<CR>
 " Quick commands
-nnoremap <silent> [unite]; :<C-u>Unite -buffer-name=history
-    \ history/command<CR>
+" nnoremap <silent> [unite]; :<C-u>Unite -buffer-name=history
+"     \ history/command<CR>
 " Clear standard searches
 nnoremap [unite]/ /
 nnoremap [unite]? ?
 nnoremap [unite]* *
 
 " Denite
-nnoremap [unite]<Space>c :<C-u>DeniteBufferDir -updatetime=100 file_rec<CR>
-nnoremap [unite]<Space>f :<C-u>Denite -updatetime=100 file_rec<CR>
+nnoremap [unite]<Space>c :<C-u>DeniteBufferDir file_rec<CR>
+nnoremap [unite]<Space>d :<C-u>Denite grep<CR>
+nnoremap [unite]<Space>f :<C-u>Denite file_rec<CR>
+nnoremap [unite]<Space>h :<C-u>Denite help<CR>
+nnoremap [unite]<Space>g :<C-u>Denite grep -resume<CR>
+nnoremap [unite]<Space>i :<C-u>Denite buffer<CR>
+nnoremap [unite]<Space>k :<C-u>Denite jump<CR>
+nnoremap [unite]<Space>l :<C-u>Denite location_list<CR>
+nnoremap <silent> / :<C-u>Denite line<CR>
 " }}}
 
 " A .vimrc snippet that allows you to move around windows beyond tabs

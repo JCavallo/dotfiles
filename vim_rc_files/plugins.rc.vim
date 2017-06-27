@@ -1,7 +1,19 @@
 " Plugins configuration
 
 " Unite {{{
-execute 'source ' . expand($VIM_FOLDER) . '/rc/plugins/unite.rc.vim'
+" execute 'source ' . expand($VIM_FOLDER) . '/rc/plugins/unite.rc.vim'
+" }}}
+
+" Denite {{{
+call denite#custom#map('insert', '<C-j>',
+    \ '<denite:move_to_next_line>', 'noremap')
+call denite#custom#map('insert', '<C-k>',
+    \ '<denite:move_to_previous_line>', 'noremap')
+call denite#custom#map('insert', 'jk',
+    \ '<denite:enter_mode:normal>', 'noremap')
+call denite#custom#map('insert', 'kj',
+    \ '<denite:enter_mode:normal>', 'noremap')
+
 " }}}
 
 " Neomake {{{
@@ -51,6 +63,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_mode_map = {'n': 'NOR', 'i': 'INS', 'R': 'REP', 't': 'TER',
     \ 'V': 'VIS'}
+let g:airline#extensions#whitespace#enabled = 0
 " }}}
 
 " Nerd Commenter {{{
