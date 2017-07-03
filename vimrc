@@ -18,6 +18,8 @@ endif
 let $VIM_FOLDER = $FORCE_VIM_FOLDER != '' ? $FORCE_VIM_FOLDER : expand('~/.vim')
 if !has('nvim')
     let $MYVIMRC = expand('%:h')
+else
+    let $MYVIMRC = fnamemodify(expand('<sfile>'), ':p')
 endif
 
 function! s:source_rc(path, ...) abort "{{{

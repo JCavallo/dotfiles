@@ -1,9 +1,5 @@
 " Plugins configuration
 
-" Unite {{{
-" execute 'source ' . expand($VIM_FOLDER) . '/rc/plugins/unite.rc.vim'
-" }}}
-
 " Denite {{{
 call denite#custom#map('insert', '<C-j>',
     \ '<denite:move_to_next_line>', 'noremap')
@@ -145,5 +141,5 @@ let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
 " }}}
 
 " Echodoc {{{
-let g:echodoc_enable_at_startup = 1
+let g:echodoc#enable_at_startup = 1
 " }}}

@@ -3,7 +3,7 @@
 "===============================================================================
 
 " <F1>: Help
-nmap <F1> [unite]h
+nmap <F1> [denite]h
 
 " <F2>: Open Vimfiler
 
@@ -190,13 +190,6 @@ cnoremap <c-n> <down>
 cnoremap <c-p> <up>
 cnoremap <c-f> <left>
 cnoremap <c-g> <right>
-cnoremap <expr><silent><C-,>
-    \ (getcmdtype() == '/') ?
-    \ "\<ESC>:Unite -buffer-name=search line:forward:wrap -input="
-    \ . getcmdline() . "\<CR>" : "\<C-g>"
-
-" Unite completion
-cnoremap <C-o> <Plug>(unite_cmdmatch_complete)
 
 " Ctrl-v: Paste
 cnoremap <c-v> <c-r>"
@@ -249,17 +242,11 @@ nnoremap - <c-x>
 nnoremap <silent> <C-f> <C-f>
 nnoremap <silent> <C-b> <C-b>
 
-" Ctrl-h: Help
-nnoremap <silent> <C-h> :<C-u>Unite -buffer-name=help help<CR>
-
 " Ctrl-j: Scroll + move down through the file
 noremap <c-j> 3<c-e>3j
 
-" Ctrl-k: Unite jump
-nnoremap <silent> <C-k> :<C-u>Unite change jump<CR>
-
-" Ctrl-l: Move word forward.
-noremap <c-l> w
+" Ctrl-k: Denite jump
+nnoremap <silent> <C-k> :<C-u>Denite change jump<CR>
 
 " Ctrl-p: Join lines
 noremap <c-p> J
@@ -267,18 +254,13 @@ noremap <c-p> J
 " Ctrl-sa: (S)elect (a)ll
 nnoremap <c-s><c-a> :keepjumps normal ggVG<CR>
 " Ctrl-ss: (S)earch word under cur(s)or in current directory
-nnoremap <c-s><c-s> :Unite grep:.::<C-r><C-w><CR>
+nnoremap <c-s><c-s> :Denite grep:.::<C-r><C-w><CR>
 " Ctrl-sd: (S)earch word in current (d)irectory (prompt for word)
-nnoremap <c-s><c-d> :Unite grep:.<CR>
-" Ctrl-sf: Quickly (s)earch in (f)ile
-nnoremap <c-s><c-f> [unite]l
+nnoremap <c-s><c-d> :Denite grep:.<CR>
 " Ctrl-sr: Easier (s)earch and (r)eplace
 nnoremap <c-s><c-r> :%s/<c-r><c-w>//gc<left><left><left>
 " Ctrl-sw: Quickly surround word
 nnoremap <c-s><c-w> viw
-
-" Ctrl-t: Unite tabs
-nnoremap <silent> <C-t> :<C-u>Unite tab<CR>
 
 " Ctrl-v: Paste (works with system clipboard due to clipboard setting earlier)
 nnoremap <c-v> p
@@ -481,7 +463,7 @@ vnoremap k :m'<-2<cr>`>my`<mzgv`yo`z
 " Space Key Mappings
 "===============================================================================
 
-" Space is also the leader key for Unite actions
+" Space is also the leader key for Denite actions
 " Space-=: Resize windows
 nnoremap <space>= <c-w>=
 
@@ -511,7 +493,7 @@ nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 " gV to visually select last inserted test
 nnoremap gV `[v`]
 " g<C-h> : Jump to help
-nnoremap <silent> g<C-h> :<C-u>UniteWithCursorWord help<CR>
+nnoremap <silent> g<C-h> :<C-u>DeniteCursorWord help<CR>
 " h: Left
 " i: Insert before cursor
 " j: Accelerated Down
@@ -523,8 +505,8 @@ nmap <silent>k <Plug>(accelerated_jk_gk)
 " M: Jump to mark
 nnoremap M '
 " n: Unite resume
-nnoremap <silent><expr> n
-    \ " :\<C-u>UniteResume search%" . bufnr('%') . " -no-start-insert\<CR>"
+nnoremap n :<C-u>Denite -resume -select=+1 -immediately -cursor-wrap line<CR>
+nnoremap N :<C-u>Denite -resume -select=-1 -immediately -cursor-wrap line<CR>
 " o: Insert line below cursor
 " p: Paste
 nnoremap p gp
@@ -554,21 +536,6 @@ noremap ; ,
 " ,: Leader
 " .: Repeat last command
 
-" /: Search
-nnoremap <silent> /
-    \ :<C-u>Unite -buffer-name=search%`bufnr('%')`
-    \ -auto-highlight -start-insert line:forward:wrap<CR>
-
-" ?: Backward search
-nnoremap <silent> ?
-    \ :<C-u>Unite -buffer-name=search%`bufnr('%')`
-    \ -auto-highlight -start-insert line:backward<CR>
-
-" *: Search in file with word under cursor
-nnoremap <silent> *
-    \ :<C-u>UniteWithCursorWord -buffer-name=search%`bufnr('%')`
-    \ -auto-highlight line:forward:wrap<CR>
-
 " Up Down Left Right resize splits
 nnoremap <up> <c-w>+
 nnoremap <down> <c-w>-
@@ -578,9 +545,6 @@ nnoremap <right> <c-w>>
 " Indent
 nnoremap > >>
 nnoremap < <<
-
-" *: Highlight cursor location
-nnoremap <silent> <*> :call CursorPing()<CR>
 
 " s: Windows and buffers(High priority)
 " The prefix key.
@@ -594,84 +558,41 @@ nnoremap <silent> [Window]c  :<C-u>call <sid>smart_close()<CR>
 nnoremap <silent> -  :<C-u>call <SID>smart_close()<CR>
 nnoremap <silent> [Window]o  :<C-u>only<CR>
 
-" Space : Unite mappings {{{
-nnoremap [unite] <Nop>
-nmap <space> [unite]
-" Quick sources
-nnoremap <silent> [unite]a :<C-u>Unite -buffer-name=sources source<CR>
-" Quick bookmarks
-" nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
-" Files in current buffer directory
-" nnoremap <silent> [unite]c :<C-u>UniteWithBufferDir -buffer-name=files -multi-line
-"     \ -unique -silent file_rec buffer_tab:- file/new<CR>
-" Quick mark search
-" nnoremap <silent> [unite]e :<C-u>Unite -buffer-name=marks mark<CR>
-" Quick file search
-" nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=files -multi-line
-"     \ -unique -silent file_rec buffer_tab:- file/new<CR>
-" Quick grep
-" nnoremap <silent> [unite]g :<C-u>Unite grep -buffer-name=grep`tabpagenr()`
-"     \ -no-split -no-empty -no-start-insert -resume -quit<CR>
-" Quick grep (no resume)
-" nnoremap <silent> [unite]d :<C-u>Unite grep -buffer-name=grep`tabpagenr()`
-"     \ -no-split -no-empty -no-start-insert -quit<CR>
-" Quick help
-" nnoremap <silent> [unite]h :<C-u>Unite -buffer-name=help help<CR>
-" Quick buffer
-" nnoremap <silent> [unite]i :<C-u>Unite -buffer-name=buffer buffer<CR>
-" Previous changes navigation
-" nnoremap <silent> [unite]k :<C-u>Unite change jump<CR>
-" Location List
-nnoremap <silent> [unite]l :<C-u>Unite -auto-highlight -wrap
-    \ -buffer-name=location_list location_list<CR>
-" Next
-nnoremap [unite]n n
-" Quick outline
-nnoremap <silent> [unite]o :<C-u>Unite outline -start-insert -resume<CR>
-" Previous
-nnoremap <silent> [unite]p :UnitePrevious<CR>
-" Quickfix window
-nnoremap <silent> [unite]q :<C-u>Unite -auto-highlight -wrap -no-quit
+" Space : Denite mappings {{{
+nnoremap [denite] <Nop>
+nmap <space> [denite]
+nnoremap [denite]c :<C-u>DeniteBufferDir file_rec<CR>
+nnoremap [denite]d :<C-u>Denite grep<CR>
+nnoremap [denite]f :<C-u>Denite file_rec<CR>
+nnoremap [denite]h :<C-u>Denite help<CR>
+nnoremap [denite]g :<C-u>Denite grep -resume<CR>
+nnoremap [denite]i :<C-u>Denite buffer<CR>
+nnoremap [denite]k :<C-u>Denite jump<CR>
+nnoremap [denite]l :<C-u>Denite location_list<CR>
+nnoremap [denite]n n
+nnoremap [denite]N N
+nnoremap [denite]o :<C-u>Denite outline -start-insert -resume<CR>
+nnoremap [denite]q :<C-u>Denite -auto-highlight -no-quit
     \ -buffer-name=quickfix quickfix<CR>
-" Quick registers
-" nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register
-"     \ -default-action=append register history/yank<CR>
-" Quick sessions
-" nnoremap <silent> [unite]s :<C-u>Unite -buffer-name=sessions session<CR>
+nnoremap [denite]r :<C-u>Denite -buffer-name=register
+    \ -default-action=append register neoyank<CR>
 " Quick tags
-" nnoremap <silent> [unite]t :<C-u>UniteWithCursorWord
-"     \ -buffer-name=tag tag<CR>
-" Quick window switch
-" nnoremap <silent> [unite]w :<C-u>Unite window<CR>
+nnoremap <silent> [denite]t :<C-u>DeniteCursorWord \ -buffer-name=tag tag<CR>
 " Quick my redmine issues
-nnoremap <silent> [unite]xm :<C-u>Unite yarm:assigned=me
+nnoremap <silent> [denite]xm :<C-u>Denite yarm:assigned=me
     \ -buffer-name=Redmine\ -\ Mine -multi-line<CR>
-" Quick yank history
-" nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<CR>
-" Quick mercurial status
-" nnoremap <silent> [unite]z :<C-u>Unite -buffer-name=status hg/status<CR>
 " MRU search
-nnoremap <silent> [unite]<Space>
-    \ :<C-u>Unite -buffer-name=files -multi-line -unique -silent
-    \ jump_point file_point buffer_tab:- file_mru<CR>
+nnoremap <silent> [denite]<Space> :<C-u>Denite file_mru<CR>
 " Quick commands
-" nnoremap <silent> [unite]; :<C-u>Unite -buffer-name=history
-"     \ history/command<CR>
+nnoremap <silent> [denite]; :<C-u>Unite -buffer-name=history
+    \ command_history<CR>
 " Clear standard searches
-nnoremap [unite]/ /
-nnoremap [unite]? ?
-nnoremap [unite]* *
-
-" Denite
-nnoremap [unite]<Space>c :<C-u>DeniteBufferDir file_rec<CR>
-nnoremap [unite]<Space>d :<C-u>Denite grep<CR>
-nnoremap [unite]<Space>f :<C-u>Denite file_rec<CR>
-nnoremap [unite]<Space>h :<C-u>Denite help<CR>
-nnoremap [unite]<Space>g :<C-u>Denite grep -resume<CR>
-nnoremap [unite]<Space>i :<C-u>Denite buffer<CR>
-nnoremap [unite]<Space>k :<C-u>Denite jump<CR>
-nnoremap [unite]<Space>l :<C-u>Denite location_list<CR>
-nnoremap <silent> / :<C-u>Denite line<CR>
+nnoremap [denite]/ /
+nnoremap [denite]? ?
+nnoremap [denite]* *
+nnoremap / :<C-u>Denite line<CR>
+nnoremap ? :<C-u>Denite -reversed line<CR>
+nnoremap * :<C-u>DeniteCursorWord line<CR>
 " }}}
 
 " A .vimrc snippet that allows you to move around windows beyond tabs

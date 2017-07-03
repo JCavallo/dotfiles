@@ -40,7 +40,7 @@ set showbreak=>\
 set breakat=\ \	;:,!?
 
 " Do not display greetings message at the time of Vim start.
-set shortmess=aTI
+set shortmess=aTIc
 
 " Disable bell.
 set t_vb=
