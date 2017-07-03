@@ -128,3 +128,4 @@ sudo apt-get install tmux rxvt-unicode-256color
 # Install tmux plugin
 mkdir -p ~/.config/tmux_plug
 git clone https://github.com/tmux-plugins/tmux-yank ~/.config/tmux_plug/tmux-yank
+git clone https://github.com/tmux-plugins/tmux-copycat ~/.config/tmux_plug/tmux-copycat
