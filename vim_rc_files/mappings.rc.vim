@@ -253,10 +253,6 @@ noremap <c-p> J
 
 " Ctrl-sa: (S)elect (a)ll
 nnoremap <c-s><c-a> :keepjumps normal ggVG<CR>
-" Ctrl-ss: (S)earch word under cur(s)or in current directory
-nnoremap <c-s><c-s> :Denite grep:.::<C-r><C-w><CR>
-" Ctrl-sd: (S)earch word in current (d)irectory (prompt for word)
-nnoremap <c-s><c-d> :Denite grep:.<CR>
 " Ctrl-sr: Easier (s)earch and (r)eplace
 nnoremap <c-s><c-r> :%s/<c-r><c-w>//gc<left><left><left>
 " Ctrl-sw: Quickly surround word
@@ -561,30 +557,46 @@ nnoremap <silent> [Window]o  :<C-u>only<CR>
 " Space : Denite mappings {{{
 nnoremap [denite] <Nop>
 nmap <space> [denite]
-nnoremap [denite]c :<C-u>DeniteBufferDir file_rec<CR>
-nnoremap [denite]d :<C-u>Denite grep<CR>
-nnoremap [denite]f :<C-u>Denite file_rec<CR>
+nnoremap [denite]fc :<C-u>DeniteBufferDir file_rec<CR>
+nnoremap [denite]fd :<C-u>Denite file_rec<CR>
+nnoremap [denite]fg :<C-u>DeniteProjectDir file_rec<CR>
+nnoremap [denite]fp :<C-u>Denite file_rec:`GetProjectPath()`<CR>
 nnoremap [denite]h :<C-u>Denite help<CR>
-nnoremap [denite]g :<C-u>Denite grep -resume<CR>
+nnoremap [denite]gc :<C-u>Denite grep -buffer-name=BufFolderGrep -resume<CR>
+nnoremap [denite]gd :<C-u>Denite grep -buffer-name=DirectoryGrep -resume<CR>
+nnoremap [denite]gg :<C-u>Denite grep -buffer-name=GitFolderGrep -resume<CR>
+nnoremap [denite]gp :<C-u>Denite grep -buffer-name=ProjectGrep -resume<CR>
 nnoremap [denite]i :<C-u>Denite buffer<CR>
 nnoremap [denite]k :<C-u>Denite jump<CR>
 nnoremap [denite]l :<C-u>Denite location_list<CR>
 nnoremap [denite]n n
 nnoremap [denite]N N
-nnoremap [denite]o :<C-u>Denite outline -start-insert -resume<CR>
+nnoremap [denite]o :<C-u>Denite outline<CR>
 nnoremap [denite]q :<C-u>Denite -auto-highlight -no-quit
     \ -buffer-name=quickfix quickfix<CR>
 nnoremap [denite]r :<C-u>Denite -buffer-name=register
     \ -default-action=append register neoyank<CR>
-" Quick tags
+" (S)earch word under cursor in current buffer directory
+nnoremap [denite]scc :DeniteBufferDir -buffer-name=BufFolderGrep grep:.::<C-r><C-w><CR>
+" (S)earch prompted word in current buffer directory
+nnoremap [denite]scw :DeniteBufferDir -buffer-name=BufFolderGrep grep:.<CR>
+" (S)earch word under cursor in current directory
+nnoremap [denite]sdc :Denite -buffer-name=DirectoryGrep grep:.::<C-r><C-w><CR>
+" (S)earch prompted word in current directory
+nnoremap [denite]sdw :Denite -buffer-name=DirectoryGrep grep:.<CR>
+" (S)earch word under cursor in current git project
+nnoremap [denite]sgc :DeniteProjectDir -buffer-name=GitFolderGrep grep:.::<C-r><C-w><CR>
+" (S)earch prompted word in current git project
+nnoremap [denite]sgw :Denite -buffer-name=GitFolderGrep grep:.<CR>
+" (S)earch word under cursor in current project
+nnoremap [denite]spc :Denite -buffer-name=ProjectGrep grep:`GetProjectPath()`::<C-r><C-w><CR>
+" (S)earch prompted word in current project
+nnoremap [denite]spw :Denite -buffer-name=ProjectGrep grep:`GetProjectPath()`<CR>
 nnoremap <silent> [denite]t :<C-u>DeniteCursorWord \ -buffer-name=tag tag<CR>
-" Quick my redmine issues
 nnoremap <silent> [denite]xm :<C-u>Denite yarm:assigned=me
     \ -buffer-name=Redmine\ -\ Mine -multi-line<CR>
-" MRU search
 nnoremap <silent> [denite]<Space> :<C-u>Denite file_mru<CR>
-" Quick commands
-nnoremap <silent> [denite]; :<C-u>Unite -buffer-name=history
+nnoremap <silent> [denite]; :<C-u>Denite -buffer-name=history
     \ command_history<CR>
 " Clear standard searches
 nnoremap [denite]/ /

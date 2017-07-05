@@ -53,3 +53,14 @@ function! DeleteInactiveBufs()
     endfor
     echomsg nWipeouts . ' buffer(s) wiped out'
 endfunction
+
+function! GetProjectPath()  " {{{
+    if $PROJECT_PATH != ''
+        return $PROJECT_PATH
+    endif
+    if $VIRTUAL_ENV != ''
+        return $VIRTUAL_ENV
+    endif
+    return denite#util#path2project_directory()
+endfunction  " }}}
+
