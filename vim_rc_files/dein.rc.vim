@@ -47,7 +47,8 @@ if dein#load_state(s:path)
     call dein#add('rhysd/vim-operator-surround')
 
     " Visual plugins
-    call dein#add('Yggdroot/indentLine')
+    " call dein#add('Yggdroot/indentLine')     <---- Do not reactivate without
+    " heavy performance checks
     call dein#add('tyru/open-browser.vim')
     call dein#add('kannokanno/previm')
     call dein#add('Konfekt/FastFold')
@@ -69,8 +70,7 @@ if dein#load_state(s:path)
     call dein#add('ekalinin/Dockerfile.vim')
     call dein#add('Shougo/neco-vim')
     call dein#add('Shougo/neco-syntax')
-    " call dein#add('JCavallo/tryton-vim')
-    call dein#local('/home/giovanni/Projets/nvim_plugins', {}, ['tryton-vim'])
+    call dein#add('JCavallo/tryton-vim')
     call dein#add('carlitux/deoplete-ternjs')
     call dein#add('JCavallo/nvim-nim')
     call dein#add('zchee/deoplete-jedi')
