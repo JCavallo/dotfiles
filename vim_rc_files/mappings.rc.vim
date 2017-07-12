@@ -248,8 +248,11 @@ noremap <c-j> 3<c-e>3j
 " Ctrl-k: Denite jump
 nnoremap <silent> <C-k> :<C-u>Denite change jump<CR>
 
-" Ctrl-p: Join lines
-noremap <c-p> J
+" Ctrl-n: Fast jump to next result
+nnoremap <C-n> :<C-u>Denite -resume -select=+1 -immediately -cursor-wrap line<CR>
+
+" Ctrl-p: Fast jump to previous result
+nnoremap <C-p> :<C-u>Denite -resume -select=-1 -immediately -cursor-wrap line<CR>
 
 " Ctrl-sa: (S)elect (a)ll
 nnoremap <c-s><c-a> :keepjumps normal ggVG<CR>
@@ -501,8 +504,8 @@ nmap <silent>k <Plug>(accelerated_jk_gk)
 " M: Jump to mark
 nnoremap M '
 " n: Unite resume
-nnoremap n :<C-u>Denite -resume -select=+1 -immediately -cursor-wrap line<CR>
-nnoremap N :<C-u>Denite -resume -select=-1 -immediately -cursor-wrap line<CR>
+nnoremap n :<C-u>Denite -resume -select=+1 -cursor-wrap line<CR>
+nnoremap N :<C-u>Denite -resume -select=-1 -cursor-wrap line<CR>
 " o: Insert line below cursor
 " p: Paste
 nnoremap p gp
@@ -557,6 +560,11 @@ nnoremap <silent> [Window]o  :<C-u>only<CR>
 " Space : Denite mappings {{{
 nnoremap [denite] <Nop>
 nmap <space> [denite]
+nnoremap [denite]bmm :<C-u>Denite tryton:`tryton#tools#get_current_model()` -mode=normal<CR>
+nnoremap [denite]bmf :<C-u>Denite tryton:`tryton#tools#get_current_model()`/fields -mode=insert<CR>
+nnoremap [denite]bmv :<C-u>Denite tryton:`tryton#tools#get_current_model()`/views -mode=insert<CR>
+nnoremap [denite]bfm :<C-u>Denite tryton:`tryton#tools#get_current_model()`/methods/`tryton#tools#get_current_method()`/mro -mode=normal<CR>
+nnoremap [denite]bt :<C-u>Denite tryton<CR>
 nnoremap [denite]fc :<C-u>DeniteBufferDir file_rec<CR>
 nnoremap [denite]fd :<C-u>Denite file_rec<CR>
 nnoremap [denite]fg :<C-u>DeniteProjectDir file_rec<CR>
@@ -577,17 +585,17 @@ nnoremap [denite]q :<C-u>Denite -auto-highlight -no-quit
 nnoremap [denite]r :<C-u>Denite -buffer-name=register
     \ -default-action=append register neoyank<CR>
 " (S)earch word under cursor in current buffer directory
-nnoremap [denite]scc :DeniteBufferDir -buffer-name=BufFolderGrep grep:.::<C-r><C-w><CR>
+nnoremap [denite]scc :DeniteBufferDir -buffer-name=BufFolderGrep grep:::<C-r><C-w><CR>
 " (S)earch prompted word in current buffer directory
-nnoremap [denite]scw :DeniteBufferDir -buffer-name=BufFolderGrep grep:.<CR>
+nnoremap [denite]scw :DeniteBufferDir -buffer-name=BufFolderGrep grep<CR>
 " (S)earch word under cursor in current directory
-nnoremap [denite]sdc :Denite -buffer-name=DirectoryGrep grep:.::<C-r><C-w><CR>
+nnoremap [denite]sdc :Denite -buffer-name=DirectoryGrep grep:::<C-r><C-w><CR>
 " (S)earch prompted word in current directory
-nnoremap [denite]sdw :Denite -buffer-name=DirectoryGrep grep:.<CR>
+nnoremap [denite]sdw :Denite -buffer-name=DirectoryGrep grep<CR>
 " (S)earch word under cursor in current git project
-nnoremap [denite]sgc :DeniteProjectDir -buffer-name=GitFolderGrep grep:.::<C-r><C-w><CR>
+nnoremap [denite]sgc :DeniteProjectDir -buffer-name=GitFolderGrep grep:::<C-r><C-w><CR>
 " (S)earch prompted word in current git project
-nnoremap [denite]sgw :Denite -buffer-name=GitFolderGrep grep:.<CR>
+nnoremap [denite]sgw :DeniteProjectDir -buffer-name=GitFolderGrep grep<CR>
 " (S)earch word under cursor in current project
 nnoremap [denite]spc :Denite -buffer-name=ProjectGrep grep:`GetProjectPath()`::<C-r><C-w><CR>
 " (S)earch prompted word in current project

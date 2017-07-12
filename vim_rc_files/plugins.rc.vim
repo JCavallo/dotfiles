@@ -9,6 +9,10 @@ call denite#custom#map('insert', 'jk',
     \ '<denite:enter_mode:normal>', 'noremap')
 call denite#custom#map('insert', 'kj',
     \ '<denite:enter_mode:normal>', 'noremap')
+call denite#custom#map('normal', 'l',
+    \ '<denite:do_action:default>', 'noremap')
+call denite#custom#map('normal', 'h',
+    \ '<denite:do_action:walk_up>', 'noremap')
 call denite#custom#map('normal', '<A-v>',
     \ '<denite:do_action:vsplit>', 'noremap')
 call denite#custom#map('normal', '<A-s>',

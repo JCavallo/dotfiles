@@ -4,7 +4,9 @@
 
 " Show line number.
 set number
+" RelativeNumber makes everything horrendously slow :'(
 set relativenumber
+set cursorline
 
 " Show <TAB> and <CR>
 set list
