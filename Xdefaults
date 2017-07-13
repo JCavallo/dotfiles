@@ -35,3 +35,6 @@ URxvt.scrollBar: false
 
 ! Do blink
 URxvt.cursorBlink: 1
+
+! No Ctrl-Shift mappings
+URxvt*iso14755: False
