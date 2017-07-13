@@ -92,6 +92,8 @@ elif not create_branch:
 else:
     print('Creating new branch %s' % target)
     run_cmd(['git', 'checkout', 'master'], False)
+    run_cmd(['git', 'fetch', 'origin'], False)
+    run_cmd(['git', 'merge', 'master', 'origin/master'], False)
     run_cmd(['git', 'checkout', '-b', target], False)
 
 if target != cur_branch:
