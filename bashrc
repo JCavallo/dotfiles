@@ -142,7 +142,7 @@ virtual_env_ps1() {
     fi
 }
 
-current_path_ps1() {
+_get_project_path() {
     local PROJECT_PATH
     PROJECT_PATH=$(cat "$VIRTUAL_ENV"/.project 2> /dev/null)
     if [ "$PROJECT_PATH" = "" ] || [ ! -d "$PROJECT_PATH" ]; then
@@ -152,6 +152,12 @@ current_path_ps1() {
             PROJECT_PATH=$VIRTUAL_ENV
         fi
     fi
+    echo $PROJECT_PATH
+}
+
+current_path_ps1() {
+    local PROJECT_PATH
+    PROJECT_PATH=$(_get_project_path)
     if [ ! "$PROJECT_PATH" = "" ] && [ -d "$PROJECT_PATH" ]; then
         value=$(echo "${PWD#"$PROJECT_PATH"}")
         if [ "$value" != "" ]; then
@@ -161,6 +167,17 @@ current_path_ps1() {
         fi
     else
         echo " $(pwd) "
+    fi
+}
+
+tryton_db_ps1() {
+    local PROJECT_PATH
+    PROJECT_PATH=$(_get_project_path)
+    if [ ! "$PROJECT_PATH" = "" ] && [ -f "$PROJECT_PATH"/conf/trytond.conf ]; then
+        DB_NAME=$(cat "$PROJECT_PATH"/conf/trytond.conf | grep "^uri = postgres" | sed -e "s/.*@[^:]\+:[0-9]\+\/\?//")
+        if [ ! "$DB_NAME" = "" ] && [ ! "$DB_NAME" == "uri = *" ]; then
+            echo " $DB_NAME "
+        fi
     fi
 }
 
@@ -188,7 +205,7 @@ PS1+='\[\e${GREEN}\]$(hg_ps1_1)$(git_ps1_1)'
 PS1+='\[\e${GREENYELLOW}\]'
 
 # Rietveld
-# PS1+='\[\e${YELLOW}\]$(hg_ps1_3)$(git_ps1_3)'
+PS1+='\[\e${YELLOW}\]$(tryton_db_ps1)'
 PS1+='\[\e${YELLOW}\]'
 PS1+='\[\e${YELLOWBLUE}\]'
 
