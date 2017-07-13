@@ -62,7 +62,8 @@ let g:syntastic_nim_checkers=['nim']
 
 " Indent Lines {{{
 let g:indentLine_char = "│"
-let g:indentLine_fileTypeExclude = ['help']
+let g:indentLine_fileTypeExclude = ['help', 'denite']
+let g:indentLine_newVersion = 0
 " }}}
 
 " Airline {{{
