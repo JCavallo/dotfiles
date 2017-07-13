@@ -217,15 +217,10 @@ nnoremap H ^
 
 " K: expand-region
 map K <Plug>(expand_region_expand)
-
-" J: shrink-region
-map J <Plug>(expand_region_shrink)
+map <C-K> <Plug>(expand_region_shrink)
 
 " L: Go to end of line.
 nnoremap L g_
-
-" Q: Closes the window
-nnoremap Q :q<cr>
 
 " U: Redos since 'u' undos
 nnoremap U :redo<cr>
