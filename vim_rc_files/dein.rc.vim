@@ -47,7 +47,7 @@ if dein#load_state(s:path)
     call dein#add('rhysd/vim-operator-surround')
 
     " Visual plugins
-    call dein#add('Yggdroot/indentLine')  " Try to disable if performance falls
+    " call dein#add('Yggdroot/indentLine')  " Performance killer
     call dein#add('tyru/open-browser.vim')
     call dein#add('kannokanno/previm')
     call dein#add('Konfekt/FastFold')
