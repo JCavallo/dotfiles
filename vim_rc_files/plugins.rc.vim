@@ -37,35 +37,6 @@ let g:neomake_warning_sign = {
 let g:neomake_tempfile_enabled = 0
 " }}}
 
-" Syntastic {{{
-let g:syntastic_enable_balloons = 0
-let g:syntastic_check_on_open = 1
-let g:syntastic_enable_signs = 1
-let g:syntastic_auto_jump = 0
-let g:syntastic_enable_highlighting = 1
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_error_symbol='✗'
-let g:syntastic_style_error_symbol='▶'
-let g:syntastic_warning_symbol='✗'
-let g:syntastic_style_warning_symbol='▶'
-let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
-let g:syntastic_mode_map = { 'mode': 'active',
-    \ 'active_filetypes': [],
-    \ 'passive_filetypes': ['python', 'nim', 'sh'] }
-let g:syntastic_python_flake8_post_args='--ignore=E123,E124,E126,E127,E128,E711,W404,F403,W503'
-let g:syntastic_python_pylint_post_args='--disable=E1101,W0613,C0111'
-let g:syntastic_python_checkers=['flake8']
-let g:syntastic_javascript_checkers=['jshint']
-let g:syntastic_nim_checkers=['nim']
-" }}}
-
-" Indent Lines {{{
-let g:indentLine_char = "│"
-let g:indentLine_fileTypeExclude = ['help', 'denite']
-let g:indentLine_newVersion = 0
-" }}}
-
 " Airline {{{
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
