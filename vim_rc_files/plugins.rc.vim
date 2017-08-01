@@ -26,7 +26,7 @@ call denite#custom#map('insert', '<A-s>',
 
 " Neomake {{{
 let g:neomake_python_enabled_makers = ['flake8']
-let g:neomake_javascript_enabled_makers = ['jshint']
+let g:neomake_javascript_enabled_makers = ['standard']
 let g:neomake_nim_enabled_makers = ['nim']
 let g:neomake_nim_nim_remove_invalid_entries = 1
 let g:quickfixsigns_protect_sign_rx = '^neomake_'
