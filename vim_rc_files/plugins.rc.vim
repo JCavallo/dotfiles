@@ -22,6 +22,18 @@ call denite#custom#map('insert', '<A-v>',
 call denite#custom#map('insert', '<A-s>',
     \ '<denite:do_action:split>', 'noremap')
 
+" Use 'ag' for grep searches
+call denite#custom#var('grep', 'command', ['ag'])
+call denite#custom#var('grep', 'default_opts', ['-i', '--vimgrep'])
+call denite#custom#var('grep', 'recursive_opts', [])
+call denite#custom#var('grep', 'pattern_opt', [])
+call denite#custom#var('grep', 'separator', ['--'])
+call denite#custom#var('grep', 'final_opts', [])
+
+" Use git search in git repos
+call denite#custom#alias('source', 'file_rec/git', 'file_rec')
+call denite#custom#var('file_rec/git', 'command',
+    \ ['git', 'ls-files', '-co', '--exclude-standard'])
 " }}}
 
 " Neomake {{{

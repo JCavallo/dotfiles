@@ -560,10 +560,10 @@ nnoremap [denite]bmf :<C-u>Denite tryton:`tryton#tools#get_current_model()`/fiel
 nnoremap [denite]bmv :<C-u>Denite tryton:`tryton#tools#get_current_model()`/views -mode=insert<CR>
 nnoremap [denite]bfm :<C-u>Denite tryton:`tryton#tools#get_current_model()`/methods/`tryton#tools#get_current_method()`/mro -mode=normal<CR>
 nnoremap [denite]bt :<C-u>Denite tryton<CR>
-nnoremap [denite]fc :<C-u>DeniteBufferDir file_rec<CR>
-nnoremap [denite]fd :<C-u>Denite file_rec<CR>
-nnoremap [denite]fg :<C-u>DeniteProjectDir file_rec<CR>
-nnoremap [denite]fp :<C-u>Denite file_rec:`GetProjectPath()`<CR>
+nnoremap [denite]fc :<C-u>DeniteBufferDir `GetFileRecSource('buffer')`<CR>
+nnoremap [denite]fd :<C-u>Denite `GetFileRecSource('dir')`<CR>
+nnoremap [denite]fg :<C-u>DeniteProjectDir  `GetFileRecSource('dir')`<CR>
+nnoremap [denite]fp :<C-u>Denite `GetFileRecSource('project')`:`GetProjectPath()`<CR>
 nnoremap [denite]h :<C-u>Denite help<CR>
 nnoremap [denite]gc :<C-u>Denite grep -buffer-name=BufFolderGrep -resume<CR>
 nnoremap [denite]gd :<C-u>Denite grep -buffer-name=DirectoryGrep -resume<CR>
@@ -595,7 +595,8 @@ nnoremap [denite]sgw :DeniteProjectDir -buffer-name=GitFolderGrep grep<CR>
 nnoremap [denite]spc :Denite -buffer-name=ProjectGrep grep:`GetProjectPath()`::<C-r><C-w><CR>
 " (S)earch prompted word in current project
 nnoremap [denite]spw :Denite -buffer-name=ProjectGrep grep:`GetProjectPath()`<CR>
-nnoremap <silent> [denite]t :<C-u>DeniteCursorWord \ -buffer-name=tag tag<CR>
+nnoremap <silent> [denite]tc :<C-u>DeniteCursorWord -buffer-name=tag tag<CR>
+nnoremap <silent> [denite]tw :<C-u>Denite -buffer-name=tag tag<CR>
 nnoremap <silent> [denite]xm :<C-u>Denite yarm:assigned=me
     \ -buffer-name=Redmine\ -\ Mine -multi-line<CR>
 nnoremap <silent> [denite]<Space> :<C-u>Denite file_mru<CR>
