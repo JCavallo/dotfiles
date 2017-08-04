@@ -3,3 +3,4 @@
 .-rplugin~
 *.orig
 nimsuggest.log
+nimcache
