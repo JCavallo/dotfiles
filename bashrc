@@ -33,6 +33,7 @@ fi
 alias la='ls -Fa'
 alias ll='ls -Flsh'
 alias cdve='cd $VIRTUAL_ENV'
+alias cdpr='cd $PROJECT_PATH'
 alias ag="LESS='FSRX' ag --pager less"
 # Apply latest patch in ~/tmp/
 alias hgpl="ls -d -t ~/tmp/* | grep .*diff | head -n 1;ls -d -t ~/tmp/* | grep .*diff | head -n 1 | xargs cat | hg patch --no-commit -"
@@ -173,9 +174,13 @@ tryton_db_ps1() {
     local PROJECT_PATH
     PROJECT_PATH=$(_get_project_path)
     if [ ! "$PROJECT_PATH" = "" ] && [ -f "$PROJECT_PATH"/conf/trytond.conf ]; then
-        DB_NAME=$(cat "$PROJECT_PATH"/conf/trytond.conf | grep "^uri = postgres" | sed -e "s/.*@[^:]\+:[0-9]\+\/\?//")
+        DB_NAME=$(grep "^uri = postgres" "$PROJECT_PATH"/conf/trytond.conf | sed -e "s/.*@[^:]\+:[0-9]\+\/\?//")
+        PORT=$(grep "^listen = " "$PROJECT_PATH"/conf/trytond.conf | sed -e "s/.*://")
+        if [ ! "$PORT" = "" ]; then
+            PORT=:"$PORT"
+        fi
         if [ ! "$DB_NAME" = "" ] && [ ! "$DB_NAME" == "uri = *" ]; then
-            echo " $DB_NAME "
+            echo " $DB_NAME$PORT "
         fi
     fi
 }
