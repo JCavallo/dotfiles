@@ -13,13 +13,13 @@ call denite#custom#map('normal', 'l',
     \ '<denite:do_action:default>', 'noremap')
 call denite#custom#map('normal', 'h',
     \ '<denite:do_action:walk_up>', 'noremap')
-call denite#custom#map('normal', '<A-v>',
+call denite#custom#map('normal', '<C-a>v',
     \ '<denite:do_action:vsplit>', 'noremap')
-call denite#custom#map('normal', '<A-s>',
+call denite#custom#map('normal', '<C-a>s',
     \ '<denite:do_action:split>', 'noremap')
-call denite#custom#map('insert', '<A-v>',
+call denite#custom#map('insert', '<C-a>v',
     \ '<denite:do_action:vsplit>', 'noremap')
-call denite#custom#map('insert', '<A-s>',
+call denite#custom#map('insert', '<C-a>s',
     \ '<denite:do_action:split>', 'noremap')
 
 " Use 'ag' for grep searches
