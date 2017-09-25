@@ -135,4 +135,4 @@ git clone https://github.com/tmux-plugins/tmux-yank ~/.config/tmux_plug/tmux-yan
 git clone https://github.com/tmux-plugins/tmux-copycat ~/.config/tmux_plug/tmux-copycat
 
 # Install tools
-sudo apt-get install shellcheck
+sudo apt-get install shellcheck keychain
