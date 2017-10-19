@@ -78,6 +78,10 @@ let g:unite_yarm_title_fields = [
 autocmd BufRead,BufNewFile *.df set filetype=Dockerfile
 " }}}
 
+" Tpl files {{{
+autocmd BufRead,BufNewFile *.tpl set filetype=html
+" }}}
+
 " VimFiler {{{
 execute 'source ' . expand($VIM_FOLDER) . '/rc/plugins/vimfiler.rc.vim'
 " }}}

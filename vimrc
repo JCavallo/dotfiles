@@ -84,6 +84,9 @@ set incsearch
 " Highlight search result.
 set hlsearch
 
+" Clear search
+let @/ = ""
+
 " Searches wrap around the end of the file.
 set wrapscan
 

@@ -78,3 +78,29 @@ function! GetFileRecSource(type)  " {{{
         return 'file_rec'
     endif
 endfunction  " }}}
+
+function! MarkdownLevel()  " {{{
+    " Set the fold levels based on headers.
+    "
+    " Created by Jeromy Anglim
+    " (source: http://stackoverflow.com/questions/3828606/vim-markdown-folding)
+    if getline(v:lnum) =~ '^[ */;"]*# .*$'
+        return ">1"
+    endif
+    if getline(v:lnum) =~ '^[ */;"]*## .*$'
+        return ">2"
+    endif
+    if getline(v:lnum) =~ '^[ */;"]*### .*$'
+        return ">3"
+    endif
+    if getline(v:lnum) =~ '^[ */;"]*#### .*$'
+        return ">4"
+    endif
+    if getline(v:lnum) =~ '^[ */;"]*##### .*$'
+        return ">5"
+    endif
+    if getline(v:lnum) =~ '^[ */;"]*###### .*$'
+        return ">6"
+    endif
+    return "="
+endfunction  " }}}

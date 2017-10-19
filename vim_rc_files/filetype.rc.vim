@@ -16,6 +16,7 @@ autocmd MyAutoCmd Filetype c setlocal omnifunc=
 autocmd MyAutoCmd Filetype html setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd MyAutoCmd Filetype html setlocal includeexpr=substitute(v:fname,'^\\/','','')
 autocmd MyAutoCmd Filetype html setlocal path+=./;/
+autocmd MyAutoCmd Filetype html setlocal tabstop=2 softtabstop=2 shiftwidth=2
 " }}}
 
 " Javascript {{
@@ -39,6 +40,8 @@ let g:markdown_fenced_languages = [
     \  'vim',
     \]
 autocmd MyAutoCmd Filetype markdown setlocal omnifunc=htmlcomplete#CompleteTags
+" au BufEnter *.md setlocal foldexpr=MarkdownLevel()
+" au BufEnter *.md setlocal foldmethod=expr
 " }}}
 
 " Nim {{{
