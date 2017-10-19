@@ -37,6 +37,16 @@ call denite#custom#var('file_rec/git', 'command',
 " }}}
 
 " Neomake {{{
+let g:neomake_po_maker = {
+    \ 'exe': 'msgfmt',
+    \ 'errorformat': '%W%f:%l: warning: %m,' .
+        \ '%E%f:%l:%v: %m,' .
+        \ '%E%f:%l: %m,' .
+        \ '%+C %.%#,' .
+        \ '%Z%p^,' .
+        \ '%-G%.%#'
+    \ }
+let g:neomake_po_enabled_makers = ['po']
 let g:neomake_python_enabled_makers = ['flake8']
 let g:neomake_javascript_enabled_makers = ['standard']
 let g:neomake_nim_enabled_makers = ['nim']
