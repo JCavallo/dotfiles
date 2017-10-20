@@ -84,7 +84,8 @@ autocmd MyAutoCmd BufWritePost .vimrc,vimrc,*.rc.vim,*.toml source $MYVIMRC | re
 "
 " XML {{{
 let g:xml_syntax_folding = 1
-autocmd MyAutoCmd Filetype xml setlocal omnifunc=xmlcomplete#CompleteTags
+autocmd MyAutoCmd Filetype html setlocal omnifunc=htmlcomplete#CompleteTags
+" autocmd MyAutoCmd Filetype xml setlocal omnifunc=xmlcomplete#CompleteTags
 autocmd MyAutoCmd Filetype xml setlocal foldmethod=syntax
 autocmd MyAutoCmd Filetype xml setlocal foldlevel=2
 " }}}
