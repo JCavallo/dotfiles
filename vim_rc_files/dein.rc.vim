@@ -45,6 +45,7 @@ if dein#load_state(s:path)
     call dein#add('rhysd/accelerated-jk')
     call dein#add('kana/vim-operator-replace')
     call dein#add('rhysd/vim-operator-surround')
+    call dein#add('junegunn/goyo.vim')
 
     " Visual plugins
     " call dein#add('Yggdroot/indentLine')  " Performance killer
