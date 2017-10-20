@@ -1,3 +1,6 @@
+" Preview search results
+set inccommand=split
+
 " Exit terminal mode
 tnoremap <A-q> <C-\><C-n>?\w<CR>$:noh<CR>
 
