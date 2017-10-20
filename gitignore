@@ -6,3 +6,5 @@ nimsuggest.log
 nimcache
 .tern-port
 nohup.out
+messages.mo
+node_modules
