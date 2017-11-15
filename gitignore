@@ -8,3 +8,7 @@ nimcache
 nohup.out
 messages.mo
 node_modules
+*_BACKUP_*
+*_REMOTE_*
+*_LOCAL_*
+*_BASE_*

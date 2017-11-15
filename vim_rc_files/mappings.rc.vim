@@ -33,8 +33,13 @@ nnoremap <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") .
 " <Leader>cd: Switch to the directory of the open buffer
 nnoremap <Leader>cd :cd %:p:h<cr>:pwd<cr>
 
-" <Leader>d: Close current buffer
-nnoremap <Leader>d :bdelete<cr>
+" <Leader>dd: Close current buffer
+nnoremap <Leader>dd :bdelete<cr>
+
+" <Leader>dg: Diff gets in 4way merge
+nnoremap <Leader>dgl :<C-u>diffget LOCAL<CR>
+nnoremap <Leader>dgr :<C-u>diffget REMOTE<CR>
+nnoremap <Leader>dgb :<C-u>diffget BASE<CR>
 
 " <Leader>e: New file in current buffer folder
 nnoremap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
