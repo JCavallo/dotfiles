@@ -231,7 +231,6 @@ tmux_conf_battery_status_discharging='↓'    # U+2193
 tmux_conf_theme_clock_colour='#00afff'  # light blue
 tmux_conf_theme_clock_style='24'
 
-
 # -- clipboard -----------------------------------------------------------------
 
 # in copy mode, copying selection also copies to the OS clipboard
@@ -239,7 +238,7 @@ tmux_conf_theme_clock_style='24'
 #   - false (default)
 # on macOS, this requires installing reattach-to-user-namespace, see README.md
 # on Linux, this requires xsel or xclip
-tmux_conf_copy_to_os_clipboard=false
+tmux_conf_copy_to_os_clipboard=true
 
 
 # -- user customizations -------------------------------------------------------
@@ -249,7 +248,7 @@ tmux_conf_copy_to_os_clipboard=false
 set -g history-limit 10000
 
 # start with mouse mode enabled
-set -g mouse on
+# set -g mouse on
 
 # force Vi mode
 #   really you should export VISUAL or EDITOR environment variable, see manual
@@ -257,7 +256,7 @@ set -g status-keys vi
 set -g mode-keys vi
 
 # replace C-b by C-a instead of using both prefixes
-# set -gu prefix2
+set -gu prefix2
 unbind C-a
 # unbind C-b
 # set -g prefix C-a
@@ -277,3 +276,19 @@ bind -n S-Left  previous-window
 bind -n S-Right next-window
 bind -n C-S-Left swap-window -t -1
 bind -n C-S-Right swap-window -t +1
+bind -r h select-pane -L  # move left
+
+# Use <C-b><C-b> to toggle zoom
+bind -r C-b resize-pane -Z
+
+# Install plugins
+set-environment -g TMUX_PLUGIN_MANAGER_PATH '~/.tmux_plugins'
+set -g @tpm_plugins '\
+    tmux-plugins/tpm \
+    tmux-plugins/tmux-sensible \
+    tmux-plugins/tmux-yank \
+    tmux-plugins/tmux-copycat \
+'
+
+# Load plugin manager
+run-shell '~/.tmux_plugins/tpm/tpm'
