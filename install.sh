@@ -1,94 +1,96 @@
 #!/bin/bash
-############################
-# .make.sh
-# This script creates symlinks from the home directory to any desired dotfiles in ~/dotfiles
-############################
 
+# Use strict mode
 set -euo pipefail
 IFS=$'\n\t'
 
-########## Variables
-
-dir=~/dotfiles                    # dotfiles directory
-olddir=~/dotfiles_old             # old dotfiles backup directory
+dir="$HOME"/dotfiles
+olddir="$olddir"
 files="agignore bashrc bash_profile gitconfig gitignore hgignore hgrc inputrc nvimrc psqlrc tmux.conf tmux.conf.local vimrc Xdefaults xonshrc"    # list of files/folders to symlink in homedir
-IFS=' ' read -a files <<< "${files}"
+IFS=' ' read -ra files <<< "${files}"
 
-##########
-
-# create dotfiles_old in homedir
-echo -n "Creating $olddir for backup of any existing dotfiles in ~ ..."
+# Create dotfiles_old in homedir
+echo -n "Creating $olddir for backup of any existing dotfiles in $HOME ..."
 mkdir -p "$olddir"
 echo "done"
 
-# change to the dotfiles directory
+# Change to the dotfiles directory
 echo -n "Changing to the $dir directory ..."
 cd "$dir"
 echo "done"
 
-# move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks from the homedir to any files in the ~/dotfiles directory specified in $files
+# Move any existing dotfiles in homedir to _dotfiles_old directory, then create
+# symlinks from the homedir to any files in the "$HOME"/dotfiles directory
+# specified in $files
 for file in "${files[@]}"; do
-    echo "Moving any existing dotfiles from ~ to $olddir"
-    mv ~/."$file" ~/dotfiles_old/
+    echo "$HOME/.$file"
+    if [ -e "$HOME/.$file" ]; then
+        echo "Moving existing .$file from $HOME to $olddir"
+        mv "$HOME/.$file" "$olddir"/
+    fi
     echo Creating symlink to "$file" in home directory.
-    ln -s "$dir"/"$file" ~/."$file"
+    ln -s "$dir"/"$file" "$HOME/.$file"
 done
 
 # Create config folder
-mkdir -p ~/.config
+mkdir -p "$HOME"/.config
 
 # Hangups
-mkdir -p ~/.config/hangups
-ln -s ~/dotfiles/hangups.conf ~/.config/hangups/
+pip3 install --user hangups
+mkdir -p "$HOME"/.config/hangups
+ln -s "$HOME"/dotfiles/hangups.conf "$HOME"/.config/hangups/
 
 # Create local binary folder
-mkdir -p ~/bin
-ln -s ~/dotfiles/tools/* ~/bin/
+mkdir -p "$HOME"/bin
+ln -s "$HOME"/dotfiles/tools/* "$HOME"/bin/
 
 # Move existing .vim
-mv ~/.vim ~/dotfiles_old/
+if [ -d "$HOME/.vim" ]; then
+    mv "$HOME"/.vim "$olddir"/
+fi
 
 # Create vim directory
-mkdir -p ~/.vim
+mkdir -p "$HOME"/.vim
 
 # Link rc directory
-ln -s ~/dotfiles/vim_rc_files/ ~/.vim/rc
+ln -s "$HOME"/dotfiles/vim_rc_files/ "$HOME"/.vim/rc
 
 # Create subdirectories
-mkdir -p ~/.vim/swap
-mkdir -p ~/.vim/backup
-mkdir -p ~/.vim/undodir
+mkdir -p "$HOME"/.vim/swap
+mkdir -p "$HOME"/.vim/backup
+mkdir -p "$HOME"/.vim/undodir
 
 # Add argcomplete to bash_completion
-mkdir -p ~/.bash_completion.d
-ln -s ~/dotfiles/bash_completion/python_argcomplete.sh ~/.bash_completion.d/python-argcomplete.sh
+mkdir -p "$HOME"/.bash_completion.d
+ln -s "$HOME"/dotfiles/bash_completion/python_argcomplete.sh "$HOME"/.bash_completion.d/python-argcomplete.sh
 
 # Load fzf
-git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-sudo ~/.fzf/install
+git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME"/.fzf
+sudo "$HOME"/.fzf/install
 
 # Create temporary directory
-mkdir -p ~/tmp
+mkdir -p "$HOME"/tmp
 
 # Create projects directory
-mkdir -p ~/Projets
+mkdir -p "$HOME"/Projets
 
 # Build latest neovim
-cd ~/Projets
+cd "$HOME"/Projets
 git clone https://github.com/neovim/neovim Neovim
 sudo apt-get install libtool libtool-bin autoconf automake cmake g++ pkg-config unzip libunibilium-dev
 cd Neovim
 make CMAKE_BUILD_TYPE=Release
 sudo make install
-mkdir -p ~/.config
-mkdir -p ~/.config/nvim
-cd ~/.config/nvim
-ln -s ~/dotfiles/nvimrc init.vim
+mkdir -p "$HOME"/.config
+mkdir -p "$HOME"/.config/nvim
+cd "$HOME"/.config/nvim
+ln -s "$HOME"/dotfiles/nvimrc init.vim
 
 # Install hgreview
-sudo apt-get install python-pip
+sudo apt-get install python-pip python3-pip
 pip install --user neovim
-cd ~/tmp
+pip3 install --user neovim
+cd "$HOME"/tmp
 # hg clone https://bitbucket.org/techtonik/python-review/
 # cd python-review/
 # ./refresh.py
@@ -97,18 +99,18 @@ cd ~/tmp
 # hg clone https://bitbucket.org/nicoe/hgreview
 # cd hgreview
 # sudo python setup.py install
-# cd ~
-# cp ~/tmp/python-review/rietveld/upload.py ~/bin/
-# chmod +x ~/bin/upload.py
+# cd "$HOME"
+# cp "$HOME"/tmp/python-review/rietveld/upload.py "$HOME"/bin/
+# chmod +x "$HOME"/bin/upload.py
 
 # Install Power Line Fonts
-cd ~/tmp
+cd "$HOME"/tmp
 git clone https://github.com/powerline/fonts
 cd fonts
 ./install.sh
 cd ..
 rm -r fonts
-cd ~
+cd "$HOME"
 
 # Install fbterm (replace tty)
 sudo apt-get install fbterm
@@ -117,22 +119,19 @@ sudo setcap 'cap_sys_tty_config+ep' "$(command -v fbterm)"
 sudo chmod u+s /usr/bin/fbterm
 
 # Handle remote neovim
-cd ~/tmp
-git clone https://github.com/mhinz/neovim-remote.git neovim-remote
-cd neovim-remote
-git checkout master
-chmod +x nvr
-cp nvr ~/bin
-cd ~/tmp
-rm -rf neovim-remote
+pip3 install --user neovim-remote
 
 # Install tmux
 sudo apt-get install tmux rxvt-unicode-256color
 
+# Install tmux configuration
+cd "$HOME"
+git clone https://github.com/gpakosz/.tmux.git
+ln -s -f .tmux/.tmux.conf
+
 # Install tmux plugin
-mkdir -p ~/.config/tmux_plug
-git clone https://github.com/tmux-plugins/tmux-yank ~/.config/tmux_plug/tmux-yank
-git clone https://github.com/tmux-plugins/tmux-copycat ~/.config/tmux_plug/tmux-copycat
+mkdir -p "$HOME/.tmux_plugins"
+git clone https://github.com/tmux-plugins/tpm ~/.tmux_plugins/tpm
 
 # Install tools
-sudo apt-get install shellcheck keychain
+sudo apt-get install shellcheck keychain direnv
