@@ -253,4 +253,8 @@ source ~/.fzf.bash
 export NVM_DIR="/home/giovanni/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
+if [ -s "$(which direnv)" ]; then
+    eval "$(direnv hook bash)"
+fi
+
 # vim:set ft=sh:
