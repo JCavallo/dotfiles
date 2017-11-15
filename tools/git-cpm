@@ -1,0 +1,44 @@
+#!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
+
+if [ "$#" != 2 ] && [ "$#" != 1 ]; then
+    echo "Usage : git cpm <to-branch> [from-branch=master]"
+    exit 1
+fi
+
+to=$1
+from=${2:-master}
+
+git stash save tmp_for_cpm > /dev/null
+set +e
+stash_number="$(git stash list | grep tmp_for_cpm | sed -e 's/.*{\(.*\)}.*/\1/')"
+set -e
+if [ "$stash_number" != "" ]; then
+    echo "Changes stashed"
+fi
+echo "Updating $from"
+git checkout "$from" > /dev/null
+git pull > /dev/null
+echo "Updating $to"
+git checkout "$to" > /dev/null
+git pull > /dev/null
+echo "Cherry-picking"
+set +e
+git cherry-pick --strategy=recursive -X no-renames "$from" > /dev/null
+merge_ok="$?"
+set -e
+if [ "$merge_ok" = 1 ]; then
+    echo "Merging"
+    git mergetool
+    git commit
+else
+    echo "Renaming commit"
+    git commit --amend
+fi
+echo "Pushing"
+# git push origin/"$to"
+if [ "$stash_number" != "" ]; then
+    echo "Poping changes"
+    git stash pop "$stash_number"
+fi
