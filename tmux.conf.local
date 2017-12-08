@@ -248,7 +248,7 @@ tmux_conf_copy_to_os_clipboard=true
 set -g history-limit 10000
 
 # start with mouse mode enabled
-# set -g mouse on
+set -g mouse on
 
 # force Vi mode
 #   really you should export VISUAL or EDITOR environment variable, see manual
@@ -269,7 +269,7 @@ unbind C-a
 set -s escape-time 0                      # fastest command sequences
 
 # Decrease timeouts
-set -sg repeat-time 200                   # increase repeat timeout
+set -sg repeat-time 100                   # increase repeat timeout
 
 # Use shift left / right to switch windows
 bind -n S-Left  previous-window
@@ -289,6 +289,9 @@ set -g @tpm_plugins '\
     tmux-plugins/tmux-yank \
     tmux-plugins/tmux-copycat \
 '
+
+# Required for tmux-yank in vi mode
+set -g @shell_mode 'vi'
 
 # Load plugin manager
 run-shell '~/.tmux_plugins/tpm/tpm'
