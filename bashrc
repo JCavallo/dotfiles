@@ -49,6 +49,15 @@ viewdiff() {
     git diff "$*" > /tmp/viewdiff.diff;nvim /tmp/viewdiff.diff
 }
 
+colorize() {
+    GREP_COLOR='1;30' grep --color=always --line-buffered -E "^.*DEBUG.*$|$" $1 \
+        | GREP_COLOR='1;32' grep --color=always --line-buffered -E "^.*INFO.*$|$" \
+        | GREP_COLOR='1;33' grep --color=always --line-buffered -E "^.*WARNING.*$|$" \
+        | GREP_COLOR='1;31' grep --color=always --line-buffered -E "^.*ERROR.*$|$" \
+        | GREP_COLOR='1;35' grep --color=always --line-buffered -E "^.*CRITICAL.*$|$"
+}
+
+
 DEFAULT="[0m"
 BLINK="[5m"
 BLINKRESET="[25m"
