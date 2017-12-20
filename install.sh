@@ -112,6 +112,17 @@ cd ..
 rm -r fonts
 cd "$HOME"
 
+# Install pspg (psql pager)
+cd "$HOME"/tmp
+sudo apt-get install libncursesw5-dev
+git clone https://github.com/okbob/pspg
+cd pspg
+./configure
+make
+sudo make install
+cd "$HOME"
+rm -rf "$HOME"/tmp/pspg
+
 # Install fbterm (replace tty)
 sudo apt-get install fbterm
 sudo usermod -aG video giovanni

@@ -5,14 +5,15 @@
 -- show execution times
 \timing
 -- limit paging
-\pset pager off
+-- \pset pager off
+\setenv PAGER 'pspg -bX'
 -- replace nulls
 \pset null ¤
 -- formatting
-\pset format wrapped
+--  \pset format wrapped
 \pset linestyle unicode
 \pset border 2
-\x auto
+--  \x auto
 
 -- colorize
 --\set PROMPT1 '%[%033[33;1m%]%x%[%033[0m%]%[%033[1m%]%/%[%033[0m%]%R%# '
@@ -57,3 +58,4 @@
 \set tsize '(select table_schema, table_name, pg_size_pretty(size) as size, pg_size_pretty(total_size) as total_size from (:rtsize) x order by x.size desc, x.total_size desc, table_schema, table_name)'
 
 \unset QUIET
+-- vim:ft=sql:
