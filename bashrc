@@ -81,6 +81,7 @@ colorize() {
         done
         echo ""
         echo "Special value : 'remove' will filter out the pattern rather than colorizing it"
+        echo "   (DO NOT USE for first filter)"
         exit
     fi
 
@@ -95,7 +96,7 @@ colorize() {
     shift
     while [ $# != 0 ]; do
         if [ "$2" = "remove" ]; then
-            cmd="$cmd | grep -v --line-buffered -E \"^.*$1.*$\""
+            cmd="$cmd | grep -v --line-buffered \"$1\""
         else
             if test "${colors[$2]+isset}"; then
                 color="${colors[$2]}"
