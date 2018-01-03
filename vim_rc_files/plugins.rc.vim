@@ -92,6 +92,10 @@ autocmd BufRead,BufNewFile *.df set filetype=Dockerfile
 autocmd BufRead,BufNewFile *.tpl set filetype=html
 " }}}
 
+" Tmux mappings {{{
+let g:tmux_navigator_no_mappings = 1
+" }}}
+
 " VimFiler {{{
 execute 'source ' . expand($VIM_FOLDER) . '/rc/plugins/vimfiler.rc.vim'
 " }}}

@@ -27,12 +27,12 @@ if dein#load_state(s:path)
     call dein#add('tyru/open-browser.vim')
 
     " Unite plugins
-    call dein#add('Shougo/junkfile.vim')
+    " call dein#add('Shougo/junkfile.vim')
     call dein#add('chemzqm/unite-location')
     " call dein#add('JCavallo/vim-hg-unite')
     " call dein#add('JCavallo/unite-yarm')
-    call dein#add('Shougo/neomru.vim')
-    call dein#add('Shougo/neoyank.vim')
+    " call dein#add('Shougo/neomru.vim')
+    " call dein#add('Shougo/neoyank.vim')
 
     " Edition plugins
     call dein#add('terryma/vim-multiple-cursors')
@@ -81,6 +81,7 @@ if dein#load_state(s:path)
 
     " Misc plugins
     call dein#add('vimwiki/vimwiki')
+    call dein#add('christoomey/vim-tmux-navigator')
 
     call dein#end()
     call dein#save_state()

@@ -417,17 +417,11 @@ nnoremap <m-s> <c-i>zzzv
 " Alt-d: Delete previous word.
 nnoremap <m-d> db
 
-" Alt-h: Go to previous buffer
-nnoremap <silent> h :bprevious<CR>
-
-" Alt-j: Smart down
-nmap <M-j> <Plug>(easymotion-j)
-
-" Alt-k: Smart up
-nmap <M-k> <Plug>(easymotion-k)
-
-" Alt-l: Go to next buffer
-nnoremap <silent> l :bnext<CR>
+" Alt-hjkl : Pane navigation
+nnoremap <silent> <A-h> :TmuxNavigateLeft<CR>
+nnoremap <silent> <A-j> :TmuxNavigateDown<CR>
+nnoremap <silent> <A-k> :TmuxNavigateUp<CR>
+nnoremap <silent> <A-l> :TmuxNavigateRight<CR>
 
 " Alt-Shift-j: Duplicate line down
 nnoremap <silent> J mzyyp`zj
@@ -445,11 +439,10 @@ nnoremap i g,
 " Insert Mode Meta Key Mappings
 "===============================================================================
 
-" Alt-j: Move current line down
-imap <m-j> <esc><m-j>a
-
-" Alt-k: Move current line down
-imap <m-k> <esc><m-k>a
+inoremap <A-h> <Esc><Plug>TmuxNavigateLeft
+inoremap <A-j> <Esc><Plug>TmuxNavigateDown
+inoremap <A-k> <Esc><Plug>TmuxNavigateUp
+inoremap <A-l> <Esc><Plug>TmuxNavigateRight
 
 "===============================================================================
 " Visual Mode Meta Key Mappings
@@ -494,8 +487,14 @@ nnoremap gt :rightbelow 15split<CR>:set winfixheight<CR>gg
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 " gV to visually select last inserted test
 nnoremap gV `[v`]
-" g<C-h> : Jump to help
-nnoremap <silent> g<C-h> :<C-u>DeniteCursorWord help<CR>
+" gh : Jump to help
+nnoremap <silent> gh :<C-u>DeniteCursorWord help<CR>
+" gn / gp Jump to a line and the line of before and after of the same indent.
+nnoremap <silent> gn :<C-u>call search('^' .
+      \ matchstr(getline(line('.')), '\(\s*\)') .'\S')<CR>^
+nnoremap <silent> gp :<C-u>call search('^' .
+      \ matchstr(getline(line('.')), '\(\s*\)') .'\S', 'bz')<CR>^
+
 " h: Left
 " i: Insert before cursor
 " j: Accelerated Down
@@ -619,67 +618,11 @@ nnoremap ? :<C-u>Denite -reversed line<CR>
 nnoremap * :<C-u>DeniteCursorWord line<CR>
 " }}}
 
-" A .vimrc snippet that allows you to move around windows beyond tabs
-nnoremap <silent> <tab> :call <SID>NextWindow()<CR>
-nnoremap <silent> <S-tab> :call <SID>PreviousWindowOrTab()<CR>
-
-" Jump to a line and the line of before and after of the same indent.
-" Useful for Python.
-nnoremap <silent> g{ :<C-u>call search('^' .
-      \ matchstr(getline(line('.') + 1), '\(\s*\)') .'\S', 'b')<CR>^
-nnoremap <silent> g} :<C-u>call search('^' .
-      \ matchstr(getline(line('.')), '\(\s*\)') .'\S')<CR>^
-
-" e: Quickfix
-" The prefix key.
-nnoremap [Quickfix] <Nop>
-nmap     e [Quickfix]
-nnoremap <silent> [Quickfix]<Space>
-      \ :<C-u>call <SID>toggle_quickfix_window()<CR>
-
-function! s:toggle_quickfix_window()
-  let _ = winnr('$')
-  cclose
-  if _ == winnr('$')
-    copen
-    setlocal nowrap
-    setlocal whichwrap=b,s
-  endif
-endfunction
-
 function! s:smart_close()
   if winnr('$') != 1
     close
   else
     call s:alternate_buffer()
-  endif
-endfunction
-
-function! s:NextWindow()
-  if winnr('$') == 1
-    silent! normal! ``z.
-  else
-    wincmd w
-  endif
-endfunction
-
-function! s:NextWindowOrTab()
-  if tabpagenr('$') == 1 && winnr('$') == 1
-    call s:split_nicely()
-  elseif winnr() < winnr("$")
-    wincmd w
-  else
-    tabnext
-    1wincmd w
-  endif
-endfunction
-
-function! s:PreviousWindowOrTab()
-  if winnr() > 1
-    wincmd W
-  else
-    tabprevious
-    execute winnr("$") . "wincmd w"
   endif
 endfunction
 

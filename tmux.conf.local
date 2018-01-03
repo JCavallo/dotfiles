@@ -266,7 +266,7 @@ unbind C-a
 #set -g status-position top
 
 # Fastest possible sequences
-set -s escape-time 0                      # fastest command sequences
+set -s escape-time 100                      # fastest command sequences
 
 # Decrease timeouts
 set -sg repeat-time 100                   # increase repeat timeout
@@ -274,12 +274,19 @@ set -sg repeat-time 100                   # increase repeat timeout
 # Use shift left / right to switch windows
 bind -n S-Left  previous-window
 bind -n S-Right next-window
-bind -n C-S-Left swap-window -t -1
-bind -n C-S-Right swap-window -t +1
-bind -r h select-pane -L  # move left
+bind -n C-M-Left swap-window -t -1
+bind -n C-M-Right swap-window -t +1
 
-# Use <C-b><C-b> to toggle zoom
-bind -r C-b resize-pane -Z
+# Pane navigation, integrated in vim
+is_vim="ps -o state= -o comm= -t '#{pane_tty}' \ | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|n?vim?x?)(diff)?$'"
+bind-key -n M-h if-shell "$is_vim" "send-keys M-h" "select-pane -L"
+bind-key -n M-j if-shell "$is_vim" "send-keys M-j" "select-pane -D"
+bind-key -n M-k if-shell "$is_vim" "send-keys M-k" "select-pane -U"
+bind-key -n M-l if-shell "$is_vim" "send-keys M-l" "select-pane -R"
+
+
+# Use <M-m> to toggle zoom
+bind-key -n M-m resize-pane -Z
 
 # Install plugins
 set-environment -g TMUX_PLUGIN_MANAGER_PATH '~/.tmux_plugins'

@@ -30,6 +30,9 @@ URxvt.color15 : #FFFFFF
 ! font
 URxvt*font: xft:monofur\ for\ Powerline:pixelsize=20:antialias=true:hinting=true
 
+! Line spacing
+URxvt.lineSpace: 2
+
 ! Remove scrollbar
 URxvt.scrollBar: false
 
@@ -38,3 +41,6 @@ URxvt.cursorBlink: 1
 
 ! No Ctrl-Shift mappings
 URxvt*iso14755: False
+
+! Make "Alt" behave properly in vim
+URxvt*meta8: False
