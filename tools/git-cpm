@@ -36,8 +36,14 @@ else
     echo "Renaming commit"
     git commit --amend
 fi
-echo "Pushing"
-# git push origin/"$to"
+while true; do
+    read -rp "Do you wish to push the changes? (Y/n)" yn
+    case $yn in
+        [Yy]* ) echo "Pushing";git push origin "$to"; break;;
+        [Nn]* ) break;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
 if [ "$stash_number" != "" ]; then
     echo "Poping changes"
     git stash pop "$stash_number"
