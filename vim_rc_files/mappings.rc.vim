@@ -569,7 +569,7 @@ nnoremap <silent> [denite]bfm :<C-u>Denite tryton:`tryton#tools#get_current_mode
 nnoremap <silent> [denite]bt :<C-u>Denite tryton<CR>
 nnoremap <silent> [denite]fc :<C-u>DeniteBufferDir `GetFileRecSource('buffer')`<CR>
 nnoremap <silent> [denite]fd :<C-u>Denite `GetFileRecSource('dir')`<CR>
-nnoremap <silent> [denite]fg :<C-u>DeniteProjectDir `GetFileRecSource('dir')`<CR>
+nnoremap <silent> [denite]fg :<C-u>DeniteProjectDir -path=`fnamemodify(bufname('%'), ':p:h')` `GetFileRecSource('buffer')`<CR>
 nnoremap <silent> [denite]fp :<C-u>Denite `GetFileRecSource('project')`:`GetProjectPath()`<CR>
 nnoremap <silent> [denite]h :<C-u>Denite help<CR>
 nnoremap <silent> [denite]gc :<C-u>Denite grep -buffer-name=BufFolderGrep -resume<CR>
@@ -595,9 +595,9 @@ nnoremap <silent> [denite]sdc :Denite -buffer-name=DirectoryGrep grep:::<C-r><C-
 " (S)earch prompted word in current directory
 nnoremap <silent> [denite]sdw :Denite -buffer-name=DirectoryGrep grep<CR>
 " (S)earch word under cursor in current git project
-nnoremap <silent> [denite]sgc :DeniteProjectDir -buffer-name=GitFolderGrep grep:::<C-r><C-w><CR>
+nnoremap <silent> [denite]sgc :DeniteProjectDir -path=`fnamemodify(bufname('%'), ':p:h')` -buffer-name=GitFolderGrep grep:::<C-r><C-w><CR>
 " (S)earch prompted word in current git project
-nnoremap <silent> [denite]sgw :DeniteProjectDir -buffer-name=GitFolderGrep grep<CR>
+nnoremap <silent> [denite]sgw :DeniteProjectDir -path=`fnamemodify(bufname('%'), ':p:h')` -buffer-name=GitFolderGrep grep<CR>
 " (S)earch word under cursor in current project
 nnoremap <silent> [denite]spc :Denite -buffer-name=ProjectGrep grep:`GetProjectPath()`::<C-r><C-w><CR>
 " (S)earch prompted word in current project

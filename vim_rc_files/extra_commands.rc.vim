@@ -61,7 +61,7 @@ function! GetProjectPath()  " {{{
     if $VIRTUAL_ENV != ''
         return $VIRTUAL_ENV
     endif
-    return denite#util#path2project_directory()
+    return denite#util#path2project_directory(expand('%:p:h'), '')
 endfunction  " }}}
 
 function! GetFileRecSource(type)  " {{{
