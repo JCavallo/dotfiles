@@ -39,7 +39,7 @@ set showtabline=1
 " Turn down a long line appointed in 'breakat'
 set linebreak
 set showbreak=>\
-set breakat=\ \	;:,!?
+set breakat=\ \	;:,!?([{
 
 " Do not display greetings message at the time of Vim start.
 set shortmess=aTIc
