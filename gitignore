@@ -7,7 +7,7 @@ nimcache
 .tern-port
 nohup.out
 messages.mo
-node_modules
+node_modules/
 *_BACKUP_*
 *_REMOTE_*
 *_LOCAL_*
