@@ -140,6 +140,9 @@ if [ ! -e "$HOME/.cargo" ]; then
     sh /tmp/rustup -y --no-modify-path
     export PATH="$HOME/.cargo/bin:$PATH"
     cargo install --git https://github.com/jwilm/alacritty
+    mkdir -p "$HOME/.config/alacritty"
+    rm -f  "$HOME/.config/alacritty/alacritty.yml"
+    ln -s "$dir/alacritty.yml" "$HOME/.config/alacritty/$file"
 fi
 
 # Install fbterm (replace tty)
