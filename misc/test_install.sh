@@ -5,9 +5,8 @@
 
 # Typical use :
 #
-#   docker run -v ~/dotfiles:/home/giovanni/dotfiles \
-#       -v ~/dotfiles/misc:/init_docker -it debian \
-#       sh /init_docker/test_install.sh
+#   docker run -v ~/dotfiles:/dotfiles -it debian \
+#       sh /dotfiles/misc/test_install.sh
 #
 # Then once basic installation is done :
 #
@@ -22,5 +21,7 @@ chown -R giovanni /home/giovanni
 echo 'giovanni  ALL=(ALL:ALL) ALL' >> /etc/sudoers
 echo 'giovanni:giovanni' | chpasswd
 cd /home/giovanni
+git clone /dotfiles dotfiles
+chown -R giovanni dotfiles
 su giovanni
 bash

@@ -180,3 +180,52 @@ if [ "$(which pspg)" = '' ]; then
     cd "$HOME"
     rm -rf "$HOME"/tmp/pspg
 fi
+
+# Manage private files
+if [ "$(which git-blur)" = '' ]; then
+    echo_comment "Installing private files"
+    while true; do
+        read -rp "Are you JC? (You WILL have to prove it)? (Y/n)" yn
+        case $yn in
+            [Yy]* ) break;;
+            [Nn]* ) exit 0;;
+            * ) echo "Please answer yes or no.";;
+        esac
+    done
+    chronic sudo apt -y install ruby
+    echo_comment "Installing git blur"
+    chronic sudo gem install git-blur
+    cd "$dir"
+
+    echo_comment "Decrypting blurred files"
+    # In case installation changed something
+    chronic git stash -u
+    git blur init
+
+    # Check files are properly decrypted
+    if [ "$(cat vimrc.local | git blur smudge 2>&1 | \
+            grep 'bad decrypt')" != '' ]; then
+        echo_comment "Tried to cheat, did'nt ya? I'll exit"
+        exit 1
+    fi
+
+    # Force checkout to decrypt all files
+    branch_name=$(git symbolic-ref -q HEAD)
+    branch_name=${branch_name##refs/heads/}
+    branch_name=${branch_name:-HEAD}
+    if [ "$branch_name" = 'HEAD' ]; then
+        echo "Cannot detect current branch"
+        exit 1
+    fi
+    chronic git checkout HEAD~
+    chronic git checkout "$branch_name"
+
+    chronic git stash pop
+
+    echo_comment "Installing decrypted files"
+    files="vimrc.local"
+    IFS=$' \n' read -ra files <<< "${files}"
+    for file in "${files[@]}"; do
+        ln -s "$dir"/"$file" "$HOME/.$file"
+    done
+fi
