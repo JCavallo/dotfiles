@@ -137,7 +137,7 @@ fi
 if [ ! -e "$HOME/.cargo" ]; then
     echo_comment "Installing rust and alacritty"
     curl https://sh.rustup.rs -sSf > /tmp/rustup
-    sh /tmp/rustup -y
+    sh /tmp/rustup -y --no-modify-path
     export PATH="$HOME/.cargo/bin:$PATH"
     cargo install --git https://github.com/jwilm/alacritty
 fi
