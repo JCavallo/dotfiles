@@ -17,7 +17,7 @@ chronic sudo apt -y install wget curl libtool libtool-bin autoconf automake \
     cmake g++ pkg-config unzip libunibilium-dev python-pip python3-pip fbterm \
     libcap2-bin tmux rxvt-unicode-256color shellcheck keychain direnv \
     libncursesw5-dev fontconfig silversearcher-ag libfreetype6-dev \
-    libfontconfig1-dev xclip
+    libfontconfig1-dev xclip htop
 
 dir="$HOME"/dotfiles
 olddir="$HOME/_old_dotfiles"
@@ -151,6 +151,9 @@ sudo usermod -aG video giovanni
 sudo setcap 'cap_sys_tty_config+ep' "$(command -v fbterm)"
 sudo chmod u+s /usr/bin/fbterm
 
+# Install python tools
+chronic pip install --user ptpython pudb
+
 # Install tmux configuration
 if [ ! -e "$HOME/.tmux" ]; then
     echo_comment "Installing tmux configuration"
@@ -161,6 +164,11 @@ if [ ! -e "$HOME/.tmux" ]; then
     # Install tmux plugin
     mkdir -p "$HOME/.tmux_plugins"
     chronic git clone https://github.com/tmux-plugins/tpm ~/.tmux_plugins/tpm
+
+    # Install tmuxp
+    chronic pip install --user tmuxp
+    mkdir -p "$HOME/.tmuxp"
+    ln -s "$dir/tmuxp_main.yaml" "$HOME/.tmuxp/main.yaml"
 fi
 
 # Hangups
