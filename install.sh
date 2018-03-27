@@ -234,7 +234,7 @@ if [ "$(which git-blur)" = '' ]; then
     chronic git stash pop
 
     echo_comment "Installing decrypted files"
-    files="vimrc.local"
+    files="vimrc.local bash_local"
     IFS=$' \n' read -ra files <<< "${files}"
     for file in "${files[@]}"; do
         ln -s "$dir"/"$file" "$HOME/.$file"

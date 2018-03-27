@@ -1,1 +1,2 @@
 vimrc.local filter=git-blur diff=git-blur
+bash_local filter=git-blur diff=git-blur
