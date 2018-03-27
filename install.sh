@@ -20,7 +20,7 @@ chronic sudo apt -y install wget curl libtool libtool-bin autoconf automake \
     libfontconfig1-dev xclip htop
 
 dir="$HOME"/dotfiles
-olddir="$HOME/_old_dotfiles"
+olddir="$HOME/.old_dotfiles"
 
 if [ ! -e "$olddir" ]; then
     echo_comment "Backuping old dotfiles"
