@@ -220,23 +220,31 @@ if [ "$(which git-blur)" = '' ]; then
         exit 1
     fi
 
-    # Force checkout to decrypt all files
-    branch_name=$(git symbolic-ref -q HEAD)
-    branch_name=${branch_name##refs/heads/}
-    branch_name=${branch_name:-HEAD}
-    if [ "$branch_name" = 'HEAD' ]; then
-        echo "Cannot detect current branch"
-        exit 1
-    fi
-    chronic git checkout HEAD~
-    chronic git checkout "$branch_name"
+    # Force checkout to decrypt all files. Use git add --renormalize . when
+    # available
+    chronic git read-tree --empty
+    chronic git reset --hard HEAD
 
-    chronic git stash pop
+    if [ "$(git stash list)" != '' ]; then
+        chronic git stash pop
+    fi
 
     echo_comment "Installing decrypted files"
-    files="vimrc.local bash_local"
+    files="vimrc.local bash_local pgpass"
     IFS=$' \n' read -ra files <<< "${files}"
     for file in "${files[@]}"; do
         ln -s "$dir"/"$file" "$HOME/.$file"
     done
+    if [ -e "$HOME/.tmuxp" ]; then
+        ln -s "$dir/tmuxp_projects.yaml" "$HOME/.tmuxp/projects.yaml"
+    fi
+    if [ ! -e "$HOME/.ssh/id_rsa" ]; then
+        mkdir -p "$HOME/.ssh"
+        ln -s "$dir/ssh/config" "$HOME/.ssh/config"
+        ln -s "$dir/ssh/public" "$HOME/.ssh/id_rsa.pub"
+        ln -s "$dir/ssh/private" "$HOME/.ssh/id_rsa"
+        chmod 700 "$HOME/.ssh"
+        chmod 600 "$HOME/.ssh/id_rsa"
+        chmod 644 "$HOME/.ssh/id_rsa.pub"
+    fi
 fi

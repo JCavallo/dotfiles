@@ -1,2 +1,5 @@
 vimrc.local filter=git-blur diff=git-blur
 bash_local filter=git-blur diff=git-blur
+pgpass filter=git-blur diff=git-blur
+tmuxp_projects.yaml filter=git-blur diff=git-blur
+ssh/* filter=git-blur diff=git-blur
