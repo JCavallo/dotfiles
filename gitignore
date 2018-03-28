@@ -12,3 +12,4 @@ node_modules/
 *_REMOTE_*
 *_LOCAL_*
 *_BASE_*
+.envrc
