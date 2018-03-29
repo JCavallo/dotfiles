@@ -31,8 +31,6 @@ if dein#load_state(s:path)
     call dein#add('chemzqm/unite-location')
     " call dein#add('JCavallo/vim-hg-unite')
     " call dein#add('JCavallo/unite-yarm')
-    " call dein#add('Shougo/neomru.vim')
-    " call dein#add('Shougo/neoyank.vim')
 
     " Edition plugins
     call dein#add('terryma/vim-multiple-cursors')
@@ -46,6 +44,7 @@ if dein#load_state(s:path)
     call dein#add('kana/vim-operator-replace')
     call dein#add('rhysd/vim-operator-surround')
     call dein#add('junegunn/goyo.vim')
+    call dein#add('lambdalisue/gina.vim')
 
     " Visual plugins
     " call dein#add('Yggdroot/indentLine')  " Performance killer

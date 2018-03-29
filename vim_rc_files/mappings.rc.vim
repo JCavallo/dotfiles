@@ -606,7 +606,7 @@ nnoremap <silent> [denite]tc :<C-u>DeniteCursorWord -buffer-name=tag tag<CR>
 nnoremap <silent> [denite]tw :<C-u>Denite -buffer-name=tag tag<CR>
 nnoremap <silent> [denite]xm :<C-u>Denite yarm:assigned=me
     \ -buffer-name=Redmine\ -\ Mine -multi-line<CR>
-nnoremap <silent> [denite]<Space> :<C-u>Denite file_mru<CR>
+nnoremap <silent> [denite]<Space> :<C-u>Denite file/old<CR>
 nnoremap <silent> [denite]; :<C-u>Denite -buffer-name=history
     \ command_history<CR>
 " Clear standard searches
