@@ -54,6 +54,8 @@ if dein#load_state(s:path)
     call dein#add('junegunn/rainbow_parentheses.vim')
     call dein#add('Shougo/echodoc.vim')
     call dein#add('vim-scripts/AnsiEsc.vim')
+    call dein#add('gu-fan/riv.vim')
+    call dein#add('gu-fan/InstantRst')
 
     " Filetype plugins
     call dein#add('sheerun/vim-polyglot')
