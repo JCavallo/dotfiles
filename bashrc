@@ -299,6 +299,11 @@ if [ -z "$FBTERM" ]; then
 else
     export TERM=fbterm
 fi
+
+if which ruby >/dev/null && which gem >/dev/null; then
+    PATH="$(ruby -rubygems -e 'puts Gem.user_dir')/bin:$PATH"
+fi
+
 export PATH=$PATH:/home/giovanni/bin:/home/giovanni/.local/bin
 
 # Local customized path and environment settings, etc.
