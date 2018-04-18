@@ -64,7 +64,7 @@ function! s:AddLogging(delta)  " {{{
         call append(getpos('.')[2] + 1,
             \ 'import logging as tmp_logging;import pprint as tmp_pprint  # PYPRINT')
         call append(getpos('.')[2] + 2,
-            \ 'def _print(x):  # PYPRINT')
+            \ 'def _print(*x):  # PYPRINT')
         call append(getpos('.')[2] + 3,
             \ "    tmp_logging.getLogger('root').critical(tmp_pprint.pformat(x, indent=1, width=130))  # PYPRINT")
         let cur_pos[1] += 3
