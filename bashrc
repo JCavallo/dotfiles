@@ -224,13 +224,15 @@ current_path_ps1() {
     PROJECT_PATH=$(_get_project_path)
     if [ ! "$PROJECT_PATH" = "" ] && [ -d "$PROJECT_PATH" ]; then
         value=$(echo "${PWD#"$PROJECT_PATH"}")
-        if [ "$value" != "" ]; then
-            echo " $value "
-        else
-            echo ""
-        fi
     else
-        echo " $(pwd) "
+        value="$(pwd)"
+    fi
+    if [ "$value" != "" ]; then
+        value=${value/#$HOME/\~}
+        value=$(echo "$value" | sed 's:\([^/][^/]\?\)[^/]*/:\1/:g')
+        echo " $value "
+    else
+        echo ""
     fi
 }
 
@@ -310,6 +312,9 @@ export PATH=$PATH:/home/giovanni/bin:/home/giovanni/.local/bin
 if [ -f ~/.bash_local ]; then
     . ~/.bash_local
 fi
+if [ -f ~/.bash_final ]; then
+    . ~/.bash_final
+fi
 
 _git_store ()
 {
@@ -319,11 +324,19 @@ _git_store ()
 set -o vi
 source ~/.fzf.bash
 
-export NVM_DIR="/home/giovanni/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+if [ -e "/home/giovanni/.nvm" ]; then
+    export NVM_DIR="/home/giovanni/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+fi
 
 if [ -s "$(which direnv)" ]; then
     eval "$(direnv hook bash)"
+fi
+
+if [ -s "$(which pyenv)" ]; then
+    export PATH="/home/giovanni/.pyenv/bin:$PATH"
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
 fi
 
 # vim:set ft=sh:
