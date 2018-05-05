@@ -58,7 +58,6 @@ if dein#load_state(s:path)
     call dein#add('gu-fan/InstantRst')
 
     " Filetype plugins
-    call dein#add('sheerun/vim-polyglot')
     call dein#add('thinca/vim-ft-diff_fold')
     call dein#add('thinca/vim-ft-vim_fold')
     call dein#add('thinca/vim-ft-help_fold')

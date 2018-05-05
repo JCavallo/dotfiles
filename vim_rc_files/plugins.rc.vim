@@ -124,7 +124,7 @@ let g:jedi#show_call_signatures = 0
 " Nim {{{
 let g:nvim_nim_enable_default_binds = 1
 let g:nvim_nim_enable_custom_textobjects = 1
-let g:nvim_nim_highlighter_enable = 1
+let g:nvim_nim_highlighter_enable = 0
 let g:nvim_nim_highlighter_async = 1
 let g:nvim_nim_highlighter_semantics = []
 " }}}
