@@ -24,8 +24,8 @@ olddir="$HOME/.old_dotfiles"
 
 if [ ! -e "$olddir" ]; then
     echo_comment "Backuping old dotfiles"
-    files="agignore bashrc bash_profile gitconfig gitignore hgignore hgrc \
-        inputrc nvimrc psqlrc tmux.conf tmux.conf.local vimrc Xdefaults \
+    files="agignore bashrc bash_profile colors gitconfig gitignore hgignore \
+        hgrc inputrc nvimrc psqlrc tmux.conf tmux.conf.local vimrc Xdefaults \
         xonshrc"    # list of files/folders to symlink in homedir
     IFS=$' \n' read -ra files <<< "${files}"
 

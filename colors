@@ -1,0 +1,68 @@
+#!/bin/bash
+
+color_map() {
+    for fgbg in 38 48 ; do # Foreground / Background
+        for color in {0..255} ; do # Colors
+            # Display the color
+            printf "\e[${fgbg};5;%sm  %3s  \e[0m" $color $color
+            # Display 6 colors per lines
+            if [ $((($color + 1) % 6)) == 4 ] ; then
+                echo
+            fi
+        done
+        echo
+    done
+}
+
+colorize() {
+    declare -A colors
+    colors[grey]='1;38;5;243'
+    colors[green]='1;38;5;40'
+    colors[yellow]='1;38;5;220'
+    colors[red]='1;38;5;203'
+    colors[lightred]='1;38;5;196'
+
+    if [ "$1" = "help" ]; then
+        echo "Usage : colorize <pattern1> <color1> [pattern2 color2...] <input>"
+        echo ""
+        echo "Possible colors:"
+        for i in "${!colors[@]}"
+        do
+            echo "    $i"
+        done
+        echo ""
+        echo "Special value : 'remove' will filter out the pattern rather than colorizing it"
+        echo "   (DO NOT USE for first filter)"
+        exit
+    fi
+
+    if test "${colors[$2]+isset}"; then
+        color="${colors[$2]}"
+    else
+        color="$2"
+    fi
+
+    cmd="GREP_COLOR='$color' grep --color=always --line-buffered -E \"^.*$1.*$|$\" \$1"
+    shift
+    shift
+    while [ $# != 0 ]; do
+        if [ "$2" = "remove" ]; then
+            cmd="$cmd | grep -v --line-buffered \"$1\""
+        else
+            if test "${colors[$2]+isset}"; then
+                color="${colors[$2]}"
+            else
+                color="$2"
+            fi
+            cmd="$cmd | GREP_COLOR='$color' grep --color=always --line-buffered -E \"^.*$1.*$|$\""
+        fi
+        shift
+        shift
+    done
+
+    eval "$cmd"
+}
+
+alias _color_debug='colorize DEBUG grey INFO green WARNING yellow ERROR red CRITICAL lightred'
+alias _color_info='colorize INFO green WARNING yellow ERROR red CRITICAL lightred DEBUG remove'
+alias _color_warning='colorize WARNING yellow ERROR red CRITICAL lightred DEBUG remove INFO remove'
