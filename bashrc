@@ -273,7 +273,7 @@ if [ -s "$(which direnv)" ]; then
     eval "$(direnv hook bash)"
 fi
 
-if [ -s "$(which pyenv)" ]; then
+if [ -e "/home/giovanni/.pyenv/bin" ]; then
     export PATH="/home/giovanni/.pyenv/bin:$PATH"
     eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
