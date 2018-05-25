@@ -1,3 +1,6 @@
+setxkbmap -option ctrl:nocaps
+setxkbmap -option compose:paus
+xset r rate 200 60
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 if which tmux 2>&1 >/dev/null; then
     #if not inside a tmux session, and if no session is started, start fbterm and a new tmux session
