@@ -178,7 +178,9 @@ tryton_db_ps1() {
     local PROJECT_PATH
     PROJECT_PATH=$(_get_project_path)
     if [ ! "$PROJECT_PATH" = "" ] && [ -f "$PROJECT_PATH"/conf/trytond.conf ]; then
-        DB_NAME=$(grep "^uri = postgres" "$PROJECT_PATH"/conf/trytond.conf | sed -e "s/.*@[^:]\+:[0-9]\+\/\?//")
+        if [ "$DB_NAME" = "" ]; then
+            DB_NAME=$(grep "^uri = postgres" "$PROJECT_PATH"/conf/trytond.conf | sed -e "s/.*@[^:]\+:[0-9]\+\/\?//")
+        fi
         PORT=$(grep "^listen = " "$PROJECT_PATH"/conf/trytond.conf | sed -e "s/.*://")
         if [ ! "$PORT" = "" ]; then
             PORT=:"$PORT"
