@@ -48,6 +48,11 @@ fi
 
 # Create config folder
 mkdir -p "$HOME"/.config
+mkdir -p "$HOME"/.config/i3
+mkdir -p "$HOME"/.config/i3status
+
+ln -s "$dir"/i3config "$HOME"/.config/i3/config
+ln -s "$dir"/i3status_config "$HOME"/.config/i3status/config
 
 # Create local binary folder
 if [ ! -e "$HOME/bin" ]; then
