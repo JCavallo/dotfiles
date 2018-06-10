@@ -49,6 +49,12 @@ let g:deoplete#sources#clang#clang_header = '/usr/include/clang'
 " libclang default compile flags
 let g:deoplete#sources#clang#flags = ['-x', 'c++', '-std=c++11']
 
+
+let g:deoplete#sources#rust#racer_binary='/home/giovanni/.cargo/bin/racer'
+let g:deoplete#sources#rust#rust_source_path= '/home/giovanni/' .
+    \ '.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/' .
+    \ 'src/rust/src'
+
 " compile_commands.json directory path
 " Not file path. Need build directory path
 " let g:deoplete#sources#clang#clang_complete_database =

@@ -74,6 +74,8 @@ if dein#load_state(s:path)
     call dein#local('/home/giovanni/Projets/nvim_plugins', {}, ['nvim-nim'])
     call dein#add('zchee/deoplete-jedi')
     call dein#add('zchee/deoplete-clang')
+    call dein#add('sebastianmarkow/deoplete-rust')
+    call dein#add('cespare/vim-toml')
 
     " Colorschemes plugins
     call dein#add('JCavallo/flashy-vim')
