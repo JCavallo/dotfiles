@@ -59,6 +59,10 @@ else
 endif
 " }}}
 
+" Rust {{{
+autocmd MyAutoCmd Filetype rust setlocal foldmethod=indent
+" }}}
+
 " SQL {{{
 autocmd MyAutoCmd Filetype sql setlocal omnifunc=sqlcomplete#Complete
 autocmd MyAutoCmd Filetype sql
