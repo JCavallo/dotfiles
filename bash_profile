@@ -1,12 +1,9 @@
 setxkbmap -option ctrl:nocaps
 xset r rate 200 60
 xmodmap -e "keycode 49 = Multi_key"
-[[ -f ~/.bashrc ]] && . ~/.bashrc
-if which tmux 2>&1 >/dev/null; then
-    #if not inside a tmux session, and if no session is started, start fbterm and a new tmux session
-    test -z "$TMUX" && FBTERM=1 TERM=fbterm fbterm --font-name=Inconsolata\ for\ Powerline --font-size=15 && (tmux attach || tmux new-session)
+
+if [ -e "$HOME/.bash_profile_local" ]; then
+    source "$HOME/.bash_profile_local"
 fi
 
-if [ -e "$HOME/.cargo/bin" ]; then
-    export PATH="$HOME/.cargo/bin:$PATH"
-fi
+[[ -f ~/.bashrc ]] && source ~/.bashrc

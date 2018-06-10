@@ -264,6 +264,10 @@ _git_store ()
 set -o vi
 source ~/.fzf.bash
 
+if [ -e "$HOME/.cargo/bin" ]; then
+    export PATH="$HOME/.cargo/bin:$PATH"
+fi
+
 if [ -e "/home/giovanni/.nvm" ]; then
     export NVM_DIR="/home/giovanni/.nvm"
     [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
