@@ -20,7 +20,7 @@ new_window 1pixel
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-font pango:monofur for Powerline 12
+font pango:monofur for Powerline, FontAwesome 12
 
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
@@ -33,7 +33,7 @@ font pango:monofur for Powerline 12
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec alacritty
+bindsym $mod+Return exec lxterminal
 
 # kill focused window
 bindsym $mod+Shift+a kill
