@@ -1,0 +1,6 @@
+#!/bin/bash
+if [ ! -e /tmp/bell.wav ]; then
+    tar xzf ~/dotfiles/misc/bell.tar.gz -C /tmp
+fi
+
+aplay /tmp/bell.wav > /dev/null 2>&1 &

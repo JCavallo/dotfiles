@@ -33,7 +33,7 @@ font pango:monofur for Powerline, FontAwesome 12
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec lxterminal
+bindsym $mod+Return exec alacritty
 
 # kill focused window
 bindsym $mod+Shift+a kill

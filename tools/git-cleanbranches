@@ -1,0 +1,4 @@
+#!/bin/bash
+for i in $(git br | grep gone | sed "s:^ *\\([^ ]*\\).*:\\1:"); do
+    git branch -D "$i"
+done
