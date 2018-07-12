@@ -40,8 +40,6 @@ let g:markdown_fenced_languages = [
     \  'vim',
     \]
 autocmd MyAutoCmd Filetype markdown setlocal omnifunc=htmlcomplete#CompleteTags
-" au BufEnter *.md setlocal foldexpr=MarkdownLevel()
-" au BufEnter *.md setlocal foldmethod=expr
 " }}}
 
 " Nim {{{
@@ -57,6 +55,11 @@ if has('python3')
 else
     autocmd MyAutoCmd Filetype python setlocal omnifunc=pythoncomplete#Complete
 endif
+" }}}
+
+" Pug {{{
+autocmd MyAutoCmd FileType pug setlocal tabstop=2 softtabstop=2 shiftwidth=2
+autocmd MyAutoCmd FileType pug setlocal foldmethod=indent
 " }}}
 
 " Rust {{{
@@ -89,8 +92,7 @@ autocmd MyAutoCmd BufWritePost .vimrc,vimrc,*.rc.vim,*.toml source $MYVIMRC | re
 " XML {{{
 let g:xml_syntax_folding = 1
 autocmd MyAutoCmd Filetype html setlocal omnifunc=htmlcomplete#CompleteTags
-" autocmd MyAutoCmd Filetype xml setlocal omnifunc=xmlcomplete#CompleteTags
+autocmd MyAutoCmd Filetype xml setlocal omnifunc=xmlcomplete#CompleteTags
 autocmd MyAutoCmd Filetype xml setlocal foldmethod=syntax
 autocmd MyAutoCmd Filetype xml setlocal foldlevel=2
 " }}}
-

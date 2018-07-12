@@ -76,6 +76,7 @@ if dein#load_state(s:path)
     call dein#add('zchee/deoplete-clang')
     call dein#add('sebastianmarkow/deoplete-rust')
     call dein#add('cespare/vim-toml')
+    call dein#add('digitaltoad/vim-pug')
 
     " Colorschemes plugins
     call dein#add('JCavallo/flashy-vim')
