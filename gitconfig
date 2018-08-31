@@ -6,6 +6,9 @@
     editor = nvim
 [color]
     ui = true
+[pager]
+    diff = diff-so-fancy | less --tabs=1,5 -RFX
+    show = diff-so-fancy | less --tabs=1,5 -RFX
 [upload]
     fork = mine
 [push]
@@ -41,6 +44,7 @@
     br = branch -vv
     tags = tag
     stashes = stash list
+    stashall = stash --include-untracked
     prestage = diff
     precommit = diff --cached
     move = mv
