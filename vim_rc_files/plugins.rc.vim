@@ -145,6 +145,8 @@ nmap <leader>com 0yf df oreview http://rietveld.coopengo.com/jkp$xXOjkgg0fFf:lyF
 
 " Deoplete ternjs {{{
 let g:tern_request_timeout = 1
+let g:deoplete#sources#ternjs#tern_bin = "ternjs"
+let g:deoplete#sources#ternjs#types = 1
 " }}}
 
 " UltiSnips {{{
