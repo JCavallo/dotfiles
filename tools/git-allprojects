@@ -1,0 +1,68 @@
+#!/usr/bin/env python
+import os
+import sys
+import subprocess
+
+base_dir = os.environ.get('WORKON_HOME')
+if not base_dir:
+    print('$WORKON_HOME not set, exiting')
+    sys.exit()
+
+if '-h' in sys.argv or '--help' in sys.argv:
+    print('''Usage: git allprojects [-f folder] <action>
+
+$WORKON_HOME must be set in order to properly find projects.
+
+If [folder] is set, only those folders will be considered for <action>.
+
+<action> may be any git action to run inside the sub folder of all projects
+''')
+    sys.exit()
+
+folder = None
+if '-f' in sys.argv:
+    try:
+        index = sys.argv.index('-f') + 1
+        folder = sys.argv[index]
+    except IndexError:
+        print('-f requires a parameter')
+        sys.exit(1)
+    args = [x for idx, x in enumerate(sys.argv)
+            if idx != 0 and idx != index and idx != index - 1]
+else:
+    args = sys.argv[1:]
+
+command, args = args[0], args[1:]
+
+for env_name in os.listdir(base_dir):
+    full_path = os.path.join(base_dir, env_name)
+    if not os.path.isdir(full_path):
+        continue
+    project_file = os.path.join(full_path, '.project')
+    if os.path.exists(project_file):
+        with open(project_file, 'r') as f:
+            full_path = f.read().strip()
+
+    print('\nProject path : %s' % full_path)
+
+    for cur_dir in os.listdir(full_path):
+        if not os.path.exists(os.path.join(full_path, cur_dir, '.git')):
+            continue
+        if folder and cur_dir != folder:
+            continue
+        p = subprocess.Popen(['git', '-C',
+                              os.path.join(full_path, cur_dir), command]
+                             + args, stdout=subprocess.PIPE)
+        res, errs = p.communicate()
+        if errs:
+            print('    %s :' % cur_dir)
+            print('        ERROR : %s' % errs)
+            continue
+        matches = [x for x in res.split('\n') if x]
+        if not matches:
+            continue
+        print('    %s :' % cur_dir)
+        for branch in matches:
+            print('        %s' % branch)
+
+print('\n')
