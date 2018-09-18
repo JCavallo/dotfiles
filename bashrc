@@ -44,6 +44,8 @@ alias gitcm="git checkout master"
 alias htop="TERM=screen htop"
 alias pg_activity="TERM=screen pg_activity"
 alias grp="grep -I --line-buffered"
+alias cat=bat
+alias more=bat
 
 viewdiff() {
     git diff "$*" > /tmp/viewdiff.diff;nvim /tmp/viewdiff.diff
