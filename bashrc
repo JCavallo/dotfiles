@@ -74,6 +74,10 @@ BLUE="[30;106m"
 BLUEBLACK="[96;49m"
 DARKGREY="[37;100m"
 DARKGREYBLACK="[90;49m"
+REDBLACK="[91;49m"
+GREENBLACK="[92;49m"
+BLACKGREEN="[30;42m"
+BLACKPINK="[30;45m"
 
 ps_k() {
     pgrep "$1" | xargs kill -9
@@ -81,6 +85,23 @@ ps_k() {
 ps_chk() {
     ps ax | grep "$1"
 }
+
+_echo_good() {
+    retval=$?
+    if [ "$retval" = "0" ]; then
+        echo "😄"
+    fi
+    return $retval
+}
+
+_echo_bad() {
+    retval=$?
+    if [ "$retval" != "0" ]; then
+        echo "😭"
+    fi
+    return $retval
+}
+
 hg_ps1_1() {
     BRANCH=$(hg prompt "{branch}" 2> /dev/null)
     if [ "$BRANCH" != "" ]; then
@@ -197,6 +218,15 @@ if [ "$TMUX" = "" ]; then
     # Init
     PS1='\n\[\033[G\]\[\e[1m\]\[\e${WHITE}\]  ┌─\[\e${DEFAULT}\]'
 
+    # Bad guy
+    PS1+='\[\e${REDBLACK}\]$(_echo_bad)\[\e${DEFAULT}\]'
+
+    # Good guy
+    PS1+='\[\e${GREENBLACK}\]$(_echo_good)\[\e${DEFAULT}\]'
+
+    # Transition
+    PS1+=' \[\e${BLACKPINK}\]'
+
     # User
     PS1+='\[\e${PINK}\] \u '
     PS1+='\[\e${PINKLIGHTBLUE}\]'
@@ -236,8 +266,20 @@ if [ "$TMUX" = "" ]; then
     # End
     PS1+='\[\e${DEFAULT}\]  '
 else
+    # Init
+    PS1='\n '
+
+    # Bad guy
+    PS1+='\[\e${REDBLACK}\]$(_echo_bad)\[\e${DEFAULT}\]'
+
+    # Good guy
+    PS1+='\[\e${GREENBLACK}\]$(_echo_good)\[\e${DEFAULT}\]'
+
+    # Transition
+    PS1+=' \[\e${BLACKGREEN}\]'
+
     # Virtual Env
-    PS1='\n \[\e${DARKGREEN}\] $(virtual_env_ps1)'
+    PS1+='\[\e${DARKGREEN}\]$(virtual_env_ps1)'
     PS1+='\[\e${DARKGREENRED}\]'
 
     # Filepath
