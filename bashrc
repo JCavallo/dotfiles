@@ -1,5 +1,5 @@
 if hash keychain 2>/dev/null; then
-    eval "$(keychain --eval --agents ssh id_rsa)"
+    # eval "$(keychain --eval --agents ssh id_rsa)"
     clear
 fi
 
@@ -74,8 +74,8 @@ BLUE="[30;106m"
 BLUEBLACK="[96;49m"
 DARKGREY="[37;100m"
 DARKGREYBLACK="[90;49m"
-REDBLACK="[91;49m"
-GREENBLACK="[92;49m"
+REDBLACK="[38;5;196m"
+GREENBLACK="[38;5;82m"
 BLACKGREEN="[30;42m"
 BLACKPINK="[30;45m"
 
@@ -216,7 +216,7 @@ tryton_db_ps1() {
 
 if [ "$TMUX" = "" ]; then
     # Init
-    PS1='\n\[\033[G\]\[\e[1m\]\[\e${WHITE}\]  ┌─\[\e${DEFAULT}\]'
+    PS1='\n\[\033[G\]\[\e[1m\]\[\e${WHITE}\]  ┌─\[\e${DEFAULT}\] '
 
     # Bad guy
     PS1+='\[\e${REDBLACK}\]$(_echo_bad)\[\e${DEFAULT}\]'
