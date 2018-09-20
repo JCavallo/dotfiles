@@ -67,7 +67,8 @@ function! s:AddLogging(delta)  " {{{
             \ 'def _print(*x):  # PYPRINT')
         call append(getpos('.')[2] + 3,
             \ "    for _line in tmp_pprint.pformat(x, indent=1, width=130).split('\\n'):  # PYPRINT")
-            \ "    tmp_logging.getLogger('root').critical(_line)  # PYPRINT")
+        call append(getpos('.')[2] + 4,
+            \ "        tmp_logging.getLogger('root').critical(_line)  # PYPRINT")
         let cur_pos[1] += 3
         call setpos('.', cur_pos)
     endif
@@ -558,7 +559,8 @@ nnoremap <silent> [Window]v  :<C-u>vsplit<CR>
 nnoremap <silent> [Window]h  :<C-u>split<CR>
 nnoremap <silent> [Window]c  :<C-u>call <sid>smart_close()<CR>
 nnoremap <silent> -  :<C-u>call <SID>smart_close()<CR>
-nnoremap <silent> [Window]o  :<C-u>only<CR>
+nnoremap <silent> [Window]o  <C-W>\| <C-W>_
+nnoremap <silent> [Window]=  <C-W>=
 
 " Space : Denite mappings {{{
 nnoremap <silent> [denite] <Nop>
@@ -619,17 +621,17 @@ nnoremap ? :<C-u>Denite -reversed line<CR>
 nnoremap * :<C-u>DeniteCursorWord line<CR>
 " }}}
 
-function! s:smart_close()
+function! s:smart_close()  " {{{
   if winnr('$') != 1
     close
   else
     call s:alternate_buffer()
   endif
-endfunction
+endfunction  " }}}
 
 " Split nicely.
 command! SplitNicely call s:split_nicely()
-function! s:split_nicely()
+function! s:split_nicely()  " {{{
   " Split nicely.
   if winwidth(0) > 2 * &winwidth
     vsplit
@@ -637,9 +639,9 @@ function! s:split_nicely()
     split
   endif
   wincmd p
-endfunction
+endfunction  " }}}
 
-function! s:alternate_buffer()
+function! s:alternate_buffer()  " {{{
   let listed_buffer_len = len(filter(range(1, bufnr('$')),
         \ 's:buflisted(v:val) && getbufvar(v:val, "&filetype") !=# "unite"'))
   if listed_buffer_len <= 1
@@ -667,13 +669,13 @@ function! s:alternate_buffer()
   else
     bnext
   endif
-endfunction
+endfunction  " }}}
 
-function! s:buflisted(bufnr)
+function! s:buflisted(bufnr)  " {{{
   return exists('t:unite_buffer_dictionary') ?
         \ has_key(t:unite_buffer_dictionary, a:bufnr) && buflisted(a:bufnr) :
         \ buflisted(a:bufnr)
-endfunction
+endfunction  " }}}
 
 "===============================================================================
 " Visual Mode Key Mappings
