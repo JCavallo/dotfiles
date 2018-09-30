@@ -3,7 +3,6 @@
 let g:dein#install_progress_type = 'echo'
 let g:dein#install_message_type = 'echo'
 let g:dein#enable_notification = 1
-let g:dein#notification_icon = expand($VIM_FOLDER . '/rc/signs/warn.png')
 
 let s:path = expand($CACHE . '/dein')
 if dein#load_state(s:path)
@@ -20,6 +19,7 @@ if dein#load_state(s:path)
     call dein#add('scrooloose/nerdcommenter')
     call dein#add('sjl/gundo.vim')
     call dein#add('neoclide/denite-extra')
+    call dein#add('embear/vim-localvimrc')
 
     " Dependencies
     call dein#add('mattn/webapi-vim')
@@ -38,7 +38,6 @@ if dein#load_state(s:path)
     call dein#add('rhysd/accelerated-jk')
     call dein#add('kana/vim-operator-replace')
     call dein#add('rhysd/vim-operator-surround')
-    call dein#add('junegunn/goyo.vim')
     call dein#add('lambdalisue/gina.vim')
 
     " Visual plugins
@@ -64,14 +63,15 @@ if dein#load_state(s:path)
     call dein#add('JCavallo/tryton-vim')
     " call dein#local('/home/giovanni/Projets/nvim_plugins', {}, ['tryton-vim'])
     call dein#add('carlitux/deoplete-ternjs')
-    call dein#add('mklabs/vim-backbone')
-    " call dein#add('JCavallo/nvim-nim')
-    call dein#local('/home/giovanni/Projets/nvim_plugins', {}, ['nvim-nim'])
+    call dein#add('JCavallo/nvim-nim')
+    " call dein#local('/home/giovanni/Projets/nvim_plugins', {}, ['nvim-nim'])
     call dein#add('zchee/deoplete-jedi')
     call dein#add('zchee/deoplete-clang')
     call dein#add('sebastianmarkow/deoplete-rust')
     call dein#add('cespare/vim-toml')
     call dein#add('digitaltoad/vim-pug')
+    call dein#add('pangloss/vim-javascript')
+    call dein#add('mxw/vim-jsx')
 
     " Colorschemes plugins
     call dein#add('JCavallo/flashy-vim')

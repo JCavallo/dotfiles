@@ -13,3 +13,4 @@ node_modules/
 *_LOCAL_*
 *_BASE_*
 .envrc
+.lvimrc
