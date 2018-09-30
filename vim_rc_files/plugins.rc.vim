@@ -51,15 +51,17 @@ autocmd ColorScheme *
     \ hi clear ALEInfoSign |
     \ hi ALEInfoSign cterm=bold ctermfg=45 ctermbg=235 |
     \ hi clear ALEStyleErrorSign |
-    \ hi ALEStyleErrorSign cterm=bold ctermfg=white ctermbg=235 |
+    \ hi ALEStyleErrorSign cterm=bold ctermfg=45 ctermbg=235 |
     \ hi clear ALEStyleWarningSign |
-    \ hi ALEStyleWarningSign cterm=bold ctermfg=white ctermbg=235 |
+    \ hi ALEStyleWarningSign cterm=bold ctermfg=45 ctermbg=235 |
     \ hi clear ALEErrorline |
-    \ hi ALEErrorline cterm=underline ctermfg=196 |
+    \ hi ALEErrorline cterm=underline |
     \ hi clear ALEWarningLine |
-    \ hi ALEWarningLine cterm=underline ctermfg=226 |
+    \ hi ALEWarningLine cterm=italic |
     \ hi clear ALEInfoLine |
-    \ hi ALEInfoLine cterm=underline ctermfg=45
+    " \ hi ALEInfoLine cterm=underline ctermfg=45
+    \ hi clear ALEStyleErrorLine |
+    \ hi clear ALEStyleWarningLine |
 " }}}
 
 " Neomake {{{
