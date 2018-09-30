@@ -219,15 +219,6 @@ endfunction
 call Localvimrc()
 
 " Try to set colorscheme
-autocmd MyAutoCmd BufWritePost,BufEnter * Neomake
-autocmd ColorScheme *
-    \ hi NeomakeErrorSign cterm=bold ctermfg=196 ctermbg=235 |
-    \ hi NeomakeWarningSign cterm=bold ctermfg=226 ctermbg=235 |
-    \ hi NeomakeMessageSign cterm=bold ctermfg=white ctermbg=235 |
-    \ hi NeomakeInfoSign cterm=bold ctermfg=45 ctermbg=235 |
-    \ hi NeomakeError cterm=underline ctermfg=196 |
-    \ hi NeomakeWarning cterm=underline ctermfg=226 |
-    \ hi NeomakeInfo cterm=underline ctermfg=45
 silent! colorscheme flashy_vim
 
 " Force detection for first opened file since event were triggered before

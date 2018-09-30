@@ -16,21 +16,16 @@ if dein#load_state(s:path)
     call dein#add('SirVer/ultisnips.git')
     call dein#add('honza/vim-snippets')
     call dein#add('vim-airline/vim-airline.git')
-    call dein#add('neomake/neomake')
+    call dein#add('w0rp/ale')
     call dein#add('scrooloose/nerdcommenter')
     call dein#add('sjl/gundo.vim')
+    call dein#add('neoclide/denite-extra')
 
     " Dependencies
     call dein#add('mattn/webapi-vim')
     call dein#add('Shougo/context_filetype.vim')
     call dein#add('Shougo/neoinclude.vim')
     call dein#add('tyru/open-browser.vim')
-
-    " Unite plugins
-    " call dein#add('Shougo/junkfile.vim')
-    call dein#add('chemzqm/unite-location')
-    " call dein#add('JCavallo/vim-hg-unite')
-    " call dein#add('JCavallo/unite-yarm')
 
     " Edition plugins
     call dein#add('terryma/vim-multiple-cursors')

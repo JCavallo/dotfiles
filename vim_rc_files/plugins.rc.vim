@@ -39,27 +39,59 @@ call denite#custom#var('file_rec/git', 'command',
     \ ['git', 'ls-files', '-co', '--exclude-standard'])
 " }}}
 
+" Ale {{{
+let g:ale_sign_error = '✖'
+let g:ale_sign_warning = '✖'
+let g:ale_sign_style_warning = '✖'
+autocmd ColorScheme *
+    \ hi clear ALEErrorSign |
+    \ hi ALEErrorSign cterm=bold ctermfg=196 ctermbg=235 |
+    \ hi clear ALEWarningSign |
+    \ hi ALEWarningSign cterm=bold ctermfg=226 ctermbg=235 |
+    \ hi clear ALEInfoSign |
+    \ hi ALEInfoSign cterm=bold ctermfg=45 ctermbg=235 |
+    \ hi clear ALEStyleErrorSign |
+    \ hi ALEStyleErrorSign cterm=bold ctermfg=white ctermbg=235 |
+    \ hi clear ALEStyleWarningSign |
+    \ hi ALEStyleWarningSign cterm=bold ctermfg=white ctermbg=235 |
+    \ hi clear ALEErrorline |
+    \ hi ALEErrorline cterm=underline ctermfg=196 |
+    \ hi clear ALEWarningLine |
+    \ hi ALEWarningLine cterm=underline ctermfg=226 |
+    \ hi clear ALEInfoLine |
+    \ hi ALEInfoLine cterm=underline ctermfg=45
+" }}}
+
 " Neomake {{{
-let g:neomake_po_maker = {
-    \ 'exe': 'msgfmt',
-    \ 'errorformat': '%W%f:%l: warning: %m,' .
-        \ '%E%f:%l:%v: %m,' .
-        \ '%E%f:%l: %m,' .
-        \ '%+C %.%#,' .
-        \ '%Z%p^,' .
-        \ '%-G%.%#'
-    \ }
-let g:neomake_po_enabled_makers = ['po']
-let g:neomake_python_enabled_makers = ['flake8']
-let g:neomake_javascript_enabled_makers = ['standard']
-let g:neomake_nim_enabled_makers = ['nim']
-let g:neomake_nim_nim_remove_invalid_entries = 1
-let g:quickfixsigns_protect_sign_rx = '^neomake_'
-let g:neomake_warning_sign = {
-    \   'text': '✖',
-    \   'texthl': 'NeomakeWarningSign',
-    \ }
-let g:neomake_tempfile_enabled = 0
+" autocmd MyAutoCmd BufWritePost,BufEnter * Neomake
+" autocmd ColorScheme *
+"     \ hi NeomakeErrorSign cterm=bold ctermfg=196 ctermbg=235 |
+"     \ hi NeomakeWarningSign cterm=bold ctermfg=226 ctermbg=235 |
+"     \ hi NeomakeMessageSign cterm=bold ctermfg=white ctermbg=235 |
+"     \ hi NeomakeInfoSign cterm=bold ctermfg=45 ctermbg=235 |
+"     \ hi NeomakeError cterm=underline ctermfg=196 |
+"     \ hi NeomakeWarning cterm=underline ctermfg=226 |
+"     \ hi NeomakeInfo cterm=underline ctermfg=45
+" let g:neomake_po_maker = {
+"     \ 'exe': 'msgfmt',
+"     \ 'errorformat': '%W%f:%l: warning: %m,' .
+"         \ '%E%f:%l:%v: %m,' .
+"         \ '%E%f:%l: %m,' .
+"         \ '%+C %.%#,' .
+"         \ '%Z%p^,' .
+"         \ '%-G%.%#'
+"     \ }
+" let g:neomake_po_enabled_makers = ['po']
+" let g:neomake_python_enabled_makers = ['flake8']
+" let g:neomake_javascript_enabled_makers = ['standard']
+" let g:neomake_nim_enabled_makers = ['nim']
+" let g:neomake_nim_nim_remove_invalid_entries = 1
+" let g:quickfixsigns_protect_sign_rx = '^neomake_'
+" let g:neomake_warning_sign = {
+"     \   'text': '✖',
+"     \   'texthl': 'NeomakeWarningSign',
+"     \ }
+" let g:neomake_tempfile_enabled = 0
 " }}}
 
 " Airline {{{
@@ -69,6 +101,7 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_mode_map = {'n': 'NOR', 'i': 'INS', 'R': 'REP', 't': 'TER',
     \ 'V': 'VIS'}
 let g:airline#extensions#whitespace#enabled = 0
+let g:airline#extensions#ale#enabled = 1
 " }}}
 
 " Nerd Commenter {{{
@@ -140,7 +173,6 @@ let g:tryton_trytond_path = "$PROJECT_PATH/trytond"
 let g:tryton_server_host_name = 'localhost'
 let g:tryton_server_port = '7999'
 let g:tryton_server_login = 'admin'
-nmap <leader>com 0yf df oreview http://rietveld.coopengo.com/jkp$xXOjkgg0fFf:lyFFf:lldFFjojkkpxXXX
 " }}}
 
 " Deoplete ternjs {{{
