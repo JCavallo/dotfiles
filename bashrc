@@ -334,17 +334,19 @@ _git_store ()
 set -o vi
 source ~/.fzf.bash
 
+if [ -s "$(which direnv)" ]; then
+    eval "$(direnv hook bash)"
+fi
+
 if [ -e "$HOME/.cargo/bin" ]; then
     export PATH="$HOME/.cargo/bin:$PATH"
 fi
 
-if [ -e "/home/giovanni/.nvm" ]; then
-    export NVM_DIR="/home/giovanni/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-fi
-
-if [ -s "$(which direnv)" ]; then
-    eval "$(direnv hook bash)"
+if [ -s "$(which npm)" ]; then
+    mkdir -p /home/giovanni/.npm-modules
+    mkdir -p /home/giovanni/.npm-modules/bin
+    alias npm='PREFIX=/home/giovanni/.npm-modules/ npm'
+    export PATH="/home/giovanni/.npm-modules/bin:$PATH"
 fi
 
 if [ -e "/home/giovanni/.pyenv/bin" ]; then
