@@ -167,6 +167,10 @@ let g:deoplete#enable_at_startup = 1
 execute 'source ' . expand($VIM_FOLDER) . '/rc/plugins/deoplete.rc.vim'
 " }}}
 
+" Local Vimrc {{{
+let g:localvimrc_persistent=1
+" }}}
+
 " Tryton {{{
 let g:tryton_default_mappings = 1
 let g:tryton_trytond_path = "$PROJECT_PATH/trytond"
