@@ -42,8 +42,8 @@ $if mode=vi
     set keymap vi-move
     "j": history-search-forward
     "k": history-search-backward
-    "H": backward-word
-    "L": forward-word
+    "\C-h": backward-word
+    "\C-l": forward-word
     # Disable arrow keys
     "\eOD":""
     "\e[D":""

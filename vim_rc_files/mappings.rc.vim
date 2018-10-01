@@ -69,7 +69,7 @@ function! s:AddLogging(delta)  " {{{
             \ "    for _line in tmp_pprint.pformat(x, indent=1, width=130).split('\\n'):  # PYPRINT")
         call append(getpos('.')[2] + 4,
             \ "        tmp_logging.getLogger('root').critical(_line)  # PYPRINT")
-        let cur_pos[1] += 3
+        let cur_pos[1] += 4
         call setpos('.', cur_pos)
     endif
     let cur_pos[2] = 1
