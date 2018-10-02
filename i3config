@@ -184,3 +184,5 @@ workspace $main_workspace output $laptop_screen
 
 assign [class="Tryton"] $coog_workspace
 assign [class="Chrome"] $chrome_workspace
+
+exec --no-startup-id compton --config ~/.config/compton.conf -b

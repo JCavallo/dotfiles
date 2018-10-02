@@ -349,6 +349,11 @@ if [ -s "$(which npm)" ]; then
     export PATH="/home/giovanni/.npm-modules/bin:$PATH"
 fi
 
+if [ -e "$HOME/n" ]; then
+    export N_PREFIX="$HOME/n"
+    [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"
+fi
+
 if [ -e "/home/giovanni/.pyenv/bin" ]; then
     export PATH="/home/giovanni/.pyenv/bin:$PATH"
     eval "$(pyenv init -)"

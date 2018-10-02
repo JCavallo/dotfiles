@@ -17,7 +17,7 @@ chronic sudo apt -y install wget curl libtool libtool-bin autoconf automake \
     cmake g++ pkg-config unzip libunibilium-dev python-pip python3-pip fbterm \
     libcap2-bin tmux rxvt-unicode-256color shellcheck keychain direnv \
     libncursesw5-dev fontconfig silversearcher-ag libfreetype6-dev \
-    libfontconfig1-dev xclip htop fonts-font-awesome
+    libfontconfig1-dev xclip htop fonts-font-awesome compton
 
 dir="$HOME"/dotfiles
 olddir="$HOME/.old_dotfiles"
@@ -54,6 +54,10 @@ mkdir -p "$HOME"/.config/i3status
 if [ ! -e "$HOME"/.config/i3/config ]; then
     ln -s "$dir"/i3config "$HOME"/.config/i3/config
     ln -s "$dir"/i3status_config "$HOME"/.config/i3status/config
+fi
+
+if [ ! -e "$HOME"/.config/compton.conf ]; then
+    ln -s "$dir"/compton.conf "$HOME"/.config/
 fi
 
 # Create local binary folder
@@ -161,6 +165,12 @@ sudo chmod u+s /usr/bin/fbterm
 
 # Install python tools
 chronic pip install --user ptpython pudb
+
+# Install n(ode)
+if [ -s "$(which n)" ]; then
+    echo_comment "Installing latest node js through n"
+    curl -L https://git.io/n-install | bash -s -- -y
+fi
 
 # Install tmux configuration
 if [ ! -e "$HOME/.tmux" ]; then
