@@ -17,7 +17,7 @@ chronic sudo apt -y install wget curl libtool libtool-bin autoconf automake \
     cmake g++ pkg-config unzip libunibilium-dev python-pip python3-pip fbterm \
     libcap2-bin tmux rxvt-unicode-256color shellcheck keychain direnv \
     libncursesw5-dev fontconfig silversearcher-ag libfreetype6-dev \
-    libfontconfig1-dev xclip htop fonts-font-awesome compton
+    libfontconfig1-dev xclip htop fonts-font-awesome compton gettext
 
 dir="$HOME"/dotfiles
 olddir="$HOME/.old_dotfiles"
