@@ -43,6 +43,9 @@ call denite#custom#var('file_rec/git', 'command',
 let g:ale_sign_error = '✖'
 let g:ale_sign_warning = '✖'
 let g:ale_sign_style_warning = '✖'
+let g:ale_lint_on_text_changed = 'always'
+let g:ale_lint_delay = 2000
+let g:ale_fix_on_save = 1
 autocmd ColorScheme *
     \ hi clear ALEErrorSign |
     \ hi ALEErrorSign cterm=bold ctermfg=196 ctermbg=235 |
@@ -55,9 +58,9 @@ autocmd ColorScheme *
     \ hi clear ALEStyleWarningSign |
     \ hi ALEStyleWarningSign cterm=bold ctermfg=45 ctermbg=235 |
     \ hi clear ALEErrorline |
-    \ hi ALEErrorline cterm=underline |
+    " \ hi ALEErrorline cterm=italic |
     \ hi clear ALEWarningLine |
-    \ hi ALEWarningLine cterm=italic |
+    " \ hi ALEWarningLine cterm=italic |
     \ hi clear ALEInfoLine |
     " \ hi ALEInfoLine cterm=underline ctermfg=45
     \ hi clear ALEStyleErrorLine |
