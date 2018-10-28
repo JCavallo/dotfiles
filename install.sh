@@ -17,7 +17,7 @@ chronic sudo apt -y install wget curl libtool libtool-bin autoconf automake \
     cmake g++ pkg-config unzip libunibilium-dev python-pip python3-pip fbterm \
     libcap2-bin tmux rxvt-unicode-256color shellcheck keychain direnv \
     libncursesw5-dev fontconfig silversearcher-ag libfreetype6-dev \
-    libfontconfig1-dev xclip htop fonts-font-awesome compton gettext
+    libfontconfig1-dev xclip htop fonts-font-awesome compton gettext tree
 
 dir="$HOME"/dotfiles
 olddir="$HOME/.old_dotfiles"
@@ -169,7 +169,7 @@ chronic pip install --user ptpython pudb
 # Install n(ode)
 if [ -s "$(which n)" ]; then
     echo_comment "Installing latest node js through n"
-    curl -L https://git.io/n-install | bash -s -- -y
+    chronic curl -L https://git.io/n-install | bash -s -- -y -n
 fi
 
 # Install tmux configuration
@@ -189,12 +189,10 @@ if [ ! -e "$HOME/.tmux" ]; then
     ln -s "$dir/tmuxp_main.yaml" "$HOME/.tmuxp/main.yaml"
 fi
 
-# Hangups
-if [ "$(which hangups)" = '' ]; then
-    echo_comment "Installing hangups"
-    chronic pip3 install --user hangups
-    mkdir -p "$HOME"/.config/hangups
-    ln -s "$HOME"/dotfiles/hangups.conf "$HOME"/.config/hangups/
+# Pyenv
+if [ "$(which pyenv)" = '' ]; then
+    echo_comment "Installing pyenv"
+    chronic curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
 fi
 
 # Install pspg (psql pager)
