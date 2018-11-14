@@ -20,7 +20,7 @@ new_window 1pixel
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-font pango:monofur for Powerline, FontAwesome 12
+font pango:monofur, FontAwesome 14
 
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
@@ -96,16 +96,17 @@ bindsym $mod+q focus parent
 #bindsym $mod+d focus child
 
 # Hardocde some workspaces
-set $coog_workspace "1 Coog"
-set $dev_workspace "2  (dev)"
+set $coog_workspace "1 "
+set $dev_workspace "2 "
 set $chrome_workspace "3 "
-set $main_workspace "10  (main)"
+set $document_workspace "4 "
+set $main_workspace "10 "
 
 # switch to workspace
 bindsym $mod+ampersand workspace $coog_workspace
 bindsym $mod+eacute workspace $dev_workspace
 bindsym $mod+quotedbl workspace $chrome_workspace
-bindsym $mod+apostrophe workspace 4
+bindsym $mod+apostrophe workspace $document_workspace
 bindsym $mod+parenleft workspace 5
 bindsym $mod+minus workspace 6
 bindsym $mod+egrave workspace 7
@@ -117,7 +118,7 @@ bindsym $mod+agrave workspace $main_workspace
 bindsym $mod+Shift+ampersand move container to workspace $coog_workspace
 bindsym $mod+Shift+eacute move container to workspace $dev_workspace
 bindsym $mod+Shift+quotedbl move container to workspace $chrome_workspace
-bindsym $mod+Shift+apostrophe move container to workspace 4
+bindsym $mod+Shift+apostrophe move container to workspace $document_workspace
 bindsym $mod+Shift+5 move container to workspace 5
 bindsym $mod+Shift+minus move container to workspace 6
 bindsym $mod+Shift+egrave move container to workspace 7
@@ -180,9 +181,15 @@ set $external_screen "HDMI-1"
 workspace $coog_workspace output $external_screen
 workspace $dev_workspace output $external_screen
 workspace $chrome_workspace output $external_screen
+workspace $document_workspace output $external_screen
 workspace $main_workspace output $laptop_screen
 
 assign [class="Tryton"] $coog_workspace
 assign [class="Chrome"] $chrome_workspace
+assign [class="chrome"] $chrome_workspace
+assign [class="google-chrome"] $chrome_workspace
+assign [class="libreoffice"] $document_workspace
+assign [class="libreoffice-calc"] $document_workspace
+assign [class="libreoffice-writer"] $document_workspace
 
 exec --no-startup-id compton --config ~/.config/compton.conf -b
