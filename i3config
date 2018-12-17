@@ -100,6 +100,7 @@ set $coog_workspace "1 "
 set $dev_workspace "2 "
 set $chrome_workspace "3 "
 set $document_workspace "4 "
+set $steam_workspace "7 "
 set $main_workspace "10 "
 
 # switch to workspace
@@ -109,7 +110,7 @@ bindsym $mod+quotedbl workspace $chrome_workspace
 bindsym $mod+apostrophe workspace $document_workspace
 bindsym $mod+parenleft workspace 5
 bindsym $mod+minus workspace 6
-bindsym $mod+egrave workspace 7
+bindsym $mod+egrave workspace $steam_workspace
 bindsym $mod+underscore workspace 8
 bindsym $mod+ccedilla workspace 9
 bindsym $mod+agrave workspace $main_workspace
@@ -182,14 +183,18 @@ workspace $coog_workspace output $external_screen
 workspace $dev_workspace output $external_screen
 workspace $chrome_workspace output $external_screen
 workspace $document_workspace output $external_screen
+workspace $steam_workspace output $laptop_screen
 workspace $main_workspace output $laptop_screen
 
 assign [class="Tryton"] $coog_workspace
 assign [class="Chrome"] $chrome_workspace
 assign [class="chrome"] $chrome_workspace
 assign [class="google-chrome"] $chrome_workspace
+assign [class="Steam"] $steam_workspace
+
+# Libreoffice is not very nice
 assign [class="libreoffice"] $document_workspace
-assign [class="libreoffice-calc"] $document_workspace
-assign [class="libreoffice-writer"] $document_workspace
+assign [class="libreoffice-startcenter"] $document_workspace
+assign [class="Soffice"] $document_workspace
 
 exec --no-startup-id compton --config ~/.config/compton.conf -b
