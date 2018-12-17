@@ -349,6 +349,11 @@ if [ -s "$(which npm)" ]; then
     export PATH="/home/giovanni/.npm-modules/bin:$PATH"
 fi
 
+if [ -s "$(which go)" ]; then
+    export GOPATH=$HOME/go
+    export PATH=$PATH:$GOPATH/bin
+fi
+
 if [ -e "$HOME/n" ]; then
     export N_PREFIX="$HOME/n"
     [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"
