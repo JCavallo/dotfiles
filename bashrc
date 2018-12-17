@@ -168,23 +168,18 @@ virtual_env_ps1() {
 }
 
 _get_project_path() {
-    local PROJECT_PATH
-    PROJECT_PATH=$(cat "$VIRTUAL_ENV"/.project 2> /dev/null)
-    if [ "$PROJECT_PATH" = "" ] || [ ! -d "$PROJECT_PATH" ]; then
-        if [ -z "$VIRTUAL_ENV" ]; then
-            PROJECT_PATH=
-        else
-            PROJECT_PATH=$VIRTUAL_ENV
-        fi
+    if [[ "$PROJECT_PATH" != "" ]]; then
+        echo "$PROJECT_PATH"
+    elif [[ "$VIRTUAL_ENV" != "" ]]; then
+        echo "$VIRTUAL_ENV"
     fi
-    echo $PROJECT_PATH
 }
 
 current_path_ps1() {
-    local PROJECT_PATH
-    PROJECT_PATH=$(_get_project_path)
-    if [ ! "$PROJECT_PATH" = "" ] && [ -d "$PROJECT_PATH" ]; then
-        value=$(echo "${PWD#"$PROJECT_PATH"}")
+    local path
+    path=$(_get_project_path)
+    if [ ! "$path" = "" ] && [ -d "$path" ]; then
+        value=$(echo "${PWD#"$path"}")
     else
         value="$(pwd)"
     fi
@@ -198,13 +193,13 @@ current_path_ps1() {
 }
 
 tryton_db_ps1() {
-    local PROJECT_PATH
-    PROJECT_PATH=$(_get_project_path)
-    if [ ! "$PROJECT_PATH" = "" ] && [ -f "$PROJECT_PATH"/conf/trytond.conf ]; then
+    local path
+    path=$(_get_project_path)
+    if [ ! "$path" = "" ] && [ -f "$path"/conf/trytond.conf ]; then
         if [ "$DB_NAME" = "" ]; then
-            DB_NAME=$(grep "^uri = postgres" "$PROJECT_PATH"/conf/trytond.conf | sed -e "s/.*@[^:]\+:[0-9]\+\/\?//")
+            DB_NAME=$(grep "^uri = postgres" "$path"/conf/trytond.conf | sed -e "s/.*@[^:]\+:[0-9]\+\/\?//")
         fi
-        PORT=$(grep "^listen = " "$PROJECT_PATH"/conf/trytond.conf | sed -e "s/.*://")
+        PORT=$(grep "^listen = " "$path"/conf/trytond.conf | sed -e "s/.*://")
         if [ ! "$PORT" = "" ]; then
             PORT=:"$PORT"
         fi
