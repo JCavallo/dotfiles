@@ -30,11 +30,16 @@ if [ "$TERM" != "dumb" ]; then
     alias ls='ls --color=auto'
 fi
 
+function paged_ripgrep() {
+    rg -p "$@" | less -RFX
+}
+
 alias la='ls -Fa'
 alias ll='ls -Flsh'
 alias cdve='cd $VIRTUAL_ENV'
 alias cdpr='cd $PROJECT_PATH'
 alias ag="LESS='FSRX' ag --pager less"
+alias rg='paged_ripgrep'
 # Apply latest patch in ~/tmp/
 alias hgpl="ls -d -t ~/tmp/* | grep .*diff | head -n 1;ls -d -t ~/tmp/* | grep .*diff | head -n 1 | xargs cat | hg patch --no-commit -"
 # Clean up everything
