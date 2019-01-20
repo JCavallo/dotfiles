@@ -146,15 +146,28 @@ if [ "$(fc-list | grep Powerline)" = '' ]; then
 fi
 
 if [ ! -e "$HOME/.cargo" ]; then
-    echo_comment "Installing rust, alacritty and bat"
+    echo_comment "Installing rust"
     curl https://sh.rustup.rs -sSf > /tmp/rustup
     sh /tmp/rustup -y --no-modify-path
     export PATH="$HOME/.cargo/bin:$PATH"
+fi
+
+if [ ! "$(command -v alacritty)" ]; then
+    echo_comment "Installing alacritty"
     cargo install --git https://github.com/jwilm/alacritty
     mkdir -p "$HOME/.config/alacritty"
     rm -f  "$HOME/.config/alacritty/alacritty.yml"
     ln -s "$dir/alacritty.yml" "$HOME/.config/alacritty/alacritty.yml"
+fi
+
+if [ ! "$(command -v bat)" ]; then
+    echo_comment "Installing bat"
     cargo install --git https://github.com/sharkdp/bat
+fi
+
+if [ ! "$(command -v rg)" ]; then
+    echo_comment "Installing ripgrep"
+    cargo install ripgrep
 fi
 
 # Install fbterm (replace tty)

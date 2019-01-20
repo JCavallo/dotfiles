@@ -94,7 +94,10 @@ set foldtext=CustomFoldText()
 " }}}
 
 " Use grep.
-if executable("ag")
+if executable("rg")
+    set grepprg=rg\ --vimgrep\ --no-heading
+    set grepformat=%f:%l:%c:%m,%f:%l:%m
+elseif executable("ag")
     set grepprg=ag\ --nogroup
 else
     set grepprg=grep\ -inH
