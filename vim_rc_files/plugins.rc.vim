@@ -30,7 +30,7 @@ if executable("rg")
     call denite#custom#var('grep', 'pattern_opt', ['--regexp'])
     call denite#custom#var('grep', 'separator', ['--'])
     call denite#custom#var('grep', 'final_opts', [])
-    call denite#custom#var('file/rec', 'command',
+    call denite#custom#var('file_rec', 'command',
         \ ['rg', '--files', '--glob', '!.git'])
 elseif executable("ag")
     call denite#custom#var('grep', 'command', ['ag'])
