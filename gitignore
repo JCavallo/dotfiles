@@ -15,3 +15,4 @@ node_modules/
 .envrc
 .lvimrc
 __pycache__/
+*.egg-info/
