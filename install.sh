@@ -17,7 +17,8 @@ chronic sudo apt -y install wget curl libtool libtool-bin autoconf automake \
     cmake g++ pkg-config unzip libunibilium-dev python-pip python3-pip fbterm \
     libcap2-bin tmux rxvt-unicode-256color shellcheck keychain direnv \
     libncursesw5-dev fontconfig silversearcher-ag libfreetype6-dev \
-    libfontconfig1-dev xclip htop fonts-font-awesome compton gettext tree
+    libfontconfig1-dev xclip htop fonts-font-awesome compton gettext tree \
+    i3 xinit
 
 dir="$HOME"/dotfiles
 olddir="$HOME/.old_dotfiles"
@@ -178,11 +179,12 @@ sudo chmod u+s /usr/bin/fbterm
 
 # Install python tools
 chronic pip install --user ptpython pudb
+chronic pip3 install --user ptpython pudb
 
 # Install n(ode)
 if [ -s "$(which n)" ]; then
     echo_comment "Installing latest node js through n"
-    chronic curl -L https://git.io/n-install | bash -s -- -y -n
+    curl -s -L https://git.io/n-install | chronic bash -s -- -y -n
 fi
 
 # Install tmux configuration
@@ -205,7 +207,9 @@ fi
 # Pyenv
 if [ "$(which pyenv)" = '' ]; then
     echo_comment "Installing pyenv"
-    chronic curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+    curl -s -L \
+        https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer \
+        | chronic bash
 fi
 
 # Install pspg (psql pager)
@@ -270,8 +274,8 @@ if [ "$(which git-blur)" = '' ]; then
     if [ ! -e "$HOME/.ssh/id_rsa" ]; then
         mkdir -p "$HOME/.ssh"
         ln -s "$dir/ssh/config" "$HOME/.ssh/config"
-        ln -s "$dir/ssh/public" "$HOME/.ssh/id_rsa.pub"
-        ln -s "$dir/ssh/private" "$HOME/.ssh/id_rsa"
+        cp "$dir/ssh/public" "$HOME/.ssh/id_rsa.pub"
+        cp "$dir/ssh/private" "$HOME/.ssh/id_rsa"
         chmod 700 "$HOME/.ssh"
         chmod 600 "$HOME/.ssh/id_rsa"
         chmod 644 "$HOME/.ssh/id_rsa.pub"
