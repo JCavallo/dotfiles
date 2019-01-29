@@ -170,11 +170,15 @@ let g:jedi#show_call_signatures = 0
 " }}}
 
 " Nim {{{
-let g:nvim_nim_enable_default_binds = 1
-let g:nvim_nim_enable_custom_textobjects = 1
-let g:nvim_nim_highlighter_enable = 0
-let g:nvim_nim_highlighter_async = 1
-let g:nvim_nim_highlighter_semantics = []
+if executable("nim")
+    let g:nvim_nim_enable_default_binds = 1
+    let g:nvim_nim_enable_custom_textobjects = 1
+    let g:nvim_nim_highlighter_enable = 0
+    let g:nvim_nim_highlighter_async = 1
+    let g:nvim_nim_highlighter_semantics = []
+else
+    let g:loaded_nvim_nim = 1
+endif
 " }}}
 
 " Deoplete {{{
