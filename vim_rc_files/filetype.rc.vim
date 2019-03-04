@@ -68,6 +68,8 @@ autocmd MyAutoCmd Filetype rust setlocal foldmethod=indent
 
 " SQL {{{
 autocmd MyAutoCmd Filetype sql setlocal omnifunc=sqlcomplete#Complete
+autocmd MyAutoCmd Filetype sql setlocal foldmethod=indent
+autocmd MyAutoCmd Filetype sql setlocal foldlevel=0
 autocmd MyAutoCmd Filetype sql
     \ nnoremap <leader>xx :execute 'silent %w !sqlformat -r -k upper -i lower -o % %' \| execute ':e!'<CR>
 " }}}
