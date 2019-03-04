@@ -247,8 +247,8 @@ nnoremap - <c-x>
 nnoremap <silent> <C-f> <C-f>
 nnoremap <silent> <C-b> <C-b>
 
-" Ctrl-j: Scroll + move down through the file
-noremap <c-j> 3<c-e>3j
+" Ctrl-j: Easy motion up
+nmap <c-j> <Plug>(easymotion-overwin-line)
 
 " Ctrl-k: Denite jump
 nnoremap <silent> <C-k> :<C-u>Denite change jump<CR>

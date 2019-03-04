@@ -135,6 +135,10 @@ let g:unite_yarm_title_fields = [
     \ ]
 " }}}
 
+" Easymotion {{{
+let g:EasyMotion_keys = 'lkjhqsdfgoiuzerpaytbvcxwmn,'
+" }}}
+
 " Dockerfile {{{
 autocmd BufRead,BufNewFile *.df set filetype=Dockerfile
 " }}}
