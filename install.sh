@@ -18,7 +18,7 @@ chronic sudo apt -y install wget curl libtool libtool-bin autoconf automake \
     libcap2-bin tmux rxvt-unicode-256color shellcheck keychain direnv \
     libncursesw5-dev fontconfig silversearcher-ag libfreetype6-dev \
     libfontconfig1-dev xclip htop fonts-font-awesome compton gettext tree \
-    i3 xinit
+    i3 xinit ctags
 
 dir="$HOME"/dotfiles
 olddir="$HOME/.old_dotfiles"
