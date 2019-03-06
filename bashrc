@@ -22,20 +22,13 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 export LANG=en_US.UTF-8
 
-if [ "$TERM" != "dumb" ]; then
-    [ -e "$HOME/.dir_colors" ] &&
-    DIR_COLORS="$HOME/.dir_colors" [ -e "$DIR_COLORS" ] ||
-    DIR_COLORS=""
-    eval "$(dircolors -b $DIR_COLORS)"
-    alias ls='ls --color=auto'
-fi
-
 function paged_ripgrep() {
     rg -p "$@" | less -RFX
 }
 
 alias la='ls -Fa'
 alias ll='ls -Flsh'
+alias ls='ls --color=auto'
 alias cdve='cd $VIRTUAL_ENV'
 alias cdpr='cd $PROJECT_PATH'
 alias ag="LESS='FSRX' ag --pager less"
@@ -51,6 +44,7 @@ alias pg_activity="TERM=screen pg_activity"
 alias grp="grep -I --line-buffered"
 alias cat=bat
 alias more=bat
+alias k="kritik -s --success-message OK --failure-message KO"
 
 viewdiff() {
     git diff "$*" > /tmp/viewdiff.diff;nvim /tmp/viewdiff.diff
@@ -84,12 +78,11 @@ GREENBLACK="[38;5;82m"
 BLACKGREEN="[30;42m"
 BLACKPINK="[30;45m"
 
-ps_k() {
-    pgrep "$1" | xargs kill -9
-}
-ps_chk() {
-    ps ax | grep "$1"
-}
+if [[ $(which hg) ]]; then
+    HG_INSTALLED=1
+else
+    HG_INSTALLED=0
+fi
 
 _echo_good() {
     retval=$?
@@ -108,6 +101,7 @@ _echo_bad() {
 }
 
 hg_ps1_1() {
+    [[ "$HG_INSTALLED" = "0" ]] && return
     BRANCH=$(hg prompt "{branch}" 2> /dev/null)
     if [ "$BRANCH" != "" ]; then
         echo " $BRANCH"
@@ -116,6 +110,7 @@ hg_ps1_1() {
     fi
 }
 hg_ps1_2() {
+    [[ "$HG_INSTALLED" = "0" ]] && return
     STATUS=$(hg prompt "{status}" 2> /dev/null)
     if [ "$STATUS" != "" ]; then
         echo " $STATUS"
