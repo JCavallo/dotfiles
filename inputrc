@@ -14,8 +14,8 @@ set editing-mode vi
 set show-mode-in-prompt on
 
 
-set vi-cmd-mode-string "\1\e[1m\e[38;5;196m\2CMD\1\e[0m\e[2 q\2"
-set vi-ins-mode-string "\1\e[6 q\2"
+set vi-cmd-mode-string "\1\e[1m\e[38;5;196m\2 ▶ \1\e[0m\e[2 q\2"
+set vi-ins-mode-string "\1\e[1m\e[38;5;46m\2 ▶ \1\e[0m\e[2 q\2"
 
 # This works better without tmux, but I always use tmux
 # set vi-cmd-mode-string \1\e[91;49m\2\1\e[0m\2
