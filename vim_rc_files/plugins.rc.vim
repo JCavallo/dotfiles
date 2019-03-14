@@ -117,6 +117,7 @@ let g:airline_mode_map = {'n': 'NOR', 'i': 'INS', 'R': 'REP', 't': 'TER',
     \ 'V': 'VIS'}
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#ale#enabled = 1
+" let g:airline_theme = 'solarized'
 " }}}
 
 " Nerd Commenter {{{

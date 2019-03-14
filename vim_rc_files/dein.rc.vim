@@ -76,6 +76,8 @@ if dein#load_state(s:path)
     " Colorschemes plugins
     call dein#add('JCavallo/flashy-vim')
     call dein#add('Canop/patine')
+    call dein#add('altercation/vim-colors-solarized')
+    call dein#add('vim-airline/vim-airline-themes')
 
     " Misc plugins
     call dein#add('vimwiki/vimwiki')
