@@ -46,10 +46,10 @@ bindsym $mod+d exec dmenu_run
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+m focus right
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -70,10 +70,10 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+h split h
+bindsym $mod+Shift+h split h
 
 # split in vertical orientation
-bindsym $mod+v split v
+bindsym $mod+Shift+v split v
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -100,6 +100,7 @@ set $coog_workspace "1 "
 set $dev_workspace "2 "
 set $chrome_workspace "3 "
 set $document_workspace "4 "
+set $test_workspace "6"
 set $steam_workspace "7 "
 set $main_workspace "10 "
 
@@ -109,7 +110,7 @@ bindsym $mod+eacute workspace $dev_workspace
 bindsym $mod+quotedbl workspace $chrome_workspace
 bindsym $mod+apostrophe workspace $document_workspace
 bindsym $mod+parenleft workspace 5
-bindsym $mod+minus workspace 6
+bindsym $mod+minus workspace $test_workspace
 bindsym $mod+egrave workspace $steam_workspace
 bindsym $mod+underscore workspace 8
 bindsym $mod+ccedilla workspace 9
@@ -121,8 +122,8 @@ bindsym $mod+Shift+eacute move container to workspace $dev_workspace
 bindsym $mod+Shift+quotedbl move container to workspace $chrome_workspace
 bindsym $mod+Shift+apostrophe move container to workspace $document_workspace
 bindsym $mod+Shift+5 move container to workspace 5
-bindsym $mod+Shift+minus move container to workspace 6
-bindsym $mod+Shift+egrave move container to workspace 7
+bindsym $mod+Shift+minus move container to workspace $test_workspace
+bindsym $mod+Shift+egrave move container to workspace $steam_workspace
 bindsym $mod+Shift+underscore move container to workspace 8
 bindsym $mod+Shift+ccedilla move container to workspace 9
 bindsym $mod+Shift+agrave move container to workspace $main_workspace
@@ -197,4 +198,16 @@ assign [class="libreoffice"] $document_workspace
 assign [class="libreoffice-startcenter"] $document_workspace
 assign [class="Soffice"] $document_workspace
 
+exec --no-startup-id redshift-gtk
+exec --no-startup-id feh --bg-fill ~/Pictures/Wallpapers/mountain.jpg
 exec --no-startup-id compton --config ~/.config/compton.conf -b
+
+# gaps
+for_window [class="^.*"] border pixel 0
+gaps inner 10
+gaps outer 0
+
+workspace $test_workspace gaps top 50
+workspace $test_workspace gaps right 50
+workspace $test_workspace gaps bottom 50
+workspace $test_workspace gaps left 50

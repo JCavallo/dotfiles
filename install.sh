@@ -13,12 +13,58 @@ echo_comment () {
 
 echo_comment "Installing dependencies"
 sudo apt -y install moreutils &> /dev/null
-chronic sudo apt -y install wget curl libtool libtool-bin autoconf automake \
-    cmake g++ pkg-config unzip libunibilium-dev python-pip python3-pip fbterm \
-    libcap2-bin tmux rxvt-unicode-256color shellcheck keychain direnv \
-    libncursesw5-dev fontconfig silversearcher-ag libfreetype6-dev \
-    libfontconfig1-dev xclip htop fonts-font-awesome compton gettext tree \
-    i3 xinit ctags
+chronic sudo apt -y install \
+    autoconf \
+    automake \
+    cmake \
+    compton \
+    ctags \
+    curl \
+    direnv \
+    fbterm \
+    fontconfig \
+    fonts-font-awesome \
+    g++ \
+    pkg-config \
+    feh \
+    gettext \
+    htop \
+    # i3 \
+    keychain \
+    libcap2-bin \
+    libev-dev \
+    libfontconfig1-dev \
+    libfreetype6-dev \
+    libncursesw5-dev \
+    libpango1.0-dev \
+    libstartup-notification0-dev \
+    libtool \
+    libtool-bin \
+    libunibilium-dev \
+    libxcb-cursor-dev \
+    libxcb-icccm4-dev \
+    libxcb-keysyms1-dev \
+    libxcb-randr0-dev \
+    libxcb-shape0-dev \
+    libxcb-util0-dev \
+    libxcb-xinerama0-dev \
+    libxcb-xkb-dev \
+    libxcb1-dev \
+    libxkbcommon-dev \
+    libxkbcommon-x11-dev \
+    libyajl-dev \
+    python-pip \
+    python3-pip \
+    # rxvt-unicode-256color \
+    shellcheck \
+    # silversearcher-ag \
+    tmux \
+    tree \
+    unzip \
+    wget \
+    xclip \
+    xinit \
+    xutils-dev
 
 dir="$HOME"/dotfiles
 olddir="$HOME/.old_dotfiles"
@@ -104,6 +150,28 @@ mkdir -p "$HOME"/tmp
 
 # Create projects directory
 mkdir -p "$HOME"/Projets
+
+# Installing i3 gap
+if [[ "$(which i3)" = '' ]]; then
+    echo_comment "Installing i3 gap"
+    cd /tmp
+    chronic git clone https://github.com/Airblader/xcb-util-xrm
+    cd xcb-util-xrm
+    chronic git submodule update --init
+    chronic ./autogen.sh --prefix=/usr
+    chronic make
+    chronic sudo make install
+    mkdir ~/i3-gaps_shiz #change the name if you must
+    cd /tmp
+    chronic git clone https://www.github.com/Airblader/i3 i3-gaps
+    cd i3-gaps
+    chronic autoreconf --force --install
+    chronic mkdir build
+    cd build
+    chronic ../configure --prefix=/usr --sysconfdir=/etc
+    chronic make
+    chronic sudo make install
+fi
 
 # Build latest neovim
 if [ "$(which nvim)" = '' ]; then
