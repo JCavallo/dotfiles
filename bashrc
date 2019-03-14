@@ -209,94 +209,63 @@ tryton_db_ps1() {
     fi
 }
 
-if [ "$TMUX" = "" ]; then
-    # Init
-    PS1='\n\[\033[G\]\[\e[1m\]\[\e${WHITE}\]  ┌─\[\e${DEFAULT}\] '
+check_new_line() {
+    # If there is a branch name, the PS1 name might get too big, so we switch
+    # to a new line
+    if [[ "$(git_ps1_1)" != "" ]]; then
+        printf "\r\n "
+    else
+        echo " "
+    fi
+}
 
-    # Bad guy
-    PS1+='\[\e${REDBLACK}\]$(_echo_bad)\[\e${DEFAULT}\]'
+# Init
+PS1='\n '
 
-    # Good guy
-    PS1+='\[\e${GREENBLACK}\]$(_echo_good)\[\e${DEFAULT}\]'
+# Bad guy
+PS1+='\[\e${REDBLACK}\]$(_echo_bad)\[\e${DEFAULT}\]'
 
-    # Transition
-    PS1+=' \[\e${BLACKPINK}\]'
+# Good guy
+PS1+='\[\e${GREENBLACK}\]$(_echo_good)\[\e${DEFAULT}\]'
 
-    # User
-    PS1+='\[\e${PINK}\] \u '
-    PS1+='\[\e${PINKLIGHTBLUE}\]'
+# # User
+# PS1+='\[\e${PINK}\] \u '
+# PS1+='\[\e${PINKLIGHTBLUE}\]'
 
-    # Host
-    PS1+='\[\e${LIGHTBLUE}\] \h '
-    PS1+='\[\e${LIGHTBLUEDARKGREEN}\]'
+# # Host
+# PS1+='\[\e${LIGHTBLUE}\] \h '
+# PS1+='\[\e${LIGHTBLUEDARKGREEN}\]'
 
-    # Virtual Env
-    PS1+='\[\e${DARKGREEN}\]$(virtual_env_ps1)'
-    PS1+='\[\e${DARKGREENRED}\]'
+# Transition
+PS1+=' \[\e${BLACKGREEN}\]'
 
-    # Filepath
-    PS1+='\[\e${RED}\]$(current_path_ps1)'
-    PS1+='\[\e${REDGREEN}\]'
+# Virtual Env
+PS1+='\[\e${DARKGREEN}\]$(virtual_env_ps1)'
+PS1+='\[\e${DARKGREENRED}\]'
 
-    # Branch
-    PS1+='\[\e${GREEN}\]$(hg_ps1_1)$(git_ps1_1)'
-    PS1+='\[\e${GREENYELLOW}\]'
+# Filepath
+PS1+='\[\e${RED}\]$(current_path_ps1)'
+PS1+='\[\e${REDGREEN}\]'
 
-    # Rietveld
-    PS1+='\[\e${YELLOW}\]$(tryton_db_ps1)'
-    PS1+='\[\e${YELLOW}\]'
-    PS1+='\[\e${YELLOWBLUE}\]'
+# Branch
+PS1+='\[\e${GREEN}\]$(hg_ps1_1)$(git_ps1_1)'
+PS1+='\[\e${GREENYELLOW}\]'
 
-    # Status
-    PS1+='\[\e${BLUE}\]\[\e${BLINK}\]$(hg_ps1_2)$(git_ps1_2)\[\e${BLINKRESET}\]'
-    PS1+='\[\e${BLUEBLACK}\]'
+# Rietveld
+PS1+='\[\e${YELLOW}\]$(tryton_db_ps1)'
+PS1+='\[\e${YELLOW}\]'
+PS1+='\[\e${YELLOWBLUE}\]'
 
-    # New line
-    PS1+='\[\e${DEFAULT}\]\n\[\e${WHITE}\]\[\e[1m\]\[\e${WHITE}\]└─\[\e${DEFAULT}\]'
+# Status
+PS1+='\[\e${BLUE}\]\[\e${BLINK}\]$(hg_ps1_2)$(git_ps1_2)\[\e${BLINKRESET}\]'
+PS1+='\[\e${BLUEBLACK}\]'
 
-    # Time
-    PS1+='\[\e${DARKGREY}\] $(date +%H:%M:%S) '
-    PS1+='\[\e${DARKGREYBLACK}\]'
+# # Time
+# PS1+='\[\e${DARKGREY}\] $(date +%H:%M:%S) '
+# PS1+='\[\e${DARKGREYBLACK}\]'
 
-    # End
-    PS1+='\[\e${DEFAULT}\]  '
-else
-    # Init
-    PS1='\n '
-
-    # Bad guy
-    PS1+='\[\e${REDBLACK}\]$(_echo_bad)\[\e${DEFAULT}\]'
-
-    # Good guy
-    PS1+='\[\e${GREENBLACK}\]$(_echo_good)\[\e${DEFAULT}\]'
-
-    # Transition
-    PS1+=' \[\e${BLACKGREEN}\]'
-
-    # Virtual Env
-    PS1+='\[\e${DARKGREEN}\]$(virtual_env_ps1)'
-    PS1+='\[\e${DARKGREENRED}\]'
-
-    # Filepath
-    PS1+='\[\e${RED}\]$(current_path_ps1)'
-    PS1+='\[\e${REDGREEN}\]'
-
-    # Branch
-    PS1+='\[\e${GREEN}\]$(hg_ps1_1)$(git_ps1_1)'
-    PS1+='\[\e${GREENYELLOW}\]'
-
-    # Rietveld
-    PS1+='\[\e${YELLOW}\]$(tryton_db_ps1)'
-    PS1+='\[\e${YELLOW}\]'
-    PS1+='\[\e${YELLOWBLUE}\]'
-
-    # Status
-    PS1+='\[\e${BLUE}\]\[\e${BLINK}\]$(hg_ps1_2)$(git_ps1_2)\[\e${BLINKRESET}\]'
-    PS1+='\[\e${BLUEBLACK}\]'
-
-    # End
-    PS1+='\[\e${DEFAULT}\]  '
-fi
+# End
+PS1+='\[\e${DEFAULT}\]\[$(check_new_line)\]'
 
 export PS1
 
