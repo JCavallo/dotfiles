@@ -36,7 +36,7 @@ let g:deoplete#omni#functions.lua = 'xolox#lua#omnifunc'
 
 " inoremap <silent><expr> <C-t> deoplete#mappings#manual_complete('file')
 
-let g:deoplete#enable_refresh_always = 1
+call deoplete#custom#option('auto_refresh_delay', 100)
 let g:deoplete#enable_camel_case = 1
 
 " deoplete-clang "{{{
