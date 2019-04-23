@@ -58,10 +58,10 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+m move right
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -94,6 +94,10 @@ bindsym $mod+q focus parent
 
 # focus the child container
 #bindsym $mod+d focus child
+
+# Use Tab to switch workspaces
+bindsym $mod+Tab workspace next_on_output
+bindsym $mod+Shift+Tab workspace prev_on_output
 
 # Hardocde some workspaces
 set $coog_workspace "1 "
@@ -199,15 +203,15 @@ assign [class="libreoffice-startcenter"] $document_workspace
 assign [class="Soffice"] $document_workspace
 
 exec --no-startup-id redshift-gtk
-exec --no-startup-id feh --bg-fill ~/Pictures/Wallpapers/mountain.jpg
+exec --no-startup-id feh --bg-fill ~/Pictures/Wallpapers/space_1.jpg
 exec --no-startup-id compton --config ~/.config/compton.conf -b
 
 # gaps
 for_window [class="^.*"] border pixel 0
-gaps inner 10
+gaps inner 30
 gaps outer 0
 
-workspace $test_workspace gaps top 50
-workspace $test_workspace gaps right 50
-workspace $test_workspace gaps bottom 50
-workspace $test_workspace gaps left 50
+smart_gaps inverse_outer
+
+workspace $test_workspace gaps outer 100
+workspace $test_workspace gaps inner 20
