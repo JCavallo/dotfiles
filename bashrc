@@ -215,7 +215,7 @@ check_new_line() {
     if [[ "$(git_ps1_1)" != "" ]]; then
         printf "\r\n "
     else
-        echo " "
+        printf " "
     fi
 }
 
@@ -265,7 +265,7 @@ PS1+='\[\e${BLUEBLACK}\]'
 # PS1+='\[\e${DARKGREYBLACK}\]'
 
 # End
-PS1+='\[\e${DEFAULT}\]\[$(check_new_line)\]'
+PS1+='\[\e${DEFAULT}\]$(check_new_line)'
 
 export PS1
 
