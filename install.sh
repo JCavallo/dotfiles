@@ -162,7 +162,6 @@ if [[ "$(which i3)" = '' ]]; then
     chronic ./autogen.sh --prefix=/usr
     chronic make
     chronic sudo make install
-    mkdir ~/i3-gaps_shiz #change the name if you must
     cd /tmp
     chronic git clone https://www.github.com/Airblader/i3 i3-gaps
     cd i3-gaps
@@ -240,18 +239,19 @@ if [ ! "$(command -v rg)" ]; then
     cargo install ripgrep
 fi
 
+if [ ! "$(command -v kritik)" ]; then
+    echo_comment "Installing kritik"
+    cargo install --git https://github.com/jcavallo/kritik
+fi
+
 # Install fbterm (replace tty)
 echo_comment "Installing fbterm"
 sudo usermod -aG video giovanni
 sudo setcap 'cap_sys_tty_config+ep' "$(command -v fbterm)"
 sudo chmod u+s /usr/bin/fbterm
 
-# Install python tools
-chronic pip install --user ptpython pudb
-chronic pip3 install --user ptpython pudb
-
 # Install n(ode)
-if [ -s "$(which n)" ]; then
+if [ ! "$(command -v n)" ]; then
     echo_comment "Installing latest node js through n"
     curl -s -L https://git.io/n-install | chronic bash -s -- -y -n
 fi
@@ -274,7 +274,7 @@ if [ ! -e "$HOME/.tmux" ]; then
 fi
 
 # Pyenv
-if [ "$(which pyenv)" = '' ]; then
+if [ ! "$(command -v pyenv)" ]; then
     echo_comment "Installing pyenv"
     curl -s -L \
         https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer \
@@ -282,7 +282,7 @@ if [ "$(which pyenv)" = '' ]; then
 fi
 
 # Install pspg (psql pager)
-if [ "$(which pspg)" = '' ]; then
+if [ ! "$(command -v pspg)" ]; then
     echo_comment "Installing pspg"
     cd "$HOME"/tmp
     chronic git clone https://github.com/okbob/pspg
@@ -295,7 +295,7 @@ if [ "$(which pspg)" = '' ]; then
 fi
 
 # Manage private files
-if [ "$(which git-blur)" = '' ]; then
+if [ ! "$(command -v git-blur)" ]; then
     echo_comment "Installing private files"
     while true; do
         read -rp "Are you JC? (You WILL have to prove it)? (Y/n)" yn
