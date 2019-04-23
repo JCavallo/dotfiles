@@ -56,6 +56,10 @@ let g:ale_sign_style_warning = '✖'
 let g:ale_lint_on_text_changed = 'always'
 let g:ale_lint_delay = 2000
 let g:ale_fix_on_save = 1
+let g:ale_rust_cargo_use_clippy = 1
+let g:ale_fixers = {
+    \ 'rust': ['rustfmt'],
+    \ }
 autocmd ColorScheme *
     \ hi clear ALEErrorSign |
     \ hi ALEErrorSign cterm=bold ctermfg=196 ctermbg=235 |

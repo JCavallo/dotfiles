@@ -64,6 +64,8 @@ autocmd MyAutoCmd FileType pug setlocal foldmethod=indent
 
 " Rust {{{
 autocmd MyAutoCmd Filetype rust setlocal foldmethod=indent
+autocmd MyAutoCmd Filetype rust let b:ale_fix_on_save = 1
+autocmd MyAutoCmd Filetype rust setlocal colorcolumn=100
 " }}}
 
 " SQL {{{
