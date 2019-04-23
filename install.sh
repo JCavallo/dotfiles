@@ -29,7 +29,6 @@ chronic sudo apt -y install \
     feh \
     gettext \
     htop \
-    # i3 \
     keychain \
     libcap2-bin \
     libev-dev \
@@ -56,9 +55,7 @@ chronic sudo apt -y install \
     python-pip \
     python3-pip \
     redshift-gtk \
-    # rxvt-unicode-256color \
     shellcheck \
-    # silversearcher-ag \
     tmux \
     tree \
     unzip \
@@ -66,6 +63,9 @@ chronic sudo apt -y install \
     xclip \
     xinit \
     xutils-dev
+    # i3 \
+    # rxvt-unicode-256color \
+    # silversearcher-ag \
 
 dir="$HOME"/dotfiles
 olddir="$HOME/.old_dotfiles"
