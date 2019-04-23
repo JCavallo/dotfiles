@@ -55,6 +55,7 @@ chronic sudo apt -y install \
     libyajl-dev \
     python-pip \
     python3-pip \
+    redshift-gtk \
     # rxvt-unicode-256color \
     shellcheck \
     # silversearcher-ag \
