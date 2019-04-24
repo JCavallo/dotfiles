@@ -87,7 +87,10 @@ bindsym $mod+e layout toggle split
 bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+bindsym $mod+b focus mode_toggle
+
+# Back and forth workspaces
+bindsym $mod+space exec i3-msg workspace back_and_forth
 
 # focus the parent container
 bindsym $mod+q focus parent
