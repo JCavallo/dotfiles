@@ -102,7 +102,7 @@ bindsym $mod+Shift+Tab workspace prev_on_output
 # Hardocde some workspaces
 set $coog_workspace "1 "
 set $dev_workspace "2 "
-set $chrome_workspace "3 "
+set $browser_workspace "3 "
 set $document_workspace "4 "
 set $test_workspace "6"
 set $steam_workspace "7 "
@@ -111,7 +111,7 @@ set $main_workspace "10 "
 # switch to workspace
 bindsym $mod+ampersand workspace $coog_workspace
 bindsym $mod+eacute workspace $dev_workspace
-bindsym $mod+quotedbl workspace $chrome_workspace
+bindsym $mod+quotedbl workspace $browser_workspace
 bindsym $mod+apostrophe workspace $document_workspace
 bindsym $mod+parenleft workspace 5
 bindsym $mod+minus workspace $test_workspace
@@ -123,7 +123,7 @@ bindsym $mod+agrave workspace $main_workspace
 # move focused container to workspace
 bindsym $mod+Shift+ampersand move container to workspace $coog_workspace
 bindsym $mod+Shift+eacute move container to workspace $dev_workspace
-bindsym $mod+Shift+quotedbl move container to workspace $chrome_workspace
+bindsym $mod+Shift+quotedbl move container to workspace $browser_workspace
 bindsym $mod+Shift+apostrophe move container to workspace $document_workspace
 bindsym $mod+Shift+5 move container to workspace 5
 bindsym $mod+Shift+minus move container to workspace $test_workspace
@@ -131,6 +131,9 @@ bindsym $mod+Shift+egrave move container to workspace $steam_workspace
 bindsym $mod+Shift+underscore move container to workspace 8
 bindsym $mod+Shift+ccedilla move container to workspace 9
 bindsym $mod+Shift+agrave move container to workspace $main_workspace
+
+# Magic workspaces
+bindsym $mod+p exec new-i3-dev-workspace $(ls-i3-dev-workspaces | grep Dev | dmenu)
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -186,15 +189,18 @@ set $external_screen "HDMI-1"
 
 workspace $coog_workspace output $external_screen
 workspace $dev_workspace output $external_screen
-workspace $chrome_workspace output $external_screen
+workspace $browser_workspace output $external_screen
 workspace $document_workspace output $external_screen
 workspace $steam_workspace output $laptop_screen
 workspace $main_workspace output $laptop_screen
 
 assign [class="Tryton"] $coog_workspace
-assign [class="Chrome"] $chrome_workspace
-assign [class="chrome"] $chrome_workspace
-assign [class="google-chrome"] $chrome_workspace
+assign [class="Chrome"] $browser_workspace
+assign [class="chrome"] $browser_workspace
+assign [class="google-chrome"] $browser_workspace
+assign [class="brave-browser"] $browser_workspace
+assign [class="Brave-browser"] $browser_workspace
+assign [class="brave"] $browser_workspace
 assign [class="Steam"] $steam_workspace
 
 # Libreoffice is not very nice
@@ -203,7 +209,7 @@ assign [class="libreoffice-startcenter"] $document_workspace
 assign [class="Soffice"] $document_workspace
 
 exec --no-startup-id redshift-gtk
-exec --no-startup-id feh --bg-fill ~/Pictures/Wallpapers/space_1.jpg
+exec --no-startup-id feh --bg-fill ~/Pictures/Wallpapers/python1.jpg
 exec --no-startup-id compton --config ~/.config/compton.conf -b
 
 # gaps
