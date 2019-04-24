@@ -13,7 +13,7 @@ echo_comment () {
 
 echo_comment "Installing dependencies"
 sudo apt -y install moreutils &> /dev/null
-chronic sudo apt -y install \
+chronic sudo DEBIAN_FRONTEND=noninteractive apt -y install \
     autoconf \
     automake \
     cmake \
@@ -66,6 +66,11 @@ chronic sudo apt -y install \
     # i3 \
     # rxvt-unicode-256color \
     # silversearcher-ag \
+
+sudo dpkg-reconfigure tzdata
+
+# For some reason this is created as the root user
+sudo rm -rf "$HOME"/.cache
 
 dir="$HOME"/dotfiles
 olddir="$HOME/.old_dotfiles"
