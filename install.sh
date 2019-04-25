@@ -21,6 +21,7 @@ chronic sudo DEBIAN_FRONTEND=noninteractive apt -y install \
     ctags \
     curl \
     direnv \
+    dmenu \
     fbterm \
     fontconfig \
     fonts-font-awesome \
@@ -29,6 +30,7 @@ chronic sudo DEBIAN_FRONTEND=noninteractive apt -y install \
     feh \
     gettext \
     htop \
+    i3status \
     keychain \
     libcap2-bin \
     libev-dev \
@@ -52,6 +54,7 @@ chronic sudo DEBIAN_FRONTEND=noninteractive apt -y install \
     libxkbcommon-dev \
     libxkbcommon-x11-dev \
     libyajl-dev \
+    numlockx \
     python-pip \
     python3-pip \
     redshift-gtk \
@@ -69,6 +72,11 @@ chronic sudo DEBIAN_FRONTEND=noninteractive apt -y install \
 
 sudo dpkg-reconfigure tzdata
 
+# We'll manually startx, since gdm & co ignore xinitrc
+if [ ! "$(command -v gdm3)" ]; then
+    chronic sudo apt remove --purge gdm3
+fi
+
 # For some reason this is created as the root user
 sudo rm -rf "$HOME"/.cache
 
@@ -79,7 +87,7 @@ if [ ! -e "$olddir" ]; then
     echo_comment "Backuping old dotfiles"
     files="agignore bashrc bash_profile colors gitconfig gitignore hgignore \
         hgrc inputrc nvimrc psqlrc tmux.conf tmux.conf.local vimrc Xdefaults \
-        xonshrc"    # list of files/folders to symlink in homedir
+        xinitrc xonshrc"    # list of files/folders to symlink in homedir
     IFS=$' \n' read -ra files <<< "${files}"
 
     # Create dotfiles_old in homedir
@@ -354,4 +362,19 @@ if [ ! "$(command -v git-blur)" ]; then
         chmod 600 "$HOME/.ssh/id_rsa"
         chmod 644 "$HOME/.ssh/id_rsa.pub"
     fi
+fi
+
+# Install browser
+if [ ! "$(command -v brave-browser)" ]; then
+    echo_comment "Installing brave browser"
+    curl -s https://brave-browser-apt-release.s3.brave.com/brave-core.asc \
+        | chronic sudo apt-key \
+        --keyring /etc/apt/trusted.gpg.d/brave-browser-release.gpg add -
+
+    chronic source /etc/os-release
+    echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ $VERSION_CODENAME main" \
+        | chronic sudo tee /etc/apt/sources.list.d/brave-browser-release-"$VERSION_CODENAME".list
+
+    chronic sudo apt update
+    chronic sudo apt install brave-keyring brave-browser
 fi
