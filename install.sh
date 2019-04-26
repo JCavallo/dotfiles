@@ -73,9 +73,7 @@ chronic sudo DEBIAN_FRONTEND=noninteractive apt -y install \
 sudo dpkg-reconfigure tzdata
 
 # We'll manually startx, since gdm & co ignore xinitrc
-if [ ! "$(command -v gdm3)" ]; then
-    chronic sudo apt remove --purge gdm3
-fi
+chronic sudo apt remove --purge gdm3
 
 # For some reason this is created as the root user
 sudo rm -rf "$HOME"/.cache
@@ -371,7 +369,7 @@ if [ ! "$(command -v brave-browser)" ]; then
         | chronic sudo apt-key \
         --keyring /etc/apt/trusted.gpg.d/brave-browser-release.gpg add -
 
-    chronic source /etc/os-release
+    source /etc/os-release
     echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ $VERSION_CODENAME main" \
         | chronic sudo tee /etc/apt/sources.list.d/brave-browser-release-"$VERSION_CODENAME".list
 
