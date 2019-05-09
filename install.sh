@@ -17,7 +17,6 @@ chronic sudo DEBIAN_FRONTEND=noninteractive apt -y install \
     autoconf \
     automake \
     cmake \
-    compton \
     ctags \
     curl \
     direnv \
@@ -182,6 +181,42 @@ if [[ "$(which i3)" = '' ]]; then
     chronic ../configure --prefix=/usr --sysconfdir=/etc
     chronic make
     chronic sudo make install
+fi
+
+# Installing compton
+if [[ "$(which compton)" = '' ]]; then
+    echo_comment "Installing compton"
+    cd /tmp
+    chronic git clone https://github.com/yshui/compton
+    cd compton
+    chronic git checkout v6.2
+    chronic git submodule update --init
+    chronic sudo apt install -y \
+        libx11-xcb-dev \
+        libxext-dev \
+        libxcb-damage0-dev \
+        libxcb-shape0-dev \
+        libxcb-xfixes0-dev \
+        libxcb-render-util0-dev \
+        libxcb-render0-dev \
+        libxcb-randr0-dev \
+        libxcb-composite0-dev \
+        libxcb-image0-dev \
+        libxcb-present-dev \
+        libxcb-xinerama0-dev \
+        libpixman-1-dev \
+        libdbus-1-dev \
+        libconfig-dev \
+        libxdg-basedir-dev \
+        libpcre3-dev \
+        libev-dev \
+        uthash-dev \
+        meson \
+        ninja-build \
+        libgl1-mesa-dev
+    chronic meson --buildtype=release . build
+    chronic ninja -C build
+    chronic sudo ninja -C build install
 fi
 
 # Build latest neovim
