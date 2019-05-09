@@ -70,10 +70,10 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+Shift+h split h
+bindsym $mod+Ctrl+h split h
 
 # split in vertical orientation
-bindsym $mod+Shift+v split v
+bindsym $mod+Ctrl+v split v
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -110,6 +110,9 @@ set $document_workspace "4 "
 set $test_workspace "6"
 set $steam_workspace "7 "
 set $main_workspace "10 "
+
+# Move workspace to another output
+bindsym $mod+x move workspace to output right
 
 # switch to workspace
 bindsym $mod+ampersand workspace $coog_workspace
