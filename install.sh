@@ -31,12 +31,16 @@ chronic sudo DEBIAN_FRONTEND=noninteractive apt -y install \
     htop \
     i3status \
     keychain \
+    libbz2-dev \
     libcap2-bin \
     libev-dev \
     libfontconfig1-dev \
     libfreetype6-dev \
     libncursesw5-dev \
     libpango1.0-dev \
+    libreadline-dev \
+    libsqlite3-dev \
+    libssl-dev \
     libstartup-notification0-dev \
     libtool \
     libtool-bin \
@@ -53,6 +57,7 @@ chronic sudo DEBIAN_FRONTEND=noninteractive apt -y install \
     libxkbcommon-dev \
     libxkbcommon-x11-dev \
     libyajl-dev \
+    libzip-dev \
     numlockx \
     python-pip \
     python3-pip \
