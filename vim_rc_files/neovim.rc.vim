@@ -1,3 +1,29 @@
+" Properly set python
+if $VIRTUAL_ENV
+    if filereadable($VIRTUAL_ENV . '/bin/python3')
+        " No need for python2
+        let g:loaded_python_provider = 1
+
+        if filereadable($HOME . '/.pyenv/shims/python3')
+            let g:python3_host_prog = $HOME . '/.pyenv/shims/python3'
+        else
+            let g:python3_host_prog = '/usr/bin/python3'
+        endif
+    else
+        if filereadable($HOME . '/.pyenv/shims/python2')
+            let g:python_host_prog = $HOME . '/.pyenv/shims/python2'
+        else
+            let g:python_host_prog = '/usr/bin/python2'
+        endif
+    endif
+else
+    if filereadable($HOME . '/.pyenv/shims/python3')
+        let g:python3_host_prog = $HOME . '/.pyenv/shims/python3'
+    else
+        let g:python3_host_prog = '/usr/bin/python3'
+    endif
+endif
+
 " Preview search results
 set inccommand=split
 
@@ -15,6 +41,8 @@ tnoremap <A-q> <C-\><C-n>:bdelete!<CR>
 
 " Use C-v to paste
 tnoremap <C-v> <C-\><C-n>pa
+
+let s:default_special_buffer_size = 200
 
 " New terminal in split
 nnoremap St :call OpenTerminal()<CR>
@@ -218,12 +246,9 @@ function! OpenPython()  " {{{
         execute ":vert botright split"
         execute ":vertical resize 130"
         execute ":set winfixwidth"
-        if executable("ptpython")
-            execute ":terminal ptpython --vi"
-        else
-            execute ":terminal python"
-        endif
+        execute ":terminal python"
         execute ":file __PythonTerm__"
+        normal A
     endif
 endfunction  " }}}
 
@@ -259,7 +284,7 @@ function! RunSelectedPython()  " {{{
     endfor
     call add(final_lines, '')
 
-    let @* = join(final_lines, '')
+    let @* = join(final_lines, '') . ''
 
     call OpenPython()
 
@@ -306,13 +331,13 @@ function! OpenPudb()  " {{{
         normal A
     elseif pudb_buffer != -1
         execute ":vert botright split"
-        execute ":vertical resize 200"
+        execute ":vertical resize " . s:default_special_buffer_size
         execute ":set winfixwidth"
         execute ":buffer " . pudb_buffer
         normal A
     else
         execute ":vert botright split"
-        execute ":vertical resize 200"
+        execute ":vertical resize " . s:default_special_buffer_size
         execute ":set winfixwidth"
         execute ":terminal telnet localhost 6899"
         execute ":file __PudbTerm__"
