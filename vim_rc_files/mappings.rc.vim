@@ -570,10 +570,10 @@ nnoremap <silent> [denite]bmf :<C-u>Denite tryton:`tryton#tools#get_current_mode
 nnoremap <silent> [denite]bmv :<C-u>Denite tryton:`tryton#tools#get_current_model()`/views -mode=insert<CR>
 nnoremap <silent> [denite]bfm :<C-u>Denite tryton:`tryton#tools#get_current_model()`/methods/`tryton#tools#get_current_method()`/mro -mode=normal<CR>
 nnoremap <silent> [denite]bt :<C-u>Denite tryton<CR>
-nnoremap <silent> [denite]fc :<C-u>DeniteBufferDir `GetFileRecSource('buffer')`<CR>
-nnoremap <silent> [denite]fd :<C-u>Denite `GetFileRecSource('dir')`<CR>
-nnoremap <silent> [denite]fg :<C-u>DeniteProjectDir -path=`fnamemodify(bufname('%'), ':p:h')` `GetFileRecSource('buffer')`<CR>
-nnoremap <silent> [denite]fp :<C-u>Denite `GetFileRecSource('project')`:`GetProjectPath()`<CR>
+nnoremap <silent> [denite]fc :<C-u>DeniteBufferDir file_rec<CR>
+nnoremap <silent> [denite]fd :<C-u>Denite file_rec<CR>
+nnoremap <silent> [denite]fg :<C-u>DeniteProjectDir -path=`fnamemodify(bufname('%'), ':p:h')` file_rec<CR>
+nnoremap <silent> [denite]fp :<C-u>Denite file_rec:`GetProjectPath()`<CR>
 nnoremap <silent> [denite]h :<C-u>Denite help<CR>
 nnoremap <silent> [denite]gc :<C-u>Denite grep -buffer-name=BufFolderGrep -resume<CR>
 nnoremap <silent> [denite]gd :<C-u>Denite grep -buffer-name=DirectoryGrep -resume<CR>

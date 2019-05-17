@@ -64,21 +64,6 @@ function! GetProjectPath()  " {{{
     return denite#util#path2project_directory(expand('%:p:h'), '')
 endfunction  " }}}
 
-function! GetFileRecSource(type)  " {{{
-    if a:type == 'buffer'
-        let target = expand('%:p:h') . '/;'
-    elseif a:type == 'project'
-        let target = GetProjectPath() . '/;'
-    else
-        let target = ';'
-    endif
-    if finddir('.git', target) != ''
-        return 'file_rec/git'
-    else
-        return 'file_rec'
-    endif
-endfunction  " }}}
-
 function! MarkdownLevel()  " {{{
     " Set the fold levels based on headers.
     "
