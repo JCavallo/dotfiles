@@ -1,18 +1,25 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import subprocess
 
-p = subprocess.Popen(['git', 'fetch', '-p', 'origin'],
-                     stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+p = subprocess.Popen(
+    ["git", "fetch", "-p", "origin"], stdout=subprocess.PIPE, stderr=subprocess.PIPE
+)
 p.communicate()
-p = subprocess.Popen(['git', 'fetch', '-p', 'mine'],
-                     stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+p = subprocess.Popen(
+    ["git", "fetch", "-p", "mine"], stdout=subprocess.PIPE, stderr=subprocess.PIPE
+)
 p.communicate()
-p = subprocess.Popen(['git', 'branch', '-vv'],
-                     stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+p = subprocess.Popen(
+    ["git", "branch", "-vv"], stdout=subprocess.PIPE, stderr=subprocess.PIPE
+)
 res, errs = p.communicate()
-branches = [x.strip('*').strip() for x in res.strip().split('\n')]
+branches = [x.strip("*").strip() for x in res.decode('utf-8').strip().split("\n")]
 for branch in branches:
-    data = [x for x in branch.split(' ') if x]
-    if (len(data) > 3 and data[3] == 'gone]' and data[2][0] == '[' and
-            data[2][-1] == ':'):
-        print(' '.join(data))
+    data = [x for x in branch.split(" ") if x]
+    if (
+        len(data) > 3
+        and data[3] == "gone]"
+        and data[2][0] == "["
+        and data[2][-1] == ":"
+    ):
+        print(" ".join(data))
