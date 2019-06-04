@@ -27,10 +27,12 @@ set noautowrite
 set noautoread
 
 " Use clipboard register.
-if has('unnamedplus')
-    set clipboard& clipboard+=unnamedplus
-else
-    set clipboard& clipboard+=unnamed
+if (!has('nvim') || $DISPLAY != '') && has('clipboard')
+  if has('unnamedplus')
+     set clipboard& clipboard+=unnamedplus
+  else
+     set clipboard& clipboard+=unnamed
+  endif
 endif
 
 " Enable backspace delete indent and newline.
@@ -139,6 +141,8 @@ set keywordprg=:help
 autocmd MyAutoCmd InsertLeave *
     \ if &paste | set nopaste mouse=a | echo 'nopaste' | endif
 
+" Update diff.
+autocmd MyAutoCmd InsertLeave * if &l:diff | diffupdate | endif
 
 " Make directory automatically.
 " --------------------------------------

@@ -570,55 +570,11 @@ nnoremap <silent> [denite]bmf :<C-u>Denite tryton:`tryton#tools#get_current_mode
 nnoremap <silent> [denite]bmv :<C-u>Denite tryton:`tryton#tools#get_current_model()`/views -mode=insert<CR>
 nnoremap <silent> [denite]bfm :<C-u>Denite tryton:`tryton#tools#get_current_model()`/methods/`tryton#tools#get_current_method()`/mro -mode=normal<CR>
 nnoremap <silent> [denite]bt :<C-u>Denite tryton<CR>
-nnoremap <silent> [denite]fc :<C-u>DeniteBufferDir file/rec<CR>
-nnoremap <silent> [denite]fd :<C-u>Denite file/rec<CR>
-nnoremap <silent> [denite]fg :<C-u>DeniteProjectDir -path=`fnamemodify(bufname('%'), ':p:h')` file/rec<CR>
-nnoremap <silent> [denite]fp :<C-u>Denite file/rec:`GetProjectPath()`<CR>
-nnoremap <silent> [denite]h :<C-u>Denite help<CR>
-nnoremap <silent> [denite]gc :<C-u>Denite grep -buffer-name=BufFolderGrep -resume<CR>
-nnoremap <silent> [denite]gd :<C-u>Denite grep -buffer-name=DirectoryGrep -resume<CR>
-nnoremap <silent> [denite]gg :<C-u>Denite grep -buffer-name=GitFolderGrep -resume<CR>
-nnoremap <silent> [denite]gp :<C-u>Denite grep -buffer-name=ProjectGrep -resume<CR>
-nnoremap <silent> [denite]i :<C-u>Denite buffer<CR>
-nnoremap <silent> [denite]k :<C-u>Denite jump<CR>
-nnoremap <silent> [denite]l :<C-u>Denite location_list<CR>
-nnoremap <silent> [denite]n n
-nnoremap <silent> [denite]N N
-nnoremap <silent> [denite]o :<C-u>Denite outline<CR>
-nnoremap <silent> [denite]q :<C-u>Denite -auto-highlight -no-quit
-    \ -buffer-name=quickfix quickfix<CR>
-nnoremap <silent> [denite]r :<C-u>Denite -buffer-name=register
     \ -default-action=append register neoyank<CR>
-" (S)earch word under cursor in current buffer directory
-nnoremap <silent> [denite]scc :DeniteBufferDir -buffer-name=BufFolderGrep grep:::<C-r><C-w><CR>
-" (S)earch prompted word in current buffer directory
-nnoremap <silent> [denite]scw :DeniteBufferDir -buffer-name=BufFolderGrep grep<CR>
-" (S)earch word under cursor in current directory
-nnoremap <silent> [denite]sdc :Denite -buffer-name=DirectoryGrep grep:::<C-r><C-w><CR>
-" (S)earch prompted word in current directory
-nnoremap <silent> [denite]sdw :Denite -buffer-name=DirectoryGrep grep<CR>
-" (S)earch word under cursor in current git project
-nnoremap <silent> [denite]sgc :DeniteProjectDir -path=`fnamemodify(bufname('%'), ':p:h')` -buffer-name=GitFolderGrep grep:::<C-r><C-w><CR>
-" (S)earch prompted word in current git project
-nnoremap <silent> [denite]sgw :DeniteProjectDir -path=`fnamemodify(bufname('%'), ':p:h')` -buffer-name=GitFolderGrep grep<CR>
-" (S)earch word under cursor in current project
-nnoremap <silent> [denite]spc :Denite -buffer-name=ProjectGrep grep:`GetProjectPath()`::<C-r><C-w><CR>
-" (S)earch prompted word in current project
-nnoremap <silent> [denite]spw :Denite -buffer-name=ProjectGrep grep:`GetProjectPath()`<CR>
-nnoremap <silent> [denite]tc :<C-u>DeniteCursorWord -buffer-name=tag tag<CR>
-nnoremap <silent> [denite]tw :<C-u>Denite -buffer-name=tag tag<CR>
 nnoremap <silent> [denite]xm :<C-u>Denite yarm:assigned=me
     \ -buffer-name=Redmine\ -\ Mine -multi-line<CR>
-nnoremap <silent> [denite]<Space> :<C-u>Denite file/old<CR>
 nnoremap <silent> [denite]; :<C-u>Denite -buffer-name=history
     \ command_history<CR>
-" Clear standard searches
-nnoremap <silent> [denite]/ /
-nnoremap <silent> [denite]? ?
-nnoremap <silent> [denite]* *
-nnoremap / :<C-u>Denite line<CR>
-nnoremap ? :<C-u>Denite -reversed line<CR>
-nnoremap * :<C-u>DeniteCursorWord line<CR>
 " }}}
 
 function! s:smart_close()  " {{{

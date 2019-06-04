@@ -1,0 +1,498 @@
+# Source for yank buffer history
+[[plugins]]
+repo = 'Shougo/neoyank.vim'
+on_event = 'TextYankPost'
+on_source = ['denite.nvim']
+
+# Simple doc in echo zone
+[[plugins]]
+repo = 'Shougo/echodoc.vim'
+on_event = 'CompleteDone'
+hook_source = '''
+    let g:echodoc#type = 'virtual'
+    call echodoc#enable()
+'''
+
+# Snippets
+[[plugins]]
+repo = 'SirVer/ultisnips.git'
+on_event = 'InsertCharPre'
+on_ft = 'snippets'
+hook_source = '''
+    let g:UltiSnipsExpandTrigger="<tab>"
+    let g:UltiSnipsJumpForwardTrigger="<tab>"
+    let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+'''
+
+# Identify type of block of code
+[[plugins]]
+repo = 'Shougo/context_filetype.vim'
+
+# Denite, for all things
+[[plugins]]
+repo = 'Shougo/denite.nvim'
+on_cmd = 'Denite'
+hook_source = '''
+    if executable("rg")
+        call denite#custom#var('file/rec', 'command',
+                \ ['rg', '--files', '--glob', '!.git'])
+        call denite#custom#var('grep', 'command', ['rg', '--threads', '1'])
+        call denite#custom#var('grep', 'recursive_opts', [])
+        call denite#custom#var('grep', 'final_opts', [])
+        call denite#custom#var('grep', 'separator', ['--'])
+        call denite#custom#var('grep', 'default_opts',
+                \ ['-i', '--vimgrep', '--no-heading'])
+    elseif executable("ag")
+        call denite#custom#var('file/rec', 'command',
+                \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+    endif
+
+    call denite#custom#source('file/old', 'matchers',
+        \ ['matcher/fruzzy', 'matcher/project_files'])
+    call denite#custom#source('tag', 'matchers', ['matcher/substring'])
+    call denite#custom#source('file/rec', 'matchers',
+        \ ['matcher/fruzzy'])
+    call denite#custom#source('file/old', 'converters',
+        \ ['converter/relative_word'])
+
+    call denite#custom#alias('source', 'file/rec/git', 'file/rec')
+    call denite#custom#var('file/rec/git', 'command',
+        \ ['git', 'ls-files', '-co', '--exclude-standard'])
+
+    call denite#custom#option('default', {
+        \ 'auto_resize': 1,
+        \ 'prompt': ' ❯❯',
+        \ 'source_names': '',
+        \ 'split': 'floating',
+        \ 'start_filter': 'true',
+        \ })
+
+    call denite#custom#filter('matcher/ignore_globs', 'ignore_globs',
+        \ [ '.git/', '.ropeproject/', '__pycache__/',
+        \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/'])
+'''
+hook_add = '''
+    function! GetProjectPath()
+        if $PROJECT_PATH != ''
+            return $PROJECT_PATH
+        endif
+        if $VIRTUAL_ENV != ''
+            return $VIRTUAL_ENV
+        endif
+        return denite#util#path2project_directory(expand('%:p:h'), '')
+    endfunction
+
+    nmap <F1> <silent> :<C-u>Denite help<CR>
+
+    nnoremap <silent> [denite] <Nop>
+    nmap <space> [denite]
+
+    " Default file search
+    nnoremap <silent> [denite]<Space> :<C-u>Denite buffer file/point file/old
+            \ `finddir('.git', ';') != '' ? 'file/rec/git' : 'file/rec'`
+            \ file file:new<CR>
+
+    " File searches
+    nnoremap <silent> [denite]fc :<C-u>DeniteBufferDir file/rec file:new<CR>
+    nnoremap <silent> [denite]fd
+        \ :<C-u>Denite file/rec file:new<CR>
+    nnoremap <silent> [denite]fg
+        \ :<C-u>DeniteProjectDir -path=`fnamemodify(bufname('%'), ':p:h')`
+        \ file/rec<CR>
+    nnoremap <silent> [denite]fp
+        \ :<C-u>Denite file/rec:`GetProjectPath()`<CR>
+
+    " Location history
+    nnoremap <silent> [denite]k :<C-u>Denite change jump<CR>
+
+    " Location list
+    nnoremap <silent> [denite]l :<C-u>Denite location_list quickfix
+        \ -no-start-filter<CR>
+
+    " Outline
+    nnoremap <silent> [denite]o :<C-u>Denite outline<CR>
+
+    " Registers
+    nnoremap <silent> [denite]r
+            \ :<C-u>Denite -buffer-name=register
+            \ register neoyank<CR>
+
+    " Replace with registers
+    xnoremap <silent> [denite]r
+            \ :<C-u>Denite -default-action=replace -buffer-name=register
+            \ register neoyank<CR>
+
+    " Searches
+    " (S)earch word under cursor in current buffer directory
+    nnoremap <silent> [denite]scc :DeniteBufferDir -buffer-name=SearchBuffer
+        \ grep:::<C-r><C-w><CR>
+    " (S)earch prompted word in current buffer directory
+    nnoremap <silent> [denite]scw :DeniteBufferDir -buffer-name=SearchBuffer
+        \ grep<CR>
+    " (S)earch word under cursor in current directory
+    nnoremap <silent> [denite]sdc :Denite -buffer-name=SearchBuffer
+        \ grep:::<C-r><C-w><CR>
+    " (S)earch prompted word in current directory
+    nnoremap <silent> [denite]sdw :Denite -buffer-name=SearchBuffer grep<CR>
+    " (S)earch word under cursor in current git project
+    nnoremap <silent> [denite]sgc :DeniteProjectDir
+        \ -path=`fnamemodify(bufname('%'), ':p:h')` -buffer-name=SearchBuffer
+        \ grep:::<C-r><C-w><CR>
+    " (S)earch prompted word in current git project
+    nnoremap <silent> [denite]sgw :DeniteProjectDir
+        \ -path=`fnamemodify(bufname('%'), ':p:h')`
+        \ -buffer-name=SearchBuffer grep<CR>
+    " (S)earch word under cursor in current project
+    nnoremap <silent> [denite]spc :Denite -buffer-name=SearchBuffer
+        \ grep:`GetProjectPath()`::<C-r><C-w><CR>
+    " (S)earch prompted word in current project
+    nnoremap <silent> [denite]spw :Denite -buffer-name=SearchBuffer
+        \ grep:`GetProjectPath()`<CR>
+
+    " Resume search
+    nnoremap <silent> [denite]sr
+        \ :<C-u>Denite grep -buffer-name=SearchBuffer -resume<CR>
+
+    " Tag Search
+    nnoremap <silent><expr> [denite]tc
+        \ ":\<C-u>DeniteCursorWord -buffer-name=tag -immediately
+        \  tag:include\<CR>"
+    nnoremap <silent><expr> [denite]tt
+        \ ":\<C-u>Denite -buffer-name=tag -immediately
+        \  tag:include\<CR>"
+
+    " Intelligent search
+    nnoremap <expr> / line('$') > 10000 ? '/' :
+        \ ":\<C-u>Denite -buffer-name=search -start-filter line\<CR>"
+    nnoremap <expr> n line('$') > 10000 ? 'n' :
+        \ ":\<C-u>Denite -buffer-name=search -resume -refresh
+        \ -no-start-filter\<CR>"
+    nnoremap <expr> * line('$') > 10000 ? '*' :
+        \ ":\<C-u>DeniteCursorWord -buffer-name=search line\<CR>"
+
+    " Keep a way to use normal search
+    nnoremap <silent> [denite]/ /
+    nnoremap <silent> [denite]? ?
+    nnoremap <silent> [denite]* *
+    nnoremap <silent> [denite]n n
+    nnoremap <silent> [denite]N N
+
+
+    nnoremap <silent> [denite]gs :<C-u>Denite gitstatus<CR>
+    nnoremap <silent> [denite];
+        \ :<C-u>Denite command command_history<CR>
+'''
+
+# Only in denite windows
+[plugins.ftplugin]
+denite = '''
+" Define mappings
+    nnoremap <silent><buffer><expr> A
+        \ denite#do_map('open_filter_buffer')
+    nnoremap <silent><buffer><expr> <CR>
+        \ denite#do_map('do_action')
+    nnoremap <silent><buffer><expr> a
+        \ denite#do_map('choose_action')
+    nnoremap <silent><buffer><expr> d
+        \ denite#do_map('do_action', 'delete')
+    nnoremap <silent><buffer><expr> p
+        \ denite#do_map('do_action', 'preview')
+    nnoremap <silent><buffer><expr> q
+        \ denite#do_map('quit')
+    nnoremap <silent><buffer><expr> '
+        \ denite#do_map('quick_move')
+    nnoremap <silent><buffer><expr> i
+        \ denite#do_map('open_filter_buffer')
+    nnoremap <silent><buffer><expr> <Space>
+        \ denite#do_map('toggle_select').'j'
+'''
+denite-filter = '''
+    " call denite#custom#map('insert', '<C-j>',
+    "     \ '<denite:move_to_next_line>', 'noremap')
+    " call denite#custom#map('insert', '<C-k>',
+    "     \ '<denite:move_to_previous_line>', 'noremap')
+    inoremap <silent><buffer><expr> jk
+        \ denite#do_map('quit')
+    inoremap <silent><buffer><expr> kj
+        \ denite#do_map('quit')
+    " call denite#custom#map('insert', 'jk',
+    "     \ '<denite:enter_mode:normal>', 'noremap')
+    " call denite#custom#map('insert', 'kj',
+    "     \ '<denite:enter_mode:normal>', 'noremap')
+    " call denite#custom#map('normal', 'l',
+    "     \ '<denite:do_action:default>', 'noremap')
+    " call denite#custom#map('normal', 'h',
+    "     \ '<denite:do_action:walk_up>', 'noremap')
+    " call denite#custom#map('normal', '<C-a>v',
+    "     \ '<denite:do_action:vsplit>', 'noremap')
+    " call denite#custom#map('normal', '<C-a>s',
+    "     \ '<denite:do_action:split>', 'noremap')
+    " call denite#custom#map('insert', '<C-a>v',
+    "     \ '<denite:do_action:vsplit>', 'noremap')
+    " call denite#custom#map('insert', '<C-a>s',
+    "     \ '<denite:do_action:split>', 'noremap')
+
+'''
+
+# Extra sources for denite
+[[plugins]]
+on_source = ['denite.nvim']
+repo = 'neoclide/denite-extra'
+
+# Git source for denite
+[[plugins]]
+on_source = ['denite.nvim']
+repo = 'neoclide/denite-git'
+
+# Completion for vim files
+[[plugins]]
+repo = 'Shougo/neco-vim'
+on_ft = 'vim'
+
+# Better visual block editing
+[[plugins]]
+repo = 'kana/vim-niceblock'
+on_map = {x = '<Plug>'}
+hook_add = '''
+  xmap I  <Plug>(niceblock-I)
+  xmap A  <Plug>(niceblock-A)
+'''
+
+# Lazy Comments
+[[plugins]]
+repo = 'tyru/caw.vim'
+on_map = {nx = '<Plug>'}
+hook_add = '''
+  function! InitCaw() abort
+    if !&l:modifiable
+      silent! nunmap <buffer> gc
+      silent! xunmap <buffer> gc
+      silent! nunmap <buffer> gcc
+      silent! xunmap <buffer> gcc
+    else
+      nmap <buffer> gc <Plug>(caw:prefix)
+      xmap <buffer> gc <Plug>(caw:prefix)
+      nmap <buffer> gcc <Plug>(caw:hatpos:toggle)
+      xmap <buffer> gcc <Plug>(caw:hatpos:toggle)
+    endif
+  endfunction
+  autocmd MyAutoCmd FileType * call InitCaw()
+  call InitCaw()
+'''
+
+# Faster navigation
+[[plugins]]
+repo = 'rhysd/accelerated-jk'
+on_map = {n = '<Plug>'}
+hook_add = '''
+  nmap <silent>j <Plug>(accelerated_jk_gj)
+  nmap <silent>k <Plug>(accelerated_jk_gk)
+'''
+
+# Live preview of documentation
+[[plugins]]
+repo = 'tyru/open-browser.vim'
+
+[[plugins]]
+repo = 'kannokanno/previm'
+on_cmd = 'PrevimOpen'
+depends = 'open-browser.vim'
+
+# Nice surround operator. "saa)]" "Surround Around ) with ]"
+[[plugins]]
+repo = 'rhysd/vim-operator-surround'
+depends = 'vim-operator-user'
+on_map = {n = '<Plug>'}
+hook_add = '''
+  nmap <silent>sa <Plug>(operator-surround-append)a
+  nmap <silent>sd <Plug>(operator-surround-delete)a
+  nmap <silent>sr <Plug>(operator-surround-replace)a
+  nmap <silent>sc <Plug>(operator-surround-replace)a
+'''
+
+# Replace operator with register content "aRiw => replace Inside Word with
+# register a
+[[plugins]]
+repo = 'kana/vim-operator-replace'
+depends = 'vim-operator-user'
+on_map = {n = '<Plug>'}
+hook_add = '''
+  map R <Plug>(operator-replace)
+'''
+
+# Use github style for markdown
+[[plugins]]
+repo = 'rhysd/vim-gfm-syntax'
+on_ft = 'markdown'
+
+# Deoplete, for completion
+[[plugins]]
+repo = 'Shougo/deoplete.nvim'
+depends = 'context_filetype.vim'
+on_event = 'InsertEnter'
+hook_source = '''
+" <TAB>: completion.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ deoplete#manual_complete()
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+" <S-TAB>: completion back.
+inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<C-h>"
+
+inoremap <expr><C-g>       deoplete#refresh()
+inoremap <expr><C-e>       deoplete#cancel_popup()
+inoremap <silent><expr><C-l>       deoplete#complete_common_string()
+
+" Close preview after completion
+autocmd CompleteDone * pclose!
+let g:deoplete#keyword_patterns = {}
+let g:deoplete#keyword_patterns._ = '[a-zA-Z_]\k*\(?'
+let g:deoplete#omni#input_patterns = {}
+let g:deoplete#omni#input_patterns.python = ''
+call deoplete#custom#option('auto_refresh_delay', 100)
+let g:deoplete#enable_camel_case = 1
+
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function() abort
+  return pumvisible() ? deoplete#close_popup()."\<CR>" : "\<CR>"
+endfunction
+
+call deoplete#custom#source('_', 'matchers',
+      \ ['matcher_fuzzy', 'matcher_length'])
+
+call deoplete#custom#source('look', 'filetypes', ['help', 'gitcommit',
+        \ 'markdown', 'rst'])
+call deoplete#custom#option('ignore_sources', {
+      \ '_': ['around', 'buffer'],
+      \ })
+
+call deoplete#custom#source('tabnine', 'rank', 300)
+call deoplete#custom#source('tabnine', 'min_pattern_length', 2)
+call deoplete#custom#var('tabnine', {
+      \ 'line_limit': 500,
+      \ 'max_num_results': 20,
+      \ })
+
+call deoplete#custom#source('_', 'converters', [
+      \ 'converter_remove_paren',
+      \ 'converter_remove_overlap',
+      \ 'matcher_length',
+      \ 'converter_truncate_abbr',
+      \ 'converter_truncate_info',
+      \ 'converter_truncate_menu',
+      \ 'converter_auto_delimiter',
+      \ ])
+call deoplete#custom#source('tabnine', 'converters', [
+      \ 'converter_remove_overlap',
+      \ 'converter_truncate_info',
+      \ ])
+
+call deoplete#custom#option('keyword_patterns', {
+      \ '_': '[a-zA-Z_]\k*\(?',
+      \ 'tex': '[^\w|\s][a-zA-Z_]\w*',
+      \ })
+
+call deoplete#custom#option({
+      \ 'auto_refresh_delay': 100,
+      \ 'camel_case': v:true,
+      \ 'skip_multibyte': v:true,
+      \ 'prev_completion_mode': 'none',
+      \ 'auto_preview': v:true,
+      \ })
+
+call deoplete#enable()
+'''
+
+# Auto sudo files I cannot read
+[[plugins]]
+repo = 'lambdalisue/suda.vim'
+on_event = 'BufRead'
+hook_add = '''
+let g:suda_smart_edit = 1
+'''
+
+# Intelligent matcher
+[[plugins]]
+repo = 'raghur/fruzzy'
+on_source = 'denite.nvim'
+hook_source = '''
+let g:fruzzy#usenative = 1
+let g:fruzzy#sortonempty = 0
+call fruzzy#install()
+'''
+# hook_post_update = ''
+
+# Floating preview window :)
+[[plugins]]
+repo = 'ncm2/float-preview.nvim'
+on_source = 'deoplete.nvim'
+if = 'has("nvim")'
+hook_source = '''
+let g:float_preview#docked = 0
+let g:float_preview#max_width = 60
+let g:float_preview#max_height = 20
+'''
+
+# Visual undo tree
+[[plugins]]
+repo = 'sjl/gundo.vim'
+on_cmd = 'GundoToggle'
+
+# Deoplete for js
+[[plugins]]
+repo = 'carlitux/deoplete-ternjs'
+depends = 'deoplete.nvim'
+hook_add = '''
+    let g:tern_request_timeout = 1
+    let g:deoplete#sources#ternjs#tern_bin = "ternjs"
+    let g:deoplete#sources#ternjs#types = 1
+'''
+
+# Deoplete for rust
+[[plugins]]
+repo = 'sebastianmarkow/deoplete-rust'
+depends = 'deoplete.nvim'
+on_ft = 'rust'
+hook_add = '''
+    let g:deoplete#sources#rust#racer_binary='$HOME/.cargo/bin/racer'
+    let g:deoplete#sources#rust#rust_source_path= '$HOME/' .
+    \ '.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/' .
+    \ 'src/rust/src'
+
+'''
+
+# Tryton
+[[plugins]]
+repo = 'jcavallo/tryton-vim'
+depends = ['denite.nvim', 'deoplete.nvim']
+on_ft = 'python'
+hook_add = '''
+    let g:tryton_default_mappings = 1
+    let g:tryton_trytond_path = "$PROJECT_PATH/trytond"
+    let g:tryton_server_host_name = 'localhost'
+    let g:tryton_server_port = '7999'
+    let g:tryton_server_login = 'admin'
+'''
+
+# Nim
+[[plugins]]
+repo = 'jcavallo/nvim-nim'
+depends = 'denite.nvim'
+on_ft = 'nim'
+hook_add = '''
+    if executable("nim")
+        let g:nvim_nim_enable_default_binds = 1
+        let g:nvim_nim_enable_custom_textobjects = 1
+        let g:nvim_nim_highlighter_enable = 0
+        let g:nvim_nim_highlighter_async = 1
+        let g:nvim_nim_highlighter_semantics = []
+    else
+        let g:loaded_nvim_nim = 1
+    endif
+'''

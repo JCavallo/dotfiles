@@ -107,3 +107,6 @@ set viewdir=$CACHE/vim_view viewoptions-=options viewoptions+=slash,unix
 
 " For conceal.
 set conceallevel=2 concealcursor=iv
+
+" Color map
+set t_Co=256

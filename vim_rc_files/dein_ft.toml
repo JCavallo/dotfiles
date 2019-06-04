@@ -1,0 +1,175 @@
+hook_add = '''
+    " Bash globals
+    let g:is_bash = 1
+    let g:sh_fold_enabled= 3
+
+    " Js globals
+    let g:SimpleJsIndenter_BriefMode = 1
+    let g:SimpleJsIndenter_CaseIndentLevel = -1
+
+    " Markdown globals
+    let g:markdown_fenced_languages = [
+        \  'coffee',
+        \  'css',
+        \  'erb=eruby',
+        \  'javascript',
+        \  'js=javascript',
+        \  'json=javascript',
+        \  'ruby',
+        \  'sass',
+        \  'xml',
+        \  'vim',
+        \]
+
+    " Python globals
+    let g:python_highlight_all = 1
+    let g:vimsyntax_noerror = 1
+
+    " Vim globals
+    let g:vim_indent_cont = 4
+    let g:vimsyn_folding = 'afPl'
+
+    " Xml globals
+    let g:xml_syntax_folding = 1
+
+    " AutoUpdate filetype on writings
+    autocmd MyAutoCmd BufWritePost * nested
+        \ if &l:filetype ==# '' || exists('b:ftdetect')
+            \ |   unlet! b:ftdetect
+            \ |   filetype detect
+            \ | endif
+
+    " Reload .vimrc automatically.
+    autocmd MyAutoCmd BufWritePost .vimrc,vimrc,*.rc.vim,*.toml
+        \ source $MYVIMRC | redraw
+
+    " Auto reload VimScript.
+    autocmd MyAutoCmd BufWritePost,FileWritePost *.vim nested
+        \ if &l:autoread > 0 | source <afile> |
+        \   echo 'source ' . bufname('%') |
+        \ endif
+'''
+
+[ftplugin]
+_ = '''
+    " Same for all filetypes
+
+    if !&l:modifiable
+        setlocal nofoldenable
+        setlocal foldcolumn=0
+        setlocal colorcolumn=
+    endif
+'''
+
+python = '''
+    setlocal foldmethod=indent
+'''
+
+bash = '''
+    setlocal foldmethod=indent
+    setlocal foldlevel=0
+    setlocal tabstop=4
+    setlocal softtabstop=4
+    setlocal shiftwidth=4
+'''
+
+html = '''
+    setlocal includeexpr=substitute(v:fname,'^\\/','','')
+    setlocal path+=./;/
+    setlocal tabstop=2
+    setlocal softtabstop=2
+    setlocal shiftwidth=2
+'''
+
+javascript = '''
+    setlocal softtabstop=2
+    setlocal shiftwidth=2
+    setlocal tabstop=2
+    setlocal foldmethod=indent
+'''
+
+help = '''
+    setlocal iskeyword+=:
+    setlocal iskeyword+=#
+    setlocal iskeyword+=-
+'''
+
+ruby = '''
+    setlocal iskeyword+=!
+    setlocal iskeyword+=?
+    setlocal omnifunc=
+    setlocal shiftwidth=2
+    setlocal softtabstop=2
+    setlocal tabstop=2
+'''
+
+nim = '''
+    setlocal foldmethod=indent
+    setlocal tabstop=1
+    setlocal softtabstop=2
+    setlocal shiftwidth=2
+'''
+
+rust = '''
+    setlocal foldmethod=indent
+    setlocal colorcolumn=100
+    setlocal textwidth=100
+'''
+
+toml = 'syntax sync minlines=500'
+
+vim = '''
+    if line('$') > 1000
+        syntax sync minlines=200
+    endif
+
+    setlocal shiftwidth=4
+    setlocal softtabstop=4
+    setlocal iskeyword+=:,#
+    setlocal foldmethod=marker
+    setlocal nomodeline
+'''
+
+sql = '''
+    setlocal omnifunc=sqlcomplete#Complete
+    setlocal foldmethod=indent
+    setlocal foldlevel=0
+'''
+
+trpy = '''
+    setlocal syntax=python.trpy
+    setlocal foldmethod=syntax
+'''
+
+xml = '''
+    setlocal foldmethod=syntax
+'''
+
+markdown = '''
+    function! MarkdownLevel()  " {{{
+        " Set the fold levels based on headers.
+        "
+        " Created by Jeromy Anglim
+        " (source: http://stackoverflow.com/questions/3828606/vim-markdown-folding)
+        if getline(v:lnum) =~ '^[ */;"]*# .*$'
+            return ">1"
+        endif
+        if getline(v:lnum) =~ '^[ */;"]*## .*$'
+            return ">2"
+        endif
+        if getline(v:lnum) =~ '^[ */;"]*### .*$'
+            return ">3"
+        endif
+        if getline(v:lnum) =~ '^[ */;"]*#### .*$'
+            return ">4"
+        endif
+        if getline(v:lnum) =~ '^[ */;"]*##### .*$'
+            return ">5"
+        endif
+        if getline(v:lnum) =~ '^[ */;"]*###### .*$'
+            return ">6"
+        endif
+        return "="
+    endfunction  " }}}
+    setlocal foldtext=MarkdownLevel
+'''

@@ -47,8 +47,23 @@ endfunction "}}}
 
 " Set augroup.
 augroup MyAutoCmd
-    autocmd!
+  autocmd!
+  autocmd FileType,Syntax,BufNewFile,BufNew,BufRead *?
+        \ call s:on_filetype()
+  " toml syntax is broken
+  autocmd CursorHold *.toml syntax sync minlines=300
 augroup END
+augroup filetypedetect
+augroup END
+
+" Lazy check filetypes
+function! s:on_filetype() abort "{{{
+  if execute('filetype') =~# 'OFF'
+    silent! filetype plugin indent on
+    syntax enable
+    filetype detect
+  endif
+endfunction " }}}
 
 "===============================================================================
 " Call init.rc
@@ -56,7 +71,9 @@ augroup END
 " mapping
 "===============================================================================
 
-call s:source_rc('init.rc.vim')
+if has('vim_starting')
+    call s:source_rc('init.rc.vim')
+endif
 
 "===============================================================================
 " Install and initialize Dein
@@ -67,39 +84,20 @@ call s:source_rc('init.rc.vim')
 
 call s:source_rc('dein.rc.vim')
 
+if has('vim_starting') && !empty(argv())
+  call s:on_filetype()
+endif
+
+if !has('vim_starting')
+  call dein#call_hook('source')
+  call dein#call_hook('post_source')
+endif
+
 "===============================================================================
 " Global settings
 "===============================================================================
 
-" Ignore the case of normal letters.
-set ignorecase
-
-" If the search pattern contains upper case characters, override ignorecase
-" option.
-set smartcase
-
-" Enable incremental search.
-set incsearch
-
-" Highlight search result.
-set hlsearch
-
-" Clear search
-let @/ = ""
-
-" Searches wrap around the end of the file.
-set wrapscan
-
-" Default encoding is UTF8
-set encoding=utf-8
-set fileencoding=utf8
-
-"===============================================================================
-" Call plugins.rc
-" This will load plugins configuration
-"===============================================================================
-
-call s:source_rc('plugins.rc.vim')
+call s:source_rc('options.rc.vim')
 
 "===============================================================================
 " Call edit.rc
@@ -116,40 +114,6 @@ call s:source_rc('edit.rc.vim')
 call s:source_rc('view.rc.vim')
 
 "===============================================================================
-" Call filetype.rc
-" This will set filetype specific options
-"===============================================================================
-
-call s:source_rc('filetype.rc.vim')
-autocmd MyAutoCmd FileType,Syntax,BufNewFile,BufNew,BufRead,BufWinEnter
-    \ * call s:my_on_filetype()
-
-
-function! s:my_on_filetype() abort "{{{
-    if &filetype !=# 'help'
-        setlocal foldtext=CustomFoldText()
-    endif
-
-    if !&l:modifiable
-        setlocal nofoldenable
-        setlocal foldcolumn=0
-        setlocal colorcolumn=
-    endif
-
-    if &l:filetype == '' && bufname('%') == ''
-        return
-    endif
-
-    if execute('filetype') =~# 'OFF'
-        " Lazy loading
-        silent! filetype plugin indent on
-        syntax enable
-        filetype detect
-    endif
-    call rainbow_parentheses#activate()
-endfunction "}}}
-
-"===============================================================================
 " Local Settings
 "===============================================================================
 
@@ -159,13 +123,6 @@ catch
 endtry
 
 "===============================================================================
-" Call extra_commands.rc.vim
-" Custom not plugin commands
-"===============================================================================
-
- call s:source_rc('extra_commands.rc.vim')
-
-"===============================================================================
 " Call mappings.rc.vim
 " Mapping file.
 "===============================================================================
@@ -173,18 +130,8 @@ endtry
  call s:source_rc('mappings.rc.vim')
 
 "===============================================================================
-" Call platform specific rc files
+" In case of awesomeness
 "===============================================================================
-
-call s:source_rc('unix.rc.vim')
-
-"===============================================================================
-" Gui configuration
-"===============================================================================
-
-if has('gui_running')
-    call s:source_rc('gui.rc.vim')
-endif
 
 if has('nvim')
   call s:source_rc('neovim.rc.vim')
@@ -194,38 +141,8 @@ endif
 " End
 "===============================================================================
 
-" Default home directory.
-let t:cwd = getcwd()
-
-function! Localvimrc() 
-    let path = getcwd()
-    let path = path . "/"
-    let currpath = "/"
-
-    while 1
-        let filename = currpath . ".sub_vimrc"
-        if filereadable(filename)
-            exec 'source ' . escape(filename, ' ~|!"$%&()=?{[]}+*#'."'")
-            "echo 'Loaded ' . filename
-        endif
-        if path == currpath
-            break
-        endif
-        let pos = matchend(path, "/", strlen(currpath))
-        let currpath = strpart(path, 0, pos)
-    endwhile
-endfunction
-
-call Localvimrc()
-
 " Try to set colorscheme
 silent! colorscheme flashy_vim
-
-" Force detection for first opened file since event were triggered before
-" autocommand definition
-if has('vim_starting')
-    call s:my_on_filetype()
-endif
 
 " Lock modifications
 set secure

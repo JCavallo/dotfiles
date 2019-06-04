@@ -1,0 +1,166 @@
+# Plugin manager
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
+# Better folds in diff files
+[[plugins]]
+repo = 'thinca/vim-ft-diff_fold'
+
+# Better folds in help files
+[[plugins]]
+repo = 'thinca/vim-ft-help_fold'
+
+# TabNine intelligent completion
+[[plugins]]
+repo = 'tbodt/deoplete-tabnine'
+build = './install.sh'
+
+# English word completion
+[[plugins]]
+repo = 'ujihisa/neco-look'
+
+# User defined text objects
+[[plugins]]
+repo = 'kana/vim-textobj-user'
+
+# User defined operators
+[[plugins]]
+repo = 'kana/vim-operator-user'
+
+# LocalVimrc
+[[plugins]]
+repo = 'embear/vim-localvimrc'
+hook_add = '''
+    let g:localvimrc_persistent=1
+'''
+
+# TMUX navigation
+[[plugins]]
+repo = 'christoomey/vim-tmux-navigator'
+hook_add = '''
+    let g:tmux_navigator_no_mappings = 1
+'''
+
+# Rainbows
+[[plugins]]
+repo = 'junegunn/rainbow_parentheses.vim'
+hook_source = '''
+    let g:rainbow#max_level = 16
+    let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
+    call rainbow_parentheses#activate()
+'''
+
+# Colorize ANSCI escape codes
+[[plugins]]
+repo = 'vim-scripts/AnsiEsc.vim'
+
+# Airline
+[[plugins]]
+repo = 'vim-airline/vim-airline.git'
+hook_add = '''
+    let g:airline_powerline_fonts = 1
+    let g:airline#extensions#tabline#enabled = 1
+    let g:airline#extensions#tabline#fnamemod = ':t'
+    let g:airline_mode_map = {'n': 'NOR', 'i': 'INS', 'R': 'REP', 't': 'TER',
+        \ 'V': 'VIS'}
+    let g:airline#extensions#whitespace#enabled = 0
+    let g:airline#extensions#ale#enabled = 1
+    " let g:airline_theme = 'solarized'
+'''
+
+# EasyMotion
+[[plugins]]
+repo = 'easymotion/vim-easymotion'
+hook_add = '''
+    let g:EasyMotion_keys = 'lkjhqsdfgoiuzerpaytbvcxwmn,'
+    let g:EasyMotion_startofline = 0
+    let g:EasyMotion_show_prompt = 0
+    let g:EasyMotion_verbose = 0
+'''
+
+# Syntax checking
+[[plugins]]
+repo = 'w0rp/ale'
+hook_add = '''
+    let g:ale_sign_error = '✖'
+    let g:ale_sign_warning = '✖'
+    let g:ale_sign_style_warning = '✖'
+    let g:ale_lint_on_text_changed = 'always'
+    let g:ale_lint_delay = 2000
+    let g:ale_fix_on_save = 1
+    let g:ale_rust_cargo_use_clippy = 1
+    let g:ale_fixers = {}
+    if executable('rustfmt')
+        let g:ale_fixers.rust = ['rustfmt']
+    endif
+    if executable('xmllint')
+        let g:ale_fixers.xml = ['xmllint']
+    endif
+    if executable('sqlfmt')
+        let g:ale_fixers.sql = ['sqlfmt']
+    endif
+    autocmd ColorScheme *
+        \ hi clear ALEErrorSign |
+        \ hi ALEErrorSign cterm=bold ctermfg=196 ctermbg=235 |
+        \ hi clear ALEWarningSign |
+        \ hi ALEWarningSign cterm=bold ctermfg=226 ctermbg=235 |
+        \ hi clear ALEInfoSign |
+        \ hi ALEInfoSign cterm=bold ctermfg=45 ctermbg=235 |
+        \ hi clear ALEStyleErrorSign |
+        \ hi ALEStyleErrorSign cterm=bold ctermfg=45 ctermbg=235 |
+        \ hi clear ALEStyleWarningSign |
+        \ hi ALEStyleWarningSign cterm=bold ctermfg=45 ctermbg=235 |
+        \ hi clear ALEErrorline |
+        " \ hi ALEErrorline cterm=italic |
+        \ hi clear ALEWarningLine |
+        " \ hi ALEWarningLine cterm=italic |
+        \ hi clear ALEInfoLine |
+        " \ hi ALEInfoLine cterm=underline ctermfg=45
+        \ hi clear ALEStyleErrorLine |
+        \ hi clear ALEStyleWarningLine |
+'''
+
+# COLORSCHEMES
+
+[[plugins]]
+repo = 'jcavallo/flashy-vim'
+
+[[plugins]]
+repo = 'Canop/patine'
+
+[[plugins]]
+repo = 'altercation/vim-colors-solarized'
+
+[[plugins]]
+repo = 'vim-airline/vim-airline-themes'
+
+# FILETYPE RELATED PLUGINS
+
+# Filetype types collection
+[[plugins]]
+repo = 'sheerun/vim-polyglot'
+hook_add = '''
+let g:polyglot_disabled = ['markdown', 'tsx', 'typescript', 'csv', 'nim',
+    \ 'python']
+'''
+
+# TypeScript plugin
+[[plugins]]
+repo = 'HerringtonDarkholme/yats.vim'
+
+# Markdown plugin
+[[plugins]]
+repo = 'rcmdnk/vim-markdown'
+
+# Deoplete for Python
+[[plugins]]
+repo = 'deoplete-plugins/deoplete-jedi'
+depends = 'deoplete.nvim'
+hook_add = '''
+    let g:deoplete#sources#jedi#enable_typeinfo = 1
+    let g:deoplete#sources#jedi#show_docstring = 1
+    let g:jedi#completions_enabled = 0
+    let g:jedi#auto_vim_configuration = 0
+    let g:jedi#smart_auto_mappings = 0
+    let g:jedi#show_call_signatures = 1
+'''
