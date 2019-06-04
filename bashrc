@@ -26,9 +26,9 @@ function paged_ripgrep() {
     rg -p "$@" | less -RFX
 }
 
-alias la='ls -Fa'
-alias ll='ls -Flsh'
-alias ls='ls --color=auto'
+alias la='exa -Fa'
+alias ll='exa -Flh -s name'
+alias ls=exa
 alias cdve='cd $VIRTUAL_ENV'
 alias cdpr='cd $PROJECT_PATH'
 alias ag="LESS='FSRX' ag --pager less"

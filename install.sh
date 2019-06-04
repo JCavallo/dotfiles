@@ -290,6 +290,11 @@ if [ ! "$(command -v rg)" ]; then
     cargo install ripgrep
 fi
 
+if [ ! "$(command -v exa)" ]; then
+    echo_comment "Installing exa"
+    cargo install exa
+fi
+
 if [ ! "$(command -v kritik)" ]; then
     echo_comment "Installing kritik"
     cargo install --git https://github.com/jcavallo/kritik
