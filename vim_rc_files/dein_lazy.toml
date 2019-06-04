@@ -60,7 +60,6 @@ hook_source = '''
         \ ['git', 'ls-files', '-co', '--exclude-standard'])
 
     call denite#custom#option('default', {
-        \ 'auto_resize': 1,
         \ 'prompt': ' ❯❯',
         \ 'source_names': '',
         \ 'split': 'floating',
@@ -82,7 +81,7 @@ hook_add = '''
         return denite#util#path2project_directory(expand('%:p:h'), '')
     endfunction
 
-    nmap <F1> <silent> :<C-u>Denite help<CR>
+    nnoremap <silent> <F1>  :<C-u>Denite help<CR>
 
     nnoremap <silent> [denite] <Nop>
     nmap <space> [denite]
@@ -102,12 +101,22 @@ hook_add = '''
     nnoremap <silent> [denite]fp
         \ :<C-u>Denite file/rec:`GetProjectPath()`<CR>
 
+    " Help
+    nnoremap <silent> [denite]h :<C-u>Denite help<CR>
+
     " Location history
     nnoremap <silent> [denite]k :<C-u>Denite change jump<CR>
 
     " Location list
     nnoremap <silent> [denite]l :<C-u>Denite location_list quickfix
         \ -no-start-filter<CR>
+
+    " Notes
+    nnoremap <silent> [denite]w :<C-u>Denite file:rec:`g:note_directory`
+        \ grep:`g:note_directory`::!
+        \ file:new:`g:note_directory`
+        \ -wincol=10 -winwidth=`&columns - 20`
+        \ -matchers=matcher/regexp -sorters=sorter/word -auto-action=preview<CR>
 
     " Outline
     nnoremap <silent> [denite]o :<C-u>Denite outline<CR>
@@ -252,8 +261,8 @@ on_ft = 'vim'
 repo = 'kana/vim-niceblock'
 on_map = {x = '<Plug>'}
 hook_add = '''
-  xmap I  <Plug>(niceblock-I)
-  xmap A  <Plug>(niceblock-A)
+    xmap I  <Plug>(niceblock-I)
+    xmap A  <Plug>(niceblock-A)
 '''
 
 # Lazy Comments
@@ -261,21 +270,21 @@ hook_add = '''
 repo = 'tyru/caw.vim'
 on_map = {nx = '<Plug>'}
 hook_add = '''
-  function! InitCaw() abort
-    if !&l:modifiable
-      silent! nunmap <buffer> gc
-      silent! xunmap <buffer> gc
-      silent! nunmap <buffer> gcc
-      silent! xunmap <buffer> gcc
-    else
-      nmap <buffer> gc <Plug>(caw:prefix)
-      xmap <buffer> gc <Plug>(caw:prefix)
-      nmap <buffer> gcc <Plug>(caw:hatpos:toggle)
-      xmap <buffer> gcc <Plug>(caw:hatpos:toggle)
-    endif
-  endfunction
-  autocmd MyAutoCmd FileType * call InitCaw()
-  call InitCaw()
+    function! InitCaw() abort
+        if !&l:modifiable
+            silent! nunmap <buffer> gc
+            silent! xunmap <buffer> gc
+            silent! nunmap <buffer> gcc
+            silent! xunmap <buffer> gcc
+        else
+            nmap <buffer> gc <Plug>(caw:prefix)
+            xmap <buffer> gc <Plug>(caw:prefix)
+            nmap <buffer> gcc <Plug>(caw:hatpos:toggle)
+            xmap <buffer> gcc <Plug>(caw:hatpos:toggle)
+        endif
+    endfunction
+    autocmd MyAutoCmd FileType * call InitCaw()
+    call InitCaw()
 '''
 
 # Faster navigation
@@ -283,8 +292,8 @@ hook_add = '''
 repo = 'rhysd/accelerated-jk'
 on_map = {n = '<Plug>'}
 hook_add = '''
-  nmap <silent>j <Plug>(accelerated_jk_gj)
-  nmap <silent>k <Plug>(accelerated_jk_gk)
+    nmap <silent>j <Plug>(accelerated_jk_gj)
+    nmap <silent>k <Plug>(accelerated_jk_gk)
 '''
 
 # Live preview of documentation
@@ -302,10 +311,10 @@ repo = 'rhysd/vim-operator-surround'
 depends = 'vim-operator-user'
 on_map = {n = '<Plug>'}
 hook_add = '''
-  nmap <silent>sa <Plug>(operator-surround-append)a
-  nmap <silent>sd <Plug>(operator-surround-delete)a
-  nmap <silent>sr <Plug>(operator-surround-replace)a
-  nmap <silent>sc <Plug>(operator-surround-replace)a
+    nmap <silent>sa <Plug>(operator-surround-append)a
+    nmap <silent>sd <Plug>(operator-surround-delete)a
+    nmap <silent>sr <Plug>(operator-surround-replace)a
+    nmap <silent>sc <Plug>(operator-surround-replace)a
 '''
 
 # Replace operator with register content "aRiw => replace Inside Word with
@@ -315,7 +324,7 @@ repo = 'kana/vim-operator-replace'
 depends = 'vim-operator-user'
 on_map = {n = '<Plug>'}
 hook_add = '''
-  map R <Plug>(operator-replace)
+    map R <Plug>(operator-replace)
 '''
 
 # Use github style for markdown
@@ -329,82 +338,82 @@ repo = 'Shougo/deoplete.nvim'
 depends = 'context_filetype.vim'
 on_event = 'InsertEnter'
 hook_source = '''
-" <TAB>: completion.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ deoplete#manual_complete()
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
+    " <TAB>: completion.
+    inoremap <silent><expr> <TAB>
+        \ pumvisible() ? "\<C-n>" :
+        \ <SID>check_back_space() ? "\<TAB>" :
+        \ deoplete#manual_complete()
+    function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+    endfunction
 
-" <S-TAB>: completion back.
-inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<C-h>"
+    " <S-TAB>: completion back.
+    inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<C-h>"
 
-inoremap <expr><C-g>       deoplete#refresh()
-inoremap <expr><C-e>       deoplete#cancel_popup()
-inoremap <silent><expr><C-l>       deoplete#complete_common_string()
+    inoremap <expr><C-g>       deoplete#refresh()
+    inoremap <expr><C-e>       deoplete#cancel_popup()
+    inoremap <silent><expr><C-l>       deoplete#complete_common_string()
 
-" Close preview after completion
-autocmd CompleteDone * pclose!
-let g:deoplete#keyword_patterns = {}
-let g:deoplete#keyword_patterns._ = '[a-zA-Z_]\k*\(?'
-let g:deoplete#omni#input_patterns = {}
-let g:deoplete#omni#input_patterns.python = ''
-call deoplete#custom#option('auto_refresh_delay', 100)
-let g:deoplete#enable_camel_case = 1
+    " Close preview after completion
+    autocmd CompleteDone * pclose!
+    let g:deoplete#keyword_patterns = {}
+    let g:deoplete#keyword_patterns._ = '[a-zA-Z_]\k*\(?'
+    let g:deoplete#omni#input_patterns = {}
+    let g:deoplete#omni#input_patterns.python = ''
+    call deoplete#custom#option('auto_refresh_delay', 100)
+    let g:deoplete#enable_camel_case = 1
 
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function() abort
-  return pumvisible() ? deoplete#close_popup()."\<CR>" : "\<CR>"
-endfunction
+    " <CR>: close popup and save indent.
+    inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+    function! s:my_cr_function() abort
+    return pumvisible() ? deoplete#close_popup()."\<CR>" : "\<CR>"
+    endfunction
 
-call deoplete#custom#source('_', 'matchers',
-      \ ['matcher_fuzzy', 'matcher_length'])
+    call deoplete#custom#source('_', 'matchers',
+        \ ['matcher_fuzzy', 'matcher_length'])
 
-call deoplete#custom#source('look', 'filetypes', ['help', 'gitcommit',
-        \ 'markdown', 'rst'])
-call deoplete#custom#option('ignore_sources', {
-      \ '_': ['around', 'buffer'],
-      \ })
+    call deoplete#custom#source('look', 'filetypes', ['help', 'gitcommit',
+            \ 'markdown', 'rst'])
+    call deoplete#custom#option('ignore_sources', {
+        \ '_': ['around', 'buffer'],
+        \ })
 
-call deoplete#custom#source('tabnine', 'rank', 300)
-call deoplete#custom#source('tabnine', 'min_pattern_length', 2)
-call deoplete#custom#var('tabnine', {
-      \ 'line_limit': 500,
-      \ 'max_num_results': 20,
-      \ })
+    call deoplete#custom#source('tabnine', 'rank', 300)
+    call deoplete#custom#source('tabnine', 'min_pattern_length', 2)
+    call deoplete#custom#var('tabnine', {
+        \ 'line_limit': 500,
+        \ 'max_num_results': 20,
+        \ })
 
-call deoplete#custom#source('_', 'converters', [
-      \ 'converter_remove_paren',
-      \ 'converter_remove_overlap',
-      \ 'matcher_length',
-      \ 'converter_truncate_abbr',
-      \ 'converter_truncate_info',
-      \ 'converter_truncate_menu',
-      \ 'converter_auto_delimiter',
-      \ ])
-call deoplete#custom#source('tabnine', 'converters', [
-      \ 'converter_remove_overlap',
-      \ 'converter_truncate_info',
-      \ ])
+    call deoplete#custom#source('_', 'converters', [
+        \ 'converter_remove_paren',
+        \ 'converter_remove_overlap',
+        \ 'matcher_length',
+        \ 'converter_truncate_abbr',
+        \ 'converter_truncate_info',
+        \ 'converter_truncate_menu',
+        \ 'converter_auto_delimiter',
+        \ ])
+    call deoplete#custom#source('tabnine', 'converters', [
+        \ 'converter_remove_overlap',
+        \ 'converter_truncate_info',
+        \ ])
 
-call deoplete#custom#option('keyword_patterns', {
-      \ '_': '[a-zA-Z_]\k*\(?',
-      \ 'tex': '[^\w|\s][a-zA-Z_]\w*',
-      \ })
+    call deoplete#custom#option('keyword_patterns', {
+        \ '_': '[a-zA-Z_]\k*\(?',
+        \ 'tex': '[^\w|\s][a-zA-Z_]\w*',
+        \ })
 
-call deoplete#custom#option({
-      \ 'auto_refresh_delay': 100,
-      \ 'camel_case': v:true,
-      \ 'skip_multibyte': v:true,
-      \ 'prev_completion_mode': 'none',
-      \ 'auto_preview': v:true,
-      \ })
+    call deoplete#custom#option({
+        \ 'auto_refresh_delay': 100,
+        \ 'camel_case': v:true,
+        \ 'skip_multibyte': v:true,
+        \ 'prev_completion_mode': 'none',
+        \ 'auto_preview': v:true,
+        \ })
 
-call deoplete#enable()
+    call deoplete#enable()
 '''
 
 # Auto sudo files I cannot read
@@ -412,7 +421,7 @@ call deoplete#enable()
 repo = 'lambdalisue/suda.vim'
 on_event = 'BufRead'
 hook_add = '''
-let g:suda_smart_edit = 1
+    let g:suda_smart_edit = 1
 '''
 
 # Intelligent matcher
@@ -420,9 +429,9 @@ let g:suda_smart_edit = 1
 repo = 'raghur/fruzzy'
 on_source = 'denite.nvim'
 hook_source = '''
-let g:fruzzy#usenative = 1
-let g:fruzzy#sortonempty = 0
-call fruzzy#install()
+    let g:fruzzy#usenative = 1
+    let g:fruzzy#sortonempty = 0
+    call fruzzy#install()
 '''
 # hook_post_update = ''
 
@@ -432,9 +441,9 @@ repo = 'ncm2/float-preview.nvim'
 on_source = 'deoplete.nvim'
 if = 'has("nvim")'
 hook_source = '''
-let g:float_preview#docked = 0
-let g:float_preview#max_width = 60
-let g:float_preview#max_height = 20
+    let g:float_preview#docked = 0
+    let g:float_preview#max_width = 60
+    let g:float_preview#max_height = 20
 '''
 
 # Visual undo tree
@@ -460,8 +469,8 @@ on_ft = 'rust'
 hook_add = '''
     let g:deoplete#sources#rust#racer_binary='$HOME/.cargo/bin/racer'
     let g:deoplete#sources#rust#rust_source_path= '$HOME/' .
-    \ '.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/' .
-    \ 'src/rust/src'
+        \ '.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/' .
+        \ 'src/rust/src'
 
 '''
 

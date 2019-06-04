@@ -92,7 +92,7 @@ set cmdwinheight=10
 set equalalways
 
 " Adjust window size of preview and help.
-set previewheight=8
+set previewheight=20
 set helpheight=12
 
 " Don't redraw while macro executing.

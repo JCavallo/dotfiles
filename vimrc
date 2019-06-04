@@ -22,6 +22,8 @@ else
     let $MYVIMRC = fnamemodify(expand('<sfile>'), ':p')
 endif
 
+let g:note_directory = $HOME . '/notes'
+
 function! s:source_rc(path, ...) abort "{{{
     let use_global = get(a:000, 0, !has('vim_starting'))
     let abspath = resolve(expand($VIM_FOLDER . '/rc/' . a:path))

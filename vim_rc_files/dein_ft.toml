@@ -48,6 +48,10 @@ hook_add = '''
         \ if &l:autoread > 0 | source <afile> |
         \   echo 'source ' . bufname('%') |
         \ endif
+
+    " Auto set notes to Markdown
+    execute 'autocmd BufRead,BufNewFile '
+        \ . g:note_directory . '/* set filetype=markdown'
 '''
 
 [ftplugin]
