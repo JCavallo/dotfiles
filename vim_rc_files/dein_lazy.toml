@@ -211,10 +211,8 @@ denite-filter = '''
     "     \ '<denite:move_to_next_line>', 'noremap')
     " call denite#custom#map('insert', '<C-k>',
     "     \ '<denite:move_to_previous_line>', 'noremap')
-    inoremap <silent><buffer><expr> jk
-        \ denite#do_map('quit')
-    inoremap <silent><buffer><expr> kj
-        \ denite#do_map('quit')
+    imap <silent><buffer> jk <Plug>(denite_filter_quit)
+    imap <silent><buffer> kj <Plug>(denite_filter_quit)
     " call denite#custom#map('insert', 'jk',
     "     \ '<denite:enter_mode:normal>', 'noremap')
     " call denite#custom#map('insert', 'kj',
