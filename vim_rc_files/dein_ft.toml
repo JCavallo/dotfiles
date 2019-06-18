@@ -147,6 +147,7 @@ trpy = '''
 
 xml = '''
     setlocal foldmethod=syntax
+    setlocal wrap
 '''
 
 markdown = '''

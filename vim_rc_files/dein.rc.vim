@@ -6,6 +6,9 @@ let g:dein#install_log_filename = '/tmp/dein.log'
 
 let s:path = expand($CACHE . '/dein')
 if !dein#load_state(s:path)
+    if dein#check_install()
+        call dein#install()
+    endif
     finish
 endif
 
@@ -24,7 +27,7 @@ call dein#load_toml(s:dein_ft_toml)
 call dein#end()
 call dein#save_state()
 
-if has('vim_starting') && dein#check_install()
+if dein#check_install()
     call dein#install()
 endif
 
