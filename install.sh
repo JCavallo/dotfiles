@@ -274,7 +274,12 @@ fi
 
 if [ ! "$(command -v alacritty)" ]; then
     echo_comment "Installing alacritty"
-    cargo install --git https://github.com/jwilm/alacritty
+    mkdir -p "$HOME/Projets"
+    cd "$HOME/Projets"
+    chronic git clone https://github.com/jwilm/alacritty
+    cd "$HOME/Projets/alacritty"
+    cargo build --release
+    cp target/release/alacritty "$HOME/bin"
     mkdir -p "$HOME/.config/alacritty"
     rm -f  "$HOME/.config/alacritty/alacritty.yml"
     ln -s "$dir/alacritty.yml" "$HOME/.config/alacritty/alacritty.yml"
@@ -419,5 +424,5 @@ if [ ! "$(command -v brave-browser)" ]; then
         | chronic sudo tee /etc/apt/sources.list.d/brave-browser-release-"$VERSION_CODENAME".list
 
     chronic sudo apt update
-    chronic sudo apt install brave-keyring brave-browser
+    chronic sudo apt install -y brave-keyring brave-browser
 fi
