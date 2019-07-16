@@ -177,6 +177,7 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
+        mode hide
         status_command i3status
 }
 
@@ -220,10 +221,7 @@ exec --no-startup-id compton --config ~/.config/compton.conf -b
 
 # gaps
 for_window [class="^.*"] border pixel 0
+smart_gaps inverse_outer
 gaps inner 30
 gaps outer 0
-
-smart_gaps inverse_outer
-
-workspace $test_workspace gaps outer 100
-workspace $test_workspace gaps inner 20
+gaps bottom 15
