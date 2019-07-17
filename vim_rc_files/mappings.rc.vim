@@ -355,8 +355,8 @@ inoremap <c-f> <Left>
 inoremap <expr><C-g> deoplete#mappings#undo_completion()
 
 " Ctrl-h: Close completion popup
-inoremap <expr><BS> deoplete#mappings#smart_close_popup()."\<C-h>"
-inoremap <expr><C-h> deoplete#mappings#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> deoplete#smart_close_popup()."\<C-h>"
+inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
 
 " Ctrl-i: Tab
 
