@@ -48,11 +48,7 @@ hook_source = '''
                 \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
     endif
 
-    " call denite#custom#source('file/old', 'matchers',
-    "     \ ['matcher/fruzzy', 'matcher/project_files'])
     call denite#custom#source('tag', 'matchers', ['matcher/substring'])
-    " call denite#custom#source('file/rec', 'matchers',
-    "     \ ['matcher/fruzzy'])
     call denite#custom#source('file/old', 'converters',
         \ ['converter/relative_word'])
 
@@ -458,17 +454,6 @@ on_event = 'BufRead'
 hook_add = '''
     let g:suda_smart_edit = 1
 '''
-
-# Intelligent matcher
-[[plugins]]
-repo = 'raghur/fruzzy'
-on_source = 'denite.nvim'
-hook_source = '''
-    let g:fruzzy#usenative = 1
-    let g:fruzzy#sortonempty = 0
-    call fruzzy#install()
-'''
-# hook_post_update = ''
 
 # Floating preview window :)
 [[plugins]]
