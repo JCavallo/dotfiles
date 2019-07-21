@@ -523,3 +523,18 @@ hook_add = '''
         let g:loaded_nvim_nim = 1
     endif
 '''
+
+
+# Deoplete for Python
+[[plugins]]
+repo = 'deoplete-plugins/deoplete-jedi'
+depends = 'deoplete.nvim'
+on_ft = 'python'
+hook_add = '''
+    let g:deoplete#sources#jedi#enable_typeinfo = 1
+    let g:deoplete#sources#jedi#show_docstring = 1
+    let g:jedi#completions_enabled = 0
+    let g:jedi#auto_vim_configuration = 0
+    let g:jedi#smart_auto_mappings = 0
+    let g:jedi#show_call_signatures = 1
+'''

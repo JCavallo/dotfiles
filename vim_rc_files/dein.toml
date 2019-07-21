@@ -66,7 +66,10 @@ hook_add = '''
     let g:airline#extensions#whitespace#enabled = 0
     let g:airline#extensions#ale#enabled = 1
     " let g:airline_theme = 'solarized'
+    let g:airline_theme = 'pencil'
 '''
+[[plugins]]
+repo = 'vim-airline/vim-airline-themes'
 
 # EasyMotion
 [[plugins]]
@@ -132,6 +135,9 @@ repo = 'Canop/patine'
 repo = 'altercation/vim-colors-solarized'
 
 [[plugins]]
+repo = 'axvr/photon.vim'
+
+[[plugins]]
 repo = 'vim-airline/vim-airline-themes'
 
 # FILETYPE RELATED PLUGINS
@@ -151,16 +157,3 @@ repo = 'HerringtonDarkholme/yats.vim'
 # Markdown plugin
 [[plugins]]
 repo = 'rcmdnk/vim-markdown'
-
-# Deoplete for Python
-[[plugins]]
-repo = 'deoplete-plugins/deoplete-jedi'
-depends = 'deoplete.nvim'
-hook_add = '''
-    let g:deoplete#sources#jedi#enable_typeinfo = 1
-    let g:deoplete#sources#jedi#show_docstring = 1
-    let g:jedi#completions_enabled = 0
-    let g:jedi#auto_vim_configuration = 0
-    let g:jedi#smart_auto_mappings = 0
-    let g:jedi#show_call_signatures = 1
-'''

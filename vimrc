@@ -144,7 +144,9 @@ endif
 "===============================================================================
 
 " Try to set colorscheme
-silent! colorscheme flashy_vim
+" silent! colorscheme flashy_vim
+silent! colorscheme photon
+let g:airline_theme = 'minimalist'
 
 " Lock modifications
 set secure
