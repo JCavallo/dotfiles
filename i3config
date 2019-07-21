@@ -215,7 +215,7 @@ assign [class="libreoffice"] $document_workspace
 assign [class="libreoffice-startcenter"] $document_workspace
 assign [class="Soffice"] $document_workspace
 
-exec --no-startup-id bash ~/.xinitrc_local
+exec --no-startup-id source ~/.bash_profile
 exec --no-startup-id redshift-gtk
 exec --no-startup-id compton --config ~/.config/compton.conf -b
 exec_always --no-startup-id ~/bin/launch_polybar

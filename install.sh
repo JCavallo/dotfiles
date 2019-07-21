@@ -42,7 +42,7 @@ chronic sudo DEBIAN_FRONTEND=noninteractive apt -y install \
     libev-dev \
     libfontconfig1-dev \
     libfreetype6-dev \
-    libgl1-mesa-dev
+    libgl1-mesa-dev \
     libjsoncpp-dev \
     libmpdclient-dev \
     libncursesw5-dev \
@@ -110,7 +110,12 @@ chronic sudo DEBIAN_FRONTEND=noninteractive apt -y install \
 sudo dpkg-reconfigure tzdata
 
 # We'll manually startx, since gdm & co ignore xinitrc
-chronic sudo apt remove --purge gdm3
+if [[ "$(which lightdm)" = '' ]]; then
+    chronic sudo apt remove --purge lightdm
+fi
+if [[ "$(which gdm3)" = '' ]]; then
+    chronic sudo apt remove --purge gdm3
+fi
 
 # For some reason this is created as the root user
 sudo rm -rf "$HOME"/.cache
