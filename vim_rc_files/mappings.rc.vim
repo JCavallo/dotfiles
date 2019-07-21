@@ -316,25 +316,6 @@ inoremap kj <ESC>l
 " inoremap <expr> ! smartchr#loop('!', ' != ')
 " autocmd MyAutoCmd FileType javascript inoremap <buffer> <expr> ! smartchr#loop('!', ' !== ')
 
-" <TAB>: completion.
-imap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ deoplete#mappings#manual_complete()
-
-" <S-TAB>: completion back.
-inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<C-h>"
-function! s:check_back_space() abort "{{{
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~ '\s'
-endfunction"}}}
-
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function() abort
-    return deoplete#mappings#close_popup() . "\<CR>"
-endfunction
-
 "===============================================================================
 " Insert Mode Ctrl Key Mappings
 "===============================================================================
@@ -351,23 +332,11 @@ inoremap <c-e> <esc>A
 " Ctrl-f: Move cursor left
 inoremap <c-f> <Left>
 
-" Ctrl-g: Undo completion
-inoremap <expr><C-g> deoplete#mappings#undo_completion()
-
-" Ctrl-h: Close completion popup
-inoremap <expr><BS> deoplete#smart_close_popup()."\<C-h>"
-inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
-
-" Ctrl-i: Tab
-
 " Ctrl-j: Move cursor up
 inoremap <expr> <c-j> pumvisible() ? "\<C-e>\<Down>" : "\<Down>"
 
 " Ctrl-k: Move cursor up
 inoremap <expr> <c-k> pumvisible() ? "\<C-e>\<Up>" : "\<Up>"
-
-" Ctrl-l: Refresh popup
-inoremap <expr><C-l> deoplete#mappings#refresh()
 
 " Ctrl-n: Auto complete next
 

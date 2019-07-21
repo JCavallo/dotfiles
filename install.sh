@@ -16,28 +16,41 @@ sudo apt -y install moreutils &> /dev/null
 chronic sudo DEBIAN_FRONTEND=noninteractive apt -y install \
     autoconf \
     automake \
+    build-essential \
     cmake \
+    cmake-data \
     ctags \
     curl \
     direnv \
     dmenu \
     fbterm \
+    feh \
     fontconfig \
     fonts-font-awesome \
     g++ \
-    pkg-config \
-    feh \
     gettext \
+    git \
     htop \
-    i3status \
     keychain \
+    libasound2-dev \
     libbz2-dev \
+    libcairo2-dev \
     libcap2-bin \
+    libconfig-dev \
+    libcurl4-openssl-dev \
+    libdbus-1-dev \
     libev-dev \
     libfontconfig1-dev \
     libfreetype6-dev \
+    libgl1-mesa-dev
+    libjsoncpp-dev \
+    libmpdclient-dev \
     libncursesw5-dev \
+    libnl-genl-3-dev \
     libpango1.0-dev \
+    libpcre3-dev \
+    libpixman-1-dev \
+    libpulse-dev \
     libreadline-dev \
     libsqlite3-dev \
     libssl-dev \
@@ -45,32 +58,52 @@ chronic sudo DEBIAN_FRONTEND=noninteractive apt -y install \
     libtool \
     libtool-bin \
     libunibilium-dev \
+    libx11-xcb-dev \
+    libxcb-composite0-dev \
     libxcb-cursor-dev \
+    libxcb-damage0-dev \
+    libxcb-ewmh-dev \
     libxcb-icccm4-dev \
+    libxcb-image0-dev \
     libxcb-keysyms1-dev \
+    libxcb-present-dev \
     libxcb-randr0-dev \
+    libxcb-render-util0-dev \
+    libxcb-render0-dev \
     libxcb-shape0-dev \
     libxcb-util0-dev \
+    libxcb-xfixes0-dev \
     libxcb-xinerama0-dev \
     libxcb-xkb-dev \
+    libxcb-xrm-dev \
     libxcb1-dev \
+    libxdg-basedir-dev \
+    libxext-dev \
     libxkbcommon-dev \
     libxkbcommon-x11-dev \
     libyajl-dev \
     libzip-dev \
+    meson \
+    ninja-build \
     numlockx \
+    pkg-config \
     python-pip \
+    python-xcbgen \
     python3-pip \
+    python3-sphinx \
     redshift-gtk \
     shellcheck \
     tmux \
     tree \
     unzip \
+    uthash-dev \
     wget \
+    xcb-proto \
     xclip \
     xinit \
     xutils-dev
     # i3 \
+    # i3status \
     # rxvt-unicode-256color \
     # silversearcher-ag \
 
@@ -113,6 +146,7 @@ fi
 mkdir -p "$HOME"/.config
 mkdir -p "$HOME"/.config/i3
 mkdir -p "$HOME"/.config/i3status
+mkdir -p "$HOME"/.config/polybar
 
 if [ ! -e "$HOME"/.config/i3/config ]; then
     ln -s "$dir"/i3config "$HOME"/.config/i3/config
@@ -121,6 +155,10 @@ fi
 
 if [ ! -e "$HOME"/.config/compton.conf ]; then
     ln -s "$dir"/compton.conf "$HOME"/.config/
+fi
+
+if [ ! -e "$HOME"/.config/polybar/config ]; then
+    ln -s "$dir"/polybar "$HOME"/.config/polybar/config
 fi
 
 # Create local binary folder
@@ -188,6 +226,19 @@ if [[ "$(which i3)" = '' ]]; then
     chronic sudo make install
 fi
 
+# Installing Polybar
+if [[ "$(which polybar)" = '' ]]; then
+    echo_comment "Installing polybar"
+    cd /tmp
+    chronic git clone --recursive https://github.com/polybar/polybar
+    cd polybar
+    mkdir build
+    cd build
+    chronic cmake ..
+    chronic make -j"$(nproc)"
+    chronic sudo make install
+fi
+
 # Installing compton
 if [[ "$(which compton)" = '' ]]; then
     echo_comment "Installing compton"
@@ -196,29 +247,6 @@ if [[ "$(which compton)" = '' ]]; then
     cd compton
     chronic git checkout v6.2
     chronic git submodule update --init
-    chronic sudo apt install -y \
-        libx11-xcb-dev \
-        libxext-dev \
-        libxcb-damage0-dev \
-        libxcb-shape0-dev \
-        libxcb-xfixes0-dev \
-        libxcb-render-util0-dev \
-        libxcb-render0-dev \
-        libxcb-randr0-dev \
-        libxcb-composite0-dev \
-        libxcb-image0-dev \
-        libxcb-present-dev \
-        libxcb-xinerama0-dev \
-        libpixman-1-dev \
-        libdbus-1-dev \
-        libconfig-dev \
-        libxdg-basedir-dev \
-        libpcre3-dev \
-        libev-dev \
-        uthash-dev \
-        meson \
-        ninja-build \
-        libgl1-mesa-dev
     chronic meson --buildtype=release . build
     chronic ninja -C build
     chronic sudo ninja -C build install

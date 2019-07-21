@@ -102,20 +102,20 @@ bindsym $mod+q focus parent
 bindsym $mod+Tab workspace next_on_output
 bindsym $mod+Shift+Tab workspace prev_on_output
 
-# Hardocde some workspaces
-set $coog_workspace "1 "
-set $dev_workspace "2 "
-set $browser_workspace "3 "
-set $document_workspace "4 "
+# Hardcode some workspaces
+set $tools_workspace "Tools:"
+set $dev_workspace "Term:"
+set $browser_workspace "Web:"
+set $document_workspace "Docs:"
 set $test_workspace "6"
-set $steam_workspace "7 "
-set $main_workspace "10 "
+set $steam_workspace "Steam:"
+set $main_workspace ""
 
 # Move workspace to another output
 bindsym $mod+x move workspace to output right
 
 # switch to workspace
-bindsym $mod+ampersand workspace $coog_workspace
+bindsym $mod+ampersand workspace $tools_workspace
 bindsym $mod+eacute workspace $dev_workspace
 bindsym $mod+quotedbl workspace $browser_workspace
 bindsym $mod+apostrophe workspace $document_workspace
@@ -127,7 +127,7 @@ bindsym $mod+ccedilla workspace 9
 bindsym $mod+agrave workspace $main_workspace
 
 # move focused container to workspace
-bindsym $mod+Shift+ampersand move container to workspace $coog_workspace
+bindsym $mod+Shift+ampersand move container to workspace $tools_workspace
 bindsym $mod+Shift+eacute move container to workspace $dev_workspace
 bindsym $mod+Shift+quotedbl move container to workspace $browser_workspace
 bindsym $mod+Shift+apostrophe move container to workspace $document_workspace
@@ -176,10 +176,10 @@ bindsym $mod+r mode "resize"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-bar {
-        mode hide
-        status_command i3status
-}
+# bar {
+#         mode hide
+#         status_command i3status
+# }
 
 # Pulse Audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl -- set-sink-volume 0 +5% #increase sound volume
@@ -194,14 +194,14 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightne
 set $laptop_screen "eDP-1"
 set $external_screen "HDMI-1"
 
-workspace $coog_workspace output $external_screen
+workspace $tools_workspace output $external_screen
 workspace $dev_workspace output $external_screen
 workspace $browser_workspace output $external_screen
 workspace $document_workspace output $external_screen
 workspace $steam_workspace output $laptop_screen
 workspace $main_workspace output $laptop_screen
 
-assign [class="Tryton"] $coog_workspace
+assign [class="Tryton"] $tools_workspace
 assign [class="Chrome"] $browser_workspace
 assign [class="chrome"] $browser_workspace
 assign [class="google-chrome"] $browser_workspace
@@ -215,13 +215,13 @@ assign [class="libreoffice"] $document_workspace
 assign [class="libreoffice-startcenter"] $document_workspace
 assign [class="Soffice"] $document_workspace
 
+exec --no-startup-id bash ~/.xinitrc_local
 exec --no-startup-id redshift-gtk
-exec --no-startup-id feh --bg-fill ~/Pictures/Wallpapers/python1.jpg
 exec --no-startup-id compton --config ~/.config/compton.conf -b
+exec_always --no-startup-id ~/bin/launch_polybar
+exec_always --no-startup-id ~/bin/wallpaper
 
 # gaps
 for_window [class="^.*"] border pixel 0
-smart_gaps inverse_outer
 gaps inner 30
-gaps outer 0
-gaps bottom 15
+gaps bottom 80
