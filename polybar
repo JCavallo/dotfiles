@@ -1,10 +1,36 @@
 [colors]
 accent = #aaff77
 
-[bar/bottom]
+[bar/bottom-0]
+monitor = HDMI-1
 bottom = true
 width = 100%:-60
-height = 50
+height = 40
+
+wm-restack = i3
+override-redirect = true
+offset-x = 30
+offset-y = 30
+
+background = #1c1c1c
+foreground = #eefafafa
+underline-size = 5% 
+padding-left = 0
+padding-right = 1
+module-margin = 1
+
+modules-left = i3
+modules-center = powermenu clock volume
+modules-right = wired-network wired-network-1 wireless-network wireless-network-1 cpu memory fs-root battery
+
+font-0 = monofur:size=14;4
+font-1 = FontAwesome:size=18;5
+
+[bar/bottom-1]
+monitor = eDP-1
+bottom = true
+width = 100%:-60
+height = 40
 
 wm-restack = i3
 override-redirect = true
@@ -18,19 +44,19 @@ underline-size = 5%
 
 padding-left = 0
 padding-right = 1
-module-margin = 3
+module-margin = 1
 
 modules-left = i3
 modules-center = powermenu clock volume
-modules-right = wired-network wired-network-1 wireless-network cpu memory fs-root
+modules-right = wired-network wired-network-1 wireless-network wireless-network-1 cpu memory fs-root battery
 
-font-0 = monofur:size=18;4
-font-1 = FontAwesome:size=24;5
+font-0 = monofur:size=14;4
+font-1 = FontAwesome:size=18;5
 
 [module/fs-root]
 type = internal/fs
 mount-0 = /
-label-mounted =   %free% / %total%
+label-mounted =   %free%
 
 [module/i3]
 type = internal/i3
@@ -118,7 +144,7 @@ label-font = 1
 [module/clock]
 type = internal/date
 interval = 1
-format-padding = 30
+format-padding = 1
 label =   %date%     %time%
 date = %A %e %B
 time = %H:%M:%S
@@ -179,5 +205,42 @@ label-font = 1
 type = internal/network
 interface = wlps0
 label-connected = 
+
+[module/wireless-network-1]
+type = internal/network
+interface = wlp4s0
+label-connected = 
+
+[module/battery]
+type = internal/battery
+battery = BAT0
+poll-interval = 5
+full-at = 99
+
+format-full = <label-full>
+format-charging = <animation-charging> <label-charging>
+format-discharging = <animation-discharging> <label-discharging>
+
+lable-charging = %percentage%
+lable-discharging = %percentage%
+label-full = 
+
+; Only applies if <animation-charging> is used
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-3 = 
+animation-charging-4 = 
+; Framerate in milliseconds
+animation-charging-framerate = 750
+
+; Only applies if <animation-discharging> is used
+animation-discharging-0 = 
+animation-discharging-1 = 
+animation-discharging-2 = 
+animation-discharging-3 = 
+animation-discharging-4 = 
+; Framerate in milliseconds
+animation-discharging-framerate = 500
 
 ; vim:ft=dosini
