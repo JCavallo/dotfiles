@@ -214,6 +214,7 @@ label-connected = 
 [module/battery]
 type = internal/battery
 battery = BAT0
+adapter = AC
 poll-interval = 5
 full-at = 99
 
@@ -221,8 +222,8 @@ format-full = <label-full>
 format-charging = <animation-charging> <label-charging>
 format-discharging = <animation-discharging> <label-discharging>
 
-lable-charging = %percentage%
-lable-discharging = %percentage%
+label-charging = %percentage%%
+label-discharging = %percentage%%
 label-full = 
 
 ; Only applies if <animation-charging> is used
