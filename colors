@@ -19,6 +19,8 @@ colorize() {
     colors[grey]='1;38;5;243'
     colors[green]='1;38;5;40'
     colors[yellow]='1;38;5;220'
+    colors[blue]='1;38;5;21'
+    colors[lightblue]='1;38;5;45'
     colors[red]='1;38;5;203'
     colors[lightred]='1;38;5;196'
 
