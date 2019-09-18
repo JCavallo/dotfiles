@@ -39,7 +39,8 @@ bindsym $mod+Return exec alacritty
 bindsym $mod+Shift+a kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
+# bindsym $mod+d exec dmenu_run
+bindsym $mod+d exec "rofi -combi-modi window,drun,run -show combi -modi combi -normal-window"
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -139,7 +140,7 @@ bindsym $mod+Shift+ccedilla move container to workspace 9
 bindsym $mod+Shift+agrave move container to workspace $main_workspace
 
 # Magic workspaces
-bindsym $mod+p exec new-i3-dev-workspace $(ls-i3-dev-workspaces | grep Dev | sed -e "s/Dev://" | dmenu)
+bindsym $mod+p exec new-i3-dev-workspace $(ls-i3-dev-workspaces | grep Dev | sed -e "s/Dev://" | rofi -dmenu)
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -191,8 +192,8 @@ bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
 
 # Set monitors
-set $laptop_screen "eDP-1"
-set $external_screen "HDMI-1"
+set $laptop_screen "eDP1"
+set $external_screen "HDMI1"
 
 workspace $tools_workspace output $external_screen
 workspace $dev_workspace output $external_screen
@@ -221,7 +222,9 @@ exec --no-startup-id compton --config ~/.config/compton.conf -b
 exec_always --no-startup-id ~/bin/launch_polybar
 exec_always --no-startup-id ~/bin/wallpaper
 
-# gaps
 for_window [class="^.*"] border pixel 0
+for_window [class="Rofi"] floating enable
+
+# gaps
 gaps inner 30
 gaps bottom 80

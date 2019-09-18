@@ -92,6 +92,7 @@ chronic sudo DEBIAN_FRONTEND=noninteractive apt -y install \
     python3-pip \
     python3-sphinx \
     redshift-gtk \
+    rofi \
     shellcheck \
     tmux \
     tree \
