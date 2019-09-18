@@ -2,7 +2,7 @@
 accent = #aaff77
 
 [bar/bottom-0]
-monitor = HDMI-1
+monitor = ${env:POLYBAR_MAIN_MONITOR:HDMI-1}
 bottom = true
 width = 100%:-60
 height = 40
@@ -21,13 +21,13 @@ module-margin = 1
 
 modules-left = i3
 modules-center = powermenu clock volume
-modules-right = wired-network wired-network-1 wireless-network wireless-network-1 cpu memory fs-root battery
+modules-right = wired-network wireless-network cpu memory fs-root battery
 
 font-0 = monofur:size=14;4
 font-1 = FontAwesome:size=18;5
 
 [bar/bottom-1]
-monitor = eDP1
+monitor = ${env:POLYBAR_SECONDARY_MONITOR:eDP-1}
 bottom = true
 width = 100%:-60
 height = 40
@@ -48,7 +48,7 @@ module-margin = 1
 
 modules-left = i3
 modules-center = powermenu clock volume backlight
-modules-right = wired-network wired-network-1 wireless-network wireless-network-1 cpu memory fs-root battery
+modules-right = wired-network wireless-network cpu memory fs-root battery
 
 font-0 = monofur:size=14;4
 font-1 = FontAwesome:size=18;5
@@ -191,24 +191,13 @@ label-muted-foreground = #99ffffff
 
 [module/wired-network]
 type = internal/network
-interface = ens33
-label-connected = 
-label-font = 1
-
-[module/wired-network-1]
-type = internal/network
-interface = eth0
+interface =  ${env:POLYBAR_ETHERNET_DEVICE:eth0}
 label-connected = 
 label-font = 1
 
 [module/wireless-network]
 type = internal/network
-interface = wlps0
-label-connected = 
-
-[module/wireless-network-1]
-type = internal/network
-interface = wlp4s0
+interface = ${env:POLYBAR_WIFI_DEVICE:wlps0}
 label-connected = 
 
 [module/battery]

@@ -6,6 +6,30 @@ pkill polybar
 # Wait until the processes have been shut down
 while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 
+if [[ "${POLYBAR_WIFI_DEVICE:-empty}" = "empty" ]]; then
+    export POLYBAR_WIFI_DEVICE=$(nmcli device | grep wifi | sed -e "s/^\([^ ]*\).*/\1/")
+fi
+
+if [[ "${POLYBAR_ETHERNET_DEVICE:-empty}" = "empty" ]]; then
+    export POLYBAR_ETHERNET_DEVICE=$(nmcli device | grep ethernet | sed -e "s/^\([^ ]*\).*/\1/")
+fi
+
+if [[ "${POLYBAR_MAIN_MONITOR:-empty}" = "empty" ]]; then
+    if xrandr --prop | grep -q "HDMI-1 connected"; then
+        export POLYBAR_MAIN_MONITOR="HDMI-1"
+    elif xrandr --prop | grep -q "HDMI1 connected"; then
+        export POLYBAR_MAIN_MONITOR="HDMI1"
+    fi
+fi
+
+if [[ "${POLYBAR_SECONDARY_MONITOR:-empty}" = "empty" ]]; then
+    if xrandr --prop | grep -q "eDP-1 connected"; then
+        export POLYBAR_SECONDARY_MONITOR="eDP-1"
+    elif xrandr --prop | grep -q "eDP1 connected"; then
+        export POLYBAR_SECONDARY_MONITOR="eDP1"
+    fi
+fi
+
 polybar bottom-0 &
 polybar bottom-1 &
 
