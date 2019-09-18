@@ -167,6 +167,10 @@ if [ ! -e "$HOME"/.config/polybar/config ]; then
     ln -s "$dir"/polybar "$HOME"/.config/polybar/config
 fi
 
+if [ ! -e "$HOME"/.config/rofi ]; then
+    ln -s "$dir"/rofi "$HOME"/.config/rofi
+fi
+
 # Create local binary folder
 if [ ! -e "$HOME/bin" ]; then
     mkdir -p "$HOME"/bin
