@@ -102,7 +102,7 @@ hook_add = '''
     nnoremap <silent> [denite]h :<C-u>Denite help<CR>
 
     " Buffers
-    nnoremap <silent> [denite]i :<C-u>Denite buffer -no-start-filter<CR>
+    nnoremap <silent> [denite]i :<C-u>Denite buffer<CR>
 
     " Location history
     nnoremap <silent> [denite]k :<C-u>Denite change jump<CR>
@@ -487,10 +487,10 @@ repo = 'sebastianmarkow/deoplete-rust'
 depends = 'deoplete.nvim'
 on_ft = 'rust'
 hook_add = '''
-    let g:deoplete#sources#rust#racer_binary='$HOME/.cargo/bin/racer'
-    let g:deoplete#sources#rust#rust_source_path= '$HOME/' .
+    let g:deoplete#sources#rust#racer_binary=expand('$HOME/.cargo/bin/racer')
+    let g:deoplete#sources#rust#rust_source_path=expand('$HOME/' .
         \ '.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/' .
-        \ 'src/rust/src'
+        \ 'src/rust/src')
 
 '''
 
