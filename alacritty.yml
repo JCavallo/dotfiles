@@ -312,8 +312,8 @@ key_bindings:
   - { key: C,        mods: Control|Shift,    action: Copy                }
   - { key: Q,        mods: Command, action: Quit                         }
   - { key: W,        mods: Command, action: Quit                         }
-  - { key: H,        mods: Alt|Shift,     action: ScrollLineUp           }
-  - { key: L,        mods: Alt|Shift,     action: ScrollLineDown         }
+  - { key: H,        mods: Alt|Shift,     action: ScrollLineDown         }
+  - { key: L,        mods: Alt|Shift,     action: ScrollLineUp           }
   - { key: K,        mods: Alt|Shift,     action: ScrollPageUp           }
   - { key: J,        mods: Alt|Shift,     action: ScrollPageDown         }
   - { key: Insert,   mods: Shift,   action: PasteSelection               }
