@@ -58,7 +58,7 @@ hook_add = '''
     " Auto commit / push notes on leave
     autocmd VimLeave * call s:push_notes()
     function! s:push_notes() abort
-        if not g:has_notes || !isdirectory(g:note_directory . '/.git')
+        if !g:has_notes || !isdirectory(g:note_directory . '/.git')
             return
         endif
         let current_status = execute('!git -C $HOME/notes status')
