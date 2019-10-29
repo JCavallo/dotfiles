@@ -52,24 +52,31 @@ hook_add = '''
     " Auto set notes to Markdown
     execute 'autocmd BufRead,BufNewFile '
         \ . g:note_directory . '/* set filetype=markdown'
+    execute 'autocmd BufRead,BufNewFile '
+        \ . g:note_directory . '/* let g:has_notes = 1'
 
     " Auto commit / push notes on leave
     autocmd VimLeave * call s:push_notes()
     function! s:push_notes() abort
+        if not g:has_notes || !isdirectory(g:note_directory . '/.git')
+            return
+        endif
         let current_status = execute('!git -C $HOME/notes status')
         if current_status =~ '.*working tree clean.*'
             return
         endif
-        call system('git -C $HOME/notes add $HOME/notes')
-        call system('git -C $HOME/notes commit -m "Update"')
-        call system('git -C $HOME/notes push')
+        if denite#util#input_yesno('Do you want to push notes? ')
+            call system('git -C $HOME/notes add $HOME/notes')
+            call system('git -C $HOME/notes commit -m "Update"')
+            call system('git -C $HOME/notes push')
+        endif
     endfunction
 
     autocmd VimEnter * call s:check_notes()
     function! s:check_notes() abort
         let current_status = execute('!git -C $HOME/notes status')
         if current_status !~ '.*working tree clean.*'
-            echoerr "Notes directory is not clean, maybe something went wrong?"
+            echom "Notes directory is not clean, maybe something went wrong?"
         endif
     endfunction
 

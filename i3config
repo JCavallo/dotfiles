@@ -142,6 +142,9 @@ bindsym $mod+Shift+agrave move container to workspace $main_workspace
 # Magic workspaces
 bindsym $mod+p exec new-i3-dev-workspace $(ls-i3-dev-workspaces | grep Dev | sed -e "s/Dev://" | rofi -dmenu)
 
+# Magic notes
+bindsym $mod+n exec new-i3-dev-workspace notes
+
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)

@@ -22,6 +22,8 @@ else
     let $MYVIMRC = fnamemodify(expand('<sfile>'), ':p')
 endif
 
+" Notes tooling
+let g:has_notes = 0
 let g:note_directory = $HOME . '/notes'
 
 function! s:source_rc(path, ...) abort "{{{
