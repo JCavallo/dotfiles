@@ -102,6 +102,9 @@ hook_add = '''
     if executable('sqlfmt')
         let g:ale_fixers.sql = ['sqlfmt']
     endif
+    if executable('jq')
+        let g:ale_fixers.json = ['jq']
+    endif
     autocmd ColorScheme *
         \ hi clear ALEErrorSign |
         \ hi ALEErrorSign cterm=bold ctermfg=196 ctermbg=235 |
