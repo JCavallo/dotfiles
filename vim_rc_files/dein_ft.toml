@@ -82,6 +82,9 @@ hook_add = '''
 
     autocmd VimLeavePre * call s:save_session()
     function! s:save_session() abort
+        if &diff || &ft == 'gitcommit'
+            return
+        endif
         if !isdirectory(expand('$PROJECT_PATH'))
             return
         endif
@@ -90,11 +93,18 @@ hook_add = '''
 
     autocmd VimEnter * call s:load_session()
     function! s:load_session() abort
+        if &diff || &ft == 'gitcommit'
+            return
+        endif
         if !isdirectory(expand('$PROJECT_PATH'))
             return
         endif
         if filereadable(expand('$PROJECT_PATH/.vim_session'))
-            source $PROJECT_PATH/.vim_session
+            if denite#util#input_yesno('Existing session found, resume? ')
+                source $PROJECT_PATH/.vim_session
+            else
+                call system('rm $PROJECT_PATH/.vim_session')
+            endif
         endif
     endfunction
 
