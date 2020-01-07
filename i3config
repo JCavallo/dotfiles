@@ -111,6 +111,7 @@ set $document_workspace "Docs:"
 set $test_workspace "6"
 set $steam_workspace "Steam:"
 set $main_workspace ""
+set $note_workspace "Notes"
 
 # Move workspace to another output
 bindsym $mod+x move workspace to output right
@@ -126,6 +127,7 @@ bindsym $mod+egrave workspace $steam_workspace
 bindsym $mod+underscore workspace 8
 bindsym $mod+ccedilla workspace 9
 bindsym $mod+agrave workspace $main_workspace
+bindsym $mod+n workspace $note_workspace
 
 # move focused container to workspace
 bindsym $mod+Shift+ampersand move container to workspace $tools_workspace
@@ -138,12 +140,11 @@ bindsym $mod+Shift+egrave move container to workspace $steam_workspace
 bindsym $mod+Shift+underscore move container to workspace 8
 bindsym $mod+Shift+ccedilla move container to workspace 9
 bindsym $mod+Shift+agrave move container to workspace $main_workspace
+bindsym $mod+Shift+n move container to workspace $note_workspace
 
 # Magic workspaces
 bindsym $mod+p exec new-i3-dev-workspace $(ls-i3-dev-workspaces | grep Dev | sed -e "s/Dev://" | rofi -dmenu)
-
-# Magic notes
-bindsym $mod+n exec new-i3-dev-workspace notes
+bindsym $mod+Shift+p exec i3-msg move container to workspace Dev:$(ls-i3-dev-workspaces | grep Dev | sed -e "s/Dev://" | rofi -dmenu)
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -160,15 +161,15 @@ mode "resize" {
         # Pressing right will grow the window’s width.
         # Pressing up will shrink the window’s height.
         # Pressing down will grow the window’s height.
-        bindsym j resize shrink width 10 px or 10 ppt
+        bindsym h resize shrink width 10 px or 10 ppt
+        bindsym j resize shrink height 10 px or 10 ppt
         bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym m resize grow width 10 px or 10 ppt
+        bindsym l resize grow width 10 px or 10 ppt
 
         # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Down resize shrink height 10 px or 10 ppt
+        bindsym Up resize grow height 10 px or 10 ppt
         bindsym Right resize grow width 10 px or 10 ppt
 
         # back to normal: Enter or Escape
@@ -221,7 +222,7 @@ assign [class="Soffice"] $document_workspace
 
 exec --no-startup-id source ~/.bash_profile
 exec --no-startup-id redshift-gtk
-exec --no-startup-id compton --config ~/.config/compton.conf -b
+exec_always --no-startup-id compton --config ~/.config/compton.conf -b
 exec_always --no-startup-id ~/bin/launch_polybar
 exec_always --no-startup-id ~/bin/wallpaper
 
@@ -231,3 +232,26 @@ for_window [class="Rofi"] floating enable
 # gaps
 gaps inner 30
 gaps bottom 80
+
+# Manage gaps
+mode "gaps" {
+        # outer gaps
+        bindsym h gaps outer current minus 10
+        bindsym l gaps outer current plus 10
+
+        # inner gaps
+        bindsym j gaps inner current minus 10
+        bindsym k gaps inner current plus 10
+
+        # For mono panes
+        bindsym g exec "i3-msg gaps top current set 30 && i3-msg gaps bottom current set 80 && i3-msg gaps left current set 200 && i3-msg gaps right current set 200 && i3-msg mode default"
+
+        # For multi panes : default
+        bindsym d exec "i3-msg gaps outer current set 0 && i3-msg gaps inner current set 30 && i3-msg gaps bottom current set 80 && i3-msg mode default"
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym $mod+g mode "gaps"
