@@ -17,6 +17,7 @@ chronic sudo DEBIAN_FRONTEND=noninteractive apt -y install \
     autoconf \
     automake \
     asciidoc \
+    bison \
     build-essential \
     cmake \
     cmake-data \
@@ -26,6 +27,7 @@ chronic sudo DEBIAN_FRONTEND=noninteractive apt -y install \
     dmenu \
     fbterm \
     feh \
+    flex \
     fontconfig \
     fonts-font-awesome \
     g++ \
@@ -44,6 +46,7 @@ chronic sudo DEBIAN_FRONTEND=noninteractive apt -y install \
     libfontconfig1-dev \
     libfreetype6-dev \
     libgl1-mesa-dev \
+    libjpeg-dev \
     libjsoncpp-dev \
     libmpdclient-dev \
     libncursesw5-dev \
@@ -56,6 +59,7 @@ chronic sudo DEBIAN_FRONTEND=noninteractive apt -y install \
     libsqlite3-dev \
     libssl-dev \
     libstartup-notification0-dev \
+    librsvg2-dev \
     libtool \
     libtool-bin \
     libunibilium-dev \
@@ -96,7 +100,6 @@ chronic sudo DEBIAN_FRONTEND=noninteractive apt -y install \
     python3-pip \
     python3-sphinx \
     redshift-gtk \
-    rofi \
     shellcheck \
     tmux \
     tree \
@@ -111,6 +114,7 @@ chronic sudo DEBIAN_FRONTEND=noninteractive apt -y install \
     # i3status \
     # rxvt-unicode-256color \
     # silversearcher-ag \
+    # rofi \
 
 sudo dpkg-reconfigure tzdata
 
@@ -357,6 +361,18 @@ sudo chmod u+s /usr/bin/fbterm
 if [ ! "$(command -v n)" ]; then
     echo_comment "Installing latest node js through n"
     curl -s -L https://git.io/n-install | chronic bash -s -- -y -n
+fi
+
+# Install rofi (i3 menu)
+if [ ! "$(command -v rofi)" ]; then
+    echo_comment "Installing rofi"
+    cd /tmp
+    chronic git clone https://github.com/davatorium/rofi/
+    cd rofi
+    chronic git submodule update --init
+    chronic meson setup build
+    chronic ninja -C build
+    chronic sudo ninja -C build install
 fi
 
 # Install tmux configuration
