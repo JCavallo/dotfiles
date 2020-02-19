@@ -3,6 +3,10 @@
 # Terminate already running bar instances
 pkill polybar
 
+if [[ -e "$HOME/.polybar_custom" ]]; then
+    source "$HOME/.polybar_custom"
+fi
+
 # Wait until the processes have been shut down
 while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 
