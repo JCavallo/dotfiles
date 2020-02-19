@@ -255,3 +255,5 @@ mode "gaps" {
 }
 
 bindsym $mod+g mode "gaps"
+
+border_radius 20

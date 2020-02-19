@@ -230,7 +230,10 @@ if [[ "$(which i3)" = '' ]]; then
     chronic make
     chronic sudo make install
     cd /tmp
-    chronic git clone https://www.github.com/Airblader/i3 i3-gaps
+    # chronic git clone https://www.github.com/Airblader/i3 i3-gaps
+
+    # Consider switching back to Airblader's once rounded corner are merged :)
+    chronic git clone https://www.github.com/resloved/i3 i3-gaps
     cd i3-gaps
     chronic autoreconf --force --install
     chronic mkdir build
