@@ -16,6 +16,7 @@ sudo apt -y install moreutils &> /dev/null
 chronic sudo DEBIAN_FRONTEND=noninteractive apt -y install \
     autoconf \
     automake \
+    asciidoc \
     build-essential \
     cmake \
     cmake-data \
@@ -80,8 +81,10 @@ chronic sudo DEBIAN_FRONTEND=noninteractive apt -y install \
     libxcomposite-dev \
     libxdg-basedir-dev \
     libxext-dev \
+    libxinerama-dev \
     libxkbcommon-dev \
     libxkbcommon-x11-dev \
+    libxrandr-dev \
     libyajl-dev \
     libzip-dev \
     meson \
@@ -256,11 +259,8 @@ if [[ "$(which compton)" = '' ]]; then
     cd /tmp
     chronic git clone https://github.com/tryone144/compton
     cd compton
-    chronic git checkout v6.2
-    chronic git submodule update --init
-    chronic meson --buildtype=release . build
-    chronic ninja -C build
-    chronic sudo ninja -C build install
+    chronic make
+    chronic sudo make install
 fi
 
 # Build latest neovim
