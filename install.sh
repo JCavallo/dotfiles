@@ -77,6 +77,7 @@ chronic sudo DEBIAN_FRONTEND=noninteractive apt -y install \
     libxcb-xkb-dev \
     libxcb-xrm-dev \
     libxcb1-dev \
+    libxcomposite-dev \
     libxdg-basedir-dev \
     libxext-dev \
     libxkbcommon-dev \
@@ -253,7 +254,7 @@ fi
 if [[ "$(which compton)" = '' ]]; then
     echo_comment "Installing compton"
     cd /tmp
-    chronic git clone https://github.com/yshui/compton
+    chronic git clone https://github.com/tryone144/compton
     cd compton
     chronic git checkout v6.2
     chronic git submodule update --init
