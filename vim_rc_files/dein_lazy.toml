@@ -539,11 +539,18 @@ hook_add = '''
     let g:jedi#show_call_signatures = 1
 '''
 
-
 # Markdown preview
 [[plugins]]
 repo = 'iamcco/markdown-preview.nvim'
 on_ft = 'markdown'
 build = 'cd app & yarn install'
 hook_add = '''
+'''
+
+# Markdown folding
+[[plugins]]
+repo = 'masukomi/vim-markdown-folding'
+on_ft = 'markdown'
+hook_add = '''
+    autocmd FileType markdown set foldexpr=NestedMarkdownFolds()
 '''
