@@ -77,6 +77,7 @@ REDBLACK="[38;5;196m"
 GREENBLACK="[38;5;82m"
 BLACKGREEN="[30;42m"
 BLACKPINK="[30;45m"
+BLACKLIGHTBLUE="[30;104m"
 
 if [[ $(which hg) ]]; then
     HG_INSTALLED=1
@@ -98,6 +99,14 @@ _echo_bad() {
         echo "😭"
     fi
     return $retval
+}
+
+host_ps1() {
+    if [[ "${SSH_CONNECTION:-nope}" = "nope" ]]; then
+        echo ""
+    else
+        echo " $HOSTNAME "
+    fi
 }
 
 hg_ps1_1() {
@@ -232,12 +241,15 @@ PS1+='\[\e${GREENBLACK}\]$(_echo_good)\[\e${DEFAULT}\]'
 # PS1+='\[\e${PINK}\] \u '
 # PS1+='\[\e${PINKLIGHTBLUE}\]'
 
-# # Host
-# PS1+='\[\e${LIGHTBLUE}\] \h '
-# PS1+='\[\e${LIGHTBLUEDARKGREEN}\]'
+# Transition
+PS1+=' \[\e${BLACKLIGHTBLUE}\]'
+
+# Host
+PS1+='\[\e${LIGHTBLUE}\]$(host_ps1)'
+PS1+='\[\e${LIGHTBLUEDARKGREEN}\]'
 
 # Transition
-PS1+=' \[\e${BLACKGREEN}\]'
+# PS1+=' \[\e${BLACKGREEN}\]'
 
 # Virtual Env
 PS1+='\[\e${DARKGREEN}\]$(virtual_env_ps1)'
