@@ -66,6 +66,17 @@ hook_source = '''
     call denite#custom#filter('matcher/ignore_globs', 'ignore_globs',
         \ [ '.git/', '.ropeproject/', '__pycache__/',
         \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/'])
+
+    function! s:i3_split(context)
+        call I3Split(a:context['targets'][0].action__path)
+    endfunction
+
+    function! s:i3_vsplit(context)
+        call I3VSplit(a:context['targets'][0].action__path)
+    endfunction
+
+    call denite#custom#action('file', 'i3_split', function('s:i3_split'))
+    call denite#custom#action('file', 'i3_vsplit', function('s:i3_vsplit'))
 '''
 hook_add = '''
     function! GetProjectPath()
@@ -235,35 +246,18 @@ denite = '''
         \ denite#do_map('toggle_select_all')
     nnoremap <silent><buffer><expr> l
         \ denite#do_map('do_action', 'quickfix')
+    nnoremap <silent><buffer><expr> <C-s>
+        \ denite#do_map('do_action', 'i3_split')
+    nnoremap <silent><buffer><expr> <C-v>
+        \ denite#do_map('do_action', 'i3_vsplit')
 '''
 denite-filter = '''
-    " call denite#custom#map('insert', '<C-j>',
-    "     \ '<denite:move_to_next_line>', 'noremap')
-    " call denite#custom#map('insert', '<C-k>',
-    "     \ '<denite:move_to_previous_line>', 'noremap')
     imap <silent><buffer> jk <Plug>(denite_filter_quit)
     imap <silent><buffer> kj <Plug>(denite_filter_quit)
     inoremap <silent><buffer><expr> <C-c> denite#do_map('quit')
-    inoremap <silent><buffer><expr> <C-s> denite#do_map('do_action', 'split')
-    inoremap <silent><buffer><expr> <C-v> denite#do_map('do_action', 'vsplit')
     inoremap <silent><buffer><expr> <CR> denite#do_map('do_action', 'default')
-    " call denite#custom#map('insert', 'jk',
-    "     \ '<denite:enter_mode:normal>', 'noremap')
-    " call denite#custom#map('insert', 'kj',
-    "     \ '<denite:enter_mode:normal>', 'noremap')
-    " call denite#custom#map('normal', 'l',
-    "     \ '<denite:do_action:default>', 'noremap')
-    " call denite#custom#map('normal', 'h',
-    "     \ '<denite:do_action:walk_up>', 'noremap')
-    " call denite#custom#map('normal', '<C-a>v',
-    "     \ '<denite:do_action:vsplit>', 'noremap')
-    " call denite#custom#map('normal', '<C-a>s',
-    "     \ '<denite:do_action:split>', 'noremap')
-    " call denite#custom#map('insert', '<C-a>v',
-    "     \ '<denite:do_action:vsplit>', 'noremap')
-    " call denite#custom#map('insert', '<C-a>s',
-    "     \ '<denite:do_action:split>', 'noremap')
-
+    inoremap <silent><buffer><expr> <C-s> denite#do_map('do_action', 'i3_split')
+    inoremap <silent><buffer><expr> <C-v> denite#do_map('do_action', 'i3_vsplit')
 '''
 
 # Extra sources for denite
@@ -382,10 +376,6 @@ hook_source = '''
 
     " Close preview after completion
     autocmd CompleteDone * pclose!
-    let g:deoplete#keyword_patterns = {}
-    let g:deoplete#keyword_patterns._ = '[a-zA-Z_]\k*\(?'
-    let g:deoplete#omni#input_patterns = {}
-    let g:deoplete#omni#input_patterns.python = ''
     call deoplete#custom#option('auto_refresh_delay', 100)
     let g:deoplete#enable_camel_case = 1
 
@@ -394,6 +384,10 @@ hook_source = '''
     function! s:my_cr_function() abort
     return pumvisible() ? deoplete#close_popup()."\<CR>" : "\<CR>"
     endfunction
+
+    call deoplete#custom#option('keyword_patterns', {
+        \ '_': '[a-zA-Z_]\k*\(?',
+        \ })
 
     call deoplete#custom#source('_', 'matchers',
         \ ['matcher_fuzzy', 'matcher_length'])
@@ -437,9 +431,7 @@ hook_source = '''
         \ 'prev_completion_mode': 'mirror',
         \ 'auto_preview': v:true,
         \ })
-'''
-hook_add = '''
-    let g:deoplete#enable_at_startup = 1
+    call deoplete#enable()
 '''
 
 [plugins.ftplugin]
@@ -483,7 +475,9 @@ hook_add = '''
 
 # Deoplete for rust
 [[plugins]]
-repo = 'sebastianmarkow/deoplete-rust'
+# repo = 'sebastianmarkow/deoplete-rust'
+repo = 'jcavallo/deoplete-rust'
+rev = 'update_latest_deoplete_api'
 depends = 'deoplete.nvim'
 on_ft = 'rust'
 hook_add = '''

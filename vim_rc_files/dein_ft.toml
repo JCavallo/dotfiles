@@ -93,6 +93,7 @@ hook_add = '''
 
     autocmd VimEnter * call s:load_session()
     function! s:load_session() abort
+        return
         if &diff || &ft == 'gitcommit'
             return
         endif

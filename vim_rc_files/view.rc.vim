@@ -110,3 +110,24 @@ set conceallevel=2 concealcursor=iv
 
 " Color map
 set t_Co=256
+
+" Split with i3
+function! I3Split(...)
+    if a:0 == 0
+        split
+    else
+        silent execute("!i3-msg split h && i3-msg \"exec alacritty "
+            \ . "--working-directory " . getcwd() . " -e nvim "
+            \ . a:1 . "\"")
+    endif
+endfunction
+
+function! I3VSplit(...)
+    if a:0 == 0
+        vsplit
+    else
+        silent execute("!i3-msg split v && i3-msg \"exec alacritty "
+            \ . "--working-directory " . getcwd() . " -e nvim "
+            \ . a:1 . "\"")
+    endif
+endfunction
