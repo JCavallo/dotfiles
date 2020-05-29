@@ -209,6 +209,8 @@ assign [class="Tryton"] $tools_workspace
 assign [class="Chrome"] $browser_workspace
 assign [class="chrome"] $browser_workspace
 assign [class="google-chrome"] $browser_workspace
+assign [class="google-chrome-beta"] $browser_workspace
+assign [class="Google-chrome-beta"] $browser_workspace
 assign [class="brave-browser"] $browser_workspace
 assign [class="Brave-browser"] $browser_workspace
 assign [class="brave"] $browser_workspace
@@ -219,7 +221,7 @@ assign [class="libreoffice"] $document_workspace
 assign [class="libreoffice-startcenter"] $document_workspace
 assign [class="Soffice"] $document_workspace
 
-exec --no-startup-id source ~/.bash_profile
+exec --no-startup-id source ~/.xinitrc
 exec --no-startup-id redshift-gtk
 exec_always --no-startup-id compton --config ~/.config/compton.conf -b
 exec_always --no-startup-id ~/bin/launch_polybar
@@ -256,3 +258,9 @@ mode "gaps" {
 bindsym $mod+g mode "gaps"
 
 border_radius 20
+
+# Custom for 4k :)
+gaps top 30
+gaps bottom 80
+gaps left 200
+gaps right 200
