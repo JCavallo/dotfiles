@@ -2,7 +2,6 @@
 
 # Use strict mode
 set -euo pipefail
-IFS=$'\n\t'
 
 echo_comment () {
     echo ' '
@@ -11,118 +10,101 @@ echo_comment () {
     echo ' '
 }
 
-echo_comment "Installing dependencies"
-sudo apt -y install moreutils &> /dev/null
-chronic sudo DEBIAN_FRONTEND=noninteractive apt -y install \
-    autoconf \
-    automake \
-    asciidoc \
-    bison \
-    build-essential \
-    cmake \
-    cmake-data \
-    ctags \
-    curl \
-    direnv \
-    dmenu \
-    fbterm \
-    feh \
-    flex \
-    fontconfig \
-    fonts-font-awesome \
-    g++ \
-    gettext \
-    git \
-    htop \
-    keychain \
-    libasound2-dev \
-    libbz2-dev \
-    libcairo2-dev \
-    libcap2-bin \
-    libconfig-dev \
-    libcurl4-openssl-dev \
-    libdbus-1-dev \
-    libev-dev \
-    libfontconfig1-dev \
-    libfreetype6-dev \
-    libgl1-mesa-dev \
-    libjpeg-dev \
-    libjsoncpp-dev \
-    libmpdclient-dev \
-    libncursesw5-dev \
-    libnl-genl-3-dev \
-    libpango1.0-dev \
-    libpcre3-dev \
-    libpixman-1-dev \
-    libpulse-dev \
-    libreadline-dev \
-    libsqlite3-dev \
-    libssl-dev \
-    libstartup-notification0-dev \
-    librsvg2-dev \
-    libtool \
-    libtool-bin \
-    libunibilium-dev \
-    libx11-xcb-dev \
-    libxcb-composite0-dev \
-    libxcb-cursor-dev \
-    libxcb-damage0-dev \
-    libxcb-ewmh-dev \
-    libxcb-icccm4-dev \
-    libxcb-image0-dev \
-    libxcb-keysyms1-dev \
-    libxcb-present-dev \
-    libxcb-randr0-dev \
-    libxcb-render-util0-dev \
-    libxcb-render0-dev \
-    libxcb-shape0-dev \
-    libxcb-util0-dev \
-    libxcb-xfixes0-dev \
-    libxcb-xinerama0-dev \
-    libxcb-xkb-dev \
-    libxcb-xrm-dev \
-    libxcb1-dev \
-    libxcomposite-dev \
-    libxdg-basedir-dev \
-    libxext-dev \
-    libxinerama-dev \
-    libxkbcommon-dev \
-    libxkbcommon-x11-dev \
-    libxrandr-dev \
-    libyajl-dev \
-    libzip-dev \
-    meson \
-    ninja-build \
-    numlockx \
-    pkg-config \
-    python-pip \
-    python-xcbgen \
-    python3-pip \
-    python3-sphinx \
-    redshift-gtk \
-    shellcheck \
-    tmux \
-    tree \
-    unzip \
-    uthash-dev \
-    wget \
-    xcb-proto \
-    xclip \
-    xinit \
-    xutils-dev
-    # i3 \
-    # i3status \
-    # rxvt-unicode-256color \
-    # silversearcher-ag \
-    # rofi \
+while true; do
+    read -rp "Will there be a UI? (Y/n)" yn
+    case $yn in
+        [Yy]* ) SERVER=0; break;;
+        [Nn]* ) SERVER=1; break;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
 
-sudo dpkg-reconfigure tzdata
+echo_comment "Installing core requirements"
+sudo apt -y install moreutils &> /dev/null
+
+echo_comment "Installing main tools"
+MAIN_TOOLS=""
+MAIN_TOOLS+="curl "  # Always useful
+MAIN_TOOLS+="direnv "  # Per folder environment variables
+MAIN_TOOLS+="exuberant-ctags "  # You're a dev or you're not
+MAIN_TOOLS+="feh "  # Wallpapers
+MAIN_TOOLS+="fonts-font-awesome "  # Better fonts are always nice to have
+MAIN_TOOLS+="git "  # In case it's not already there
+MAIN_TOOLS+="g++ "  # Will always need it somehow
+MAIN_TOOLS+="htop "  # Like top, but better
+MAIN_TOOLS+="keychain "  # Manage ssh because I must
+MAIN_TOOLS+="make "  # Will always need it somehow
+MAIN_TOOLS+="neovim "  # Obviously !
+MAIN_TOOLS+="ruby "  # Git blur :'(
+MAIN_TOOLS+="shellcheck "  # Always bashing
+MAIN_TOOLS+="tmux "  # Even when you think you don't, you'll need it
+MAIN_TOOLS+="tree "  # Never thought I'd need it until I used it
+MAIN_TOOLS+="unzip "  # Always useful
+MAIN_TOOLS+="wget "  # Always useful
+
+chronic sudo apt -y install $MAIN_TOOLS
+
+I3_BUILD_DEPS="libxcb1-dev libxcb-keysyms1-dev libpango1.0-dev
+libxcb-util0-dev libxcb-icccm4-dev libyajl-dev make
+libstartup-notification0-dev libxcb-randr0-dev
+libev-dev libxcb-cursor-dev libxcb-xinerama0-dev libtool
+libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev xutils-dev
+autoconf libxcb-xrm0 libxcb-xrm-dev automake libxcb-shape0-dev"
+I3_RUN_DEPS="libasan5 libglib2.0-0 libxcb-xkb1 libxcb-xinerama0
+libxcb-randr0 libxcb-shape0 libxcb-util1 libyajl2 libpangocairo-1.0-0
+libstartup-notification0 libxcb-cursor0 libxcb-keysyms1 libxcb-icccm4
+libxkbcommon-x11-0 libev4 "
+
+POLYBAR_BUILD_DEPS="build-essential cmake cmake-data libasound2-dev
+libcairo2-dev libcurl4-openssl-dev libjsoncpp-dev libmpdclient-dev
+libnl-genl-3-dev libpulse-dev libxcb-composite0-dev libxcb-cursor-dev
+libxcb-ewmh-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-randr0-dev
+libxcb-util0-dev libxcb-xkb-dev libxcb-xrm-dev libxcb1-dev pkg-config
+python3-sphinx python3-xcbgen xcb-proto"
+POLYBAR_RUN_DEPS="libasound2 libmpdclient2 libcairo2 libnl-genl-3-200
+libpulse0 libxcb-composite0 libxcb-xkb1 libxcb-randr0 libxcb-cursor0
+libxcb-ewmh2 libxcb-icccm4 libjsoncpp1"
+
+COMPTON_BUILD_DEPS="libx11-dev libxcomposite-dev libxdamage-dev libxfixes-dev
+libxext-dev libxrandr-dev libxinerama-dev pkg-config make x11proto-dev
+libpcre3-dev libconfig-dev libdrm-dev libgl-dev libdbus-1-dev asciidoc"
+COMPTON_RUN_DEPS="libx11-6 libxcomposite1 libxdamage1 libxfixes3 libxext6
+libxrandr2 libxinerama1 x11-utils libpcre3 libconfig9 libgl1 libdbus-1-3"
+
+ALACRITTY_BUILD_DEPS="cmake pkg-config libfreetype-dev libexpat1-dev
+libxcb1-dev libxcb-shape0-dev libxcb-randr0-dev libxcb-xfixes0-dev"
+ALACRITTY_RUN_DEPS="libexpat1 libxcursor1 libxcb-render-util0
+libxcb-shape0 libfreetype6 libxcb-xfixes0 libxi6 libx11-6 libx11-xcb1"
+
+ROFI_BUILD_DEPS="autoconf automake pkg-config flex bison check meson
+libcairo2-dev libpango1.0-dev libpangocairo-1.0-0 cmake librsvg2-dev
+libjpeg-dev libxcb-util-dev libxcb-xkb-dev libx11-xcb-dev libxkbcommon-x11-dev
+libxcb-ewmh-dev libxcb-icccm4-dev libxcb-randr0-dev libxcb-xinerama0-dev
+libstartup-notification0-dev libxcb-xrm-dev"
+ROFI_RUN_DEPS="libglib2.0-0 libcairo2 libpango-1.0-0 libpangocairo-1.0-0 
+librsvg2-2 libxcb-util1 libxcb-xkb1 libxkbcommon-x11-0 libxcb-ewmh2
+libxcb-icccm4 libxcb-xinerama0 libstartup-notification0"
+
+PSPG_BUILD_DEPS="libncurses-dev"
+
+BUILD_DEPS="$PSPG_BUILD_DEPS "
+RUN_DEPS="tzdata "
+
+if [[ "$SERVER" = "0" ]]; then
+    BUILD_DEPS+="$I3_BUILD_DEPS $POLYBAR_BUILD_DEPS $COMPTON_BUILD_DEPS "
+    BUILD_DEPS+="$ALACRITTY_BUILD_DEPS $ROFI_BUILD_DEPS"
+    RUN_DEPS+="$I3_RUN_DEPS $POLYBAR_RUN_DEPS $COMPTON_RUN_DEPS "
+    RUN_DEPS+="$ALACRITTY_RUN_DEPS $ROFI_RUN_DEPS"
+fi
+
+echo_comment "Installing Build Dependencies"
+chronic sudo DEBIAN_FRONTEND=noninteractive apt -y install $BUILD_DEPS
 
 # We'll manually startx, since gdm & co ignore xinitrc
-if [[ "$(which lightdm)" = '' ]]; then
+if [[ ! "$(command -v lightdm)" ]]; then
     chronic sudo apt remove --purge lightdm
 fi
-if [[ "$(which gdm3)" = '' ]]; then
+if [[ ! "$(command -v gdm3)" ]]; then
     chronic sudo apt remove --purge gdm3
 fi
 
@@ -161,6 +143,12 @@ mkdir -p "$HOME"/.config
 mkdir -p "$HOME"/.config/i3
 mkdir -p "$HOME"/.config/i3status
 mkdir -p "$HOME"/.config/polybar
+
+if [ ! -e "$HOME"/.config/nvim ]; then
+    mkdir -p "$HOME"/.config/nvim
+    cd "$HOME"/.config/nvim
+    ln -s "$HOME"/dotfiles/nvimrc init.vim
+fi
 
 if [ ! -e "$HOME"/.config/i3/config ]; then
     ln -s "$dir"/i3config "$HOME"/.config/i3/config
@@ -224,13 +212,13 @@ mkdir -p "$HOME"/tmp
 mkdir -p "$HOME"/Projets
 
 # Installing i3 gap
-if [[ "$(which i3)" = '' ]]; then
+if [[ "$SERVER" = "0" ]] && [[ ! "$(command -v i3)" ]]; then
     echo_comment "Installing i3 gap"
     cd /tmp
     chronic git clone https://github.com/Airblader/xcb-util-xrm
     cd xcb-util-xrm
     chronic git submodule update --init
-    chronic ./autogen.sh --prefix=/usr
+    chronic ./autogen.sh --prefix=/usr --disable-dependency-tracking
     chronic make
     chronic sudo make install
     cd /tmp
@@ -248,7 +236,7 @@ if [[ "$(which i3)" = '' ]]; then
 fi
 
 # Installing Polybar
-if [[ "$(which polybar)" = '' ]]; then
+if [[ "$SERVER" = "0" ]] && [[ ! "$(command -v polybar)" ]]; then
     echo_comment "Installing polybar"
     cd /tmp
     chronic git clone --recursive https://github.com/polybar/polybar
@@ -261,7 +249,7 @@ if [[ "$(which polybar)" = '' ]]; then
 fi
 
 # Installing compton
-if [[ "$(which compton)" = '' ]]; then
+if [[ "$SERVER" = "0" ]] && [[ ! "$(command -v compton)" ]]; then
     echo_comment "Installing compton"
     cd /tmp
     chronic git clone https://github.com/tryone144/compton
@@ -302,7 +290,7 @@ fi
 # chmod +x "$HOME"/bin/upload.py
 
 # Install Power Line Fonts
-if [ "$(fc-list | grep Powerline)" = '' ]; then
+if [[ "$SERVER" = "0" ]] && [[ "$(fc-list | grep Powerline)" = "" ]]; then
     echo_comment "Installing powerline fonts"
     cd "$HOME"/tmp
     chronic git clone https://github.com/powerline/fonts
@@ -318,7 +306,7 @@ if [ ! -e "$HOME/.cargo" ]; then
     export PATH="$HOME/.cargo/bin:$PATH"
 fi
 
-if [ ! "$(command -v alacritty)" ]; then
+if [[ "$SERVER" = "0" ]] && [[ ! "$(command -v alacritty)" ]]; then
     echo_comment "Installing alacritty"
     mkdir -p "$HOME/Projets"
     cd "$HOME/Projets"
@@ -333,7 +321,7 @@ fi
 
 if [ ! "$(command -v bat)" ]; then
     echo_comment "Installing bat"
-    cargo install --git https://github.com/sharkdp/bat
+    cargo install bat
 fi
 
 if [ ! "$(command -v rg)" ]; then
@@ -351,12 +339,6 @@ if [ ! "$(command -v kritik)" ]; then
     cargo install --git https://github.com/jcavallo/kritik
 fi
 
-# Install fbterm (replace tty)
-echo_comment "Installing fbterm"
-sudo usermod -aG video giovanni
-sudo setcap 'cap_sys_tty_config+ep' "$(command -v fbterm)"
-sudo chmod u+s /usr/bin/fbterm
-
 # Install n(ode)
 if [ ! "$(command -v n)" ]; then
     echo_comment "Installing latest node js through n"
@@ -364,7 +346,7 @@ if [ ! "$(command -v n)" ]; then
 fi
 
 # Install rofi (i3 menu)
-if [ ! "$(command -v rofi)" ]; then
+if [[ "$SERVER" = "0" ]] && [[ ! "$(command -v rofi)" ]]; then
     echo_comment "Installing rofi"
     cd /tmp
     chronic git clone https://github.com/davatorium/rofi/
@@ -385,11 +367,6 @@ if [ ! -e "$HOME/.tmux" ]; then
     # Install tmux plugin
     mkdir -p "$HOME/.tmux_plugins"
     chronic git clone https://github.com/tmux-plugins/tpm ~/.tmux_plugins/tpm
-
-    # Install tmuxp
-    chronic pip install --user tmuxp
-    mkdir -p "$HOME/.tmuxp"
-    ln -s "$dir/tmuxp_main.yaml" "$HOME/.tmuxp/main.yaml"
 fi
 
 # Pyenv
@@ -403,14 +380,13 @@ fi
 # Install pspg (psql pager)
 if [ ! "$(command -v pspg)" ]; then
     echo_comment "Installing pspg"
-    cd "$HOME"/tmp
+    cd /tmp
     chronic git clone https://github.com/okbob/pspg
     cd pspg
     chronic ./configure
     chronic make
     chronic sudo make install
     cd "$HOME"
-    rm -rf "$HOME"/tmp/pspg
 fi
 
 # Manage private files
@@ -456,9 +432,6 @@ if [ ! "$(command -v git-blur)" ]; then
     for file in "${files[@]}"; do
         ln -s "$dir"/"$file" "$HOME/.$file"
     done
-    if [ -e "$HOME/.tmuxp" ]; then
-        ln -s "$dir/tmuxp_projects.yaml" "$HOME/.tmuxp/projects.yaml"
-    fi
     if [ ! -e "$HOME/.ssh/id_rsa" ]; then
         mkdir -p "$HOME/.ssh"
         ln -s "$dir/ssh/config" "$HOME/.ssh/config"
@@ -470,17 +443,17 @@ if [ ! "$(command -v git-blur)" ]; then
     fi
 fi
 
+echo_comment "Cleaning up"
+chronic sudo DEBIAN_FRONTEND=noninteractive apt -y remove --purge $BUILD_DEPS
+chronic sudo DEBIAN_FRONTEND=noninteractive apt -y autoremove --purge
+chronic sudo DEBIAN_FRONTEND=noninteractive apt -y install $RUN_DEPS
+sudo dpkg-reconfigure tzdata
+
 # Install browser
-if [ ! "$(command -v brave-browser)" ]; then
-    echo_comment "Installing brave browser"
-    curl -s https://brave-browser-apt-release.s3.brave.com/brave-core.asc \
-        | chronic sudo apt-key \
-        --keyring /etc/apt/trusted.gpg.d/brave-browser-release.gpg add -
-
-    source /etc/os-release
-    echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ $VERSION_CODENAME main" \
-        | chronic sudo tee /etc/apt/sources.list.d/brave-browser-release-"$VERSION_CODENAME".list
-
-    chronic sudo apt update
-    chronic sudo apt install -y brave-keyring brave-browser
+if [[ "$SERVER" = "0" ]] && [[ ! "$(command -v google-chrome)" ]]; then
+    echo_comment "Installing chrome"
+    cd /tmp
+    chronic wget \
+        https://dl.google.com/linux/direct/google-chrome-beta_current_amd64.deb
+    chronic sudo apt install -y -f ./google-chrome-beta_current_amd64.deb
 fi
