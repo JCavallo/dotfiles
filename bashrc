@@ -325,6 +325,10 @@ if [ -s "$(which npm)" ]; then
     export PATH="/home/giovanni/.npm-modules/bin:$PATH"
 fi
 
+if [ -s "$(which yarn)" ]; then
+    export PATH="$(yarn global bin):$PATH"
+fi
+
 if [ -s "$(which go)" ]; then
     export GOPATH=$HOME/go
     export PATH=$PATH:$GOPATH/bin
