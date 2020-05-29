@@ -180,7 +180,7 @@ menu-2-1-foreground = ${colors.accent}
 menu-2-1-exec = sudo poweroff
 
 [module/volume]
-type = internal/pulseaudio
+type = internal/alsa
 format-volume = <label-volume>
 
 label-volume =   %percentage%%
