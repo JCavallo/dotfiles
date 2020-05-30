@@ -147,8 +147,11 @@ endif
 
 " Try to set colorscheme
 " silent! colorscheme flashy_vim
-silent! colorscheme photon
-let g:airline_theme = 'minimalist'
+" silent! colorscheme photon
+" let g:airline_theme = 'minimalist'
+silent! colorscheme tender
+let g:airline_theme = 'tender'
+call rainbow_parentheses#activate()
 
 " Lock modifications
 set secure
