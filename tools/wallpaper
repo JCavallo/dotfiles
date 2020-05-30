@@ -4,10 +4,10 @@ WALLPAPER_FOLDER="$HOME/Pictures/Wallpapers"
 
 declare -A DOWNLOADS
 
-DOWNLOADS[wall0.jpg]=http://hdqwalls.com/wallpapers/galaxy-space-stars-universe-nebula-4k-qw.jpg
+DOWNLOADS[wall0.jpg]=https://hdqwalls.com/wallpapers/galaxy-space-stars-universe-nebula-4k-qw.jpg
 DOWNLOADS[wall1.jpg]=https://wallpapersite.com/images/wallpapers/stars-3840x2160-4k-6347.jpg
-DOWNLOADS[wall2.jpg]=http://hdqwalls.com/download/1/space-dark-dust-galaxy-nebula-tg-3840x2160.jpg
-DOWNLOADS[wall3.jpg]=http://hdqwalls.com/download/1/space-digital-art-galaxy-54-3840x2160.jpg
+DOWNLOADS[wall2.jpg]=https://hdqwalls.com/download/1/space-dark-dust-galaxy-nebula-tg-3840x2160.jpg
+DOWNLOADS[wall3.jpg]=https://hdqwalls.com/download/1/space-digital-art-galaxy-54-3840x2160.jpg
 
 if [[ ! -e "$HOME"/Pictures/Wallpapers ]]; then
     mkdir -p "$HOME"/Pictures
@@ -16,7 +16,10 @@ fi
 
 for name in "${!DOWNLOADS[@]}"; do
     if [[ ! -e "$WALLPAPER_FOLDER/$name" ]]; then
-        curl ${DOWNLOADS[$name]} > "$WALLPAPER_FOLDER/$name"
+        curl -L ${DOWNLOADS[$name]} > "$WALLPAPER_FOLDER/$name"
+    fi
+    if [[ ! -s "$WALLPAPER_FOLDER/$name" ]]; then
+        rm "$WALLPAPER_FOLDER/$name"
     fi
 done
 
