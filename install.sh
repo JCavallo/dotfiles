@@ -40,6 +40,7 @@ MAIN_TOOLS+="shellcheck "  # Always bashing
 MAIN_TOOLS+="tmux "  # Even when you think you don't, you'll need it
 MAIN_TOOLS+="tree "  # Never thought I'd need it until I used it
 MAIN_TOOLS+="unzip "  # Always useful
+MAIN_TOOLS+="xinit "  # Just so we can startx
 MAIN_TOOLS+="wget "  # Always useful
 
 chronic sudo apt -y install $MAIN_TOOLS
