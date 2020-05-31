@@ -361,6 +361,12 @@ if [ ! "$(command -v n)" ]; then
     curl -s -L https://git.io/n-install | chronic bash -s -- -y -n
 fi
 
+# Install hub (for github)
+if [ ! "$(command -v hub)" ]; then
+    echo_comment "Installing latest hub"
+    chronic brew install hub
+fi
+
 # Install rofi (i3 menu)
 if [[ "$SERVER" = "0" ]] && [[ ! "$(command -v rofi)" ]]; then
     echo_comment "Installing rofi"
