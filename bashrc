@@ -3,16 +3,16 @@ if hash keychain 2>/dev/null; then
     clear
 fi
 
-export WORKON_HOME=/home/giovanni/Projets/python_envs
-if [ -f /home/giovanni/.local/bin/virtualenvwrapper.sh ]; then
-    source /home/giovanni/.local/bin/virtualenvwrapper.sh
+export WORKON_HOME=$HOME/Projets/python_envs
+if [ -f $HOME/.local/bin/virtualenvwrapper.sh ]; then
+    source $HOME/.local/bin/virtualenvwrapper.sh
 fi
 if [ -f /etc/bash_completion ]; then
     source /etc/bash_completion
 elif [ -f /etc/bash.bashrc ]; then
     source /etc/bash.bashrc
 fi
-# source /home/giovanni/.bash_completion.d/python-argcomplete.sh
+# source $HOME/.bash_completion.d/python-argcomplete.sh
 shopt -s histappend
 # Enable "**" matching for recursive directory use
 shopt -s globstar
@@ -292,7 +292,7 @@ if which ruby >/dev/null && which gem >/dev/null; then
     PATH="$(ruby -e 'puts Gem.user_dir')/bin:$PATH"
 fi
 
-export PATH=$PATH:/home/giovanni/bin:/home/giovanni/.local/bin
+export PATH=$PATH:$HOME/bin:$HOME/.local/bin
 
 # Local customized path and environment settings, etc.
 if [ -f ~/.bash_local ]; then
@@ -319,10 +319,10 @@ if [ -e "$HOME/.cargo/bin" ]; then
 fi
 
 if [ -s "$(which npm)" ]; then
-    mkdir -p /home/giovanni/.npm-modules
-    mkdir -p /home/giovanni/.npm-modules/bin
-    alias npm='PREFIX=/home/giovanni/.npm-modules/ npm'
-    export PATH="/home/giovanni/.npm-modules/bin:$PATH"
+    mkdir -p $HOME/.npm-modules
+    mkdir -p $HOME/.npm-modules/bin
+    alias npm='PREFIX=$HOME/.npm-modules/ npm'
+    export PATH="$HOME/.npm-modules/bin:$PATH"
 fi
 
 if [ -s "$(which yarn)" ]; then
@@ -339,10 +339,14 @@ if [ -e "$HOME/n" ]; then
     [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"
 fi
 
-if [ -e "/home/giovanni/.pyenv/bin" ]; then
-    export PATH="/home/giovanni/.pyenv/bin:$PATH"
+if [ -e "$HOME/.pyenv/bin" ]; then
+    export PATH="$HOME/.pyenv/bin:$PATH"
     eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
+fi
+
+if [[ -e "$HOME/tools/git-fuzzy" ]]; then
+    export PATH="$HOME/tools/git-fuzzy/bin:$PATH"
 fi
 
 # vim:set ft=sh:

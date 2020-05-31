@@ -206,6 +206,14 @@ if [ ! -e "$HOME/.fzf" ]; then
     chronic "$HOME"/.fzf/install --all
 fi
 
+# Fuzzy Git
+if [[ ! -e "$HOME/tools" ]]; then
+    echo_comment "Loading tools"
+    mkdir -p "$HOME/tools"
+    cd "$HOME/tools"
+    git clone https://github.com/bigH/git-fuzzy.git
+fi
+
 # Create temporary directory
 mkdir -p "$HOME"/tmp
 
