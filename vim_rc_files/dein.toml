@@ -149,6 +149,14 @@ repo = 'axvr/photon.vim'
 [[plugins]]
 repo = 'vim-airline/vim-airline-themes'
 
+[[plugins]]
+repo = 'jacoborus/tender.vim'
+hook_add = '''
+let g:terminal_color_background = '#000000'
+let g:tender_italic = 1
+let g:tender_bold = 1
+'''
+
 # FILETYPE RELATED PLUGINS
 
 # Filetype types collection
