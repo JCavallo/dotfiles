@@ -88,8 +88,10 @@ libxcb-icccm4 libxcb-xinerama0 libstartup-notification0"
 
 PSPG_BUILD_DEPS="libncurses-dev"
 
+BREW_RUN_DEPS="build-essential curl file git"
+
 BUILD_DEPS="$PSPG_BUILD_DEPS "
-RUN_DEPS="tzdata "
+RUN_DEPS="tzdata $BREW_RUN_DEPS"
 
 if [[ "$SERVER" = "0" ]]; then
     BUILD_DEPS+="$I3_BUILD_DEPS $POLYBAR_BUILD_DEPS $COMPTON_BUILD_DEPS "
@@ -220,6 +222,11 @@ mkdir -p "$HOME"/tmp
 # Create projects directory
 mkdir -p "$HOME"/Projets
 
+# Install Homebrew if needed
+if [[ ! "$(command -v brew)" ]]; then
+    bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+fi
+
 # Installing i3 gap
 if [[ "$SERVER" = "0" ]] && [[ ! "$(command -v i3)" ]]; then
     echo_comment "Installing i3 gap"
@@ -268,21 +275,21 @@ if [[ "$SERVER" = "0" ]] && [[ ! "$(command -v compton)" ]]; then
 fi
 
 # Build latest neovim
-if [ "$(which nvim)" = '' ]; then
-    echo_comment "Building Latest Neovim"
-    cd "$HOME"/Projets
-    chronic git clone https://github.com/neovim/neovim Neovim
-    cd Neovim
-    chronic make CMAKE_BUILD_TYPE=Release
-    chronic sudo make install
-    mkdir -p "$HOME"/.config
-    mkdir -p "$HOME"/.config/nvim
-    cd "$HOME"/.config/nvim
-    ln -s "$HOME"/dotfiles/nvimrc init.vim
-    chronic pip install --user neovim
-    chronic pip3 install --user neovim
-    chronic pip3 install --user neovim-remote
-fi
+# if [ "$(which nvim)" = '' ]; then
+#     echo_comment "Building Latest Neovim"
+#     cd "$HOME"/Projets
+#     chronic git clone https://github.com/neovim/neovim Neovim
+#     cd Neovim
+#     chronic make CMAKE_BUILD_TYPE=Release
+#     chronic sudo make install
+#     mkdir -p "$HOME"/.config
+#     mkdir -p "$HOME"/.config/nvim
+#     cd "$HOME"/.config/nvim
+#     ln -s "$HOME"/dotfiles/nvimrc init.vim
+#     chronic pip install --user neovim
+#     chronic pip3 install --user neovim
+#     chronic pip3 install --user neovim-remote
+# fi
 
 # Install hgreview
 # cd "$HOME"/tmp

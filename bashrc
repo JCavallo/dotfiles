@@ -4,8 +4,8 @@ if hash keychain 2>/dev/null; then
 fi
 
 export WORKON_HOME=$HOME/Projets/python_envs
-if [ -f $HOME/.local/bin/virtualenvwrapper.sh ]; then
-    source $HOME/.local/bin/virtualenvwrapper.sh
+if [ -f "$HOME/.local/bin/virtualenvwrapper.sh" ]; then
+    source "$HOME/.local/bin/virtualenvwrapper.sh"
 fi
 if [ -f /etc/bash_completion ]; then
     source /etc/bash_completion
@@ -79,7 +79,7 @@ BLACKGREEN="[30;42m"
 BLACKPINK="[30;45m"
 BLACKLIGHTBLUE="[30;104m"
 
-if [[ $(which hg) ]]; then
+if [[ "$(command -v hg)" ]]; then
     HG_INSTALLED=1
 else
     HG_INSTALLED=0
@@ -193,7 +193,7 @@ current_path_ps1() {
         value="$(pwd)"
     fi
     if [ "$value" != "" ]; then
-        value=${value/#$HOME/\~}
+        value="${value/#$HOME/\~}"
         value=$(echo "$value" | sed 's:\([^/][^/]\?\)[^/]*/:\1/:g')
         echo " $value "
     else
@@ -280,27 +280,13 @@ PS1+='\[\e${BLUEBLACK}\]'
 PS1+='\[\e${DEFAULT}\]$(check_new_line)'
 
 export PS1
-
 export EDITOR=nvim
-if [ -z "$FBTERM" ]; then
-    export TERM=xterm-256color
-else
-    export TERM=fbterm
-fi
 
-if which ruby >/dev/null && which gem >/dev/null; then
+if [[ "$(command -v ruby)" ]] && [[ "$(command -v gem)" ]]; then
     PATH="$(ruby -e 'puts Gem.user_dir')/bin:$PATH"
 fi
 
-export PATH=$PATH:$HOME/bin:$HOME/.local/bin
-
-# Local customized path and environment settings, etc.
-if [ -f ~/.bash_local ]; then
-    . ~/.bash_local
-fi
-if [ -f ~/.bash_final ]; then
-    . ~/.bash_final
-fi
+export PATH="$PATH:$HOME/bin:$HOME/.local/bin"
 
 _git_store ()
 {
@@ -310,7 +296,7 @@ _git_store ()
 set -o vi
 source ~/.fzf.bash
 
-if [ -s "$(which direnv)" ]; then
+if [[ "$(command -v direnv)" ]]; then
     eval "$(direnv hook bash)"
 fi
 
@@ -318,18 +304,19 @@ if [ -e "$HOME/.cargo/bin" ]; then
     export PATH="$HOME/.cargo/bin:$PATH"
 fi
 
-if [ -s "$(which npm)" ]; then
-    mkdir -p $HOME/.npm-modules
-    mkdir -p $HOME/.npm-modules/bin
+if [[ "$(command -v npm)" ]]; then
+    mkdir -p "$HOME/.npm-modules"
+    mkdir -p "$HOME/.npm-modules/bin"
     alias npm='PREFIX=$HOME/.npm-modules/ npm'
     export PATH="$HOME/.npm-modules/bin:$PATH"
 fi
 
-if [ -s "$(which yarn)" ]; then
-    export PATH="$(yarn global bin):$PATH"
+if [[ "$(command -v yarn)" ]]; then
+    yarn_path=$(yarn global path)
+    export PATH="$yarn_path:$PATH"
 fi
 
-if [ -s "$(which go)" ]; then
+if [[ "$(command -v go)" ]]; then
     export GOPATH=$HOME/go
     export PATH=$PATH:$GOPATH/bin
 fi
@@ -347,6 +334,23 @@ fi
 
 if [[ -e "$HOME/tools/git-fuzzy" ]]; then
     export PATH="$HOME/tools/git-fuzzy/bin:$PATH"
+fi
+
+if [[ -e "/home/linuxbrew/.linuxbrew" ]]; then
+    export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew";
+    export HOMEBREW_CELLAR="/home/linuxbrew/.linuxbrew/Cellar";
+    export HOMEBREW_REPOSITORY="/home/linuxbrew/.linuxbrew/Homebrew";
+    export PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin${PATH+:$PATH}";
+    export MANPATH="/home/linuxbrew/.linuxbrew/share/man${MANPATH+:$MANPATH}:";
+    export INFOPATH="/home/linuxbrew/.linuxbrew/share/info${INFOPATH+:$INFOPATH}";
+fi
+
+# Local customized path and environment settings, etc.
+if [ -f ~/.bash_local ]; then
+    source ~/.bash_local
+fi
+if [ -f ~/.bash_final ]; then
+    source ~/.bash_final
 fi
 
 # vim:set ft=sh:
