@@ -8,6 +8,11 @@ DOWNLOADS[wall0.jpg]=https://hdqwalls.com/wallpapers/galaxy-space-stars-universe
 DOWNLOADS[wall1.jpg]=https://wallpapersite.com/images/wallpapers/stars-3840x2160-4k-6347.jpg
 DOWNLOADS[wall2.jpg]=https://hdqwalls.com/download/1/space-dark-dust-galaxy-nebula-tg-3840x2160.jpg
 DOWNLOADS[wall3.jpg]=https://hdqwalls.com/download/1/space-digital-art-galaxy-54-3840x2160.jpg
+DOWNLOADS[wall4.jpg]=https://wallpaperset.com/w/full/9/6/a/517453.jpg
+DOWNLOADS[wall5.jpg]=http://www.southtune.se/wp-content/uploads/2017/08/PurpleSpaceNoSun_JPG.jpg
+DOWNLOADS[wall6.jpg]=https://www.pixsavor.com/download/space-universe-3840x2160/
+DOWNLOADS[wall7.jpg]=https://wallpaperplay.com/walls/full/5/5/e/179182.jpg
+DOWNLOADS[wall8.jpg]=https://image4.uhdpaper.com/wallpaper/space-planet-digital-art-uhdpaper.com-4K-4.1971.jpg
 
 if [[ ! -e "$HOME"/Pictures/Wallpapers ]]; then
     mkdir -p "$HOME"/Pictures
