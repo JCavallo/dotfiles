@@ -224,7 +224,11 @@ mkdir -p "$HOME"/Projets
 
 # Install Homebrew if needed
 if [[ ! "$(command -v brew)" ]]; then
-    bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+    chronic curl -fsSL
+        https://raw.githubusercontent.com/Homebrew/install/master/install.sh \
+        > /tmp/homebrew.sh
+    chronic bash /tmp/homebrew.sh <<< "
+"
 fi
 
 # Installing i3 gap
