@@ -312,7 +312,7 @@ if [[ "$(command -v npm)" ]]; then
 fi
 
 if [[ "$(command -v yarn)" ]]; then
-    yarn_path=$(yarn global path)
+    yarn_path=$(yarn global bin)
     export PATH="$yarn_path:$PATH"
 fi
 
