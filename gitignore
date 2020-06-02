@@ -16,3 +16,6 @@ node_modules/
 .lvimrc
 __pycache__/
 *.egg-info/
+.python-version
+.vim_session
+.mypy_cache
