@@ -5,13 +5,23 @@
 " <F1>: Help
 nmap <F1> [denite]h
 
-" <F2>: Open Vimfiler
-
 " <F3>: Gundo
 nnoremap <F3> :<C-u>GundoToggle<CR>
 
 " <F4>: Toggle distraction free
-nnoremap <F4> :Goyo <bar> :silent !tmux set status<CR>
+nnoremap <silent><F4> :Goyo <bar> :silent !tmux set status <bar>
+    \ :call <SID>ToggleDeoplete() <CR>
+
+function! s:ToggleDeoplete()  " {{{
+    if dein#tap('deoplete.nvim')
+        if !dein#is_sourced('deoplete.nvim')
+            call dein#source('deoplete.nvim')
+        endif
+    endif
+    if deoplete#is_enabled()
+        call deoplete#disable()
+    endif
+endfunction  " }}}
 
 " <F5>: Toggle paste mode
 nnoremap <F5> :set paste!<cr>

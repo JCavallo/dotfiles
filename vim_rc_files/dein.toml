@@ -30,6 +30,10 @@ hook_add = '''
     let g:localvimrc_persistent=1
 '''
 
+# Distraction free mode
+[[plugins]]
+repo = 'junegunn/goyo.vim'
+
 # TMUX navigation
 [[plugins]]
 repo = 'christoomey/vim-tmux-navigator'
