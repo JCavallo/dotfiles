@@ -10,10 +10,10 @@ repo = 'thinca/vim-ft-diff_fold'
 [[plugins]]
 repo = 'thinca/vim-ft-help_fold'
 
-# TabNine intelligent completion
-[[plugins]]
-repo = 'tbodt/deoplete-tabnine'
-build = './install.sh'
+# TabNine intelligent completion, too consuming
+# [[plugins]]
+# repo = 'tbodt/deoplete-tabnine'
+# build = './install.sh'
 
 # User defined text objects
 [[plugins]]
