@@ -68,21 +68,21 @@ draw_bold_text_with_bright_colors: true
 font:
   # The normal (roman) font face to use.
   normal:
-    family: monofur for Powerline
+    family: monofur Nerd Font Mono
     # family: monospace # should be "Menlo" or something on macOS.
     # Style can be specified to pick a specific face.
     # style: Regular
 
   # The bold font face
   bold:
-    family: monofur for Powerline
+    family: monofur Nerd Font Mono
     # family: monospace # should be "Menlo" or something on macOS.
     # Style can be specified to pick a specific face.
     # style: Bold
 
   # The italic font face
   italic:
-    family: monofur for Powerline
+    family: monofur Nerd Font Mono
     # family: monospace # should be "Menlo" or something on macOS.
     # Style can be specified to pick a specific face.
     # style: Italic

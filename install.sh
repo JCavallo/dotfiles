@@ -311,11 +311,21 @@ fi
 
 # Install Power Line Fonts
 if [[ "$SERVER" = "0" ]] && [[ "$(fc-list | grep Powerline)" = "" ]]; then
-    echo_comment "Installing powerline fonts"
-    cd "$HOME"/tmp
-    chronic git clone https://github.com/powerline/fonts
-    chronic ./fonts/install.sh
-    sudo rm -rf fonts
+    # echo_comment "Installing powerline fonts"
+    # cd "$HOME"/tmp
+    # chronic git clone https://github.com/powerline/fonts
+    # chronic ./fonts/install.sh
+    # sudo rm -rf fonts
+    echo_comment "Loading nerd fonts"
+    mkdir -p ~/.local/share/fonts
+    cd ~/.local/share/fonts
+    chronic curl -fLo "monofur Nerd Font Mono.ttf" \
+        https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/Monofur/Regular/complete/monofur%20Nerd%20Font%20Complete%20Mono.ttf
+    chronic curl -fLo "monofur bold Nerd Font Mono.ttf" \
+        https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/Monofur/Bold/complete/monofur%20bold%20Nerd%20Font%20Complete%20Mono.ttf
+    chronic curl -fLo "monofur italic Nerd Font Mono.ttf" \
+        https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/Monofur/Italic/complete/monofur%20italic%20Nerd%20Font%20Complete%20Mono.ttf
+    chronic fc-cache -f -v
     cd "$HOME"
 fi
 
