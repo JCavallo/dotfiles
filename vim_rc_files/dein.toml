@@ -166,6 +166,7 @@ let g:tender_bold = 1
 # Filetype types collection
 [[plugins]]
 repo = 'sheerun/vim-polyglot'
+merged = 0
 hook_add = '''
 let g:polyglot_disabled = ['markdown', 'tsx', 'typescript', 'csv', 'nim',
     \ 'python']
