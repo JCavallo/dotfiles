@@ -75,14 +75,14 @@ font:
 
   # The bold font face
   bold:
-    family: monofur Nerd Font Mono
+    family: monofurbold Nerd Font Mono
     # family: monospace # should be "Menlo" or something on macOS.
     # Style can be specified to pick a specific face.
     # style: Bold
 
   # The italic font face
   italic:
-    family: monofur Nerd Font Mono
+    family: monofuritalic Nerd Font Mono
     # family: monospace # should be "Menlo" or something on macOS.
     # Style can be specified to pick a specific face.
     # style: Italic
