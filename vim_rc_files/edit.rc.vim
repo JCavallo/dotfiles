@@ -112,7 +112,7 @@ set isfname-==
 set timeout timeoutlen=1000 ttimeoutlen=0
 
 " CursorHold time.
-set updatetime=1000
+set updatetime=100
 
 " History and undo {{{
 set undofile

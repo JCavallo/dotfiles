@@ -15,59 +15,27 @@ if &compatible
     set nocompatible
 endif
 
-let $VIM_FOLDER = $FORCE_VIM_FOLDER != '' ? $FORCE_VIM_FOLDER : expand('~/.vim')
-if !has('nvim')
-    let $MYVIMRC = expand('%:h')
+if $FORCE_VIM_FOLDER != ''
+    let g:vim_folder = $FORCE_VIM_FOLDER
 else
-    let $MYVIMRC = fnamemodify(expand('<sfile>'), ':p')
+    let g:vim_folder = expand('$HOME') . (has('unix') ? '/.vim' : '\nvim')
 endif
 
-" Notes tooling
-let g:has_notes = 0
-let g:note_directory = $HOME . '/notes'
-
 function! s:source_rc(path, ...) abort "{{{
-    let use_global = get(a:000, 0, !has('vim_starting'))
-    let abspath = resolve(expand($VIM_FOLDER . '/rc/' . a:path))
-    if !use_global
-        execute 'source' fnameescape(abspath)
-        return
-    endif
-
-    " substitute all 'set' to 'setglobal'
-    let content = map(readfile(abspath),
-            \ 'substitute(v:val, "^\\W*\\zsset\\ze\\W", "setglobal", "")')
-    " create tempfile and source the tempfile
-    let tempfile = tempname()
-    try
-        call writefile(content, tempfile)
-        execute printf('source %s', fnameescape(tempfile))
-    finally
-        if filereadable(tempfile)
-        call delete(tempfile)
-        endif
-    endtry
+    execute 'source' . fnameescape(
+        \ resolve(expand(g:vim_folder . '/rc/' . a:path)))
 endfunction "}}}
 
-" Set augroup.
-augroup MyAutoCmd
-  autocmd!
-  autocmd FileType,Syntax,BufNewFile,BufNew,BufRead *?
-        \ call s:on_filetype()
-  " toml syntax is broken
-  autocmd CursorHold *.toml syntax sync minlines=300
-augroup END
-augroup filetypedetect
-augroup END
-
-" Lazy check filetypes
-function! s:on_filetype() abort "{{{
-  if execute('filetype') =~# 'OFF'
-    silent! filetype plugin indent on
-    syntax enable
-    filetype detect
-  endif
-endfunction " }}}
+"===============================================================================
+" Global configuration
+"===============================================================================
+" {{{
+let g:has_notes = 0
+let g:note_directory = $HOME . '/notes'
+let g:color_scheme = 'tender'
+let g:airline_theme = 'deus'
+let g:local_plugin_path = '$HOME/Projets/Plugins/'
+" }}}
 
 "===============================================================================
 " Call init.rc
@@ -77,24 +45,6 @@ endfunction " }}}
 
 if has('vim_starting')
     call s:source_rc('init.rc.vim')
-endif
-
-"===============================================================================
-" Install and initialize Dein
-" Dein use a specific cache to avoid reparsing all plugins when starting
-" vim. So we make sure it is properly configured, then call dein.rc, which
-" will load all plugins
-"===============================================================================
-
-call s:source_rc('dein.rc.vim')
-
-if has('vim_starting') && !empty(argv())
-  call s:on_filetype()
-endif
-
-if !has('vim_starting')
-  call dein#call_hook('source')
-  call dein#call_hook('post_source')
 endif
 
 "===============================================================================
@@ -118,6 +68,15 @@ call s:source_rc('edit.rc.vim')
 call s:source_rc('view.rc.vim')
 
 "===============================================================================
+" Install and initialize Dein
+" Dein use a specific cache to avoid reparsing all plugins when starting
+" vim. So we make sure it is properly configured, then call dein.rc, which
+" will load all plugins
+"===============================================================================
+
+call s:source_rc('dein.rc.vim')
+
+"===============================================================================
 " Local Settings
 "===============================================================================
 
@@ -138,7 +97,7 @@ endtry
 "===============================================================================
 
 if has('nvim')
-  call s:source_rc('neovim.rc.vim')
+  " call s:source_rc('neovim.rc.vim')
 endif
 
 "===============================================================================
@@ -146,12 +105,7 @@ endif
 "===============================================================================
 
 " Try to set colorscheme
-" silent! colorscheme flashy_vim
-" silent! colorscheme photon
-" let g:airline_theme = 'minimalist'
-silent! colorscheme tender
-let g:airline_theme = 'tender'
-call rainbow_parentheses#activate()
+execute ':colorscheme ' . g:color_scheme
 
 " Lock modifications
 set secure
