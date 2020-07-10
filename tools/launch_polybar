@@ -23,6 +23,10 @@ if [[ "${POLYBAR_MAIN_MONITOR:-empty}" = "empty" ]]; then
         export POLYBAR_MAIN_MONITOR="HDMI-1"
     elif xrandr --prop | grep -q "HDMI1 connected"; then
         export POLYBAR_MAIN_MONITOR="HDMI1"
+    elif xrandr --prop | grep -q "HDMI2 connected"; then
+        export POLYBAR_MAIN_MONITOR="HDMI2"
+    elif xrandr --prop | grep -q "HDMI2 connected"; then
+        export POLYBAR_MAIN_MONITOR="HDMI2"
     fi
 fi
 
