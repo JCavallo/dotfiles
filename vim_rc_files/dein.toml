@@ -180,8 +180,8 @@ denite-filter = '''
 repo = 'Shougo/deoplete-lsp'
 
 # Self-explanatory source
-[[plugins]]
-repo = 'fszymanski/deoplete-emoji'
+# [[plugins]]
+# repo = 'fszymanski/deoplete-emoji'
 
 # TabNine intelligent completion, resource consuming
 # [[plugins]]
