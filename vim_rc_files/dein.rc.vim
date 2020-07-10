@@ -3,7 +3,7 @@ let s:path = fnamemodify(resolve(expand('<sfile>:p')), ':h')
 if $FORCE_VIM_CACHE != ''
     let s:vim_base_cache = $FORCE_VIM_CACHE
 else
-    let s:vim_base_cache = expand('$HOME') . (has('unix') ? '/.cache' : '\.cache')
+    let s:vim_base_cache = expand('$HOME') . (has('unix') ? '/.cache/' : '\.cache\')
 endif
 if !isdirectory(expand(s:vim_base_cache))
     call mkdir(expand(s:vim_base_cache), 'p')

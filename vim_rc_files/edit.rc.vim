@@ -116,11 +116,11 @@ set updatetime=100
 
 " History and undo {{{
 set undofile
-set undodir=$VIM_FOLDER/undodir
+set undodir=$HOME/.vim/undodir
 set undolevels=1000 "maximum number of changes that can be undone
 set undoreload=10000 "maximum number lines to save for undo on a buffer reload
-set backupdir=$VIM_FOLDER/backup
-set directory=$VIM_FOLDER/swap
+set backupdir=$HOME/.vim/backup
+set directory=$HOME/.vim/swap
 if has('nvim')
     set viminfo='50,<1000,s100,n~/.nviminfo
 else
