@@ -17,6 +17,4 @@ let $MYVIMRC = fnamemodify(expand('<sfile>'), ':p')
 "     let g:python3_host_prog = '/usr/bin/python3'
 " endif
 
-echom $MYVIMRC
-
 execute 'source' expand('~/.vimrc')
