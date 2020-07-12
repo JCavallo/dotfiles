@@ -33,32 +33,24 @@ hook_source = '''
     sign define LspDiagnosticsHintSign text=✖ texthl=LspDiagnosticsHint linehl= numhl=
 
     function! SetDiagnosticHighlights()
-        hi! clear LspDiagnosticsErrorSign
-        hi! LspDiagnosticsErrorSign cterm=bold ctermfg=196 ctermbg=235 guifg=#00FFFF
-        hi! clear LspDiagnosticsWarningSign
-        hi! LspDiagnosticsWarningSign cterm=bold ctermfg=226 ctermbg=235 guifg=#00FFFF
-        hi! clear LspDiagnosticsInformationSign
-        hi! LspDiagnosticsInformationSign cterm=bold ctermfg=45 ctermbg=235 guifg=#00FFFF
-        hi! clear LspDiagnosticsHintSign
-        hi! LspDiagnosticsHintSign cterm=bold ctermfg=45 ctermbg=235 guifg=#00FFFF
+        hi LspDiagnosticsError guifg=#FF0000 guibg=NONE guisp=NONE gui=NONE cterm=bold
+        hi LspDiagnosticsWarning guifg=#FFC600 guibg=NONE guisp=NONE gui=NONE cterm=bold
+        hi LspDiagnosticsInformation guifg=#00AAFF guibg=NONE guisp=NONE gui=NONE cterm=NONE
+        hi LspDiagnosticsHint guifg=#00AAFF guibg=NONE guisp=NONE gui=NONE cterm=NONE
 
-        hi! clear LspDiagnosticsError
-        hi! LspDiagnosticsError cterm=italic ctermfg=196 ctermbg=235
-        hi! clear LspDiagnosticsWarning
-        hi! LspDiagnosticsWarning cterm=italic ctermfg=226 ctermbg=235
-        hi! clear LspDiagnosticsInformation
-        hi! LspDiagnosticsInformation cterm=italic ctermfg=45 ctermbg=235
-        hi! clear LspDiagnosticsHint
-        hi! LspDiagnosticsHint cterm=italic ctermfg=45 ctermbg=235
+        hi LspDiagnosticsErrorFloating guifg=#FF0000 guibg=NONE guisp=NONE gui=NONE cterm=bold
+        hi LspDiagnosticsWarningFloating guifg=#FFC600 guibg=NONE guisp=NONE gui=NONE cterm=bold
+        hi LspDiagnosticsInformationFloating guifg=#00AAFF guibg=NONE guisp=NONE gui=NONE cterm=NONE
+        hi LspDiagnosticsHintFloating guifg=#00AAFF guibg=NONE guisp=NONE gui=NONE cterm=NONE
 
-        hi! clear LspDiagnosticsErrorFloating
-        hi! LspDiagnosticsErrorFloating cterm=italic ctermfg=196 ctermbg=235
-        hi! clear LspDiagnosticsWarningFloating
-        hi! LspDiagnosticsWarningFloating cterm=italic ctermfg=226 ctermbg=235
-        hi! clear LspDiagnosticsInformationFloating
-        hi! LspDiagnosticsInformationFloating cterm=italic ctermfg=45 ctermbg=235
-        hi! clear LspDiagnosticsHintFloating
-        hi! LspDiagnosticsHintFloating cterm=italic ctermfg=45 ctermbg=235
+        hi LspDiagnosticsUnderlineError guifg=NONE guibg=NONE guisp=#FF0000 gui=undercurl ctermfg=NONE ctermbg=NONE cterm=undercurl
+        hi LspDiagnosticsUnderlineWarning guifg=NONE guibg=NONE guisp=#FFC600 gui=undercurl ctermfg=NONE ctermbg=NONE cterm=bold,undercurl
+        hi LspDiagnosticsUnderlineInformation guifg=NONE guibg=NONE guisp=#00AAFF gui=undercurl ctermfg=NONE ctermbg=NONE cterm=undercurl
+        hi LspDiagnosticsUnderlineHint guifg=NONE guibg=NONE guisp=#00AAFF gui=undercurl ctermfg=NONE ctermbg=NONE cterm=undercurl
+
+        hi LspReferenceText guifg=NONE guibg=#444444 guisp=NONE gui=bold,italic cterm=bold,italic
+        hi LspReferenceRead guifg=NONE guibg=#444444 guisp=NONE gui=bold,italic cterm=bold,italic
+        hi LspReferenceWrite guifg=NONE guibg=#444444 guisp=NONE gui=bold,italic cterm=bold,italic
     endfunction
 
     autocmd ColorScheme * call SetDiagnosticHighlights()
@@ -818,6 +810,12 @@ repo = 'axvr/photon.vim'
 
 [[plugins]]
 repo = 'altercation/vim-colors-solarized'
+
+[[plugins]]
+repo = 'Iron-E/nvim-highlite.git'
+
+[[plugins]]
+repo = 'dracula/vim'
 # }}}
 
 # Status Line {{{
