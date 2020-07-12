@@ -704,6 +704,10 @@ repo = 'kana/vim-textobj-indent'
 [[plugins]]
 repo = 'kana/vim-textobj-line'
 
+# paste into
+[[plugins]]
+repo = 'kana/vim-operator-replace'
+
 # inside / arround / etc objects
 [[plugins]]
 repo = 'wellle/targets.vim'
@@ -759,6 +763,10 @@ repo = 'junegunn/goyo.vim'
 # Extra focus
 [[plugins]]
 repo = 'junegunn/limelight.vim'
+hook_source = '''
+    autocmd! User GoyoEnter Limelight
+    autocmd! User GoyoLeave Limelight!
+'''
 
 # Nice start screen
 [[plugins]]

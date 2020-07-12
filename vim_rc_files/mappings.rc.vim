@@ -6,7 +6,7 @@
 nmap <F1> [denite]h
 
 " <F3>: Gundo
-nnoremap <F3> :<C-u>GundoToggle<CR>
+nnoremap <F3> :<C-u>MundoToggle<CR>
 
 " <F4>: Toggle distraction free
 nnoremap <silent><F4> :Goyo <bar> :silent !tmux set status <bar>
@@ -517,6 +517,8 @@ nmap \ <Leader>c<space>
 noremap ; ,
 " ,: Leader
 " .: Repeat last command
+
+nmap _ <Plug>(operator-replace)
 
 " Up Down Left Right resize splits
 nnoremap <up> <c-w>+
