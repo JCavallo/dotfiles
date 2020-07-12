@@ -13,76 +13,96 @@ repo = 'haya14busa/dein-command.vim'
 # Intelligence {{{
 
 # Integrated LSP client
-[[plugins]]
-repo = 'neovim/nvim-lsp'
-hook_source = '''
-    lua require'nvim_lsp'.tsserver.setup{on_attach=require'diagnostic'.on_attach}
-    lua require'nvim_lsp'.pyls.setup{on_attach=require'diagnostic'.on_attach}
-'''
+# [[plugins]]
+# repo = 'neovim/nvim-lsp'
+# hook_source = '''
+# lua << EOF
+# nvim_lsp = require'nvim_lsp'
+# diagnostic = require'diagnostic'
+# 
+# -- Requires yarn global add typescript
+# nvim_lsp.tsserver.setup{
+#     -- on_attach = diagnostic.on_attach;
+# }
+# 
+# -- Requires pip3 install --user python-language-server
+# nvim_lsp.pyls.setup{
+#     -- on_attach = diagnostic.on_attach;
+#     -- pyls = {
+#         -- configurationSources = ('flake8');
+#     -- }
+# }
+# 
+# -- Requires yarn global add vscode-json-languageserver
+# nvim_lsp.jsonls.setup{
+#     -- on_attach = diagnostic.on_attach;
+# }
+# EOF
+# '''
 
 # Better looking LSP diagnostics
-[[plugins]]
-repo = 'nvim-lua/diagnostic-nvim'
-hook_source = '''
-    let g:diagnostic_enable_virtual_text = 0
-    let g:diagnostic_virtual_text_prefix = '✖'
-
-    sign define LspDiagnosticsErrorSign text=✖ texthl=LspDiagnosticsError linehl= numhl=
-    sign define LspDiagnosticsWarningSign text=✖ texthl=LspDiagnosticsWarning linehl= numhl=
-    sign define LspDiagnosticsInformationSign text=✖ texthl=LspDiagnosticsInformation linehl= numhl=
-    sign define LspDiagnosticsHintSign text=✖ texthl=LspDiagnosticsHint linehl= numhl=
-
-    function! SetDiagnosticHighlights()
-        hi! clear LspDiagnosticsErrorSign
-        hi! LspDiagnosticsErrorSign cterm=bold ctermfg=196 ctermbg=235 guifg=#00FFFF
-        hi! clear LspDiagnosticsWarningSign
-        hi! LspDiagnosticsWarningSign cterm=bold ctermfg=226 ctermbg=235 guifg=#00FFFF
-        hi! clear LspDiagnosticsInformationSign
-        hi! LspDiagnosticsInformationSign cterm=bold ctermfg=45 ctermbg=235 guifg=#00FFFF
-        hi! clear LspDiagnosticsHintSign
-        hi! LspDiagnosticsHintSign cterm=bold ctermfg=45 ctermbg=235 guifg=#00FFFF
-
-        hi! clear LspDiagnosticsError
-        hi! LspDiagnosticsError cterm=italic ctermfg=196 ctermbg=235
-        hi! clear LspDiagnosticsWarning
-        hi! LspDiagnosticsWarning cterm=italic ctermfg=226 ctermbg=235
-        hi! clear LspDiagnosticsInformation
-        hi! LspDiagnosticsInformation cterm=italic ctermfg=45 ctermbg=235
-        hi! clear LspDiagnosticsHint
-        hi! LspDiagnosticsHint cterm=italic ctermfg=45 ctermbg=235
-
-        hi! clear LspDiagnosticsErrorFloating
-        hi! LspDiagnosticsErrorFloating cterm=italic ctermfg=196 ctermbg=235
-        hi! clear LspDiagnosticsWarningFloating
-        hi! LspDiagnosticsWarningFloating cterm=italic ctermfg=226 ctermbg=235
-        hi! clear LspDiagnosticsInformationFloating
-        hi! LspDiagnosticsInformationFloating cterm=italic ctermfg=45 ctermbg=235
-        hi! clear LspDiagnosticsHintFloating
-        hi! LspDiagnosticsHintFloating cterm=italic ctermfg=45 ctermbg=235
-    endfunction
-
-    autocmd ColorScheme * call SetDiagnosticHighlights()
-    autocmd CursorHold * lua vim.lsp.util.show_line_diagnostics()
-
-lua << EOF
-do
-    local method = "textDocument/publishDiagnostics"
-    local default_callback = vim.lsp.callbacks[method]
-    vim.lsp.callbacks[method] = function(err, method, result, client_id)
-        default_callback(err, method, result, client_id)
-        if result and result.diagnostics then
-            for _, v in ipairs(result.diagnostics) do
-                v.bufnr = client_id
-                v.lnum = v.range.start.line + 1
-                v.col = v.range.start.character + 1
-                v.text = v.message
-            end
-            vim.lsp.util.set_qflist(result.diagnostics)
-        end
-    end
-end
-EOF
-'''
+# [[plugins]]
+# repo = 'nvim-lua/diagnostic-nvim'
+# hook_source = '''
+#     let g:diagnostic_enable_virtual_text = 0
+#     let g:diagnostic_virtual_text_prefix = '✖'
+# 
+#     sign define LspDiagnosticsErrorSign text=✖ texthl=LspDiagnosticsError linehl= numhl=
+#     sign define LspDiagnosticsWarningSign text=✖ texthl=LspDiagnosticsWarning linehl= numhl=
+#     sign define LspDiagnosticsInformationSign text=✖ texthl=LspDiagnosticsInformation linehl= numhl=
+#     sign define LspDiagnosticsHintSign text=✖ texthl=LspDiagnosticsHint linehl= numhl=
+# 
+#     function! SetDiagnosticHighlights()
+#         hi! clear LspDiagnosticsErrorSign
+#         hi! LspDiagnosticsErrorSign cterm=bold ctermfg=196 ctermbg=235 guifg=#00FFFF
+#         hi! clear LspDiagnosticsWarningSign
+#         hi! LspDiagnosticsWarningSign cterm=bold ctermfg=226 ctermbg=235 guifg=#00FFFF
+#         hi! clear LspDiagnosticsInformationSign
+#         hi! LspDiagnosticsInformationSign cterm=bold ctermfg=45 ctermbg=235 guifg=#00FFFF
+#         hi! clear LspDiagnosticsHintSign
+#         hi! LspDiagnosticsHintSign cterm=bold ctermfg=45 ctermbg=235 guifg=#00FFFF
+# 
+#         hi! clear LspDiagnosticsError
+#         hi! LspDiagnosticsError cterm=italic ctermfg=196 ctermbg=235
+#         hi! clear LspDiagnosticsWarning
+#         hi! LspDiagnosticsWarning cterm=italic ctermfg=226 ctermbg=235
+#         hi! clear LspDiagnosticsInformation
+#         hi! LspDiagnosticsInformation cterm=italic ctermfg=45 ctermbg=235
+#         hi! clear LspDiagnosticsHint
+#         hi! LspDiagnosticsHint cterm=italic ctermfg=45 ctermbg=235
+# 
+#         hi! clear LspDiagnosticsErrorFloating
+#         hi! LspDiagnosticsErrorFloating cterm=italic ctermfg=196 ctermbg=235
+#         hi! clear LspDiagnosticsWarningFloating
+#         hi! LspDiagnosticsWarningFloating cterm=italic ctermfg=226 ctermbg=235
+#         hi! clear LspDiagnosticsInformationFloating
+#         hi! LspDiagnosticsInformationFloating cterm=italic ctermfg=45 ctermbg=235
+#         hi! clear LspDiagnosticsHintFloating
+#         hi! LspDiagnosticsHintFloating cterm=italic ctermfg=45 ctermbg=235
+#     endfunction
+# 
+#     autocmd ColorScheme * call SetDiagnosticHighlights()
+#     autocmd CursorHold * lua vim.lsp.util.show_line_diagnostics()
+# 
+# lua << EOF
+# do
+#     local method = "textDocument/publishDiagnostics"
+#     local default_callback = vim.lsp.callbacks[method]
+#     vim.lsp.callbacks[method] = function(err, method, result, client_id)
+#         default_callback(err, method, result, client_id)
+#         if result and result.diagnostics then
+#             for _, v in ipairs(result.diagnostics) do
+#                 v.bufnr = client_id
+#                 v.lnum = v.range.start.line + 1
+#                 v.col = v.range.start.character + 1
+#                 v.text = v.message
+#             end
+#             vim.lsp.util.set_qflist(result.diagnostics)
+#         end
+#     end
+# end
+# EOF
+# '''
 
 # Technical dependency for deoplete
 [[plugins]]
@@ -179,6 +199,10 @@ denite-filter = '''
 [[plugins]]
 repo = 'Shougo/deoplete-lsp'
 
+# Python completion
+[[plugins]]
+repo = 'deoplete-plugins/deoplete-jedi'
+
 # Self-explanatory source
 # [[plugins]]
 # repo = 'fszymanski/deoplete-emoji'
@@ -196,59 +220,59 @@ repo = 'Shougo/deoplete-lsp'
 # merged = 0
 # rev = 'release'
 # Syntax checking
-# [[plugins]]
-# repo = 'w0rp/ale'
-# hook_add = '''
-#     let g:ale_sign_error = '✖'
-#     let g:ale_sign_warning = '✖'
-#     let g:ale_sign_style_warning = '✖'
-#     let g:ale_lint_on_text_changed = 'always'
-#     let g:ale_lint_delay = 2000
-#     let g:ale_fix_on_save = 1
-#     let g:ale_rust_cargo_use_clippy = executable('cargo-clippy')
-#     let g:ale_fixers = {}
-# 
-#     " NUKE FLOW TO OBLIVION. NEVER RUN FLOW. FLOW WILL CONSUME ALL YOUR RESOURCES
-#     " AND BRING YOUR modern cutting edge hardware to a pathetic crawl. You will
-#     " hard reboot daily. You will pull your hair out. You will hate life.
-#     "
-#     " UNLESS YOU DISABLE FLOW. DO THE RIGHT THING.
-#     let g:ale_linters = {
-#         \   'javascript': ['eslint', 'jscs', 'jshint', 'prettier',
-#         \       'prettier-eslint', 'prettier-standard', 'standard', 'xo']}
-# 
-#     if executable('rustfmt')
-#         let g:ale_fixers.rust = ['rustfmt']
-#     endif
-#     if executable('xmllint')
-#         let g:ale_fixers.xml = ['xmllint']
-#     endif
-#     if executable('sqlfmt')
-#         let g:ale_fixers.sql = ['sqlfmt']
-#     endif
-#     if executable('jq')
-#         let g:ale_fixers.json = ['jq']
-#     endif
-#     autocmd ColorScheme *
-#         \ hi clear ALEErrorSign |
-#         \ hi ALEErrorSign cterm=bold ctermfg=196 ctermbg=235 |
-#         \ hi clear ALEWarningSign |
-#         \ hi ALEWarningSign cterm=bold ctermfg=226 ctermbg=235 |
-#         \ hi clear ALEInfoSign |
-#         \ hi ALEInfoSign cterm=bold ctermfg=45 ctermbg=235 |
-#         \ hi clear ALEStyleErrorSign |
-#         \ hi ALEStyleErrorSign cterm=bold ctermfg=45 ctermbg=235 |
-#         \ hi clear ALEStyleWarningSign |
-#         \ hi ALEStyleWarningSign cterm=bold ctermfg=45 ctermbg=235 |
-#         \ hi clear ALEErrorline |
-#         " \ hi ALEErrorline cterm=italic |
-#         \ hi clear ALEWarningLine |
-#         " \ hi ALEWarningLine cterm=italic |
-#         \ hi clear ALEInfoLine |
-#         " \ hi ALEInfoLine cterm=underline ctermfg=45
-#         \ hi clear ALEStyleErrorLine |
-#         \ hi clear ALEStyleWarningLine |
-# '''
+[[plugins]]
+repo = 'w0rp/ale'
+hook_add = '''
+    let g:ale_sign_error = '✖'
+    let g:ale_sign_warning = '✖'
+    let g:ale_sign_style_warning = '✖'
+    let g:ale_lint_on_text_changed = 'always'
+    let g:ale_lint_delay = 2000
+    let g:ale_fix_on_save = 1
+    let g:ale_rust_cargo_use_clippy = executable('cargo-clippy')
+    let g:ale_fixers = {}
+
+    " NUKE FLOW TO OBLIVION. NEVER RUN FLOW. FLOW WILL CONSUME ALL YOUR RESOURCES
+    " AND BRING YOUR modern cutting edge hardware to a pathetic crawl. You will
+    " hard reboot daily. You will pull your hair out. You will hate life.
+    "
+    " UNLESS YOU DISABLE FLOW. DO THE RIGHT THING.
+    let g:ale_linters = {
+        \   'javascript': ['eslint', 'jscs', 'jshint', 'prettier',
+        \       'prettier-eslint', 'prettier-standard', 'standard', 'xo']}
+
+    if executable('rustfmt')
+        let g:ale_fixers.rust = ['rustfmt']
+    endif
+    if executable('xmllint')
+        let g:ale_fixers.xml = ['xmllint']
+    endif
+    if executable('sqlfmt')
+        let g:ale_fixers.sql = ['sqlfmt']
+    endif
+    if executable('jq')
+        let g:ale_fixers.json = ['jq']
+    endif
+    autocmd ColorScheme *
+        \ hi clear ALEErrorSign |
+        \ hi ALEErrorSign cterm=bold ctermfg=196 ctermbg=235 |
+        \ hi clear ALEWarningSign |
+        \ hi ALEWarningSign cterm=bold ctermfg=226 ctermbg=235 |
+        \ hi clear ALEInfoSign |
+        \ hi ALEInfoSign cterm=bold ctermfg=45 ctermbg=235 |
+        \ hi clear ALEStyleErrorSign |
+        \ hi ALEStyleErrorSign cterm=bold ctermfg=45 ctermbg=235 |
+        \ hi clear ALEStyleWarningSign |
+        \ hi ALEStyleWarningSign cterm=bold ctermfg=45 ctermbg=235 |
+        \ hi clear ALEErrorline |
+        " \ hi ALEErrorline cterm=italic |
+        \ hi clear ALEWarningLine |
+        " \ hi ALEWarningLine cterm=italic |
+        \ hi clear ALEInfoLine |
+        " \ hi ALEInfoLine cterm=underline ctermfg=45
+        \ hi clear ALEStyleErrorLine |
+        \ hi clear ALEStyleWarningLine |
+'''
 # }}}
 
 # Fuzzy Search {{{
