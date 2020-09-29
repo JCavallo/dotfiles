@@ -32,8 +32,10 @@ endfunction "}}}
 " {{{
 let g:has_notes = 0
 let g:note_directory = $HOME . '/notes'
-let g:color_scheme = 'tender'
-let g:airline_theme = 'deus'
+" let g:color_scheme = 'tender'
+" let g:airline_theme = 'deus'
+let g:color_scheme = 'photon'
+let g:airline_theme = 'minimalist'
 let g:local_plugin_path = '$HOME/Projets/Plugins/'
 " }}}
 

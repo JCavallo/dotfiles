@@ -594,47 +594,7 @@ repo = 'lambdalisue/suda.vim'
 hook_add = '''
     let g:suda_smart_edit = 1
 '''
-
-# Requirement for apyrori
-[[plugins]]
-repo = 'tjdevries/luvjob.nvim'
-
-# Automatically add python import
-[[plugins]]
-repo = 'tjdevries/apyrori.nvim'
-hook_source = '''
-lua << EOF
-require('apyrori.config').new(
-  'name_of_configuration',
-  {
-    command='grep',
-
-    args = function(text)
-        return {'the', 'commands', 'to', 'send', 'to', 'command'}
-    end,
-
-    -- results: the results of running the commands. Split on new lines
-    -- counts: the counts of the various different import styles. Most common will be used.
-    parser  = function(results, counts)
-      for _, result in ipairs(results) do
-        local split_result = require('apyrori.util').string_split(result, ":", 4)
-        local value = split_result[4]
-
-        if counts[value] == nil then
-          counts[value] = 0
-        end
-
-        counts[value] = counts[value] + 1
-      end
-    end
-  },
-  true
-)
-EOF
-
-nnoremap <M-i> <plug>ApyroriInsert
-'''
-# }}}
+## }}}
 
 # Editing {{{
 
@@ -665,6 +625,13 @@ repo = 'tommcdo/vim-exchange'
 # Nicer block editing
 [[plugins]]
 repo = 'kana/vim-niceblock'
+
+# Comments
+[[plugins]]
+repo = 'preservim/nerdcommenter'
+hook_source = '''
+    let g:NERDSpaceDelims = 1
+'''
 # }}}
 
 # Navigation {{{
@@ -733,15 +700,15 @@ repo = 'kana/vim-textobj-fold'
 [[plugins]]
 repo = 'kana/vim-textobj-indent'
 
-# il / al
+# icl / acl
 [[plugins]]
 repo = 'kana/vim-textobj-line'
 hook_source = '''
     let g:textobj_line_no_default_key_mappings = 0
-    xnoremap icl <Plug>(textobj-line-i)
-    xnoremap acl <Plug>(textobj-line-a)
     vnoremap icl <Plug>(textobj-line-i)
     vnoremap acl <Plug>(textobj-line-a)
+    xnoremap icl <Plug>(textobj-line-i)
+    xnoremap acl <Plug>(textobj-line-a)
 '''
 
 # paste into
@@ -767,10 +734,9 @@ repo = 'tpope/vim-surround'
 [[plugins]]
 repo = 'sheerun/vim-polyglot'
 merged = 0
-# hook_add = '''
-# let g:polyglot_disabled = ['markdown', 'tsx', 'typescript', 'csv', 'nim',
-#     \ 'python']
-# '''
+hook_source = '''
+let g:polyglot_disabled = ['python']
+'''
 
 # Better folds in diff files
 [[plugins]]
@@ -811,6 +777,10 @@ hook_source = '''
 # Nice start screen
 [[plugins]]
 repo = 'mhinz/vim-startify'
+hook_source = '''
+    let g:startify_change_to_dir = 0
+    let g:startify_change_to_vcs_root = 1
+'''
 
 # Show indentation lines (perf heavy)
 [[plugins]]
@@ -819,6 +789,10 @@ hook_source = '''
     let g:indentLine_enabled = 0
     let g:indentLine_char = '▏'
 '''
+
+# FLoating preview
+[[plugins]]
+repo = 'ncm2/float-preview.nvim'
 
 # Highlight after undo
 [[plugins]]
