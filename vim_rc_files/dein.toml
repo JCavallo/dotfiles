@@ -18,13 +18,14 @@ repo = 'neovim/nvim-lsp'
 hook_source = '''
     lua require'nvim_lsp'.tsserver.setup{on_attach=require'diagnostic'.on_attach}
     lua require'nvim_lsp'.pyls.setup{on_attach=require'diagnostic'.on_attach}
+    lua require'nvim_lsp'.rust_analyzer.setup{on_attach=require'diagnostic'.on_attach}
 '''
 
 # Better looking LSP diagnostics
 [[plugins]]
 repo = 'nvim-lua/diagnostic-nvim'
 hook_source = '''
-    let g:diagnostic_enable_virtual_text = 0
+    let g:diagnostic_enable_virtual_text = 1
     let g:diagnostic_virtual_text_prefix = '✖'
 
     sign define LspDiagnosticsErrorSign text=✖ texthl=LspDiagnosticsError linehl= numhl=
@@ -322,7 +323,7 @@ hook_add = '''
         \ :<C-u>Denite file/rec file:new<CR>
     nnoremap <silent> [denite]fg
         \ :<C-u>DeniteProjectDir -path=`fnamemodify(bufname('%'), ':p:h')`
-        \ file/rec<CR>
+        \ `finddir('.git', ';') != '' ? 'file/rec/git' : 'file/rec'`<CR>
     nnoremap <silent> [denite]fp
         \ :<C-u>Denite file/rec:`GetProjectPath()`<CR>
 
