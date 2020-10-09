@@ -53,6 +53,7 @@
     resave = commit --amend
     invert = revert
     last = log -1 HEAD --format=format:"%Cred%H"
+    cleartags = !git tag -l | xargs git tag -d && git fetch -t
     summary = status -u -s
     branchout = checkout -b
     branches = branch -a -vv
