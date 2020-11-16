@@ -36,6 +36,7 @@ MAIN_TOOLS+="keychain "  # Manage ssh because I must
 MAIN_TOOLS+="make "  # Will always need it somehow
 MAIN_TOOLS+="neovim "  # Obviously !
 MAIN_TOOLS+="ruby "  # Git blur :'(
+MAIN_TOOLS+="rancher "  # Cli file explorer
 MAIN_TOOLS+="shellcheck "  # Always bashing
 MAIN_TOOLS+="tmux "  # Even when you think you don't, you'll need it
 MAIN_TOOLS+="tree "  # Never thought I'd need it until I used it
@@ -52,7 +53,7 @@ libev-dev libxcb-cursor-dev libxcb-xinerama0-dev libtool
 libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev xutils-dev
 autoconf libxcb-xrm0 libxcb-xrm-dev automake libxcb-shape0-dev"
 I3_RUN_DEPS="libasan5 libglib2.0-0 libxcb-xkb1 libxcb-xinerama0
-libxcb-randr0 libxcb-shape0 libxcb-util1 libyajl2 libpangocairo-1.0-0
+libxcb-randr0 libxcb-shape0 libxcb-util0 libyajl2 libpangocairo-1.0-0
 libstartup-notification0 libxcb-cursor0 libxcb-keysyms1 libxcb-icccm4
 libxkbcommon-x11-0 libev4 "
 
@@ -61,34 +62,34 @@ libcairo2-dev libcurl4-openssl-dev libjsoncpp-dev libmpdclient-dev
 libnl-genl-3-dev libpulse-dev libxcb-composite0-dev libxcb-cursor-dev
 libxcb-ewmh-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-randr0-dev
 libxcb-util0-dev libxcb-xkb-dev libxcb-xrm-dev libxcb1-dev pkg-config
-python3-sphinx python3-xcbgen xcb-proto"
+python3-sphinx python-xcbgen xcb-proto"
 POLYBAR_RUN_DEPS="libasound2 libmpdclient2 libcairo2 libnl-genl-3-200
 libpulse0 libxcb-composite0 libxcb-xkb1 libxcb-randr0 libxcb-cursor0
-libxcb-ewmh2 libxcb-icccm4 libjsoncpp1"
+libxcb-ewmh2 libxcb-icccm4 libjsoncpp1 "
 
 COMPTON_BUILD_DEPS="libx11-dev libxcomposite-dev libxdamage-dev libxfixes-dev
 libxext-dev libxrandr-dev libxinerama-dev pkg-config make x11proto-dev
 libpcre3-dev libconfig-dev libdrm-dev libgl-dev libdbus-1-dev asciidoc"
 COMPTON_RUN_DEPS="libx11-6 libxcomposite1 libxdamage1 libxfixes3 libxext6
-libxrandr2 libxinerama1 x11-utils libpcre3 libconfig9 libgl1 libdbus-1-3"
+libxrandr2 libxinerama1 x11-utils libpcre3 libconfig9 libgl1 libdbus-1-3 "
 
-ALACRITTY_BUILD_DEPS="cmake pkg-config libfreetype-dev libexpat1-dev
+ALACRITTY_BUILD_DEPS="cmake pkg-config libfreetype6-dev libexpat1-dev
 libxcb1-dev libxcb-shape0-dev libxcb-randr0-dev libxcb-xfixes0-dev"
 ALACRITTY_RUN_DEPS="libexpat1 libxcursor1 libxcb-render-util0
-libxcb-shape0 libfreetype6 libxcb-xfixes0 libxi6 libx11-6 libx11-xcb1"
+libxcb-shape0 libfreetype6 libxcb-xfixes0 libxi6 libx11-6 libx11-xcb1 "
 
 ROFI_BUILD_DEPS="autoconf automake pkg-config flex bison check meson
 libcairo2-dev libpango1.0-dev libpangocairo-1.0-0 cmake librsvg2-dev
-libjpeg-dev libxcb-util-dev libxcb-xkb-dev libx11-xcb-dev libxkbcommon-x11-dev
+libjpeg-dev libxcb-util0-dev libxcb-xkb-dev libx11-xcb-dev libxkbcommon-x11-dev
 libxcb-ewmh-dev libxcb-icccm4-dev libxcb-randr0-dev libxcb-xinerama0-dev
 libstartup-notification0-dev libxcb-xrm-dev"
 ROFI_RUN_DEPS="libglib2.0-0 libcairo2 libpango-1.0-0 libpangocairo-1.0-0 
-librsvg2-2 libxcb-util1 libxcb-xkb1 libxkbcommon-x11-0 libxcb-ewmh2
-libxcb-icccm4 libxcb-xinerama0 libstartup-notification0"
+librsvg2-2 libxcb-util0 libxcb-xkb1 libxkbcommon-x11-0 libxcb-ewmh2
+libxcb-icccm4 libxcb-xinerama0 libstartup-notification0 "
 
 PSPG_BUILD_DEPS="libncurses-dev"
 
-BREW_RUN_DEPS="build-essential curl file git"
+BREW_RUN_DEPS="build-essential curl file git "
 
 BUILD_DEPS="$PSPG_BUILD_DEPS "
 RUN_DEPS="tzdata $BREW_RUN_DEPS"
@@ -224,7 +225,7 @@ mkdir -p "$HOME"/Projets
 
 # Install Homebrew if needed
 if [[ ! "$(command -v brew)" ]]; then
-    chronic curl -fsSL
+    chronic curl -fsSL \
         https://raw.githubusercontent.com/Homebrew/install/master/install.sh \
         > /tmp/homebrew.sh
     chronic bash /tmp/homebrew.sh <<< "
