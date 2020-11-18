@@ -26,6 +26,7 @@ echo_comment "Installing main tools"
 MAIN_TOOLS=""
 MAIN_TOOLS+="curl "  # Always useful
 MAIN_TOOLS+="direnv "  # Per folder environment variables
+MAIN_TOOLS+="dnsutils "  # nslookup is useful
 MAIN_TOOLS+="exuberant-ctags "  # You're a dev or you're not
 MAIN_TOOLS+="feh "  # Wallpapers
 MAIN_TOOLS+="fonts-font-awesome "  # Better fonts are always nice to have
@@ -41,6 +42,7 @@ MAIN_TOOLS+="shellcheck "  # Always bashing
 MAIN_TOOLS+="tmux "  # Even when you think you don't, you'll need it
 MAIN_TOOLS+="tree "  # Never thought I'd need it until I used it
 MAIN_TOOLS+="unzip "  # Always useful
+MAIN_TOOLS+="xclip "  # copy paste...
 MAIN_TOOLS+="xinit "  # Just so we can startx
 MAIN_TOOLS+="wget "  # Always useful
 
