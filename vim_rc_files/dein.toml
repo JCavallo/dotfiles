@@ -15,25 +15,31 @@ repo = 'haya14busa/dein-command.vim'
 # Integrated LSP client
 [[plugins]]
 repo = 'neovim/nvim-lsp'
-hook_source = '''
-    lua require'nvim_lsp'.tsserver.setup{on_attach=require'diagnostic'.on_attach}
-    lua require'nvim_lsp'.pyls.setup{on_attach=require'diagnostic'.on_attach}
-    lua require'nvim_lsp'.rust_analyzer.setup{on_attach=require'diagnostic'.on_attach}
-'''
 
-# Better looking LSP diagnostics
 [[plugins]]
-repo = 'nvim-lua/diagnostic-nvim'
+repo = 'nvim-lua/lsp-status.nvim'
+
+[[plugins]]
+repo = 'nvim-lua/completion-nvim'
+
+[[plugins]]
+repo = 'neovim/nvim-lspconfig'
 hook_source = '''
+    autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
     let g:diagnostic_enable_virtual_text = 1
     let g:diagnostic_virtual_text_prefix = '✖'
 
-    sign define LspDiagnosticsErrorSign text=✖ texthl=LspDiagnosticsError linehl= numhl=
-    sign define LspDiagnosticsWarningSign text=✖ texthl=LspDiagnosticsWarning linehl= numhl=
-    sign define LspDiagnosticsInformationSign text=✖ texthl=LspDiagnosticsInformation linehl= numhl=
-    sign define LspDiagnosticsHintSign text=✖ texthl=LspDiagnosticsHint linehl= numhl=
+    sign define LspDiagnosticsSignError text=✖ texthl=LspDiagnosticsError linehl= numhl=
+    sign define LspDiagnosticsSignWarning text=✖ texthl=LspDiagnosticsWarning linehl= numhl=
+    sign define LspDiagnosticsSignInformation text=✖ texthl=LspDiagnosticsInformation linehl= numhl=
+    sign define LspDiagnosticsSignHint text=✖ texthl=LspDiagnosticsHint linehl= numhl=
 
     function! SetDiagnosticHighlights()
+        hi LspDiagnosticsDefaultError guifg=#FF0000 guibg=NONE guisp=NONE gui=NONE cterm=bold
+        hi LspDiagnosticsDefaultWarning guifg=#FFC600 guibg=NONE guisp=NONE gui=NONE cterm=bold
+        hi LspDiagnosticsDefaultInformation guifg=#00AAFF guibg=NONE guisp=NONE gui=NONE cterm=NONE
+        hi LspDiagnosticsDefaultHint guifg=#00AAFF guibg=NONE guisp=NONE gui=NONE cterm=NONE
+
         hi LspDiagnosticsError guifg=#FF0000 guibg=NONE guisp=NONE gui=NONE cterm=bold
         hi LspDiagnosticsWarning guifg=#FFC600 guibg=NONE guisp=NONE gui=NONE cterm=bold
         hi LspDiagnosticsInformation guifg=#00AAFF guibg=NONE guisp=NONE gui=NONE cterm=NONE
@@ -55,26 +61,6 @@ hook_source = '''
     endfunction
 
     autocmd ColorScheme * call SetDiagnosticHighlights()
-    autocmd CursorHold * lua vim.lsp.util.show_line_diagnostics()
-
-lua << EOF
-do
-    local method = "textDocument/publishDiagnostics"
-    local default_callback = vim.lsp.callbacks[method]
-    vim.lsp.callbacks[method] = function(err, method, result, client_id)
-        default_callback(err, method, result, client_id)
-        if result and result.diagnostics then
-            for _, v in ipairs(result.diagnostics) do
-                v.bufnr = client_id
-                v.lnum = v.range.start.line + 1
-                v.col = v.range.start.character + 1
-                v.text = v.message
-            end
-            vim.lsp.util.set_qflist(result.diagnostics)
-        end
-    end
-end
-EOF
 '''
 
 # Technical dependency for deoplete
@@ -860,10 +846,6 @@ hook_add = '''
 # With some themes
 [[plugins]]
 repo = 'vim-airline/vim-airline-themes'
-
-# Data from LSP
-[[plugins]]
-repo = 'nvim-lua/lsp-status.nvim'
 # }}}
 
 # vim:fdm=marker

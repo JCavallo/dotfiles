@@ -328,3 +328,6 @@ function! OpenPudb()  " {{{
         execute ":file __PudbTerm__"
     endif
 endfunction  " }}}
+
+let s:path = fnamemodify(resolve(expand('<sfile>:p')), ':h')
+execute ":luafile " . s:path . "/init.lua"
