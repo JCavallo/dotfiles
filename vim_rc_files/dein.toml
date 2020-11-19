@@ -61,6 +61,7 @@ hook_source = '''
     endfunction
 
     autocmd ColorScheme * call SetDiagnosticHighlights()
+    nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
 '''
 
 # Technical dependency for deoplete
