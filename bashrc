@@ -169,7 +169,9 @@ git_ps1_3() {
 }
 
 virtual_env_ps1() {
-    if [ ! -z "$VIRTUAL_ENV" ]; then
+    if [[ "${CUSTOM_ENV_NAME:-notset}" != "notset" ]]; then
+        echo " $CUSTOM_ENV_NAME "
+    elif [[ ! -z "$VIRTUAL_ENV" ]]; then
         echo " $(basename "$VIRTUAL_ENV") "
     else
         echo ""
