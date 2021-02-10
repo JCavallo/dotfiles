@@ -355,4 +355,11 @@ if [ -f ~/.bash_final ]; then
     source ~/.bash_final
 fi
 
+# Scaleway CLI autocomplete initialization.
+eval "$(scw autocomplete script shell=bash)"
+
+# Kubeconfig
+export KUBECONFIG=$KUBECONFIG:~/.kube/configRECETTE
+source <(kubectl completion bash)
+
 # vim:set ft=sh:
