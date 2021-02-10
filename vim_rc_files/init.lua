@@ -25,6 +25,7 @@ nvim_lsp.tsserver.setup({
         "typescriptreact",
         "typescript.tsx"
     },
+    root_dir = nvim_lsp.util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git"),
 })
 
 nvim_lsp.sumneko_lua.setup({})
