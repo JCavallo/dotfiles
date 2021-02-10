@@ -2,6 +2,11 @@ local nvim_lsp = require('lspconfig')
 
 nvim_lsp.pyls.setup({
     enable = true,
+    pyls = {
+        plugins = {
+            pyls_mypy = {enabled = true}
+            }
+        },
     filetypes = {
         "python",
         "python.trpy",
