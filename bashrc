@@ -356,10 +356,14 @@ if [ -f ~/.bash_final ]; then
 fi
 
 # Scaleway CLI autocomplete initialization.
-eval "$(scw autocomplete script shell=bash)"
+if [[ "$(command -v scw)" ]]; then
+    eval "$(scw autocomplete script shell=bash)"
+fi
 
 # Kubeconfig
-export KUBECONFIG=$KUBECONFIG:~/.kube/configRECETTE
-source <(kubectl completion bash)
+if [[ "$(command -v kubectl)" ]]; then
+    export KUBECONFIG=$KUBECONFIG:~/.kube/configRECETTE
+    source <(kubectl completion bash)
+fi
 
 # vim:set ft=sh:
