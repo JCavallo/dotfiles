@@ -1,5 +1,6 @@
 local nvim_lsp = require('lspconfig')
 
+-- pip install python-language-server[all]
 nvim_lsp.pyls.setup({
     enable = true,
     pyls = {
@@ -13,8 +14,13 @@ nvim_lsp.pyls.setup({
     },
 })
 
+-- brew install hashicorp/tap/terraform-ls
+nvim_lsp.terraformls.setup({})
+
+-- LspInstall vimls
 nvim_lsp.vimls.setup({})
 
+-- yarn global add typescript-language-server typescript
 nvim_lsp.tsserver.setup({
     cmd = {"typescript-language-server", "--stdio"},
     filetypes = {
@@ -28,11 +34,19 @@ nvim_lsp.tsserver.setup({
     root_dir = nvim_lsp.util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git"),
 })
 
+--LspInstall sumneko
 nvim_lsp.sumneko_lua.setup({})
 
 -- yarn global add bash-language-server
 nvim_lsp.bashls.setup({})
 
+-- https://github.com/prominic/groovy-language-server#build
+nvim_lsp.groovyls.setup({
+    cmd = { "java", "-jar", "~/bin/groovy-language-server-all.jar" },
+    filetypes = { "groovy", "Jenkinsfile" },
+    })
+
+--LspInstall yamlls
 nvim_lsp.yamlls.setup({})
 
 nvim_lsp.rust_analyzer.setup({
