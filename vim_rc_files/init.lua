@@ -30,6 +30,7 @@ nvim_lsp.tsserver.setup({
 
 nvim_lsp.sumneko_lua.setup({})
 
+-- yarn global add bash-language-server
 nvim_lsp.bashls.setup({})
 
 nvim_lsp.yamlls.setup({})
