@@ -146,6 +146,7 @@ hook_source = '''
         \ 'camel_case': v:true,
         \ 'skip_multibyte': v:true,
         \ 'prev_completion_mode': 'mirror',
+        \ 'num_processes': 4,
         \ 'auto_preview': v:true,
         \ })
     call deoplete#enable()
@@ -158,6 +159,9 @@ denite-filter = '''
 # LSP based completion source
 [[plugins]]
 repo = 'Shougo/deoplete-lsp'
+hook_add = '''
+let g:deoplete#lsp#use_icons_for_candidates = v:true
+'''
 
 # Self-explanatory source
 # [[plugins]]
@@ -457,8 +461,8 @@ denite = '''
         \ denite#do_map('do_action', 'i3_vsplit')
 '''
 denite-filter = '''
-    imap <silent><buffer> jk <Plug>(denite_filter_quit)
-    imap <silent><buffer> kj <Plug>(denite_filter_quit)
+    imap <silent><buffer> jk <Plug>(denite_filter_update)
+    imap <silent><buffer> kj <Plug>(denite_filter_update)
     inoremap <silent><buffer><expr> <C-c> denite#do_map('quit')
     inoremap <silent><buffer><expr> <CR> denite#do_map('do_action', 'default')
     inoremap <silent><buffer><expr> <C-s> denite#do_map('do_action', 'i3_split')
