@@ -17,7 +17,7 @@ nvim_lsp.pyls.setup({
 -- brew install hashicorp/tap/terraform-ls
 nvim_lsp.terraformls.setup({})
 
--- LspInstall vimls
+-- yarn global add vim-language-server
 nvim_lsp.vimls.setup({})
 
 -- yarn global add typescript-language-server typescript
