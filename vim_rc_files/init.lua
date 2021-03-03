@@ -14,8 +14,11 @@ nvim_lsp.pyls.setup({
     },
 })
 
--- brew install hashicorp/tap/terraform-ls
-nvim_lsp.terraformls.setup({})
+-- https://github.com/juliosueiras/terraform-lsp
+nvim_lsp.terraformls.setup({
+    cmd = { "terraform-lsp" },
+    root_dir = nvim_lsp.util.root_pattern(".terraform", ".git"),
+})
 
 -- yarn global add vim-language-server
 nvim_lsp.vimls.setup({})
@@ -34,8 +37,8 @@ nvim_lsp.tsserver.setup({
     root_dir = nvim_lsp.util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git"),
 })
 
---LspInstall sumneko
-nvim_lsp.sumneko_lua.setup({})
+-- LspInstall sumneko
+-- nvim_lsp.sumneko_lua.setup({})
 
 -- yarn global add bash-language-server
 nvim_lsp.bashls.setup({})
@@ -46,8 +49,10 @@ nvim_lsp.groovyls.setup({
     filetypes = { "groovy", "Jenkinsfile" },
     })
 
---LspInstall yamlls
-nvim_lsp.yamlls.setup({})
+-- yarn global add yaml-language-server
+nvim_lsp.yamlls.setup({
+    filetypes = { "yaml", "yaml.tmpl" },
+    })
 
 nvim_lsp.rust_analyzer.setup({
     cmd = {"rust-analyzer"},
