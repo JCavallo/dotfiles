@@ -366,4 +366,28 @@ if [[ "$(command -v kubectl)" ]]; then
     source <(kubectl completion bash)
 fi
 
+if [[ "$(command -v fasd)" ]]; then
+    fasd_cache="$HOME/.fasd-init-bash"
+    if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
+        fasd --init bash-hook bash-ccomp bash-ccomp-install >| "$fasd_cache"
+    fi
+    source "$fasd_cache"
+    unset fasd_cache
+
+    function z() {
+        cd $(fasd -Rdl "$*" | fzf)
+    }
+
+    function l() {
+        ls $(fasd -Rdl "$*" | fzf)
+    }
+
+    function f() {
+        file=$(fasd -Rfl "$*" | fzf)
+        if [[ "$file" != "" ]]; then
+            nvim "$file"
+        fi
+    }
+fi
+
 # vim:set ft=sh:

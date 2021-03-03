@@ -385,6 +385,12 @@ if [ ! "$(command -v hub)" ]; then
     chronic brew install hub
 fi
 
+# Install fasd
+if [ ! "$(command -v fasd)" ]; then
+    echo_comment "Installing fasd"
+    chronic brew install fasd
+fi
+
 # Install rofi (i3 menu)
 if [[ "$SERVER" = "0" ]] && [[ ! "$(command -v rofi)" ]]; then
     echo_comment "Installing rofi"
