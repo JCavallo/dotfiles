@@ -1,18 +1,11 @@
 #!/usr/bin/env bash
 
 WALLPAPER_FOLDER="$HOME/Pictures/Wallpapers"
+mkdir -p $WALLPAPER_FOLDER
 
 declare -A DOWNLOADS
 
-DOWNLOADS[wall0.jpg]=https://hdqwalls.com/wallpapers/galaxy-space-stars-universe-nebula-4k-qw.jpg
-DOWNLOADS[wall1.jpg]=https://wallpapersite.com/images/wallpapers/stars-3840x2160-4k-6347.jpg
-DOWNLOADS[wall2.jpg]=https://hdqwalls.com/download/1/space-dark-dust-galaxy-nebula-tg-3840x2160.jpg
-DOWNLOADS[wall3.jpg]=https://hdqwalls.com/download/1/space-digital-art-galaxy-54-3840x2160.jpg
-DOWNLOADS[wall4.jpg]=https://wallpaperset.com/w/full/9/6/a/517453.jpg
-DOWNLOADS[wall5.jpg]=http://www.southtune.se/wp-content/uploads/2017/08/PurpleSpaceNoSun_JPG.jpg
-DOWNLOADS[wall6.jpg]=https://www.pixsavor.com/download/space-universe-3840x2160/
-DOWNLOADS[wall7.jpg]=https://wallpaperplay.com/walls/full/5/5/e/179182.jpg
-DOWNLOADS[wall8.jpg]=https://image4.uhdpaper.com/wallpaper/space-planet-digital-art-uhdpaper.com-4K-4.1971.jpg
+# DOWNLOADS[wall0.jpg]=https://hdqwalls.com/wallpapers/galaxy-space-stars-universe-nebula-4k-qw.jpg
 
 if [[ ! -e "$HOME"/Pictures/Wallpapers ]]; then
     mkdir -p "$HOME"/Pictures
@@ -28,6 +21,34 @@ for name in "${!DOWNLOADS[@]}"; do
     fi
 done
 
-sleep 2
+dl_wallpaper() {
+    # Thanks https://github.com/bijanebrahimi/waffle/
+    export DISPLAY=:0
+    UA="Mozilla/5.0 (iPad; U; CPU OS 3_2_1 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Mobile/7B405"
+    CAT=$(echo -e "travel\nfantasy\nspace\nnature" | shuf -n1)
+    echo -e "category\t${CAT}"
+    URL=http://wallpaperswide.com/download$( \
+        curl -c /tmp/wallpaperswide.cookie -s \
+            http://wallpaperswide.com/${CAT}-desktop-wallpapers/page/` \
+                shuf -i 1-100 -n 1` \
+            | grep -o "\/[^\"]*-wallpapers.html" | grep -v "desktop" | uniq | \
+            shuf -n1 | sed 's/wallpapers.html/wallpaper-3840x2160.jpg/g')
+
+    echo -e "url\t$URL"
+    FILENAME=/tmp/random_wallpaper/"$CAT"-$(basename "${URL}")
+    curl --cookie /tmp/wallpaperswide.cookie -A "${UA}" "${URL}" -o "${FILENAME}"
+}
+
+while true; do
+    mkdir -p /tmp/random_wallpaper
+    rm -f /tmp/random_wallpaper/*
+    dl_wallpaper
+    filename=$(ls -1 /tmp/random_wallpaper/ | head -n1)
+    filesize=$(wc -c /tmp/random_wallpaper/$filename | awk '{print $1}')
+    if [[ $filesize != 0 ]]; then
+        cp /tmp/random_wallpaper/$filename "$WALLPAPER_FOLDER"
+        break
+    fi
+done
 
 feh --bg-fill --randomize ~/Pictures/Wallpapers/*
