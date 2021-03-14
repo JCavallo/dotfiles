@@ -375,7 +375,10 @@ if [[ "$(command -v fasd)" ]]; then
     unset fasd_cache
 
     function z() {
-        cd $(fasd -Rdl "$*" | fzf)
+        dir=$(fasd -Rdl "$*" | fzf)
+        if [[ "$dir" != "" ]]; then
+            cd "$dir"
+        fi
     }
 
     function l() {
