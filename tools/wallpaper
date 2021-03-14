@@ -46,6 +46,7 @@ while true; do
     filename=$(ls -1 /tmp/random_wallpaper/ | head -n1)
     filesize=$(wc -c /tmp/random_wallpaper/$filename | awk '{print $1}')
     if [[ $filesize != 0 ]]; then
+        rm $WALLPAPER_FOLDER/*
         cp /tmp/random_wallpaper/$filename "$WALLPAPER_FOLDER"
         break
     fi
