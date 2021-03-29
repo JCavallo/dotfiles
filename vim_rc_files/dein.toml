@@ -257,6 +257,9 @@ hook_source = '''
                 \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
     endif
 
+    " Filter on both filepath and value in grep sources
+    call denite#custom#source('grep', 'converters', ['converter/abbr_word'])
+
     call denite#custom#source('tag', 'matchers', ['matcher/substring'])
     call denite#custom#source('file/old', 'converters',
         \ ['converter/relative_word'])
@@ -517,6 +520,9 @@ repo = 'rhysd/committia.vim'
 [[plugins]]
 repo = 'rhysd/git-messenger.vim'
 # on_cmd = 'GitMessenger'
+
+[[plugins]]
+repo = 'ruanyl/vim-gh-line'
 
 # Git gutter
 [[plugins]]

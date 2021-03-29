@@ -230,9 +230,11 @@ exec_always --no-startup-id ~/bin/wallpaper
 for_window [class="^.*"] border pixel 0
 for_window [class="Rofi"] floating enable
 
-# gaps
-gaps inner 30
-gaps bottom 80
+# Color settings
+# client.focused #917944 #917944 #000088 #917944
+# client.focused_inactive #2C2C2C #2C2C2C #ffffff #2C2C2C
+# client.unfocused #2C2C2C #2C2C2C #ffffff #2C2C2C
+# client.urgent #FF0000 #00C1FF #000088 #00C1FF
 
 # Manage gaps
 mode "gaps" {
@@ -257,4 +259,16 @@ mode "gaps" {
 
 bindsym $mod+g mode "gaps"
 
-border_radius 20
+# gaps
+gaps inner 30
+gaps bottom 80
+
+# 4K gaps
+gaps inner 60
+gaps top 90
+gaps left 140
+gaps right 140
+gaps bottom 140
+
+# Rounded corners
+# border_radius 20
