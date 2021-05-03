@@ -1,2 +1,5 @@
 #!/bin/sh
-FORCE_VIM_FOLDER=/tmp/vim_/ FORCE_VIM_CACHE=/tmp/cache_/ nvim -u ~/Projets/Nvimrc/dotfiles/nvimrc $*
+export XDG_CONFIG_HOME=/tmp/test_vim/.config
+export XDG_DATA_HOME=/tmp/test_vim/.data
+export XDG_CACHE_HOME=/tmp/test_vim/.cache
+nvim $*
