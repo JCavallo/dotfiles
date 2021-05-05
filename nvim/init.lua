@@ -1,19 +1,17 @@
 require('jc.load_packer')
 
--- vim.g.mapleader = ','
-
--- require('tj.globals')
+vim.g.mapleader = ','
 
 require('jc.plugins')
 
--- require('jc.plugin_configuration')
+require('jc.options')
 
--- -- Force loading of astronauta first.
--- vim.cmd [[runtime plugin/astronauta.vim]]
+require('jc.vimscript')
 
--- require('jc.options')
+require('jc.mappings')
 
--- require('jc.lsp')
+require('jc.autocommands')
 
--- require('jc.telescope')
--- -- require('jc.telescope.mappings')
+require('jc.misc')
+
+vim.cmd [[colorscheme tender]]
