@@ -1,11 +1,10 @@
 #!/bin/sh
-mkdir -p /tmp/vim_
-mkdir -p /tmp/cache_
-rm -rf /tmp/vim_/*
-rm -rf /tmp/cache_/*
-mkdir -p /tmp/vim_/swap
-mkdir -p /tmp/vim_/backup
-mkdir -p /tmp/vim_/undodir
-cd /tmp/vim_/ || exit
-ln -s ~/Projets/Nvimrc/dotfiles/vim_rc_files rc
-FORCE_VIM_FOLDER=/tmp/vim_/ FORCE_VIM_CACHE=/tmp/cache_/ nvim -u ~/Projets/Nvimrc/dotfiles/nvimrc
+rm -rf /tmp/test_vim
+mkdir -p /tmp/test_vim
+cd /tmp/test_vim/ || exit
+export XDG_CONFIG_HOME=/tmp/test_vim/.config
+export XDG_DATA_HOME=/tmp/test_vim/.data
+export XDG_CACHE_HOME=/tmp/test_vim/.cache
+mkdir -p /tmp/test_vim/.config
+ln -s ~/Projets/Nvimrc/dotfiles/nvim /tmp/test_vim/.config/nvim
+nvim
