@@ -124,7 +124,7 @@ olddir="$HOME/.old_dotfiles"
 if [ ! -e "$olddir" ]; then
     echo_comment "Backuping old dotfiles"
     files="agignore bashrc bash_profile colors gitconfig gitignore hgignore \
-        hgrc inputrc nvimrc psqlrc tmux.conf tmux.conf.local vimrc Xdefaults \
+        hgrc inputrc psqlrc tmux.conf tmux.conf.local Xdefaults \
         xinitrc xonshrc"    # list of files/folders to symlink in homedir
     IFS=$' \n' read -ra files <<< "${files}"
 
@@ -152,9 +152,8 @@ mkdir -p "$HOME"/.config/i3status
 mkdir -p "$HOME"/.config/polybar
 
 if [ ! -e "$HOME"/.config/nvim ]; then
-    mkdir -p "$HOME"/.config/nvim
-    cd "$HOME"/.config/nvim
-    ln -s "$HOME"/dotfiles/nvimrc init.vim
+    mkdir -p "$HOME"/.config/
+    ln -s "$HOME"/dotfiles/nvim "$HOME"/.config/nvim
 fi
 
 if [ ! -e "$HOME"/.config/i3/config ]; then
