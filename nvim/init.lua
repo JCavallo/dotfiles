@@ -10,8 +10,10 @@ require('jc.vimscript')
 
 require('jc.mappings')
 
+require('jc.filetypes')
+
 require('jc.autocommands')
 
 require('jc.misc')
 
-vim.cmd [[colorscheme tender]]
+vim.cmd [[colorscheme palenight]]

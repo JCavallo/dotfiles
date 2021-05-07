@@ -152,6 +152,8 @@ function M.treesitter()
       },
     },
   }
+  vim.o.foldmethod = 'expr'
+  vim.cmd[[set foldexpr=nvim_treesitter#foldexpr()]]
 end
 
 function M.completion()
@@ -302,7 +304,7 @@ function M.telescope()
       selection_caret = '❯ ',
       winblend = 10,
       color_devicons = true,
-      prompt_position = "top",
+      use_less = true,
       sorting_strategy = "ascending",
       borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰'},
       file_previewer   = require('telescope.previewers').vim_buffer_cat.new,
@@ -314,8 +316,20 @@ function M.telescope()
           ["q"] = actions.close,
         }
       },
+      extensions = {
+        fzf_native = {
+          override_generic_sorter = true,
+          override_file_sorter = true,
+          case_mode = 'smart_case',
+        },
+        fzf_writer = {
+          use_highlighter = false,
+          minimum_grep_characters = 3,
+        },
+      },
     }
   }
+  require('telescope').load_extension('fzf')
 end
 
 return M

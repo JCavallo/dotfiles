@@ -55,6 +55,10 @@ return require('packer').startup {
       config = function() require'jc.plugin_configuration'.telescope() end
     }
     use 'nvim-telescope/telescope-fzf-writer.nvim'  -- Live grep
+    use {
+      'nvim-telescope/telescope-fzf-native.nvim',   -- Faster filtering
+      run = 'make',
+    }
     use 'nvim-telescope/telescope-symbols.nvim'     -- Nice Symbols
 
     -----------------
@@ -185,6 +189,8 @@ return require('packer').startup {
     use 'iron-e/nvim-highlite.git'
     use 'jcavallo/flashy-vim'
     use 'dracula/vim'
+    use 'drewtempelmeyer/palenight.vim'
+    use 'joshdick/onedark.vim'
 
     ----------------------
     -- Custom Operators --
@@ -235,7 +241,7 @@ return require('packer').startup {
     -- Filetypes --
     ---------------
 
-    use 'jcavallo/tryton-vim'                       -- Tryton
+    --use 'jcavallo/tryton-vim'                       -- Tryton
 
 
 

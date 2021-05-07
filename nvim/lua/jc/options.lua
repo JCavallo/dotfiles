@@ -12,6 +12,7 @@ vim.o.cmdwinheight = 10           -- Max height of the command line
 vim.o.inccommand = 'split'        -- Preview command results when appliable
 
 -- Editing
+vim.o.virtualedit = 'block,onemore'  -- Allow cursor to "be" at line end
 vim.o.autoindent = true           -- Autoindent new lines
 vim.o.smartindent = true          -- Do it smartly :)
 vim.o.shiftround = true           -- Round indents to shiftwidth
@@ -20,7 +21,7 @@ vim.o.smarttab = true             -- Be smart when tabbing
 vim.o.expandtab = true            -- No one wants actual tabs, only spaces
 vim.o.tabstop = 4                 -- Display tabs with 4 spaces
 vim.o.softtabstop = 4             -- Always
-vim.o.shiftwidth = 4             -- Always
+vim.o.shiftwidth = 4              -- Always
 vim.o.cindent = true              -- Be a little more intelligent when indenting
 vim.o.backspace = 'indent,eol,start'  -- Allow backspace to delete everything
 vim.o.joinspaces = false          -- I know where spaces should be
@@ -46,6 +47,7 @@ vim.wo.cursorline = true          -- Highlight current line
 vim.wo.list = true                -- Show special chars, list below
 vim.wo.listchars = "tab:→ ,nbsp:␣,trail:·,extends:»,precedes:«"   -- eol:↲,
 vim.o.showmatch = true            -- Show matching parentheses
+vim.o.signcolumn = 'yes'          -- Always display the sign column to avoid flickering
 
 -- Split options
 vim.o.showtabline = 1             -- We don't use tabs, for now
@@ -80,8 +82,8 @@ vim.o.undolevels = 1000
 vim.o.undoreload = 10000
 vim.o.history = 1000
 
--- Folding
-vim.o.foldmethod = 'syntax'       -- Fold based on syntax
+-- Folding  (Note : this is actually overriden by treesitter configuration)
+vim.o.foldmethod = 'indent'       -- Fold based on syntax
 vim.o.foldlevelstart = 1          -- Fold everything at first
 
 -- Misc

@@ -170,15 +170,17 @@ map_tele('i', "buffers")                              -- Opened buffers
 map_tele('h', "help_tags")                            -- Help
 
 map_tele('la', "lsp_code_actions")                    -- Code actions
-map_tele('ld', "lsp_definitions")                    -- Code actions
+map_tele('ld', "lsp_definitions")                     -- Goto definitions
 map_tele('lo', "lsp_document_diagnostics")            -- Diagnostics
+map_tele('ls', "lsp_document_symbols")                -- Symbols
+map('<space>lp', "<cmd>LspTrouble<CR>")               -- LspTrouble
 
 map_tele('fo', "oldfiles")                            -- file history
 map_tele('fd', "find_files")                          -- current directory
 map_tele('fc', "files_current_buffer_directory")      -- current buffer directory
 map_tele('fg', "buffer_git_files")                    -- current buffer repo
 map_tele('fp', "buffer_project_files")                -- current buffer project
-map_tele('fm', "buffer_tryton_module_file")           -- current buffer tryton module
+map_tele('fm', "buffer_tryton_module_files")           -- current buffer tryton module
 map_tele('fad', "find_all_files")                     -- current directory
 map_tele('fac', "all_files_current_buffer_directory") -- current buffer directory
 map_tele('fap', "buffer_project_all_files")           -- current buffer project
@@ -292,16 +294,3 @@ map('<left>', '<C-w><')
 map('<right>', '<C-w>>')
 map('<', '<<')
 map('>', '>>')
-
-
-
-
-
--- api.nvim_buf_set_keymap(0, 'n', "<CR>", ":lua require'neuron'.enter_link()<CR>", {noremap = true, silent = true})
--- M.map_buf("<CR>", "<cmd>lua require'neuron'.enter_link()<CR>")
-
--- M.map_buf("n", "<cmd>lua require'neuron/cmd'.new_edit(require'neuron'.config.neuron_dir)<CR>")
-
--- M.map_buf("z", "<cmd>lua require'neuron/telescope'.find_zettels()<CR>")
--- M.map_buf("Z", "<cmd>lua require'neuron/telescope'.find_zettels {insert = true}<CR>")
-
