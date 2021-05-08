@@ -1,5 +1,9 @@
 #!/bin/bash
 
+local TERMINAL=kitty  # Or alacritty
+local WM=sway  # Or i3
+local BROWSER=brave  # Or Chromz
+
 # Use strict mode
 set -euo pipefail
 
@@ -28,7 +32,6 @@ MAIN_TOOLS+="curl "  # Always useful
 MAIN_TOOLS+="direnv "  # Per folder environment variables
 MAIN_TOOLS+="dnsutils "  # nslookup is useful
 MAIN_TOOLS+="exuberant-ctags "  # You're a dev or you're not
-MAIN_TOOLS+="feh "  # Wallpapers
 MAIN_TOOLS+="fonts-font-awesome "  # Better fonts are always nice to have
 MAIN_TOOLS+="git "  # In case it's not already there
 MAIN_TOOLS+="g++ "  # Will always need it somehow
@@ -36,18 +39,38 @@ MAIN_TOOLS+="htop "  # Like top, but better
 MAIN_TOOLS+="jq "  # Beautiful json
 MAIN_TOOLS+="keychain "  # Manage ssh because I must
 MAIN_TOOLS+="make "  # Will always need it somehow
-MAIN_TOOLS+="neovim "  # Obviously !
+MAIN_TOOLS+="network-manager "  # Command line network utilities
 MAIN_TOOLS+="ruby "  # Git blur :'(
-MAIN_TOOLS+="rancher "  # Cli file explorer
+MAIN_TOOLS+="ranger "  # Cli file explorer
 MAIN_TOOLS+="shellcheck "  # Always bashing
 MAIN_TOOLS+="tmux "  # Even when you think you don't, you'll need it
 MAIN_TOOLS+="tree "  # Never thought I'd need it until I used it
 MAIN_TOOLS+="unzip "  # Always useful
-MAIN_TOOLS+="xclip "  # copy paste...
-MAIN_TOOLS+="xinit "  # Just so we can startx
 MAIN_TOOLS+="wget "  # Always useful
 
 chronic sudo apt -y install $MAIN_TOOLS
+
+if [[ "$SERVER" = "0" ]]; then
+    echo_comment "Installing GUI tools"
+    GUI_TOOLS=""
+
+    if [[ "$WM" = "sway" ]]; then
+        GUI_TOOLS+="gammastep "  # Change light temperature depending on time
+        GUI_TOOLS+="geoclue-2.0 "  # Autodetect location
+        GUI_TOOLS+="sway "  # Compositor / window manager
+        GUI_TOOLS+="swaylock "  # Screen lock
+        GUI_TOOLS+="swayidls "  # Idle configuration
+        GUI_TOOLS+="wl-clipboard "  # Copy paste, wayland style
+    elif [[ "$WM" = "i3" ]]; then
+        GUI_TOOLS+="feh"  # Wallpapers
+        GUI_TOOLS+="xclip "  # copy paste...
+        GUI_TOOLS+="xinit "  # Just so we can startx
+    fi
+    if [[ "$TERMINAL" = "kitty" ]]; then
+        GUI_TOOLS+="kitty "
+    fi
+    chronic sudo apt -y install $GUI_TOOLS
+fi
 
 I3_BUILD_DEPS="libxcb1-dev libxcb-keysyms1-dev libpango1.0-dev
 libxcb-util0-dev libxcb-icccm4-dev libyajl-dev make
@@ -65,7 +88,7 @@ libcairo2-dev libcurl4-openssl-dev libjsoncpp-dev libmpdclient-dev
 libnl-genl-3-dev libpulse-dev libxcb-composite0-dev libxcb-cursor-dev
 libxcb-ewmh-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-randr0-dev
 libxcb-util0-dev libxcb-xkb-dev libxcb-xrm-dev libxcb1-dev pkg-config
-python3-sphinx python-xcbgen xcb-proto"
+python3-sphinx python3-xcbgen xcb-proto"
 POLYBAR_RUN_DEPS="libasound2 libmpdclient2 libcairo2 libnl-genl-3-200
 libpulse0 libxcb-composite0 libxcb-xkb1 libxcb-randr0 libxcb-cursor0
 libxcb-ewmh2 libxcb-icccm4 libjsoncpp1 "
@@ -98,21 +121,29 @@ BUILD_DEPS="$PSPG_BUILD_DEPS "
 RUN_DEPS="tzdata $BREW_RUN_DEPS"
 
 if [[ "$SERVER" = "0" ]]; then
-    BUILD_DEPS+="$I3_BUILD_DEPS $POLYBAR_BUILD_DEPS $COMPTON_BUILD_DEPS "
-    BUILD_DEPS+="$ALACRITTY_BUILD_DEPS $ROFI_BUILD_DEPS"
-    RUN_DEPS+="$I3_RUN_DEPS $POLYBAR_RUN_DEPS $COMPTON_RUN_DEPS "
-    RUN_DEPS+="$ALACRITTY_RUN_DEPS $ROFI_RUN_DEPS"
+    if [[ "$WM" = "i3" ]]; then
+        BUILD_DEPS+="$I3_BUILD_DEPS $POLYBAR_BUILD_DEPS $COMPTON_BUILD_DEPS "
+        BUILD_DEPS+="$ROFI_BUILD_DEPS "
+        RUN_DEPS+="$I3_RUN_DEPS $POLYBAR_RUN_DEPS $COMPTON_RUN_DEPS "
+        RUN_DEPS+="$ROFI_RUN_DEPS "
+    fi
+    if [[ "$TERMINAL" = "alacritty" ]]; then
+        BUILD_DEPS+="$ALACRITTY_BUILD_DEPS "
+        RUN_DEPS+="$ALACRITTY_RUN_DEPS "
+    fi
 fi
 
 echo_comment "Installing Build Dependencies"
 chronic sudo DEBIAN_FRONTEND=noninteractive apt -y install $BUILD_DEPS
 
 # We'll manually startx, since gdm & co ignore xinitrc
-if [[ ! "$(command -v lightdm)" ]]; then
-    chronic sudo apt remove --purge lightdm
-fi
-if [[ ! "$(command -v gdm3)" ]]; then
-    chronic sudo apt remove --purge gdm3
+if [[ "$SERVER" = "0" ]] && [[ "$WM" = "i3" ]]; then
+    if [[ ! "$(command -v lightdm)" ]]; then
+        chronic sudo apt remove --purge lightdm
+    fi
+    if [[ ! "$(command -v gdm3)" ]]; then
+        chronic sudo apt remove --purge gdm3
+    fi
 fi
 
 # For some reason this is created as the root user
@@ -147,36 +178,58 @@ fi
 
 # Create config folder
 mkdir -p "$HOME"/.config
-mkdir -p "$HOME"/.config/i3
-mkdir -p "$HOME"/.config/i3status
-mkdir -p "$HOME"/.config/polybar
 
-if [ ! -e "$HOME"/.config/nvim ]; then
-    mkdir -p "$HOME"/.config/
-    ln -s "$HOME"/dotfiles/nvim "$HOME"/.config/nvim
+if [[ "$SERVER" = "0" ]]; then
+    if [[ "$WM" = "i3" ]]; then
+        mkdir -p "$HOME"/.config/i3
+        mkdir -p "$HOME"/.config/i3status
+        mkdir -p "$HOME"/.config/polybar
+
+        if [ ! -e "$HOME"/.config/i3/config ]; then
+            ln -s "$dir"/i3config "$HOME"/.config/i3/config
+            ln -s "$dir"/i3status_config "$HOME"/.config/i3status/config
+        fi
+
+        if [ ! -e "$HOME"/.config/compton.conf ]; then
+            ln -s "$dir"/compton.conf "$HOME"/.config/
+        fi
+
+        if [ ! -e "$HOME"/.config/polybar/config ]; then
+            ln -s "$dir"/polybar "$HOME"/.config/polybar/config
+        fi
+
+        if [ ! -e "$HOME"/.config/rofi ]; then
+            ln -s "$dir"/rofi "$HOME"/.config/rofi
+        fi
+    fi
+    if [[ "$WM" = "sway" ]]; then
+        mkdir -p "$HOME"/.config/sway
+        if [[ ! -e "$HOME"/.config/sway/config ]]; then
+            ln -s "$dir"/sway "$HOME"/.config/sway/config
+        fi
+    fi
+    if [[ "$TERMINAL" = "kitty" ]]; then
+        mkdir -p "$HOME"/.config/kitty
+        if [[ ! -e "$HOME"/.config/kitty/config ]]; then
+            ln -s "$dir"/kitty "$HOME"/.config/kitty/config
+        fi
+    fi
 fi
 
-if [ ! -e "$HOME"/.config/i3/config ]; then
-    ln -s "$dir"/i3config "$HOME"/.config/i3/config
-    ln -s "$dir"/i3status_config "$HOME"/.config/i3status/config
-fi
+# Create temporary directory
+mkdir -p "$HOME"/tmp
 
-if [ ! -e "$HOME"/.config/compton.conf ]; then
-    ln -s "$dir"/compton.conf "$HOME"/.config/
-fi
-
-if [ ! -e "$HOME"/.config/polybar/config ]; then
-    ln -s "$dir"/polybar "$HOME"/.config/polybar/config
-fi
-
-if [ ! -e "$HOME"/.config/rofi ]; then
-    ln -s "$dir"/rofi "$HOME"/.config/rofi
-fi
+# Create projects directory
+mkdir -p "$HOME"/Projets
 
 # Create local binary folder
 if [ ! -e "$HOME/bin" ]; then
     mkdir -p "$HOME"/bin
-    ln -s "$HOME"/dotfiles/tools/* "$HOME"/bin/
+fi
+
+if [ ! -e "$HOME"/.config/nvim ]; then
+    mkdir -p "$HOME"/.config/
+    ln -s "$HOME"/dotfiles/nvim "$HOME"/.config/nvim
 fi
 
 # Move existing .vim
@@ -219,12 +272,6 @@ if [[ ! -e "$HOME/tools" ]]; then
     git clone https://github.com/bigH/git-fuzzy.git
 fi
 
-# Create temporary directory
-mkdir -p "$HOME"/tmp
-
-# Create projects directory
-mkdir -p "$HOME"/Projets
-
 # Install Homebrew if needed
 if [[ ! "$(command -v brew)" ]]; then
     chronic curl -fsSL \
@@ -234,69 +281,92 @@ if [[ ! "$(command -v brew)" ]]; then
 "
 fi
 
-# Installing i3 gap
-if [[ "$SERVER" = "0" ]] && [[ ! "$(command -v i3)" ]]; then
-    echo_comment "Installing i3 gap"
-    cd /tmp
-    chronic git clone https://github.com/Airblader/xcb-util-xrm
-    cd xcb-util-xrm
-    chronic git submodule update --init
-    chronic ./autogen.sh --prefix=/usr --disable-dependency-tracking
-    chronic make
-    chronic sudo make install
-    cd /tmp
-    # chronic git clone https://www.github.com/Airblader/i3 i3-gaps
+if [[ "$SERVER" = "0" ]] && [[ "$WM" = "i3" ]]; then
+    # Installing i3 gap
+    if [[ ! "$(command -v i3)" ]]; then
+        echo_comment "Installing i3 gap"
+        cd /tmp
+        chronic git clone https://github.com/Airblader/xcb-util-xrm
+        cd xcb-util-xrm
+        chronic git submodule update --init
+        chronic ./autogen.sh --prefix=/usr --disable-dependency-tracking
+        chronic make
+        chronic sudo make install
+        cd /tmp
+        # chronic git clone https://www.github.com/Airblader/i3 i3-gaps
 
-    # Consider switching back to Airblader's once rounded corner are merged :)
-    chronic git clone https://www.github.com/resloved/i3 i3-gaps
-    cd i3-gaps
-    chronic autoreconf --force --install
-    chronic mkdir build
-    cd build
-    chronic ../configure --prefix=/usr --sysconfdir=/etc
-    chronic make
-    chronic sudo make install
+        # Consider switching back to Airblader's once rounded corner are merged :)
+        chronic git clone https://www.github.com/resloved/i3 i3-gaps
+        cd i3-gaps
+        chronic autoreconf --force --install
+        chronic mkdir build
+        cd build
+        chronic ../configure --prefix=/usr --sysconfdir=/etc
+        chronic make
+        chronic sudo make install
+    fi
+
+    # Installing Polybar
+    if [[ ! "$(command -v polybar)" ]]; then
+        echo_comment "Installing polybar"
+        cd /tmp
+        chronic git clone --recursive https://github.com/polybar/polybar
+        cd polybar
+        mkdir build
+        cd build
+        chronic cmake ..
+        chronic make -j"$(nproc)"
+        chronic sudo make install
+    fi
+
+    # Installing compton
+    if [[ ! "$(command -v compton)" ]]; then
+        echo_comment "Installing compton"
+        cd /tmp
+        chronic git clone https://github.com/tryone144/compton
+        cd compton
+        chronic make
+        chronic sudo make install
+    fi
+
+    # Install rofi (i3 menu)
+    if [[ ! "$(command -v rofi)" ]]; then
+        echo_comment "Installing rofi"
+        cd /tmp
+        chronic git clone https://github.com/davatorium/rofi/
+        cd rofi
+        chronic git submodule update --init
+        chronic meson setup build
+        chronic ninja -C build
+        chronic sudo ninja -C build install
+    fi
 fi
 
-# Installing Polybar
-if [[ "$SERVER" = "0" ]] && [[ ! "$(command -v polybar)" ]]; then
-    echo_comment "Installing polybar"
-    cd /tmp
-    chronic git clone --recursive https://github.com/polybar/polybar
-    cd polybar
-    mkdir build
-    cd build
-    chronic cmake ..
-    chronic make -j"$(nproc)"
-    chronic sudo make install
-fi
-
-# Installing compton
-if [[ "$SERVER" = "0" ]] && [[ ! "$(command -v compton)" ]]; then
-    echo_comment "Installing compton"
-    cd /tmp
-    chronic git clone https://github.com/tryone144/compton
-    cd compton
-    chronic make
-    chronic sudo make install
+if [[ "$SERVER" = "0" ]] && [[ "$WM" = "sway" ]]; then
+    if [ !-e "$HOME/sway-launcher-descktop" ]; then
+        echo_comment "Loading sway-launcher"
+        chronic curl -fLo "~/bin/sway-launcher" \
+            https://github.com/Biont/sway-launcher-desktop/raw/master/sway-launcher-desktop.sh
+        chmod +x ~/bin/sway-launcher
+    fi
 fi
 
 # Build latest neovim
-# if [ "$(which nvim)" = '' ]; then
-#     echo_comment "Building Latest Neovim"
-#     cd "$HOME"/Projets
-#     chronic git clone https://github.com/neovim/neovim Neovim
-#     cd Neovim
-#     chronic make CMAKE_BUILD_TYPE=Release
-#     chronic sudo make install
-#     mkdir -p "$HOME"/.config
-#     mkdir -p "$HOME"/.config/nvim
-#     cd "$HOME"/.config/nvim
-#     ln -s "$HOME"/dotfiles/nvimrc init.vim
-#     chronic pip install --user neovim
-#     chronic pip3 install --user neovim
-#     chronic pip3 install --user neovim-remote
-# fi
+if [ "$(which nvim)" = '' ]; then
+    echo_comment "Building Latest Neovim"
+    cd "$HOME"/Projets
+    chronic git clone https://github.com/neovim/neovim Neovim
+    cd Neovim
+    chronic make CMAKE_BUILD_TYPE=Release
+    chronic sudo make install
+    mkdir -p "$HOME"/.config
+    mkdir -p "$HOME"/.config/nvim
+    cd "$HOME"/.config/nvim
+    ln -s "$HOME"/dotfiles/nvimrc init.vim
+    chronic pip install --user neovim
+    chronic pip3 install --user neovim
+    chronic pip3 install --user neovim-remote
+fi
 
 # Install hgreview
 # cd "$HOME"/tmp
@@ -328,6 +398,13 @@ if [[ "$SERVER" = "0" ]] && [[ "$(fc-list | grep Powerline)" = "" ]]; then
         https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/Monofur/Bold/complete/monofur%20bold%20Nerd%20Font%20Complete%20Mono.ttf
     chronic curl -fLo "monofur italic Nerd Font Mono.ttf" \
         https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/Monofur/Italic/complete/monofur%20italic%20Nerd%20Font%20Complete%20Mono.ttf
+    cd ~/.local/share/fonts
+    chronic curl -fLo "FiraCode Nerd Font Mono.ttf" \
+        https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/FiraCode/Regular/complete/Fira%20Code%20Regular%20Nerd%20Font%20Complete%20Mono.ttf
+    chronic curl -fLo "FiraCode bold Nerd Font Mono.ttf" \
+        https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/FiraCode/Bold/complete/Fira%20Code%20Bold%20Nerd%20Font%20Complete%20Mono.ttf
+    chronic curl -fLo "FiraCode italic Nerd Font Mono.ttf" \
+        https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/FiraCode/Light/complete/Fira%20Code%20Light%20Nerd%20Font%20Complete%20Mono.ttf
     chronic fc-cache -f -v
     cd "$HOME"
 fi
@@ -339,7 +416,8 @@ if [ ! -e "$HOME/.cargo" ]; then
     export PATH="$HOME/.cargo/bin:$PATH"
 fi
 
-if [[ "$SERVER" = "0" ]] && [[ ! "$(command -v alacritty)" ]]; then
+if [[ "$SERVER" = "0" ]] && [[ "$TERMINAL" = "alacritty" ]] && \
+        [[ ! "$(command -v alacritty)" ]]; then
     echo_comment "Installing alacritty"
     mkdir -p "$HOME/Projets"
     cd "$HOME/Projets"
@@ -367,6 +445,11 @@ if [ ! "$(command -v exa)" ]; then
     cargo install exa
 fi
 
+if [ ! "$(command -v delta)" ]; then
+    echo_comment "Installing delta"
+    cargo install git-delta
+fi
+
 if [ ! "$(command -v kritik)" ]; then
     echo_comment "Installing kritik"
     cargo install --git https://github.com/jcavallo/kritik
@@ -376,6 +459,7 @@ fi
 if [ ! "$(command -v n)" ]; then
     echo_comment "Installing latest node js through n"
     curl -s -L https://git.io/n-install | chronic bash -s -- -y -n
+    chronic npm i -g yarn
 fi
 
 # Install hub (for github)
@@ -388,18 +472,6 @@ fi
 if [ ! "$(command -v fasd)" ]; then
     echo_comment "Installing fasd"
     chronic brew install fasd
-fi
-
-# Install rofi (i3 menu)
-if [[ "$SERVER" = "0" ]] && [[ ! "$(command -v rofi)" ]]; then
-    echo_comment "Installing rofi"
-    cd /tmp
-    chronic git clone https://github.com/davatorium/rofi/
-    cd rofi
-    chronic git submodule update --init
-    chronic meson setup build
-    chronic ninja -C build
-    chronic sudo ninja -C build install
 fi
 
 # Install tmux configuration
@@ -495,10 +567,21 @@ chronic sudo DEBIAN_FRONTEND=noninteractive apt -y install $RUN_DEPS
 sudo dpkg-reconfigure tzdata
 
 # Install browser
-if [[ "$SERVER" = "0" ]] && [[ ! "$(command -v google-chrome)" ]]; then
-    echo_comment "Installing chrome"
-    cd /tmp
-    chronic wget \
-        https://dl.google.com/linux/direct/google-chrome-beta_current_amd64.deb
-    chronic sudo apt install -y -f ./google-chrome-beta_current_amd64.deb
+if [[ "$SERVER" = "0" ]]; then
+    if [[ "$BROWSER" = "chrome" ]] && [[ ! "$(command -v google-chrome)" ]]; then
+        echo_comment "Installing chrome"
+        cd /tmp
+        chronic wget \
+            https://dl.google.com/linux/direct/google-chrome-beta_current_amd64.deb
+        chronic sudo apt install -y -f ./google-chrome-beta_current_amd64.deb
+    fi
+    if [[ "$BROWSER" = "brave" ]] && [[ ! "$(command -v brave-browser)" ]]; then
+        echo_comment "Installing Brave"
+        chronic sudo apt -y install apt-transport-https
+        chronic sudo curl -fsSLo /usr/share/keyrings/brave-browser-beta-archive-keyring.gpg https://brave-browser-apt-beta.s3.brave.com/brave-browser-beta-archive-keyring.gpg
+        echo "deb [signed-by=/usr/share/keyrings/brave-browser-beta-archive-keyring.gpg arch=amd64] https://brave-browser-apt-beta.s3.brave.com/ stable main" | \
+            chronic sudo tee /etc/apt/sources.list.d/brave-browser-beta.list
+        chronic sudo apt update
+        chronic sudo apt -y install brave-browser-beta
+    fi
 fi

@@ -4,6 +4,7 @@
 [core]
     excludesfile = /home/giovanni/.gitignore
     editor = nvim
+    pager = delta
 [color]
     ui = true
 [color "diff-highlight"]
@@ -18,11 +19,20 @@
     old = red bold
     new = green bold
     whitespace = red reverse
-[pager]
-    diff = diff-so-fancy | less --tabs=1,5 -RFX
-    show = diff-so-fancy | less --tabs=1,5 -RFX
+[delta]
+    plus-style = "syntax #012800"
+    minus-style = "syntax #340001"
+    syntax-theme = Monokai Extended
+    navigate = true
+[interactive]
+    diffFilter = delta --color-only
+; [pager]
+;     diff = diff-so-fancy | less --tabs=1,5 -RFX
+;     show = diff-so-fancy | less --tabs=1,5 -RFX
 [upload]
     fork = mine
+[pull]
+    ff = only
 [push]
     default = current
 [merge]
