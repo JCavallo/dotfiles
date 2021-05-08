@@ -1,6 +1,6 @@
 if hash keychain 2>/dev/null; then
     eval "$(keychain --eval --agents ssh id_rsa)"
-    clear
+    TERM=linux clear
 fi
 
 export WORKON_HOME=$HOME/Projets/python_envs
@@ -21,6 +21,7 @@ PROMPT_COMMAND='history -a; history -n'
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 export LANG=en_US.UTF-8
+export LANGUAGE=en_US:en
 
 function paged_ripgrep() {
     rg -p "$@" | less -RFX
@@ -44,6 +45,7 @@ alias pg_activity="TERM=screen pg_activity"
 alias grp="grep -I --line-buffered"
 alias cat=bat
 alias more=bat
+alias clear="TERM=linux clear"
 alias k="kritik -s --success-message OK --failure-message KO"
 
 viewdiff() {
@@ -288,7 +290,7 @@ if [[ "$(command -v ruby)" ]] && [[ "$(command -v gem)" ]]; then
     PATH="$(ruby -e 'puts Gem.user_dir')/bin:$PATH"
 fi
 
-export PATH="$PATH:$HOME/bin:$HOME/.local/bin"
+export PATH="$PATH:$HOME/bin:$HOME/.local/bin:$HOME/dotfiles/tools"
 
 _git_store ()
 {
