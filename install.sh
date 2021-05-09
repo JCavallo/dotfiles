@@ -36,6 +36,7 @@ MAIN_TOOLS+="fonts-font-awesome "  # Better fonts are always nice to have
 MAIN_TOOLS+="git "  # In case it's not already there
 MAIN_TOOLS+="g++ "  # Will always need it somehow
 MAIN_TOOLS+="htop "  # Like top, but better
+MAIN_TOOLS+="imagemagick "  # View images...
 MAIN_TOOLS+="jq "  # Beautiful json
 MAIN_TOOLS+="keychain "  # Manage ssh because I must
 MAIN_TOOLS+="make "  # Will always need it somehow
