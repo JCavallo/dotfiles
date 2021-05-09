@@ -229,6 +229,7 @@ assign [class="Soffice"] $document_workspace
 # exec_always --no-startup-id compton --config ~/.config/compton.conf -b
 # exec_always --no-startup-id ~/bin/launch_polybar
 # exec_always --no-startup-id ~/bin/wallpaper
+exec python3 ~/bin/sway-fader
 
 # for_window [class="^.*"] border pixel 0
 # for_window [class="Rofi"] floating enable

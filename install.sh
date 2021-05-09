@@ -344,11 +344,17 @@ if [[ "$SERVER" = "0" ]] && [[ "$WM" = "i3" ]]; then
 fi
 
 if [[ "$SERVER" = "0" ]] && [[ "$WM" = "sway" ]]; then
-    if [ !-e "$HOME/sway-launcher" ]; then
+    if [ ! -e "$HOME/bin/sway-launcher" ]; then
         echo_comment "Loading sway-launcher"
-        chronic curl -fLo "~/bin/sway-launcher" \
+        chronic curl -fLo "$HOME/bin/sway-launcher" \
             https://github.com/Biont/sway-launcher-desktop/raw/master/sway-launcher-desktop.sh
         chmod +x ~/bin/sway-launcher
+    fi
+    if [[ ! -e "$HOME/bin/sway-fader" ]]; ehtn
+        echo_comment "Loading sway-fader"
+        pip3 install --user i3ipc
+        chronic curl -fLo "$HOME/bin/sway-fader" \
+            https://raw.githubusercontent.com/jake-stewart/swayfader/master/swayfader.py
     fi
 fi
 
