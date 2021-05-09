@@ -41,9 +41,8 @@ bindsym $mod+Shift+a kill
 
 # start dmenu (a program launcher)
 # bindsym $mod+d exec "rofi -combi-modi window,drun,run -show combi -modi combi -normal-window"
-# bindsym $mod+d exec kitty --name=launcher -e "bash -c 'compgen -c | grep -v fzf | sort -u | fzf --layout=reverse | xargs -r swaymsg -t command exec'"
-# bindsym $mod+d exec kitty --class=launcher launcher
-bindsym $mod+d exec kitty --class=launcher bash sway-launcher
+set $menu exec kitty --class=launcher env TERMINAL_COMMAND=" " sway-launcher
+bindsym $mod+d exec $menu
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.

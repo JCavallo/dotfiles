@@ -60,7 +60,7 @@ if [[ "$SERVER" = "0" ]]; then
         GUI_TOOLS+="geoclue-2.0 "  # Autodetect location
         GUI_TOOLS+="sway "  # Compositor / window manager
         GUI_TOOLS+="swaylock "  # Screen lock
-        GUI_TOOLS+="swayidls "  # Idle configuration
+        GUI_TOOLS+="swayidle "  # Idle configuration
         GUI_TOOLS+="wl-clipboard "  # Copy paste, wayland style
     elif [[ "$WM" = "i3" ]]; then
         GUI_TOOLS+="feh"  # Wallpapers
@@ -344,7 +344,7 @@ if [[ "$SERVER" = "0" ]] && [[ "$WM" = "i3" ]]; then
 fi
 
 if [[ "$SERVER" = "0" ]] && [[ "$WM" = "sway" ]]; then
-    if [ !-e "$HOME/sway-launcher-descktop" ]; then
+    if [ !-e "$HOME/sway-launcher" ]; then
         echo_comment "Loading sway-launcher"
         chronic curl -fLo "~/bin/sway-launcher" \
             https://github.com/Biont/sway-launcher-desktop/raw/master/sway-launcher-desktop.sh
