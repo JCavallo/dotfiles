@@ -39,14 +39,9 @@ bindsym $mod+Return exec kitty
 # kill focused window
 bindsym $mod+Shift+a kill
 
-# start dmenu (a program launcher)
-# bindsym $mod+d exec "rofi -combi-modi window,drun,run -show combi -modi combi -normal-window"
+# Menu
 set $menu exec kitty --class=launcher env TERMINAL_COMMAND=" " sway-launcher
 bindsym $mod+d exec $menu
-# There also is the (new) i3-dmenu-desktop which only displays applications
-# shipping a .desktop file. It is a wrapper around dmenu, so you need that
-# installed.
-# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # change focus
 bindsym $mod+h focus left
@@ -181,13 +176,6 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-# bar {
-#         mode hide
-#         status_command i3status
-# }
-
 # Pulse Audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl -- set-sink-volume 0 +5% #increase sound volume
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl -- set-sink-volume 0 -5% #decrease sound volume
@@ -224,12 +212,9 @@ assign [class="libreoffice"] $document_workspace
 assign [class="libreoffice-startcenter"] $document_workspace
 assign [class="Soffice"] $document_workspace
 
-# exec --no-startup-id source ~/.bash_profile
-# exec --no-startup-id redshift-gtk
-# exec_always --no-startup-id compton --config ~/.config/compton.conf -b
-# exec_always --no-startup-id ~/bin/launch_polybar
-# exec_always --no-startup-id ~/bin/wallpaper
-exec python3 ~/bin/sway-fader
+exec_always python3 ~/bin/sway-fader
+exec_always mako
+#exec_always ~/dotfiles/tools/launch_waybar
 
 # for_window [class="^.*"] border pixel 0
 # for_window [class="Rofi"] floating enable
@@ -264,18 +249,21 @@ mode "gaps" {
         bindsym Escape mode "default"
 }
 
+bar {
+	swaybar_command waybar
+	gaps 0
+}
+
 bindsym $mod+g mode "gaps"
 
 # gaps
 gaps inner 30
-gaps bottom 80
 
 # 4K gaps
-gaps inner 60
 gaps top 90
 gaps left 140
 gaps right 140
-gaps bottom 140
+gaps bottom 0
 
 # Rounded corners
 # border_radius 20

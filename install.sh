@@ -58,9 +58,10 @@ if [[ "$SERVER" = "0" ]]; then
     if [[ "$WM" = "sway" ]]; then
         GUI_TOOLS+="gammastep "  # Change light temperature depending on time
         GUI_TOOLS+="geoclue-2.0 "  # Autodetect location
+        GUI_TOOLS+="mako-notifier "  # Notification daemon for wayland
         GUI_TOOLS+="sway "  # Compositor / window manager
-        GUI_TOOLS+="swaylock "  # Screen lock
         GUI_TOOLS+="swayidle "  # Idle configuration
+        GUI_TOOLS+="waybar "  # System Status Bar
         GUI_TOOLS+="wl-clipboard "  # Copy paste, wayland style
     elif [[ "$WM" = "i3" ]]; then
         GUI_TOOLS+="feh"  # Wallpapers
@@ -114,6 +115,10 @@ ROFI_RUN_DEPS="libglib2.0-0 libcairo2 libpango-1.0-0 libpangocairo-1.0-0
 librsvg2-2 libxcb-util0 libxcb-xkb1 libxkbcommon-x11-0 libxcb-ewmh2
 libxcb-icccm4 libxcb-xinerama0 libstartup-notification0 "
 
+SWAYLOCK_BUILD_DEPS="meson ninja libcairo2-dev libgdk-pixbuf-2.0-dev
+libxkbcommon-dev libwayland-dev "
+SWAYLOCK_RUN_DEPS="wayland-protocols "
+
 PSPG_BUILD_DEPS="libncurses-dev"
 
 BREW_RUN_DEPS="build-essential curl file git "
@@ -127,6 +132,10 @@ if [[ "$SERVER" = "0" ]]; then
         BUILD_DEPS+="$ROFI_BUILD_DEPS "
         RUN_DEPS+="$I3_RUN_DEPS $POLYBAR_RUN_DEPS $COMPTON_RUN_DEPS "
         RUN_DEPS+="$ROFI_RUN_DEPS "
+    fi
+    if [[ "$WM" = "sway" ]]; then
+        BUILD_DEPS+="$SWAYLOCK_BUILD_DEPS "
+        RUN_DEPS+="$SWAYLOCK_RUN_DEPS "
     fi
     if [[ "$TERMINAL" = "alacritty" ]]; then
         BUILD_DEPS+="$ALACRITTY_BUILD_DEPS "
@@ -207,6 +216,13 @@ if [[ "$SERVER" = "0" ]]; then
         mkdir -p "$HOME"/.config/sway
         if [[ ! -e "$HOME"/.config/sway/config ]]; then
             ln -s "$dir"/sway "$HOME"/.config/sway/config
+        fi
+        if [[ ! -e "$HOME"/.config/waybar ]]; then
+            ln -s "$dir"/waybar "$HOME"/.config/waybar
+        fi
+        if [[ ! -e "$HOME"/.config/swaylock ]]; then
+            mkdir -p "$HOME"/.config/swaylock
+            ln -s "$dir"/swaylock "$HOME"/.config/swaylock/config
         fi
     fi
     if [[ "$TERMINAL" = "kitty" ]]; then
@@ -355,6 +371,16 @@ if [[ "$SERVER" = "0" ]] && [[ "$WM" = "sway" ]]; then
         pip3 install --user i3ipc
         chronic curl -fLo "$HOME/bin/sway-fader" \
             https://raw.githubusercontent.com/jake-stewart/swayfader/master/swayfader.py
+    fi
+    if [[ ! "$(command -v swaylock)" ]]; then
+        echo_comment "Loading swaylock with effects"
+        cd /tmp
+        chronic git clone https://github.com/mortie/swaylock-effects
+        cd swaylock-effects
+        chronic meson build
+        chronic ninja -C build
+        chronic sudo ninja -C build install
+        chronic sudo chmod a+s /usr/local/bin/swaylock
     fi
 fi
 
@@ -572,6 +598,7 @@ chronic sudo DEBIAN_FRONTEND=noninteractive apt -y remove --purge $BUILD_DEPS
 chronic sudo DEBIAN_FRONTEND=noninteractive apt -y autoremove --purge
 chronic sudo DEBIAN_FRONTEND=noninteractive apt -y install $RUN_DEPS
 sudo dpkg-reconfigure tzdata
+sudo dpkg-reconfigure locales
 
 # Install browser
 if [[ "$SERVER" = "0" ]]; then

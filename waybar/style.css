@@ -1,0 +1,145 @@
+window#waybar {
+    background: transparent;
+    color: #bbbbbb;
+}
+
+.horizontal {
+    margin-right: 5em;
+    margin-left: 5em;
+    margin-top: 0em;
+    margin-bottom: 2em;
+}
+
+.horizontal * {
+    margin: 0em;
+}
+
+.modules-left {
+    font-size: 2em;
+    background: rgba(30, 30, 30, 0.8);
+    padding-left: 1em;
+    padding-right: 1em;
+    border-radius: 1em;
+}
+
+.modules-center {
+    font-size: 2em;
+    background: rgba(30, 30, 30, 0.8);
+    padding-left: 3em;
+    padding-right: 3em;
+    border-radius: 1em;
+}
+
+.modules-right {
+    font-size: 2em;
+    background: rgba(30, 30, 30, 0.8);
+    padding-left: 1em;
+    padding-right: 1em;
+    border-radius: 1em;
+}
+
+#workspaces {
+    font-size: 2em;
+}
+
+
+#workspaces button {
+    background: transparent;
+    color: white;
+    border-top: 2px solid transparent;
+}
+
+#workspaces button.focused {
+    color: #c9545d;
+    border-top: 2px solid #c9545d;
+}
+
+#mode {
+    background: #64727D;
+    border-bottom: 3px solid white;
+}
+
+#memory, #cpu, #disk {
+    padding-left: 1em;
+    padding-right: 1em;
+    font-size: 1em;
+}
+
+#custom-memory-icon, #custom-memory-cpu, #custom-memory-disk {
+    padding-left: 1em;
+    font-size: 2em;
+}
+
+#clock, #battery, #network, #pulseaudio, #tray, #mode {
+    padding-left: 0.4em;
+    padding-right: 0.4em;
+    font-size: 2em;
+}
+
+#clock {
+    font-weight: bold;
+}
+
+#battery {
+}
+
+#battery icon {
+}
+
+#battery.charging {
+}
+
+@keyframes blink {
+    to {
+        background-color: #ffffff;
+        color: black;
+    }
+}
+
+#battery.warning:not(.charging) {
+    color: red;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+#custom-disk-icon {
+    font-size: 2em;
+}
+
+#disk {
+}
+
+#custom-cpu-icon {
+    font-size: 2em;
+}
+
+#cpu {
+}
+
+#custom-memory-icon {
+    font-size: 2em;
+}
+
+#memory {
+}
+
+#network {
+    font-size: 2em;
+}
+
+#network.disconnected {
+    background: #f53c3c;
+}
+
+#pulseaudio {
+    font-size: 2em;
+}
+
+#pulseaudio.muted {
+}
+
+#tray {
+}

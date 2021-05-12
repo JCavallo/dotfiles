@@ -13,8 +13,6 @@ vim.o.inccommand = 'split'        -- Preview command results when appliable
 
 -- Editing
 vim.o.virtualedit = 'block,onemore'  -- Allow cursor to "be" at line end
-vim.o.autoindent = true           -- Autoindent new lines
-vim.o.smartindent = true          -- Do it smartly :)
 vim.o.shiftround = true           -- Round indents to shiftwidth
 vim.o.linebreak = true            -- Break long lines
 vim.o.smarttab = true             -- Be smart when tabbing
