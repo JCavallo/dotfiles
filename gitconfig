@@ -20,10 +20,14 @@
     new = green bold
     whitespace = red reverse
 [delta]
+    features = side-by-side line-numbers decorations
+    navigate = true
     plus-style = "syntax #012800"
     minus-style = "syntax #340001"
-    syntax-theme = Monokai Extended
-    navigate = true
+    commit-decoration-style = bold yellow box
+    file-style = bold blue
+    file-decoration-style = bold blue ul
+    hunk-header-style = line-number syntax italic
 [interactive]
     diffFilter = delta --color-only
 ; [pager]
