@@ -214,6 +214,7 @@ assign [class="Soffice"] $document_workspace
 
 exec_always python3 ~/bin/sway-fader
 exec_always mako
+exec --no-startup-id swaymsg "workspace $browser_workspace;"
 
 for_window [app_id="^.*"] opacity 0.5
 for_window [app_id="^.*$"] opacity 0.9
