@@ -214,10 +214,7 @@ assign [class="Soffice"] $document_workspace
 
 exec_always python3 ~/bin/sway-fader
 exec_always mako
-#exec_always ~/dotfiles/tools/launch_waybar
 
-# for_window [class="^.*"] border pixel 0
-# for_window [class="Rofi"] floating enable
 for_window [app_id="^.*"] opacity 0.5
 for_window [app_id="^.*$"] opacity 0.9
 for_window [app_id="^launcher$"] floating enable, opacity 0.8, sticky enable, resize set 30 ppt 60 ppt, border pixel 10
@@ -250,8 +247,8 @@ mode "gaps" {
 }
 
 bar {
-	swaybar_command waybar
-	gaps 0
+    swaybar_command waybar
+    gaps 0
 }
 
 bindsym $mod+g mode "gaps"

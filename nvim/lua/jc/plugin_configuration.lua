@@ -183,13 +183,12 @@ function M.lsp()
   end
 
   -- lua for vim configuration lsp, may need manual build because gcc10
-  local sumneko_bin_path = '/home/giovanni/tools/LuaLanguageServer/'
   local sumneko_root_path = vim.fn.stdpath('cache')..'/nlua/sumneko_lua/lua-language-server/'
   require('nlua.lsp.nvim').setup(lspconfig, {
     on_init = custom_init,
     on_attach = custom_attach,
     
-    cmd = {sumneko_bin_path .. 'lua-language-server', '-E',
+    cmd = {sumneko_root_path .. '/bin/Linux/lua-language-server', '-E',
       sumneko_root_path .. 'main.lua'},
 
     root_dir = function(fname)

@@ -19,6 +19,7 @@ shopt -s globstar
 export HISTSIZE=10000
 PROMPT_COMMAND='history -a; history -n'
 export VIRTUAL_ENV_DISABLE_PROMPT=1
+export WLR_NO_HARDWARE_CURSORS=1
 
 function paged_ripgrep() {
     rg -p "$@" | less -RFX
