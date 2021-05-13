@@ -1,8 +1,8 @@
 #!/bin/bash
 
-local TERMINAL=kitty  # Or alacritty
-local WM=sway  # Or i3
-local BROWSER=brave  # Or Chromz
+TERMINAL=kitty  # Or alacritty
+WM=sway  # Or i3
+BROWSER=brave  # Or Chromz
 
 # Use strict mode
 set -euo pipefail
@@ -28,9 +28,11 @@ sudo apt -y install moreutils &> /dev/null
 
 echo_comment "Installing main tools"
 MAIN_TOOLS=""
+MAIN_TOOLS+="bat "  # Better cat
 MAIN_TOOLS+="curl "  # Always useful
 MAIN_TOOLS+="direnv "  # Per folder environment variables
 MAIN_TOOLS+="dnsutils "  # nslookup is useful
+MAIN_TOOLS+="exa "  # better ls
 MAIN_TOOLS+="exuberant-ctags "  # You're a dev or you're not
 MAIN_TOOLS+="fonts-font-awesome "  # Better fonts are always nice to have
 MAIN_TOOLS+="git "  # In case it's not already there
@@ -41,8 +43,10 @@ MAIN_TOOLS+="jq "  # Beautiful json
 MAIN_TOOLS+="keychain "  # Manage ssh because I must
 MAIN_TOOLS+="make "  # Will always need it somehow
 MAIN_TOOLS+="network-manager "  # Command line network utilities
+MAIN_TOOLS+="python3-pip "  # Will need it at some point anyway
 MAIN_TOOLS+="ruby "  # Git blur :'(
 MAIN_TOOLS+="ranger "  # Cli file explorer
+MAIN_TOOLS+="ripgrep "  # Better grep
 MAIN_TOOLS+="shellcheck "  # Always bashing
 MAIN_TOOLS+="tmux "  # Even when you think you don't, you'll need it
 MAIN_TOOLS+="tree "  # Never thought I'd need it until I used it
@@ -60,8 +64,8 @@ if [[ "$SERVER" = "0" ]]; then
         GUI_TOOLS+="geoclue-2.0 "  # Autodetect location
         GUI_TOOLS+="mako-notifier "  # Notification daemon for wayland
         GUI_TOOLS+="sway "  # Compositor / window manager
+        GUI_TOOLS+="swaylock "  # Screen lock
         GUI_TOOLS+="swayidle "  # Idle configuration
-        GUI_TOOLS+="waybar "  # System Status Bar
         GUI_TOOLS+="wl-clipboard "  # Copy paste, wayland style
     elif [[ "$WM" = "i3" ]]; then
         GUI_TOOLS+="feh"  # Wallpapers
@@ -121,7 +125,7 @@ libjsoncpp-dev libmpdclient-dev libnl-3-dev libnl-genl-3-dev libpulse-dev
 libsigc++-2.0-dev libspdlog-dev libwayland-dev scdoc "
 WAYBAR_RUN_DEPS="libgtkmm-3.0-1v5 libjsoncpp24 libsigc++-2.0-0v5 libpulse "
 
-SWAYLOCK_BUILD_DEPS="meson ninja libcairo2-dev libgdk-pixbuf-2.0-dev
+SWAYLOCK_BUILD_DEPS="meson ninja-build libcairo2-dev libgdk-pixbuf-2.0-dev
 libxkbcommon-dev libwayland-dev "
 SWAYLOCK_RUN_DEPS="wayland-protocols "
 
@@ -260,19 +264,6 @@ if [[ -d "$HOME/.vim" ]] && [[ ! -e "$olddir/.vim" ]]; then
     mv "$HOME"/.vim "$olddir"/
 fi
 
-# Create vim directory
-mkdir -p "$HOME"/.vim
-
-# Link rc directory
-if [ ! -e "$HOME/.vim/rc" ]; then
-    ln -s "$HOME"/dotfiles/vim_rc_files/ "$HOME"/.vim/rc
-fi
-
-# Create subdirectories
-mkdir -p "$HOME"/.vim/swap
-mkdir -p "$HOME"/.vim/backup
-mkdir -p "$HOME"/.vim/undodir
-
 # Add argcomplete to bash_completion
 if [ ! -e "$HOME/.bash_completion.d" ]; then
     mkdir -p "$HOME"/.bash_completion.d
@@ -381,9 +372,9 @@ if [[ "$SERVER" = "0" ]] && [[ "$WM" = "sway" ]]; then
             https://github.com/Biont/sway-launcher-desktop/raw/master/sway-launcher-desktop.sh
         chmod +x ~/bin/sway-launcher
     fi
-    if [[ ! -e "$HOME/bin/sway-fader" ]]; ehtn
+    if [[ ! -e "$HOME/bin/sway-fader" ]]; then
         echo_comment "Loading sway-fader"
-        pip3 install --user i3ipc
+        chronic pip3 install --user i3ipc
         chronic curl -fLo "$HOME/bin/sway-fader" \
             https://raw.githubusercontent.com/jake-stewart/swayfader/master/swayfader.py
     fi
@@ -405,7 +396,8 @@ if [ "$(which nvim)" = '' ]; then
     cd "$HOME"/Projets
     chronic git clone https://github.com/neovim/neovim Neovim
     cd Neovim
-    chronic make CMAKE_BUILD_TYPE=Release
+    chronic sudo apt install cmake libtool-bin
+    chronic make CMAKE_BUILD_TYPE=Release -j4
     chronic sudo make install
     mkdir -p "$HOME"/.config
     mkdir -p "$HOME"/.config/nvim
@@ -478,21 +470,6 @@ if [[ "$SERVER" = "0" ]] && [[ "$TERMINAL" = "alacritty" ]] && \
     ln -s "$dir/alacritty.yml" "$HOME/.config/alacritty/alacritty.yml"
 fi
 
-if [ ! "$(command -v bat)" ]; then
-    echo_comment "Installing bat"
-    cargo install bat
-fi
-
-if [ ! "$(command -v rg)" ]; then
-    echo_comment "Installing ripgrep"
-    cargo install ripgrep
-fi
-
-if [ ! "$(command -v exa)" ]; then
-    echo_comment "Installing exa"
-    cargo install exa
-fi
-
 if [ ! "$(command -v delta)" ]; then
     echo_comment "Installing delta"
     cargo install git-delta
@@ -507,7 +484,7 @@ fi
 if [ ! "$(command -v n)" ]; then
     echo_comment "Installing latest node js through n"
     curl -s -L https://git.io/n-install | chronic bash -s -- -y -n
-    chronic npm i -g yarn
+    chronic "$HOME/n/bin/npm" i -g yarn
 fi
 
 # Install hub (for github)
