@@ -8,9 +8,6 @@ vim.cmd[[autocmd MyAutoCmd BufWritePre * call JCCreateFolderIfNecessary(expand('
 -- Autoreload plugins when updating plugins.lua
 vim.cmd[[autocmd MyAutoCmd BufWritePost plugins.lua PackerCompile]]
 
--- Autoupdate filetype on writes
-vim.cmd[[autocmd MyAutoCmd BufWritePost * nested lua require'jc.autocommands'.redetect_filetype()]]
-
 -- Handle non modifiable buffers
 vim.cmd[[autocmd MyAutoCmd BufEnter * lua require'jc.autocommands'.handle_no_modifiable()]]
 
@@ -23,14 +20,6 @@ end
 vim.cmd('augroup END')
 
 local M = {}
-
-function M.redetect_filetype()
-  local current_buffer = vim.api.nvim_get_current_buf()
-  local filetype = vim.api.nvim_buf_get_option(current_buffer, 'filetype')
-  if not filetype then
-    vim.cmd[[filetype detect]]
-  end
-end
 
 function M.handle_no_modifiable()
   local current_buffer = vim.api.nvim_get_current_buf()

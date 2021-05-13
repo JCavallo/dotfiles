@@ -1,91 +1,91 @@
-// vim:ft=json
+// vim:ft=javascript
 {
-    "layer": "top",
+  "layer": "top",
     "position": "bottom",
     "height": 50,
     "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": ["sway/window"],
     "modules-right": ["custom/disk-icon", "disk",
-	    "custom/cpu-icon", "cpu", "custom/memory-icon", "memory",
-	    "battery", "pulseaudio", "network", "clock"],
+    "custom/cpu-icon", "cpu", "custom/memory-icon", "memory",
+    "battery", "pulseaudio", "network", "clock"],
     "sway/workspaces": {
-        "disable-scroll": true,
-        "all-outputs": false,
-        "format": "{icon}",
-        "format-icons": {
-            "Tools:": "",
-            "Term:": "",
-            "Web:": "",
-            "Dev:": "",
-            "Docs:": "",
-            "Steam:": "",
-            "urgent": "",
-            "focused": "",
-            "default": ""
-        }
+      "disable-scroll": true,
+      "all-outputs": false,
+      "format": "<big>{icon}</big><small>{name}</small>",
+      "format-icons": {
+        "Tools:": "",
+        "Term:": "",
+        "Web:": "",
+        "Dev:": "",
+        "Docs:": "",
+        "Steam:": "",
+        "urgent": "",
+        "default": ""
+      }
     },
     "sway/mode": {
-        "format": "<span style=\"italic\">{}</span>"
+      "format": "<span style=\"italic\">{}</span>"
     },
     "clock": {
-        "format": "{:%Y-:%m-:%d :%H:%M}"
+      "format": "  {:%Y-%m-%d %H:%M:%S}",
+      "interval": 1
     },
     "custom/cpu-icon": {
-	"exec": "echo ",
-	"interval": "once",
-        "format": "{}"
+      "exec": "echo ",
+      "interval": "once",
+      "format": "{}"
     },
     "cpu": {
-        "format": "{usage}%"
+      "format": "{usage}%"
     },
     "custom/memory-icon": {
-	"exec": "echo ",
-	"interval": "once",
-        "format": "{}"
+      "exec": "echo ",
+      "interval": "once",
+      "format": "{}"
     },
     "memory": {
-        "format": "{used:0.1f}G/{total:0.1f}G"
+      "format": "{used:0.1f}G/{total:0.1f}G"
     },
     "custom/disk-icon": {
-	"exec": "echo ",
-	"interval": "once",
-        "format": "{}"
+      "exec": "echo ",
+      "interval": "once",
+      "format": "{}"
     },
     "disk": {
-        "format": "{free}"
+      "format": "{free}"
     },
     "battery": {
-        "bat": "BAT0",
-        "states": {
-            // "good": 95,
-            "warning": 30,
-            "critical": 15
-        },
-        "format": "{capacity}% {icon}",
-        // "format-good": "", // An empty format will hide the module
-        // "format-full": "",
-        "format-icons": ["", "", "", "", ""]
+      "bat": "BAT0",
+      "states": {
+        // "good": 95,
+        "warning": 30,
+        "critical": 15
+      },
+      "format": "{capacity}% {icon}",
+      // "format-good": "", // An empty format will hide the module
+      // "format-full": "",
+      "format-icons": ["", "", "", "", ""]
     },
     "network": {
-        // "interface": "wlp2s0", // (Optional) To force the use of this interface
-        "format-wifi": "",
-        "format-ethernet": "",
-        "format-disconnected": "⚠"
+      // "interface": "wlp2s0", // (Optional) To force the use of this interface
+      "format-wifi": "",
+      "format-ethernet": "",
+      "format-disconnected": "⚠"
     },
     "pulseaudio": {
-        //"scroll-step": 1,
-        "format": "{volume}% {icon}",
-        "format-bluetooth": "{volume}% {icon}",
-        "format-muted": "",
-        "format-icons": {
-            "headphones": "",
-            "handsfree": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
-            "default": ["", ""]
-        },
-        "on-click": "pavucontrol"
+      //"scroll-step": 1,
+      "format": "{volume}% {icon}",
+      "format-bluetooth": "{volume}% {icon}",
+      "format-muted": "",
+      "format-icons": {
+        "headphones": "",
+        "handsfree": "",
+        "headset": "",
+        "phone": "",
+        "portable": "",
+        "car": "",
+        "default": ["", ""]
+      },
+      "on-click": "pavucontrol"
     }
 }

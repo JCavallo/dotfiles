@@ -39,7 +39,7 @@ window#waybar {
 }
 
 #workspaces {
-    font-size: 2em;
+    font-size: 1.5em;
 }
 
 
@@ -73,11 +73,10 @@ window#waybar {
 #clock, #battery, #network, #pulseaudio, #tray, #mode {
     padding-left: 0.4em;
     padding-right: 0.4em;
-    font-size: 2em;
+    font-size: 1em;
 }
 
 #clock {
-    font-weight: bold;
 }
 
 #battery {

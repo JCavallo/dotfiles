@@ -1,0 +1,15 @@
+#!/usr/bin/bash
+name=$(swaymsg -t get_workspaces | jq -r .[].name | grep Dev | sed -e "s/Dev://" | fzf --print-query)
+result="$?"
+
+if [[ "$result" = "0" ]]; then
+    # It's a match
+    name=$(echo $name | cut -f 2 -d " ")
+elif [[ "$result" = "1" ]]; then
+    # New env
+    name=$(echo $name | cut -f 1 -d " ")
+fi
+
+if [[ "$name" != "" ]];then
+    swaymsg workspace "Dev:$name"
+fi
