@@ -51,14 +51,14 @@ function M.lualine()
     },
     inactive_sections = {
       lualine_a = {},
-      lualine_b = { {'filename', full_path = true} },
+      lualine_b = { {'filename', path = 1} },
       lualine_c = {},
       lualine_x = {'location'},
       lualine_y = {'filetype'},
       lualine_z = {}
     },
     tabline = {
-      lualine_a = { {'filename', file_status = true, full_path = true} },
+      lualine_a = { {'filename', file_status = true, path = 2} },
       lualine_b = {},
       lualine_c = {},
       lualine_x = {},

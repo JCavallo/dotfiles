@@ -129,7 +129,7 @@ WAYBAR_RUN_DEPS="libgtkmm-3.0-1v5 libjsoncpp24 libsigc++-2.0-0v5 libpulse0 "
 
 SWAYLOCK_BUILD_DEPS="meson ninja-build libcairo2-dev libgdk-pixbuf-2.0-dev
 libxkbcommon-dev libwayland-dev "
-SWAYLOCK_RUN_DEPS="wayland-protocols "
+SWAYLOCK_RUN_DEPS="wayland-protocols xwayland "
 
 PSPG_BUILD_DEPS="libncurses-dev "
 
@@ -292,7 +292,7 @@ fi
 
 # Install Homebrew if needed
 if [[ ! "$(command -v brew)" ]]; then
-    chronic curl -fsSL \
+    curl -fsSL \
         https://raw.githubusercontent.com/Homebrew/install/master/install.sh \
         > /tmp/homebrew.sh
     chronic bash /tmp/homebrew.sh <<< "
