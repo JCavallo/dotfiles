@@ -1,5 +1,7 @@
 #!/usr/bin/bash
-cd ~/Pictures/Wallpapers
+mkdir -p "$HOME/Pictures"
+mkdir -p "$HOME/Pictures/Wallpapers"
+cd "$HOME/Pictures/Wallpapers"
 
 dl_wallpaper() {
     # Thanks https://github.com/bijanebrahimi/waffle/
@@ -23,7 +25,6 @@ export -f dl_wallpaper
 
 _fetch() {
     WALLPAPER_FOLDER="$HOME/Pictures/Wallpapers"
-    mkdir -p $WALLPAPER_FOLDER
     while true; do
         mkdir -p /tmp/random_wallpaper
         rm -f /tmp/random_wallpaper/*
