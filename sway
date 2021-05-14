@@ -262,6 +262,8 @@ gaps left 140
 gaps right 140
 gaps bottom 0
 
+output Virtual-1 mode --custom "3840x2160@60Hz"
+
 # Rounded corners
 # border_radius 20
 

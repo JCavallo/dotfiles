@@ -553,7 +553,7 @@ if [ ! "$(command -v git-blur)" ]; then
     git blur init
 
     # Check files are properly decrypted
-    if [ "$(cat vimrc.local | git blur smudge 2>&1 | \
+    if [ "$(cat bash_local | git blur smudge 2>&1 | \
             grep 'bad decrypt')" != '' ]; then
         echo_comment "Tried to cheat, did'nt ya? I'll exit"
         exit 1
