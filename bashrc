@@ -329,8 +329,9 @@ if [ -e "$HOME/n" ]; then
 fi
 
 if [ -e "$HOME/.pyenv/bin" ]; then
+    export PYENV_ROOT="$HOME/.pyenv"
     export PATH="$HOME/.pyenv/bin:$PATH"
-    eval "$(pyenv init -)"
+    eval "$(pyenv init --path)"
     eval "$(pyenv virtualenv-init -)"
 fi
 

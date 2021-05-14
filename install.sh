@@ -29,6 +29,7 @@ sudo apt -y install moreutils &> /dev/null
 echo_comment "Installing main tools"
 MAIN_TOOLS=""
 MAIN_TOOLS+="bat "  # Better cat
+MAIN_TOOLS+="cmake "  # We will use it anyway
 MAIN_TOOLS+="curl "  # Always useful
 MAIN_TOOLS+="direnv "  # Per folder environment variables
 MAIN_TOOLS+="dnsutils "  # nslookup is useful
@@ -41,6 +42,7 @@ MAIN_TOOLS+="htop "  # Like top, but better
 MAIN_TOOLS+="imagemagick "  # View images...
 MAIN_TOOLS+="jq "  # Beautiful json
 MAIN_TOOLS+="keychain "  # Manage ssh because I must
+MAIN_TOOLS+="libtool-bin "  # Will be used by neovim
 MAIN_TOOLS+="make "  # Will always need it somehow
 MAIN_TOOLS+="network-manager "  # Command line network utilities
 MAIN_TOOLS+="python3-pip "  # Will need it at some point anyway
@@ -123,15 +125,17 @@ WAYBAR_BUILD_DEPS="clang-tidy gobject-introspection libdbusmenu-gtk3-dev
 libfmt-dev libgirepository1.0-dev libgtk-3-dev libgtkmm-3.0-dev libinput-dev
 libjsoncpp-dev libmpdclient-dev libnl-3-dev libnl-genl-3-dev libpulse-dev
 libsigc++-2.0-dev libspdlog-dev libwayland-dev scdoc "
-WAYBAR_RUN_DEPS="libgtkmm-3.0-1v5 libjsoncpp24 libsigc++-2.0-0v5 libpulse "
+WAYBAR_RUN_DEPS="libgtkmm-3.0-1v5 libjsoncpp24 libsigc++-2.0-0v5 libpulse0 "
 
 SWAYLOCK_BUILD_DEPS="meson ninja-build libcairo2-dev libgdk-pixbuf-2.0-dev
 libxkbcommon-dev libwayland-dev "
 SWAYLOCK_RUN_DEPS="wayland-protocols "
 
-PSPG_BUILD_DEPS="libncurses-dev"
+PSPG_BUILD_DEPS="libncurses-dev "
 
 BREW_RUN_DEPS="build-essential curl file git "
+
+SWAY_RUN_DEPS="libmpdclient2 libdbusmenu-gtk3-4 libfmt7 "
 
 BUILD_DEPS="$PSPG_BUILD_DEPS "
 RUN_DEPS="tzdata $BREW_RUN_DEPS"
@@ -145,7 +149,7 @@ if [[ "$SERVER" = "0" ]]; then
     fi
     if [[ "$WM" = "sway" ]]; then
         BUILD_DEPS+="$SWAYLOCK_BUILD_DEPS $WAYBAR_BUILD_DEPS "
-        RUN_DEPS+="$SWAYLOCK_RUN_DEPS $WAYBAR_RUN_DEPS "
+        RUN_DEPS+="$SWAYLOCK_RUN_DEPS $WAYBAR_RUN_DEPS $SWAY_RUN_DEPS "
     fi
     if [[ "$TERMINAL" = "alacritty" ]]; then
         BUILD_DEPS+="$ALACRITTY_BUILD_DEPS "
@@ -396,13 +400,8 @@ if [ "$(which nvim)" = '' ]; then
     cd "$HOME"/Projets
     chronic git clone https://github.com/neovim/neovim Neovim
     cd Neovim
-    chronic sudo apt install cmake libtool-bin
     chronic make CMAKE_BUILD_TYPE=Release -j4
     chronic sudo make install
-    mkdir -p "$HOME"/.config
-    mkdir -p "$HOME"/.config/nvim
-    cd "$HOME"/.config/nvim
-    ln -s "$HOME"/dotfiles/nvimrc init.vim
     chronic pip install --user neovim
     chronic pip3 install --user neovim
     chronic pip3 install --user neovim-remote
