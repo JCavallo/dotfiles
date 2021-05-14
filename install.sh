@@ -287,7 +287,7 @@ if [[ ! -e "$HOME/tools" ]]; then
     echo_comment "Loading tools"
     mkdir -p "$HOME/tools"
     cd "$HOME/tools"
-    git clone https://github.com/bigH/git-fuzzy.git
+    chronic git clone https://github.com/bigH/git-fuzzy.git
 fi
 
 # Install Homebrew if needed
@@ -483,7 +483,8 @@ fi
 if [ ! "$(command -v n)" ]; then
     echo_comment "Installing latest node js through n"
     curl -s -L https://git.io/n-install | chronic bash -s -- -y -n
-    chronic "$HOME/n/bin/npm" i -g yarn
+    export PATH="$PATH:$HOME/n/bin"
+    chronic npm i -g yarn
 fi
 
 # Install hub (for github)
@@ -568,7 +569,7 @@ if [ ! "$(command -v git-blur)" ]; then
     fi
 
     echo_comment "Installing decrypted files"
-    files="vimrc.local bash_local pgpass"
+    files="bash_local pgpass"
     IFS=$' \n' read -ra files <<< "${files}"
     for file in "${files[@]}"; do
         ln -s "$dir"/"$file" "$HOME/.$file"
