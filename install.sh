@@ -45,6 +45,7 @@ MAIN_TOOLS+="keychain "  # Manage ssh because I must
 MAIN_TOOLS+="libtool-bin "  # Will be used by neovim
 MAIN_TOOLS+="make "  # Will always need it somehow
 MAIN_TOOLS+="network-manager "  # Command line network utilities
+MAIN_TOOLS+="pulseaudio"  # Sound management
 MAIN_TOOLS+="python3-pip "  # Will need it at some point anyway
 MAIN_TOOLS+="ruby "  # Git blur :'(
 MAIN_TOOLS+="ranger "  # Cli file explorer
