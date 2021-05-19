@@ -28,6 +28,7 @@ sudo apt -y install moreutils &> /dev/null
 
 echo_comment "Installing main tools"
 MAIN_TOOLS=""
+MAIN_TOOLS+="apparmor-utils "  # For aadisable...
 MAIN_TOOLS+="bat "  # Better cat
 MAIN_TOOLS+="cmake "  # We will use it anyway
 MAIN_TOOLS+="curl "  # Always useful
@@ -238,6 +239,13 @@ if [[ "$SERVER" = "0" ]]; then
         if [[ ! -e "$HOME"/.config/swaylock ]]; then
             mkdir -p "$HOME"/.config/swaylock
             ln -s "$dir"/swaylock "$HOME"/.config/swaylock/config
+        fi
+        if [[ ! -e "$HOME"/.config/mako ]]; then
+            mkdir -p "$HOME"/.config/mako
+            ln -s "$dir"/mako "$HOME"/.config/mako/config
+
+            # Necessary so a custom configfile patch can be used :/
+            sudo aa-disable /etc/apparmor.d/fr.emersion.Mako
         fi
     fi
     if [[ "$TERMINAL" = "kitty" ]]; then
