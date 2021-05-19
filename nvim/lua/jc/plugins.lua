@@ -242,6 +242,7 @@ return require('packer').startup {
     ---------------
 
     --use 'jcavallo/tryton-vim'                       -- Tryton
+    use 'masukomi/vim-markdown-folding'               -- Better markdown folding
 
 
 
