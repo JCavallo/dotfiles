@@ -94,13 +94,13 @@ function M.gitsigns()
   require'gitsigns'.setup{
     current_line_blame = true
   }
-  vim.cmd[[highlight GitSignsCurrentLineBlame guifg=#cccccc gui=italic]]
+  vim.cmd[[highlight GitSignsCurrentLineBlame guifg=#666677 cterm=italic gui=italic]]
 end
 
 function M.treesitter()
   require('nvim-treesitter.configs').setup {
     ensure_installed = { 'lua', 'rust', 'toml', 'python', 'yaml', 'json',
-      'javascript', 'typescript', 'tsx', 'bash' },
+      'javascript', 'typescript', 'tsx', 'bash', 'html' },
 
     highlight = {
       enable = 'enabled', -- false will disable the whole extension
@@ -161,7 +161,6 @@ function M.completion()
   vim.cmd[[autocmd BufEnter * lua require'completion'.on_attach()]]
   vim.g.completion_enable_snippet = 'UltiSnips'
 
-  vim.g.UltiSnipsExpandTrigger = '<tab>'
   vim.g.UltiSnipsJumpForwardTrigger = '<tab>'
   vim.g.UltiSnipsJumpBackwardTrigger = '<s-tab>'
   vim.g.completion_matching_smart_case = 1
@@ -180,14 +179,31 @@ function M.lsp()
   -- Custom attach function
   local custom_attach = function(client)
     require('lsp-status').on_attach(client)
+    vim.bo.omnifunc = 'v:lua.vim.lsp.omnifunc'
   end
+
+  local updated_capabilities = vim.lsp.protocol.make_client_capabilities()
+  updated_capabilities.textDocument.codeLens = {
+    dynamicRegistration = false,
+  }
+  updated_capabilities = vim.tbl_deep_extend('keep',
+    updated_capabilities, require'lsp-status'.capabilities)
+  updated_capabilities.textDocument.completion.completionItem.snippetSupport = true
+  updated_capabilities.textDocument.completion.completionItem.resolveSupport = {
+    properties = {
+      'documentation',
+      'detail',
+      'additionalTextEdits',
+    }
+  }
 
   -- lua for vim configuration lsp, may need manual build because gcc10
   local sumneko_root_path = vim.fn.stdpath('cache')..'/nlua/sumneko_lua/lua-language-server/'
   require('nlua.lsp.nvim').setup(lspconfig, {
     on_init = custom_init,
     on_attach = custom_attach,
-    
+    capabilities = updated_capabilities,
+
     cmd = {sumneko_root_path .. '/bin/Linux/lua-language-server', '-E',
       sumneko_root_path .. 'main.lua'},
 
@@ -203,6 +219,9 @@ function M.lsp()
 
   -- pip install python-language-server[all]
   lspconfig.pyls.setup({
+    on_init = custom_init,
+    on_attach = custom_attach,
+    capabilities = updated_capabilities,
     enable = true,
     pyls = {
       plugins = { pyls_mpypy = {enabled = true} }
@@ -212,16 +231,26 @@ function M.lsp()
 
   -- LspInstall terraform
   lspconfig.terraformls.setup({
+    on_init = custom_init,
+    on_attach = custom_attach,
+    capabilities = updated_capabilities,
     cmd = { "terraform-lsp" },
     filetypes = { "tf", "terraform" },
     root_dir = lspconfig_util.root_pattern(".terraform", ".git"),
   })
 
   -- LspInstall vim
-  lspconfig.vimls.setup({})
+  lspconfig.vimls.setup({
+    on_init = custom_init,
+    on_attach = custom_attach,
+    capabilities = updated_capabilities,
+  })
 
   -- LspInstall typescript
   lspconfig.tsserver.setup({
+    on_init = custom_init,
+    on_attach = custom_attach,
+    capabilities = updated_capabilities,
     cmd = {'typescript-language-server', '--stdio'},
     filetypes = {
         "javascript",
@@ -235,16 +264,32 @@ function M.lsp()
       "package.json", "tsconfig.json", "jsconfig.json", ".git"),
   })
 
+  -- yarn global add vscode-html-languageserver-bin
+  lspconfig.html.setup({    on_init = custom_init,
+    on_attach = custom_attach,
+    capabilities = updated_capabilities,
+  })
+
   -- LspInstall bash
-  lspconfig.bashls.setup({})
+  lspconfig.bashls.setup({
+    on_init = custom_init,
+    on_attach = custom_attach,
+    capabilities = updated_capabilities,
+  })
 
   -- LspInstall yaml
   lspconfig.yamlls.setup({
+    on_init = custom_init,
+    on_attach = custom_attach,
+    capabilities = updated_capabilities,
     filetypes = { "yaml", "yaml.tmpl" },
   })
 
   -- LspInstall rust
   lspconfig.rust_analyzer.setup({
+    on_init = custom_init,
+    on_attach = custom_attach,
+    capabilities = updated_capabilities,
     cmd = {"rust-analyzer"},
     filetypes = {"rust"},
   })

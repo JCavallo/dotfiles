@@ -23,8 +23,9 @@ return require('packer').startup {
         -- Can use P to toggle auto movement
         require('trouble').setup {
           auto_open = true,
+          auto_close = true,
           auto_preview = false,
-          auto_fold = true,
+          auto_fold = false,
         }
       end,
     }
