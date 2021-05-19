@@ -11,6 +11,9 @@ vim.cmd[[autocmd MyAutoCmd BufWritePost plugins.lua PackerCompile]]
 -- Handle non modifiable buffers
 vim.cmd[[autocmd MyAutoCmd BufEnter * lua require'jc.autocommands'.handle_no_modifiable()]]
 
+-- Defaults we will want everywhere
+vim.cmd[[autocmd MyAutoCmd BufEnter * lua require'jc.autocommands'.default_configuration()]]
+
 -- Load filetype autocommands
 for lang_name in pairs(require'jc.filetypes') do
   vim.cmd('autocmd MyAutoCmd Filetype ' .. lang_name
@@ -29,6 +32,10 @@ function M.handle_no_modifiable()
     vim.cmd[[setlocal colorcolumn=]]
     vim.cmd[[setlocal signcolumn=no]]
   end
+end
+
+function M.default_configuration()
+  vim.bo.expandtab = true
 end
 
 return M
