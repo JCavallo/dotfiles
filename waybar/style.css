@@ -15,31 +15,31 @@ window#waybar {
 }
 
 .modules-left {
-    font-size: 2em;
-    background: rgba(30, 30, 30, 0.8);
+    font-size: 1.5em;
+    background: rgba(40, 40, 50, 0.8);
     padding-left: 1em;
     padding-right: 1em;
     border-radius: 1em;
 }
 
 .modules-center {
-    font-size: 2em;
-    background: rgba(30, 30, 30, 0.8);
+    font-size: 1.5em;
+    background: rgba(40, 40, 50, 0.8);
     padding-left: 3em;
     padding-right: 3em;
     border-radius: 1em;
 }
 
 .modules-right {
-    font-size: 2em;
-    background: rgba(30, 30, 30, 0.8);
+    font-size: 1.5em;
+    background: rgba(40, 40, 50, 0.8);
     padding-left: 1em;
     padding-right: 1em;
     border-radius: 1em;
 }
 
 #workspaces {
-    font-size: 1.5em;
+    font-size: 1.1em;
 }
 
 
@@ -67,7 +67,7 @@ window#waybar {
 
 #custom-memory-icon, #custom-memory-cpu, #custom-memory-disk {
     padding-left: 1em;
-    font-size: 2em;
+    font-size: 1.5em;
 }
 
 #clock, #battery, #network, #pulseaudio, #tray, #mode {
@@ -105,28 +105,28 @@ window#waybar {
 }
 
 #custom-disk-icon {
-    font-size: 2em;
+    font-size: 1.5em;
 }
 
 #disk {
 }
 
 #custom-cpu-icon {
-    font-size: 2em;
+    font-size: 1.5em;
 }
 
 #cpu {
 }
 
 #custom-memory-icon {
-    font-size: 2em;
+    font-size: 1.5em;
 }
 
 #memory {
 }
 
 #network {
-    font-size: 2em;
+    font-size: 1.5em;
 }
 
 #network.disconnected {
@@ -134,7 +134,7 @@ window#waybar {
 }
 
 #pulseaudio {
-    font-size: 2em;
+    font-size: 1.5em;
 }
 
 #pulseaudio.muted {
