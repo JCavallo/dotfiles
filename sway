@@ -212,7 +212,21 @@ assign [class="libreoffice"] $document_workspace
 assign [class="libreoffice-startcenter"] $document_workspace
 assign [class="Soffice"] $document_workspace
 
+# Screenshot tooling
+set $ps1 Print
+set $ps2 Control+Print
+set $ps3 Alt+Print
+set $ps4 Alt+Control+Print
+ 
+bindsym $ps1 exec grim - | wl-copy
+bindsym $ps2 exec grim -g "$(slurp)" - | wl-copy
+bindsym $ps3 exec grim /tmp/ps_$(date +"%Y%m%d%H%M%S").png
+bindsym $ps4 exec grim -g "$(slurp)" /tmp/ps_$(date +"%Y%m%d%H%M%S").png
+
+# Auto fade non-focused windowed
 exec_always python3 ~/bin/sway-fader
+
+# Notification Daemon
 exec_always mako
 exec --no-startup-id swaymsg "workspace $browser_workspace;"
 

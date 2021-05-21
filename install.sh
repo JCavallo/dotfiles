@@ -65,10 +65,10 @@ if [[ "$SERVER" = "0" ]]; then
 
     if [[ "$WM" = "sway" ]]; then
         GUI_TOOLS+="gammastep "  # Change light temperature depending on time
-        GUI_TOOLS+="geoclue-2.0 "  # Autodetect location
+        GUI_TOOLS+="grim"  # Screenshot tools
         GUI_TOOLS+="mako-notifier "  # Notification daemon for wayland
+        GUI_TOOLS+="slurp "  # Screenshot tools
         GUI_TOOLS+="sway "  # Compositor / window manager
-        GUI_TOOLS+="swaylock "  # Screen lock
         GUI_TOOLS+="swayidle "  # Idle configuration
         GUI_TOOLS+="wl-clipboard "  # Copy paste, wayland style
     elif [[ "$WM" = "i3" ]]; then
