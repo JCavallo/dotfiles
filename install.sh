@@ -65,14 +65,14 @@ if [[ "$SERVER" = "0" ]]; then
 
     if [[ "$WM" = "sway" ]]; then
         GUI_TOOLS+="gammastep "  # Change light temperature depending on time
-        GUI_TOOLS+="grim"  # Screenshot tools
+        GUI_TOOLS+="grim "  # Screenshot tools
         GUI_TOOLS+="mako-notifier "  # Notification daemon for wayland
         GUI_TOOLS+="slurp "  # Screenshot tools
         GUI_TOOLS+="sway "  # Compositor / window manager
         GUI_TOOLS+="swayidle "  # Idle configuration
         GUI_TOOLS+="wl-clipboard "  # Copy paste, wayland style
     elif [[ "$WM" = "i3" ]]; then
-        GUI_TOOLS+="feh"  # Wallpapers
+        GUI_TOOLS+="feh "  # Wallpapers
         GUI_TOOLS+="xclip "  # copy paste...
         GUI_TOOLS+="xinit "  # Just so we can startx
     fi
