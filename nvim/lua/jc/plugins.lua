@@ -19,15 +19,7 @@ return require('packer').startup {
     use 'folke/lsp-colors.nvim'                   -- Better colors
     use {                                         -- Better info
       'folke/lsp-trouble.nvim',
-      config = function()
-        -- Can use P to toggle auto movement
-        require('trouble').setup {
-          auto_open = true,
-          auto_close = true,
-          auto_preview = false,
-          auto_fold = false,
-        }
-      end,
+      config = function() require'jc.plugin_configuration'.trouble() end
     }
     use {                                         -- Neovim integrated lsp client
       'neovim/nvim-lspconfig',
@@ -73,6 +65,7 @@ return require('packer').startup {
     use 'romgrk/nvim-treesitter-context'          -- Show context of current line
     use 'nvim-treesitter/nvim-treesitter-textobjects'
     use 'nvim-treesitter/completion-treesitter'
+    use 'windwp/nvim-ts-autotag'                  -- Auto close tags
     use 'vigoux/architext.nvim'
 
     -------------
@@ -86,7 +79,10 @@ return require('packer').startup {
       'godlygeek/tabular',
       cmd = 'Tabularize'
     }
-    use 'cohama/lexima.vim'                       -- Autoclose things
+    use {                                         -- Autoclose things
+      'cohama/lexima.vim',
+      config = function() require'jc.plugin_configuration'.lexima() end
+    }
     use 'mg979/vim-visual-multi'                  -- Multiple cursors
     use 'monaqa/dial.nvim'                        -- Better increment / decrement
     use {                                         -- Exchange things
@@ -97,7 +93,7 @@ return require('packer').startup {
       'preservim/nerdcommenter',
       keys = '<Leader>c'
     }
-    use 'SirVer/ultisnips.git'                    -- Snippet engine
+    --use 'SirVer/ultisnips.git'                    -- Snippet engine
     use 'honza/vim-snippets'                      -- Snippet collection
 
     -----------
@@ -245,16 +241,6 @@ return require('packer').startup {
     --use 'jcavallo/tryton-vim'                       -- Tryton
     use 'masukomi/vim-markdown-folding'               -- Better markdown folding
 
-
-
-
-
-
-
-
-
-
-
     -------------------
     -- Miscellaneous --
     -------------------
@@ -269,14 +255,5 @@ return require('packer').startup {
       run = function() vim.g.curshold_updatime = 1000 end,
     }
     use 'gyim/vim-boxdraw'                          -- Draw boxes
-
-
-    -- use 'nvim-telescope/telescope.nvim'
-    -- use { 'nvim-telescope/telescope-fzf-native.nvim', run = "make", }
-    -- use 'nvim-telescope/telescope-fzf-writer.nvim'
-    -- use 'nvim-telescope/telescope-symbols.nvim'
-    -- use 'nvim-telescope/telescope-github.nvim'
-
-
   end,
 }

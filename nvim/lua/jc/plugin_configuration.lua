@@ -99,11 +99,16 @@ end
 
 function M.treesitter()
   require('nvim-treesitter.configs').setup {
-    ensure_installed = { 'lua', 'rust', 'toml', 'python', 'yaml', 'json',
-      'javascript', 'typescript', 'tsx', 'bash', 'html' },
+    ensure_installed = 'maintained',
 
     highlight = {
       enable = 'enabled', -- false will disable the whole extension
+    },
+
+    autotag = {  -- Auto close tags
+    filetypes = {'html', 'javascript', 'javascriptreact', 'typescriptreact',
+      'xml'},
+    enable = true,
     },
 
     incremental_selection = {
@@ -159,10 +164,10 @@ end
 function M.completion()
   -- Always plug in completion.nvim
   vim.cmd[[autocmd BufEnter * lua require'completion'.on_attach()]]
-  vim.g.completion_enable_snippet = 'UltiSnips'
+  --vim.g.completion_enable_snippet = 'UltiSnips'
 
-  vim.g.UltiSnipsJumpForwardTrigger = '<tab>'
-  vim.g.UltiSnipsJumpBackwardTrigger = '<s-tab>'
+  --vim.g.UltiSnipsJumpForwardTrigger = '<tab>'
+  --vim.g.UltiSnipsJumpBackwardTrigger = '<s-tab>'
   vim.g.completion_matching_smart_case = 1
 end
 
@@ -374,6 +379,20 @@ function M.telescope()
     }
   }
   require('telescope').load_extension('fzf')
+end
+
+function M.trouble()
+  require('trouble').setup {
+    position = 'right',
+    auto_close = true,
+    auto_preview = false,
+    auto_fold = false,
+  }
+end
+
+function M.lexima()
+  vim.g.lexima_no_default_rules = true
+  vim.cmd[[call lexima#set_default_rules()]]
 end
 
 return M
