@@ -196,6 +196,7 @@ workspace $steam_workspace output $laptop_screen
 workspace $main_workspace output $laptop_screen
 
 assign [class="Tryton"] $tools_workspace
+assign [app_id="tryton"] $tools_workspace
 assign [class="Chrome"] $browser_workspace
 assign [class="chrome"] $browser_workspace
 assign [class="google-chrome"] $browser_workspace
