@@ -61,7 +61,7 @@
         "warning": 30,
         "critical": 15
       },
-      "format": "{capacity}% {icon}",
+      "format": "{capacity}% <big>{icon}</big>",
       // "format-good": "", // An empty format will hide the module
       // "format-full": "",
       "format-icons": ["", "", "", "", ""]
