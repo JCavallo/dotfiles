@@ -70,6 +70,7 @@ if [[ "$SERVER" = "0" ]]; then
         GUI_TOOLS+="slurp "  # Screenshot tools
         GUI_TOOLS+="sway "  # Compositor / window manager
         GUI_TOOLS+="swayidle "  # Idle configuration
+        GUI_TOOLS+="wdisplays "  # Copy paste, wayland style
         GUI_TOOLS+="wl-clipboard "  # Copy paste, wayland style
     elif [[ "$WM" = "i3" ]]; then
         GUI_TOOLS+="feh "  # Wallpapers
