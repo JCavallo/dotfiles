@@ -285,6 +285,6 @@ output Virtual-1 mode --custom "3840x2160@60Hz"
 
 # Sway Specific
 input * xkb_layout "fr"
-input * xkb_options "caps:ctrl_modifier,compose:49,numpad:mac"
+input * xkb_options "compose:caps,numpad:mac"
 input * repeat_delay 200
 input * repeat_rate 60
