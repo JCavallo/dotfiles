@@ -231,6 +231,9 @@ exec_always python3 ~/bin/sway-fader
 exec_always mako
 exec --no-startup-id swaymsg "workspace $browser_workspace;"
 
+# Screen sharing
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway XDG_SESSION_TYPE=wayland
+
 for_window [app_id="^.*"] opacity 0.5
 for_window [app_id="^.*$"] opacity 0.9
 for_window [app_id="^launcher$"] floating enable, opacity 0.8, sticky enable, resize set 30 ppt 60 ppt, border pixel 10
