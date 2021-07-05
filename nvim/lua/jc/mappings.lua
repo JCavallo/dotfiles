@@ -169,6 +169,7 @@ end
 map_tele('i', "buffers")                              -- Opened buffers
 map_tele('k', "jumplist")                             -- Last locations
 map_tele('h', "help_tags")                            -- Help
+map_tele('q', "quickfix")                             -- Quickfix
 
 map_tele('la', "lsp_code_actions")                    -- Code actions
 map_tele('ld', "lsp_definitions")                     -- Goto definitions

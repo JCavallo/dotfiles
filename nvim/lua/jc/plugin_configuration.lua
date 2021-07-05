@@ -343,12 +343,7 @@ function M.telescope()
   local actions = require('telescope.actions')
   require('telescope').setup{
     defaults = {
-      layout_strategy = 'vertical',
-      layout_defaults = {
-        vertical = {
-          mirror = true,
-          preview_height = 0.4,
-        }},
+      layout_strategy = 'flex',
       prompt_prefix = '❯ ',
       selection_caret = '❯ ',
       winblend = 10,
@@ -363,6 +358,10 @@ function M.telescope()
       mappings = {
         n = {
           ["q"] = actions.close,
+          ["<M-a>"] = actions.send_selected_to_qflist + actions.open_qflist
+        },
+        i = {
+          ["<M-a>"] = actions.send_selected_to_qflist + actions.open_qflist
         }
       },
       extensions = {
