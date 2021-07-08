@@ -2,7 +2,7 @@
     name = Jean Cavallo
     email = jean.cavallo@hotmail.fr
 [core]
-    excludesfile = /home/giovanni/.gitignore
+    excludesfile = ~/.gitignore
     editor = nvim
     pager = delta
 [color]
