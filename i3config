@@ -186,13 +186,17 @@ bindsym $mod+r mode "resize"
 # }
 
 # Pulse Audio controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl -- set-sink-volume 0 +5% #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl -- set-sink-volume 0 -5% #decrease sound volume
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+#bindsym XF86AudioRaiseVolume exec --no-startup-id pactl -- set-sink-volume 0 +5% #increase sound volume
+#bindsym XF86AudioLowerVolume exec --no-startup-id pactl -- set-sink-volume 0 -5% #decrease sound volume
+#bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 5%+ #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Master 5%- #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id amixer -D pulse sset Master toggle # mute sound
+bindsym XF86AudioMicMute exec --no-startup-id amixer -D pulse set Capture toggle # toggle mic
 
 # Sreen brightness controls
-bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
+bindsym XF86MonBrightnessUp exec ~/dotfiles/tools/backlight + # increase screen brightness
+bindsym XF86MonBrightnessDown exec ~/dotfiles/tools/backlight - # decrease screen brightness
 
 # Set monitors
 set $laptop_screen "eDP1"
@@ -224,8 +228,8 @@ assign [class="Soffice"] $document_workspace
 exec --no-startup-id source ~/.bash_profile
 exec --no-startup-id redshift-gtk
 exec_always --no-startup-id compton --config ~/.config/compton.conf -b
-exec_always --no-startup-id ~/bin/launch_polybar
-exec_always --no-startup-id ~/bin/wallpaper
+exec_always --no-startup-id ~/dotfiles/tools/launch_polybar
+exec_always --no-startup-id ~/dotfiles/tools/wallpaper_i3
 
 for_window [class="^.*"] border pixel 0
 for_window [class="Rofi"] floating enable
@@ -264,11 +268,11 @@ gaps inner 30
 gaps bottom 80
 
 # 4K gaps
-gaps inner 60
-gaps top 90
-gaps left 140
-gaps right 140
-gaps bottom 140
+# gaps inner 60
+# gaps top 90
+# gaps left 140
+# gaps right 140
+# gaps bottom 140
 
 # Rounded corners
 # border_radius 20
