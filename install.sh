@@ -74,6 +74,7 @@ if [[ "$SERVER" = "0" ]]; then
         GUI_TOOLS+="wl-clipboard "  # Copy paste, wayland style
     elif [[ "$WM" = "i3" ]]; then
         GUI_TOOLS+="feh "  # Wallpapers
+        GUI_TOOLS+="numlockx "  # Just so we can startx
         GUI_TOOLS+="xclip "  # copy paste...
         GUI_TOOLS+="xinit "  # Just so we can startx
     fi
@@ -90,7 +91,7 @@ libev-dev libxcb-cursor-dev libxcb-xinerama0-dev libtool
 libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev xutils-dev
 autoconf libxcb-xrm0 libxcb-xrm-dev automake libxcb-shape0-dev"
 I3_RUN_DEPS="libasan5 libglib2.0-0 libxcb-xkb1 libxcb-xinerama0
-libxcb-randr0 libxcb-shape0 libxcb-util0 libyajl2 libpangocairo-1.0-0
+libxcb-randr0 libxcb-shape0 libxcb-util1 libyajl2 libpangocairo-1.0-0
 libstartup-notification0 libxcb-cursor0 libxcb-keysyms1 libxcb-icccm4
 libxkbcommon-x11-0 libev4 "
 
@@ -121,7 +122,7 @@ libjpeg-dev libxcb-util0-dev libxcb-xkb-dev libx11-xcb-dev libxkbcommon-x11-dev
 libxcb-ewmh-dev libxcb-icccm4-dev libxcb-randr0-dev libxcb-xinerama0-dev
 libstartup-notification0-dev libxcb-xrm-dev"
 ROFI_RUN_DEPS="libglib2.0-0 libcairo2 libpango-1.0-0 libpangocairo-1.0-0 
-librsvg2-2 libxcb-util0 libxcb-xkb1 libxkbcommon-x11-0 libxcb-ewmh2
+librsvg2-2 libxcb-util1 libxcb-xkb1 libxkbcommon-x11-0 libxcb-ewmh2
 libxcb-icccm4 libxcb-xinerama0 libstartup-notification0 "
 
 WAYBAR_BUILD_DEPS="clang-tidy gobject-introspection libdbusmenu-gtk3-dev
