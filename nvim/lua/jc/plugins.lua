@@ -67,6 +67,8 @@ return require('packer').startup {
     use 'nvim-treesitter/completion-treesitter'
     use 'windwp/nvim-ts-autotag'                  -- Auto close tags
     use 'vigoux/architext.nvim'
+    use 'nvim-treesitter/playground'
+    use 'ElPiloto/sidekick.nvim'
 
     -------------
     -- Editing --
@@ -183,7 +185,7 @@ return require('packer').startup {
     use 'Canop/patine'
     use 'axvr/photon.vim'
     use 'altercation/vim-colors-solarized'
-    use 'iron-e/nvim-highlite.git'
+    use 'iron-e/nvim-highlite'
     use 'jcavallo/flashy-vim'
     use 'dracula/vim'
     use 'drewtempelmeyer/palenight.vim'

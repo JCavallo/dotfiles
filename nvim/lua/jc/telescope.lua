@@ -86,23 +86,21 @@ function M.buffer_tryton_module_files()
     {cwd = _get_tryton_module_path()})
 end
 
-local function _live_grep(dir, shorten)
-  if shorten == nil then
-    shorten = true
-  end
+local function _live_grep(dir, path_display)
   require('telescope.builtin').live_grep {
     search_dirs = {dir},
-    shorten_path = shorten,
+    path_display = path_display,
+    use_regex = true,
     previewer = false,
   }
 end
 
 function M.live_buffer_grep()
-  _live_grep(vim.fn.expand('%:p:h'))
+  _live_grep(vim.fn.expand('%:p:h'), 'tail')
 end
 
 function M.live_project_grep()
-  _live_grep(_get_buffer_project_path(true))
+  _live_grep(_get_buffer_project_path(true), 'shorten')
 end
 
 function M.live_directory_grep()
@@ -121,13 +119,11 @@ function M.buffer_grep()
   _live_grep(vim.fn.expand('%:p'))
 end
 
-local function _grep_string(dir, shorten)
-  if shorten == nil then
-    shorten = true
-  end
+local function _grep_string(dir, path_display)
   require('telescope.builtin').grep_string {
     search_dirs = {dir},
-    shorten_path = shorten,
+    path_display = path_display,
+    use_regex = true,
     previewer = false,
   }
 end

@@ -47,6 +47,7 @@ map('<F1>', '<cmd>Telescope help_tags<CR>')
 map('<F3>', '<cmd>MundoToggle<CR>')
 map('<F4>', '<cmd>Goyo<CR>')
 map('<F5>', '<cmd>set paste!<CR>')
+map('<F8>', '<cmd>call SideKickNoReload()<CR>')
 
 -- Fun shortcut to check color group under cursor
 map('<F10>', '<cmd>echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") .'

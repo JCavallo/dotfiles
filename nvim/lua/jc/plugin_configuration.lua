@@ -62,7 +62,7 @@ function M.lualine()
       lualine_b = {},
       lualine_c = {},
       lualine_x = {},
-      lualine_y = {},
+      lualine_y = { require'nvim-treesitter'.statusline(80) },
       lualine_z = { 'encoding', 'fileformat', 'filetype' },
     },
     extensions = {}
@@ -106,9 +106,9 @@ function M.treesitter()
     },
 
     autotag = {  -- Auto close tags
-    filetypes = {'html', 'javascript', 'javascriptreact', 'typescriptreact',
-      'xml'},
-    enable = true,
+      filetypes = {'html', 'javascript', 'javascriptreact', 'typescriptreact',
+        'xml'},
+      enable = true,
     },
 
     incremental_selection = {
@@ -156,6 +156,10 @@ function M.treesitter()
         },
       },
     },
+
+    playground = {
+      enable = true
+    },
   }
   vim.o.foldmethod = 'expr'
   vim.cmd[[set foldexpr=nvim_treesitter#foldexpr()]]
@@ -202,15 +206,15 @@ function M.lsp()
     }
   }
 
-  -- lua for vim configuration lsp, may need manual build because gcc10
-  local sumneko_root_path = vim.fn.stdpath('cache')..'/nlua/sumneko_lua/lua-language-server/'
+  -- lua for vim configuration lsp, LspInstall sumneko_lua
+  local sumneko_server = vim.fn.stdpath('data')..'/lspinstall/lua/sumneko-lua-language-server'
+  local sumneko_main = vim.fn.stdpath('data')..'/lspinstall/lua/sumneko-lua/extension/server/main.lua'
   require('nlua.lsp.nvim').setup(lspconfig, {
     on_init = custom_init,
     on_attach = custom_attach,
     capabilities = updated_capabilities,
 
-    cmd = {sumneko_root_path .. '/bin/Linux/lua-language-server', '-E',
-      sumneko_root_path .. 'main.lua'},
+    cmd = {sumneko_server, '-E', sumneko_main},
 
     root_dir = function(fname)
       if string.find(vim.fn.fnamemodify(fname, ":p"), "nvim/") then
@@ -319,6 +323,9 @@ function M.lsp()
   vim.cmd[[hi LspDiagnosticsInformation guifg=#00AAFF guibg=NONE guisp=NONE gui=NONE cterm=NONE]]
   vim.cmd[[hi LspDiagnosticsHint guifg=#00AAFF guibg=NONE guisp=NONE gui=NONE cterm=NONE]]
 
+  vim.cmd[[autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()]]
+  vim.cmd[[autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()]]
+
 end
 
 function M.lspinstall()
@@ -358,10 +365,12 @@ function M.telescope()
       mappings = {
         n = {
           ["q"] = actions.close,
-          ["<M-a>"] = actions.send_selected_to_qflist + actions.open_qflist
+          ["<M-a>"] = actions.smart_add_to_qflist,
+          ["<M-q>"] = actions.smart_send_to_qflist
         },
         i = {
-          ["<M-a>"] = actions.send_selected_to_qflist + actions.open_qflist
+          ["<M-a>"] = actions.smart_add_to_qflist,
+          ["<M-q>"] = actions.smart_send_to_qflist
         }
       },
       extensions = {
