@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Only works for intel_backlight
+# Requires:
+#   sudo usermod -a -G video $LOGNAME
+#   sudo /bin/chgrp video /sys/class/backlight/intel_backlight/brightness
+#   sudo /bin/chmod g+w /sys/class/backlight/intel_backlight/brightness
+max_brightness=$(cat /sys/class/backlight/intel_backlight/max_brightness)
+cur_brightness=$(cat /sys/class/backlight/intel_backlight/brightness)
+step=$((max_brightness / 20))
+
+if [[ "$1" = "+" ]]; then
+    echo $((cur_brightness + $step)) > /sys/class/backlight/intel_backlight/brightness
+elif [[ "$1" = "-" ]]; then
+    echo $((cur_brightness - $step)) > /sys/class/backlight/intel_backlight/brightness
+else
+    echo "Usage: backlight [+/-]"
+fi
