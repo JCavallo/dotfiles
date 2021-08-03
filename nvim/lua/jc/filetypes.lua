@@ -22,6 +22,11 @@ function M.markdown()
   vim.cmd [[setlocal foldexpr=NestedMarkdownFolds()]]
 end
 
+function M.sql()
+  vim.g.vim_indent_cont = 4
+  vim.cmd [[nnoremap <leader>xx :execute 'silent %w !sqlformat -r -k upper -i lower --indent_width 4 --indent_after_first --indent_columns -a -s --wrap_after 80 -o % %' \| execute ':e!'<CR>]]
+end
+
 function M.vim()
   vim.g.vim_indent_cont = 4
   vim.g.vimsyn_folding = 'afPl'
