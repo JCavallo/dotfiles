@@ -227,7 +227,7 @@ function M.lsp()
   })
 
   -- pip install python-language-server[all]
-  lspconfig.pyls.setup({
+  lspconfig.pylsp.setup({
     on_init = custom_init,
     on_attach = custom_attach,
     capabilities = updated_capabilities,
