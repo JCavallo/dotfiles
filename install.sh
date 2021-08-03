@@ -301,6 +301,13 @@ if [[ ! -e "$HOME/tools" ]]; then
     chronic git clone https://github.com/bigH/git-fuzzy.git
 fi
 
+if [[ ! "$(command -v ptpython)" ]]; then
+    echo_comment "Installing ptpython"
+    chronic pip3 install --user ptpython
+    mkdir -p "$HOME/.config/ptpython"
+    ln -s "$HOME/dotfiles/ptpython" "$HOME/.config/ptpython/config.py"
+fi
+
 # Install Homebrew if needed
 if [[ ! "$(command -v brew)" ]]; then
     curl -fsSL \

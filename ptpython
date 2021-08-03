@@ -1,0 +1,15 @@
+from prompt_toolkit.filters import ViInsertMode
+from prompt_toolkit.key_binding.key_processor import KeyPress
+from prompt_toolkit.keys import Keys
+
+
+def configure(repl):
+    @repl.add_key_binding("j", "k", filter=ViInsertMode())
+    def _(event):
+        " Map 'jk' to Escape. "
+        event.cli.key_processor.feed(KeyPress(Keys("escape")))
+
+    @repl.add_key_binding("k", "j", filter=ViInsertMode())
+    def _(event):
+        " Map 'kj' to Escape. "
+        event.cli.key_processor.feed(KeyPress(Keys("escape")))
