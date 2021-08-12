@@ -12,4 +12,4 @@ if [ -e "$HOME/.xinitrc_local" ]; then
     source "$HOME/.xinitrc_local"
 fi
 
-exec i3
+dbus-launch --exit-with-session i3
