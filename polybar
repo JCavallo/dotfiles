@@ -29,13 +29,13 @@ font-1 = FontAwesome:size=18;5
 [bar/bottom-1]
 monitor = ${env:POLYBAR_SECONDARY_MONITOR:eDP-1}
 bottom = true
-width = 100%:-60
+width = 100%:-20
 height = 40
 
 wm-restack = i3
 override-redirect = true
-offset-x = 30
-offset-y = 30
+offset-x = 10
+offset-y = 10
 
 background = #1c1c1c
 foreground = #eefafafa
@@ -50,8 +50,8 @@ modules-left = i3
 modules-center = powermenu clock volume backlight
 modules-right = wired-network wireless-network cpu memory fs-root battery
 
-font-0 = monofur:size=14;4
-font-1 = FontAwesome:size=18;5
+font-0 = monofur:size=12;4
+font-1 = FontAwesome:size=12;5
 
 [module/fs-root]
 type = internal/fs
