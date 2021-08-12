@@ -249,7 +249,6 @@ return require('packer').startup {
     -- note taking, requires https://github.com/srid/neuron/releases
     use {
       'oberblastmeister/neuron.nvim',
-      keys = "<leader>gzi",
       config = function() require'jc.plugin_configuration'.neuron() end
     }
     use {                                           -- Faster update times
