@@ -4,6 +4,8 @@ from prompt_toolkit.keys import Keys
 
 
 def configure(repl):
+    repl.vi_mode = True
+
     @repl.add_key_binding("j", "k", filter=ViInsertMode())
     def _(event):
         " Map 'jk' to Escape. "
