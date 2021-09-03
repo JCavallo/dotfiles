@@ -32,8 +32,8 @@ font pango:monofur, FontAwesome 14
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-# start a terminal
-bindsym $mod+Return exec alacritty
+# start a terminal (alacrity / kitty)
+bindsym $mod+Return exec kitty
 
 # kill focused window
 bindsym $mod+Shift+a kill
