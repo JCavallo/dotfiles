@@ -69,6 +69,12 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
+# move workspace on outputs
+bindsym $mod+Mod1+h exec i3-msg move workspace to output left
+bindsym $mod+Mod1+j exec i3-msg move workspace to output down
+bindsym $mod+Mod1+k exec i3-msg move workspace to output up
+bindsym $mod+Mod1+l exec i3-msg move workspace to output right
+
 # split in horizontal orientation
 bindsym $mod+Ctrl+h split h
 
