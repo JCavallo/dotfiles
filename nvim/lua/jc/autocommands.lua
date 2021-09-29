@@ -14,6 +14,10 @@ vim.cmd[[autocmd MyAutoCmd BufEnter * lua require'jc.autocommands'.handle_no_mod
 -- Defaults we will want everywhere
 vim.cmd[[autocmd MyAutoCmd BufEnter * lua require'jc.autocommands'.default_configuration()]]
 
+----------------------------- Filetype Aliases --------------------------------
+vim.cmd[[autocmd MyAutoCmd BufEnter *.yaml.tmpl setlocal filetype=yaml]]
+-------------------------------------------------------------------------------
+
 -- Load filetype autocommands
 for lang_name in pairs(require'jc.filetypes') do
   vim.cmd('autocmd MyAutoCmd Filetype ' .. lang_name
