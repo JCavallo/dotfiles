@@ -46,6 +46,8 @@ alias more=batcat
 alias clear="TERM=linux clear"
 alias k="kritik -s --success-message OK --failure-message KO"
 alias g="git"
+alias vim="nvim"
+alias v="nvim"
 
 viewdiff() {
     git diff "$*" > /tmp/viewdiff.diff;nvim /tmp/viewdiff.diff
