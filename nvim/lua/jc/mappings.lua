@@ -171,11 +171,14 @@ map_tele('i', "buffers")                              -- Opened buffers
 map_tele('k', "jumplist")                             -- Last locations
 map_tele('h', "help_tags")                            -- Help
 map_tele('q', "quickfix")                             -- Quickfix
+map_tele('n', "resume")                               -- Resume
 
 map_tele('la', "lsp_code_actions")                    -- Code actions
 map_tele('ld', "lsp_definitions")                     -- Goto definitions
+map_tele('li', "lsp_implementations")                 -- Goto implementations
 map_tele('lo', "lsp_document_diagnostics")            -- Diagnostics
 map_tele('ls', "lsp_document_symbols")                -- Symbols
+map_tele('lr', "lsp_references")                      -- References to current symbol
 map('<space>lp', "<cmd>LspTrouble<CR>")               -- LspTrouble
 
 map_tele('fo', "oldfiles")                            -- file history
