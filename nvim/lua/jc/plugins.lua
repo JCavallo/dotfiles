@@ -9,7 +9,6 @@ return require('packer').startup {
     use 'tjdevries/plenary.nvim'                  -- Pseudo lua stdlib
     use 'nvim-lua/popup.nvim'                     -- Lua tools for creating popups
     use 'tjdevries/nlua.nvim'                     -- Tools for writing neovim configuration in lya
-    -- TODO nlua Lsp
 
     ----------------
     -- IDE Things --
@@ -31,9 +30,13 @@ return require('packer').startup {
       config = function() require'jc.plugin_configuration'.lspinstall() end
     }
     use {                                         -- Completion framework
-      'nvim-lua/completion-nvim',
+      'hrsh7th/nvim-cmp',
       config = function() require'jc.plugin_configuration'.completion() end
     }
+    use 'hrsh7th/cmp-buffer'                      -- Completion from Buffers
+    use 'hrsh7th/cmp-nvim-lsp'                    -- Completion from LSP
+    use 'hrsh7th/cmp-path'                        -- Competion from path
+    use 'hrsh7th/cmp-cmdline'                     -- Competion from command history
     use {                                         -- Jump to definition
       'pechorin/any-jump.vim',
       keys = '<Leader>j',
@@ -95,7 +98,8 @@ return require('packer').startup {
       'preservim/nerdcommenter',
       keys = '<Leader>c'
     }
-    --use 'SirVer/ultisnips.git'                    -- Snippet engine
+    use 'quangnguyen30192/cmp-nvim-ultisnips'     -- Ulti-Snips / cmp link
+    use 'SirVer/ultisnips'                        -- Snippet engine
     use 'honza/vim-snippets'                      -- Snippet collection
 
     -----------

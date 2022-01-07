@@ -29,8 +29,8 @@ function M.lualine()
     options = {
       theme = 'auto',
       icons_enabled = true,
-      section_separators = {'', ''},
-      component_separators = {'', ''},
+      section_separators = { left='', right='' },
+      component_separators = { left='', right='' },
       padding = 1,
       disabled_filetypes = {}
     },
@@ -41,7 +41,7 @@ function M.lualine()
       lualine_x = {'encoding', 'fileformat', 'filetype'},
       lualine_y = {
         {'diagnostics',
-          sources = { 'nvim_lsp' },
+          sources = { 'nvim_diagnostic' },
           color_error = '#FF0000',
           color_warn = '#FFC600',
           color_info = '#00AAFF',
@@ -166,13 +166,40 @@ function M.treesitter()
 end
 
 function M.completion()
-  -- Always plug in completion.nvim
-  vim.cmd[[autocmd BufEnter * lua require'completion'.on_attach()]]
-  --vim.g.completion_enable_snippet = 'UltiSnips'
-
-  --vim.g.UltiSnipsJumpForwardTrigger = '<tab>'
-  --vim.g.UltiSnipsJumpBackwardTrigger = '<s-tab>'
-  vim.g.completion_matching_smart_case = 1
+  local cmp = require 'cmp'
+  cmp.setup({
+    snippet = {
+      expand = function(args)
+        vim.fn["UltiSnips#Anon"](args.body)
+      end,
+    },
+    mapping = {
+      ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-e>'] = cmp.mapping.close(),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    },
+    sources = {
+      { name = 'nvim_lsp' },
+      { name = 'ultisnips' },
+      { name = 'buffer' },
+      -- For luasnip user.
+      -- { name = 'luasnip' },
+    }
+  })
+  cmp.setup.cmdline('/', {
+    sources = {
+      { name = 'buffer' }
+    }
+  })
+  cmp.setup.cmdline(':', {
+    sources = cmp.config.sources({
+      { name = 'path' }
+    }, {
+      { name = 'cmdline' }
+    })
+  })
 end
 
 function M.lsp()
@@ -192,6 +219,8 @@ function M.lsp()
   end
 
   local updated_capabilities = vim.lsp.protocol.make_client_capabilities()
+  updated_capabilities = require('cmp_nvim_lsp').update_capabilities(
+    updated_capabilities)
   updated_capabilities.textDocument.codeLens = {
     dynamicRegistration = false,
   }
@@ -339,7 +368,7 @@ function M.lsp()
   vim.cmd[[hi LspDiagnosticsInformation guifg=#00AAFF guibg=NONE guisp=NONE gui=NONE cterm=NONE]]
   vim.cmd[[hi LspDiagnosticsHint guifg=#00AAFF guibg=NONE guisp=NONE gui=NONE cterm=NONE]]
 
-  vim.cmd[[autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()]]
+  vim.cmd[[autocmd CursorHold * lua vim.diagnostic.show()]]
   vim.cmd[[autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()]]
 
 end

@@ -68,8 +68,8 @@ vim.o.wildignore = '__pycache__,' -- Ignore useless files
     .. '*.obj,*~,.git,eggs/**' 
 vim.o.wildmode = 'longest,full'   -- Complete with best match
 vim.o.wildoptions = 'pum'         -- Nice popup
--- Recommanded configuration for completion.nvim
-vim.o.completeopt = 'menuone,noinsert,noselect'
+-- Recommanded configuration for nvim-cmp
+vim.o.completeopt = 'menu,menuone,noselect'
 
 -- Backup / History
 vim.o.undodir = vim.fn.stdpath('data') .. '/undodir'
