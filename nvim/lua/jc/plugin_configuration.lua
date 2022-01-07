@@ -238,14 +238,21 @@ function M.lsp()
     filetypes = { 'python', 'python.trpy' },
   })
 
-  -- LspInstall terraform
+  -- https://github.com/hashicorp/terraform-ls
   lspconfig.terraformls.setup({
     on_init = custom_init,
     on_attach = custom_attach,
     capabilities = updated_capabilities,
-    cmd = { "terraform-lsp" },
+    cmd = { "terraform-ls" },
     filetypes = { "tf", "terraform" },
     root_dir = lspconfig_util.root_pattern(".terraform", ".git"),
+  })
+
+  -- yarn global add vscode-langservers-extracted
+  lspconfig.cssls.setup({
+    on_init = custom_init,
+    on_attach = custom_attach,
+    capabilities = updated_capabilities,
   })
 
   -- LspInstall vim
@@ -274,12 +281,13 @@ function M.lsp()
   })
 
   -- yarn global add vscode-html-languageserver-bin
-  lspconfig.html.setup({    on_init = custom_init,
+  lspconfig.html.setup({
+    on_init = custom_init,
     on_attach = custom_attach,
     capabilities = updated_capabilities,
   })
 
-  -- LspInstall bash
+  -- yarn global add bash-language-server
   lspconfig.bashls.setup({
     on_init = custom_init,
     on_attach = custom_attach,
@@ -301,6 +309,14 @@ function M.lsp()
     capabilities = updated_capabilities,
     cmd = {"rust-analyzer"},
     filetypes = {"rust"},
+  })
+
+  -- https://download.jboss.org/jbosstools/vscode/stable/lemminx-binary/
+  lspconfig.lemminx.setup({
+    on_init = custom_init,
+    on_attach = custom_attach,
+    capabilities = updated_capabilities,
+    cmd = { "lemminx-linux" }
   })
 
   vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
