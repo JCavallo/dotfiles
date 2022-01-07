@@ -2,4 +2,4 @@
 export XDG_CONFIG_HOME=/tmp/test_vim/.config
 export XDG_DATA_HOME=/tmp/test_vim/.data
 export XDG_CACHE_HOME=/tmp/test_vim/.cache
-nvim $*
+~/Projets/Neovim/build/bin/nvim

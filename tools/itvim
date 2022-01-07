@@ -7,4 +7,4 @@ export XDG_DATA_HOME=/tmp/test_vim/.data
 export XDG_CACHE_HOME=/tmp/test_vim/.cache
 mkdir -p /tmp/test_vim/.config
 ln -s ~/Projets/Nvimrc/dotfiles/nvim /tmp/test_vim/.config/nvim
-nvim
+~/Projets/Neovim/build/bin/nvim
