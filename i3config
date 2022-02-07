@@ -123,28 +123,48 @@ bindsym $mod+x move workspace to output right
 
 # switch to workspace
 bindsym $mod+ampersand workspace $tools_workspace
+bindsym $mod+1 workspace $tools_workspace
 bindsym $mod+eacute workspace $dev_workspace
+bindsym $mod+2 workspace $dev_workspace
 bindsym $mod+quotedbl workspace $browser_workspace
+bindsym $mod+3 workspace $browser_workspace
 bindsym $mod+apostrophe workspace $document_workspace
+bindsym $mod+4 workspace $document_workspace
 bindsym $mod+parenleft workspace 5
+bindsym $mod+5 workspace 5
 bindsym $mod+minus workspace $test_workspace
+bindsym $mod+6 workspace $test_workspace
 bindsym $mod+egrave workspace $steam_workspace
+bindsym $mod+7 workspace $steam_workspace
 bindsym $mod+underscore workspace 8
+bindsym $mod+8 workspace 8
 bindsym $mod+ccedilla workspace 9
+bindsym $mod+9 workspace 9
 bindsym $mod+agrave workspace $main_workspace
+bindsym $mod+0 workspace $main_workspace
 bindsym $mod+n workspace $note_workspace
 
 # move focused container to workspace
-bindsym $mod+Shift+ampersand move container to workspace $tools_workspace
+#bindsym $mod+Shift+ampersand move container to workspace $tools_workspace
+bindsym $mod+Shift+1 move container to workspace $tools_workspace
 bindsym $mod+Shift+eacute move container to workspace $dev_workspace
+bindsym $mod+Shift+2 move container to workspace $dev_workspace
 bindsym $mod+Shift+quotedbl move container to workspace $browser_workspace
+bindsym $mod+Shift+3 move container to workspace $browser_workspace
 bindsym $mod+Shift+apostrophe move container to workspace $document_workspace
+bindsym $mod+Shift+4 move container to workspace $document_workspace
+#bindsym $mod+Shift+parenleft move container to workspace 5
 bindsym $mod+Shift+5 move container to workspace 5
 bindsym $mod+Shift+minus move container to workspace $test_workspace
+bindsym $mod+Shift+6 move container to workspace $test_workspace
 bindsym $mod+Shift+egrave move container to workspace $steam_workspace
+bindsym $mod+Shift+7 move container to workspace $steam_workspace
 bindsym $mod+Shift+underscore move container to workspace 8
+bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+ccedilla move container to workspace 9
+bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+agrave move container to workspace $main_workspace
+bindsym $mod+Shift+0 move container to workspace $main_workspace
 bindsym $mod+Shift+n move container to workspace $note_workspace
 
 # Magic workspaces
