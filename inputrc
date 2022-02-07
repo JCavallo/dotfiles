@@ -31,26 +31,26 @@ $if mode=vi
     "\C-h": backward-word
     "\C-l": forward-word
     # Disable arrow keys
-    "\eOD":""
-    "\e[D":""
-    "\eOC":""
-    "\e[C":""
-    "\eOA":""
-    "\e[A":""
-    "\eOB":""
-    "\e[B":""
+    #"\eOD":""
+    #"\e[D":""
+    #"\eOC":""
+    #"\e[C":""
+    #"\eOA":""
+    "\e[A": history-search-backward
+    #"\eOB":""
+    "\e[B": history-search-backward
     set keymap vi-move
     "j": history-search-forward
     "k": history-search-backward
     "\C-h": backward-word
     "\C-l": forward-word
     # Disable arrow keys
-    "\eOD":""
-    "\e[D":""
-    "\eOC":""
-    "\e[C":""
-    "\eOA":""
-    "\e[A":""
-    "\eOB":""
-    "\e[B":""
+    #"\eOD":""
+    #"\e[D":""
+    #"\eOC":""
+    #"\e[C":""
+    #"\eOA":""
+    "\e[A": history-search-backward
+    #"\eOB":""
+    "\e[B": history-search-backward
 $endif
