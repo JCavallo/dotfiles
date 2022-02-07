@@ -38,7 +38,7 @@ $if mode=vi
     #"\eOA":""
     "\e[A": history-search-backward
     #"\eOB":""
-    "\e[B": history-search-backward
+    "\e[B": history-search-forward
     set keymap vi-move
     "j": history-search-forward
     "k": history-search-backward
@@ -52,5 +52,5 @@ $if mode=vi
     #"\eOA":""
     "\e[A": history-search-backward
     #"\eOB":""
-    "\e[B": history-search-backward
+    "\e[B": history-search-forward
 $endif
