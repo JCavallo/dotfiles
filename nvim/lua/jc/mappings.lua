@@ -73,6 +73,8 @@ map('gV', '`[v`]')
 -- accelerated j / k
 remap('j', '<Plug>(accelerated_jk_gj)')
 remap('k', '<Plug>(accelerated_jk_gk)')
+remap('<Down>', '<Plug>(accelerated_jk_gj)')
+remap('<Up>', '<Plug>(accelerated_jk_gk)')
 
 -- use Q to record macros
 map('Q', 'q')
@@ -118,6 +120,10 @@ map('<A-h>', '<cmd>TmuxNavigateLeft<CR>')
 map('<A-j>', '<cmd>TmuxNavigateDown<CR>')
 map('<A-k>', '<cmd>TmuxNavigateUp<CR>')
 map('<A-l>', '<cmd>TmuxNavigateRight<CR>')
+map('<A-Left>', '<cmd>TmuxNavigateLeft<CR>')
+map('<A-Down>', '<cmd>TmuxNavigateDown<CR>')
+map('<A-Up>', '<cmd>TmuxNavigateUp<CR>')
+map('<A-Right>', '<cmd>TmuxNavigateRight<CR>')
 
 --------------------------
 -- Insert Mode Mappings --
@@ -143,6 +149,10 @@ imap('<A-h>', '<Esc><Plug>TmuxNavigateLeft')
 imap('<A-j>', '<Esc><Plug>TmuxNavigateDown')
 imap('<A-k>', '<Esc><Plug>TmuxNavigateUp')
 imap('<A-l>', '<Esc><Plug>TmuxNavigateRight')
+imap('<A-h>', '<cmd>TmuxNavigateLeft<CR>')
+imap('<A-j>', '<cmd>TmuxNavigateDown<CR>')
+imap('<A-k>', '<cmd>TmuxNavigateUp<CR>')
+imap('<A-l>', '<cmd>TmuxNavigateRight<CR>')
 
 ------------------------
 -- Telescope Mappings --
@@ -294,9 +304,9 @@ revmap('<C-x>', '<Plug>(dial-decrement)')
 -------------------
 
 remap('_', '<Plug>(operator-replace)')
-map('<up>', '<C-w>+')
-map('<down>', '<C-w>-')
-map('<left>', '<C-w><')
-map('<right>', '<C-w>>')
+--map('<up>', '<C-w>+')
+--map('<down>', '<C-w>-')
+--map('<left>', '<C-w><')
+--map('<right>', '<C-w>>')
 map('<', '<<')
 map('>', '>>')
