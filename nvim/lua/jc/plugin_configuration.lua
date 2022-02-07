@@ -196,7 +196,7 @@ function M.completion()
     sources = {
       { name = 'nvim_lsp' },
       { name = 'ultisnips' },
-      { name = 'buffer' },
+      -- { name = 'buffer' },
       -- For luasnip user.
       -- { name = 'luasnip' },
     }
