@@ -361,6 +361,11 @@ function M.lsp()
     cmd = { "lemminx-linux" }
   })
 
+  -- C / C++: apt install clangd-13
+  lspconfig.clangd.setup({
+    cmd = { "clangd-13" }
+  })
+
   vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
       underline = true,
