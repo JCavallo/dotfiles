@@ -215,9 +215,8 @@ function M.completion()
   })
 end
 
-function M.lsp()
-  local lspconfig = require('lspconfig')
-  local lspconfig_util = require('lspconfig.util')
+function M.setup_lsp()
+  local lsp_installer = require("nvim-lsp-installer")
 
   -- Custom initialization function
   local custom_init = function(client)
@@ -248,165 +247,52 @@ function M.lsp()
     }
   }
 
-  -- lua for vim configuration lsp, LspInstall sumneko_lua
-  local sumneko_server = vim.fn.stdpath('data')..'/lspinstall/lua/sumneko-lua-language-server'
-  local sumneko_main = vim.fn.stdpath('data')..'/lspinstall/lua/sumneko-lua/extension/server/main.lua'
-  require('nlua.lsp.nvim').setup(lspconfig, {
-    on_init = custom_init,
-    on_attach = custom_attach,
-    capabilities = updated_capabilities,
-
-    cmd = {sumneko_server, '-E', sumneko_main},
-
-    root_dir = function(fname)
-      if string.find(vim.fn.fnamemodify(fname, ":p"), "nvim/") then
-        return vim.fn.expand(vim.fn.stdpath('config'))
-      end
-
-      return lspconfig_util.find_git_ancestor(fname)
-        or lspconfig_util.path.dirname(fname)
-    end,
-  })
-
-  -- pip install python-language-server[all]
-  lspconfig.pylsp.setup({
-    on_init = custom_init,
-    on_attach = custom_attach,
-    capabilities = updated_capabilities,
-    enable = true,
-    pyls = {
-      plugins = { pyls_mpypy = {enabled = true} }
-    },
-    filetypes = { 'python', 'python.trpy' },
-  })
-
-  -- https://github.com/hashicorp/terraform-ls
-  lspconfig.terraformls.setup({
-    on_init = custom_init,
-    on_attach = custom_attach,
-    capabilities = updated_capabilities,
-    cmd = { "terraform-ls" },
-    filetypes = { "tf", "terraform" },
-    root_dir = lspconfig_util.root_pattern(".terraform", ".git"),
-  })
-
-  -- yarn global add vscode-langservers-extracted
-  lspconfig.cssls.setup({
-    on_init = custom_init,
-    on_attach = custom_attach,
-    capabilities = updated_capabilities,
-  })
-
-  -- LspInstall vim
-  lspconfig.vimls.setup({
-    on_init = custom_init,
-    on_attach = custom_attach,
-    capabilities = updated_capabilities,
-  })
-
-  -- LspInstall typescript
-  lspconfig.tsserver.setup({
-    on_init = custom_init,
-    on_attach = custom_attach,
-    capabilities = updated_capabilities,
-    cmd = {'typescript-language-server', '--stdio'},
-    filetypes = {
-        "javascript",
-        "javascriptreact",
-        "javascript.jsx",
-        "typescript",
-        "typescriptreact",
-        "typescript.tsx"
-    },
-    root_dir = lspconfig_util.root_pattern(
-      "package.json", "tsconfig.json", "jsconfig.json", ".git"),
-  })
-
-  -- yarn global add vscode-html-languageserver-bin
-  lspconfig.html.setup({
-    on_init = custom_init,
-    on_attach = custom_attach,
-    capabilities = updated_capabilities,
-  })
-
-  -- yarn global add bash-language-server
-  lspconfig.bashls.setup({
-    on_init = custom_init,
-    on_attach = custom_attach,
-    capabilities = updated_capabilities,
-  })
-
-  -- LspInstall yaml
-  lspconfig.yamlls.setup({
-    on_init = custom_init,
-    on_attach = custom_attach,
-    capabilities = updated_capabilities,
-    filetypes = { "yaml", "yaml.tmpl" },
-  })
-
-  -- LspInstall rust
-  lspconfig.rust_analyzer.setup({
-    on_init = custom_init,
-    on_attach = custom_attach,
-    capabilities = updated_capabilities,
-    cmd = {"rust-analyzer"},
-    filetypes = {"rust"},
-  })
-
-  -- https://download.jboss.org/jbosstools/vscode/stable/lemminx-binary/
-  lspconfig.lemminx.setup({
-    on_init = custom_init,
-    on_attach = custom_attach,
-    capabilities = updated_capabilities,
-    cmd = { "lemminx-linux" }
-  })
-
-  -- C / C++: apt install clangd-13
-  lspconfig.clangd.setup({
-    cmd = { "clangd-13" }
-  })
-
-  vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics, {
-      underline = true,
-      virtual_text = {
-        prefix = "🞮",
-        spacing = 4,
-      }
+  lsp_installer.on_server_ready(function(server)
+    local opts = {
+      on_init = custom_init,
+      on_attach = custom_attach,
+      capabilities = updated_capabilities,
     }
-  )
 
-  vim.fn.sign_define("LspDiagnosticsSignError", { text = "🞮", numhl = "LspDiagnosticsDefaultError" })
-  vim.fn.sign_define("LspDiagnosticsSignWarning", { text = "🞮▲", numhl = "LspDiagnosticsDefaultWarning" })
-  vim.fn.sign_define("LspDiagnosticsSignInformation", { text = "⁈", numhl = "LspDiagnosticsDefaultInformation" })
-  vim.fn.sign_define("LspDiagnosticsSignHint", { text = "⯁", numhl = "LspDiagnosticsDefaultHint" })
+    if server.name == "pylsp" then
+      opts.pylsp = {
+        plugins = {
+          pyls_mpypy = {enabled = true},
+          flake8 = { enabled = true },
+        }
+      }
+    end
+
+    -- This setup() function will take the provided server configuration and decorate it with the necessary properties
+    -- before passing it onwards to lspconfig.
+    -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+    server:setup(opts)
+  end)
+
+  vim.lsp.handlers["textDocument/publishDiagnostics"] =
+    vim.lsp.with(vim.lsp.handlers["textDocument/publishDiagnostics"], {
+      signs = {
+        severity_limit = "Error",
+      },
+      underline = {
+        severity_limit = "Warning",
+      },
+      virtual_text = true,
+    })
+
+  --vim.fn.sign_define("LspDiagnosticsSignError", { text = "🞮", numhl = "LspDiagnosticsDefaultError" })
+  --vim.fn.sign_define("LspDiagnosticsSignWarning", { text = "🞮▲", numhl = "LspDiagnosticsDefaultWarning" })
+  --vim.fn.sign_define("LspDiagnosticsSignInformation", { text = "⁈", numhl = "LspDiagnosticsDefaultInformation" })
+  --vim.fn.sign_define("LspDiagnosticsSignHint", { text = "⯁", numhl = "LspDiagnosticsDefaultHint" })
 
   vim.cmd[[hi LspDiagnosticsError guifg=#FF0000 guibg=NONE guisp=NONE gui=NONE cterm=bold]]
   vim.cmd[[hi LspDiagnosticsWarning guifg=#FFC600 guibg=NONE guisp=NONE gui=NONE cterm=bold]]
   vim.cmd[[hi LspDiagnosticsInformation guifg=#00AAFF guibg=NONE guisp=NONE gui=NONE cterm=NONE]]
   vim.cmd[[hi LspDiagnosticsHint guifg=#00AAFF guibg=NONE guisp=NONE gui=NONE cterm=NONE]]
 
-  vim.cmd[[autocmd CursorHold * lua vim.diagnostic.show()]]
+  vim.cmd[[autocmd CursorHold * lua vim.diagnostic.open_float()]]
   vim.cmd[[autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()]]
 
-end
-
-function M.lspinstall()
-  local function setup_servers()
-    require'lspinstall'.setup()
-    local servers = require'lspinstall'.installed_servers()
-    for _, server in pairs(servers) do
-      require'lspconfig'[server].setup{}
-    end
-  end
-
-  setup_servers()
-
-  -- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
-  require'lspinstall'.post_install_hook = function ()
-    setup_servers() -- reload installed servers
-    vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
-  end 
 end
 
 function M.telescope()
@@ -450,6 +336,7 @@ function M.telescope()
     }
   }
   require('telescope').load_extension('fzf')
+  require('telescope').load_extension('dap')
 end
 
 function M.trouble()
@@ -464,6 +351,124 @@ end
 function M.lexima()
   vim.g.lexima_no_default_rules = true
   vim.cmd[[call lexima#set_default_rules()]]
+end
+
+function M.setup_dap()
+  -- cf https://alpha2phi.medium.com/neovim-for-beginners-debugging-using-dap-44626a767f57
+
+  local function configure()
+    local dap_install = require "dap-install"
+    dap_install.setup {
+      installation_path = vim.fn.stdpath "data" .. "/dapinstall/",
+    }
+
+    local dap_breakpoint = {
+      error = {
+        text = "🟥",
+        texthl = "LspDiagnosticsSignError",
+        linehl = "",
+        numhl = "",
+      },
+      rejected = {
+        text = "",
+        texthl = "LspDiagnosticsSignHint",
+        linehl = "",
+        numhl = "",
+      },
+      stopped = {
+        text = "⭐️",
+        texthl = "LspDiagnosticsSignInformation",
+        linehl = "DiagnosticUnderlineInfo",
+        numhl = "LspDiagnosticsSignInformation",
+      },
+    }
+
+    vim.fn.sign_define("DapBreakpoint", dap_breakpoint.error)
+    vim.fn.sign_define("DapStopped", dap_breakpoint.stopped)
+    vim.fn.sign_define("DapBreakpointRejected", dap_breakpoint.rejected)
+  end
+
+  local function configure_exts()
+    require("nvim-dap-virtual-text").setup {
+      commented = true,
+    }
+
+    local dap, dapui = require "dap", require "dapui"
+    dapui.setup {} -- use default
+    dap.listeners.after.event_initialized["dapui_config"] = function()
+      dapui.open()
+    end
+    dap.listeners.before.event_terminated["dapui_config"] = function()
+      dapui.close()
+    end
+    dap.listeners.before.event_exited["dapui_config"] = function()
+      dapui.close()
+    end
+  end
+
+  local function configure_debuggers()
+    --require("config.dap.lua").setup()
+    --require("config.dap.python").setup()
+    require("dap-python").setup("python", {})
+    --require("config.dap.rust").setup()
+  end
+
+  local function configure_mappings()
+    local whichkey = require "which-key"
+    local keymap = {
+      d = {
+        name = "Debug",
+        R = { "<cmd>lua require'dap'.run_to_cursor()<cr>", "Run to Cursor" },
+        E = { "<cmd>lua require'dapui'.eval(vim.fn.input '[Expression] > ')<cr>", "Evaluate Input" },
+        C = { "<cmd>lua require'dap'.set_breakpoint(vim.fn.input '[Condition] > ')<cr>", "Conditional Breakpoint" },
+        U = { "<cmd>lua require'dapui'.toggle()<cr>", "Toggle UI" },
+        b = { "<cmd>lua require'dap'.step_back()<cr>", "Step Back" },
+        c = { "<cmd>lua require'dap'.continue()<cr>", "Continue" },
+        d = { "<cmd>lua require'dap'.disconnect()<cr>", "Disconnect" },
+        e = { "<cmd>lua require'dapui'.eval()<cr>", "Evaluate" },
+        g = { "<cmd>lua require'dap'.session()<cr>", "Get Session" },
+        h = { "<cmd>lua require'dap.ui.widgets'.hover()<cr>", "Hover Variables" },
+        S = { "<cmd>lua require'dap.ui.widgets'.scopes()<cr>", "Scopes" },
+        i = { "<cmd>lua require'dap'.step_into()<cr>", "Step Into" },
+        o = { "<cmd>lua require'dap'.step_over()<cr>", "Step Over" },
+        p = { "<cmd>lua require'dap'.pause.toggle()<cr>", "Pause" },
+        q = { "<cmd>lua require'dap'.close()<cr>", "Quit" },
+        r = { "<cmd>lua require'dap'.repl.toggle()<cr>", "Toggle Repl" },
+        s = { "<cmd>lua require'dap'.continue()<cr>", "Start" },
+        t = { "<cmd>lua require'dap'.toggle_breakpoint()<cr>", "Toggle Breakpoint" },
+        x = { "<cmd>lua require'dap'.terminate()<cr>", "Terminate" },
+        u = { "<cmd>lua require'dap'.step_out()<cr>", "Step Out" },
+      },
+    }
+
+    whichkey.register(keymap, {
+      mode = "n",
+      prefix = "<leader>",
+      buffer = nil,
+      silent = true,
+      noremap = true,
+      nowait = false,
+    })
+
+    local keymap_v = {
+      name = "Debug",
+      e = { "<cmd>lua require'dapui'.eval()<cr>", "Evaluate" },
+    }
+
+    whichkey.register(keymap_v, {
+      mode = "v",
+      prefix = "<leader>",
+      buffer = nil,
+      silent = true,
+      noremap = true,
+      nowait = false,
+    })
+  end
+
+  configure() -- Configuration
+  configure_exts() -- Extensions
+  configure_debuggers() -- Debugger
+  configure_mappings() -- Mappings
 end
 
 return M

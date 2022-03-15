@@ -8,7 +8,6 @@ return require('packer').startup {
     -- Lua tooling
     use 'tjdevries/plenary.nvim'                  -- Pseudo lua stdlib
     use 'nvim-lua/popup.nvim'                     -- Lua tools for creating popups
-    use 'tjdevries/nlua.nvim'                     -- Tools for writing neovim configuration in lya
 
     ----------------
     -- IDE Things --
@@ -20,14 +19,10 @@ return require('packer').startup {
       'folke/lsp-trouble.nvim',
       config = function() require'jc.plugin_configuration'.trouble() end
     }
-    use {                                         -- Neovim integrated lsp client
-      'neovim/nvim-lspconfig',
-      config = function() require'jc.plugin_configuration'.lsp() end
-    }
+    use 'neovim/nvim-lspconfig'                   -- Neovim integrated lsp client
     use {
-      'kabouzeid/nvim-lspinstall',
-      cmd = 'LspInstall',
-      config = function() require'jc.plugin_configuration'.lspinstall() end
+      'williamboman/nvim-lsp-installer',
+      config = function() require'jc.plugin_configuration'.setup_lsp() end
     }
     use {                                         -- Completion framework
       'hrsh7th/nvim-cmp',
@@ -43,6 +38,23 @@ return require('packer').startup {
       cmd = 'AnyJump'
     }
 
+     use {                                         -- Debugger
+       "mfussenegger/nvim-dap",
+       opt = true,
+       event = "BufReadPre",
+       module = { "dap" },
+       wants = { "nvim-dap-virtual-text", "DAPInstall.nvim", "nvim-dap-ui", "nvim-dap-python", "which-key.nvim" },
+       requires = {
+         "Pocco81/DAPInstall.nvim",
+         "theHamsta/nvim-dap-virtual-text",
+         "rcarriga/nvim-dap-ui",
+         "mfussenegger/nvim-dap-python",
+       },
+       config = function()
+         require("jc.plugin_configuration").setup_dap()
+       end,
+     }
+
     --------------------
     -- Telescope Mode --
     --------------------
@@ -56,6 +68,8 @@ return require('packer').startup {
       run = 'make',
     }
     use 'nvim-telescope/telescope-symbols.nvim'     -- Nice Symbols
+    use "nvim-telescope/telescope-dap.nvim"  -- Dap integration
+
 
     -----------------
     -- Tree Sitter --
@@ -113,10 +127,10 @@ return require('packer').startup {
     use 'junegunn/vim-peekaboo'                   -- Preview register contents
     use 'simnalamburt/vim-mundo'                  -- Better undo
     use 'tpope/vim-repeat'                        -- Better repeat
-    use {                                         -- Help with mappings
-      'liuchengxu/vim-which-key',
-      cmd = {'WhichKey', 'WhichKey'}
-    }
+--     use {                                         -- Help with mappings
+--       'liuchengxu/vim-which-key',
+--       cmd = {'WhichKey', 'WhichKey'}
+--     }
     use 'dhruvasagar/vim-table-mode'              -- Table mode
     use {                                         -- Local vimrc files
       'embear/vim-localvimrc',
@@ -150,6 +164,10 @@ return require('packer').startup {
       'wesQ3/vim-windowswap',
       keys = '<Leader>ww'
     }
+    use {                                         -- Find keys
+      "folke/which-key.nvim",
+      config = function() require("which-key").setup{} end
+    }
 
     ----------------
     -- Appearance --
@@ -167,7 +185,7 @@ return require('packer').startup {
       'mhinz/vim-startify',
       config = function() require'jc.plugin_configuration'.startify() end
     }
-    use {                                         -- Nice indentation guides 
+    use {                                         -- Nice indentation guides
       'Yggdroot/indentLine',
       config = function() require'jc.plugin_configuration'.indentLine() end
     }
@@ -254,9 +272,10 @@ return require('packer').startup {
     -------------------
     -- Miscellaneous --
     -------------------
-    -- note taking, requires https://github.com/srid/neuron/releases
+    -- note taking, requires https://github.com/srid/neuron/releases 1.0.1
     use {
-      'oberblastmeister/neuron.nvim',
+      'jcavallo/neuron.nvim',
+      branch = 'neovim_telescope_update',
       config = function() require'jc.plugin_configuration'.neuron() end
     }
     use {                                           -- Faster update times

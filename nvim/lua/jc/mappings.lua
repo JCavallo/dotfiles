@@ -221,12 +221,7 @@ map_tele(':', "command_history")                      -- Command history
 ---------------------
 
 -- Delete current buffer
-map('<Leader>dd', '<cmd>call JCSmartWipeout()<CR>')
-
--- DiffGet shortcuts
-map('<Leader>dgl', '<cmd>diffget LOCAL<CR>')
-map('<Leader>dgr', '<cmd>diffget REMOTE<CR>')
-map('<Leader>dgb', '<cmd>diffget BASE<CR>')
+map('<Leader>bd', '<cmd>call JCSmartWipeout()<CR>')
 
 -- New file in current buffer folder
 map_noisy('<Leader>e', ':e <C-r>=expand("%:p:h")."/"<CR>')
