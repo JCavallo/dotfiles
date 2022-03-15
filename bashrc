@@ -321,6 +321,10 @@ if [[ "$(command -v yarn)" ]]; then
     export PATH="$yarn_path:$PATH"
 fi
 
+if [[ -e "/usr/local/go" ]]; then
+    export PATH=$PATH:/usr/local/go/bin
+fi
+
 if [[ "$(command -v go)" ]]; then
     export GOPATH=$HOME/go
     export PATH=$PATH:$GOPATH/bin

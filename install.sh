@@ -517,6 +517,12 @@ if [ ! "$(command -v fasd)" ]; then
     chronic brew install fasd
 fi
 
+# Install q for csv / tabular data queries
+if [ ! "$(command -v q)"  ]; then
+    echo_comment "Installing q (query-as-text)"
+    chronic brew install harelba/q/q
+fi
+
 # Install tmux configuration
 if [ ! -e "$HOME/.tmux" ]; then
     echo_comment "Installing tmux configuration"
