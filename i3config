@@ -75,6 +75,12 @@ bindsym $mod+Mod1+j exec i3-msg move workspace to output down
 bindsym $mod+Mod1+k exec i3-msg move workspace to output up
 bindsym $mod+Mod1+l exec i3-msg move workspace to output right
 
+# alternatively, you can use the cursor keys:
+bindsym $mod+Mod1+Left exec i3-msg move workspace to output left
+bindsym $mod+Mod1+Down exec i3-msg move workspace to output down
+bindsym $mod+Mod1+Up exec i3-msg move workspace to output up
+bindsym $mod+Mod1+Right exec i3-msg move workspace to output right
+
 # split in horizontal orientation
 bindsym $mod+Ctrl+h split h
 
@@ -253,7 +259,7 @@ assign [class="Soffice"] $document_workspace
 
 exec --no-startup-id source ~/.bash_profile
 exec --no-startup-id redshift-gtk
-exec_always --no-startup-id compton --config ~/.config/compton.conf -b
+# exec_always --no-startup-id compton --config ~/.config/compton.conf -b
 exec_always --no-startup-id ~/dotfiles/tools/launch_polybar
 exec_always --no-startup-id ~/dotfiles/tools/wallpaper_i3
 
