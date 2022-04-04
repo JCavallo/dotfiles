@@ -426,6 +426,7 @@ function M.setup_dap()
         c = { "<cmd>lua require'dap'.continue()<cr>", "Continue" },
         d = { "<cmd>lua require'dap'.disconnect()<cr>", "Disconnect" },
         e = { "<cmd>lua require'dapui'.eval()<cr>", "Evaluate" },
+        f = { "<cmd>Telescope dap frames<cr>", "Frames" },
         g = { "<cmd>lua require'dap'.session()<cr>", "Get Session" },
         h = { "<cmd>lua require'dap.ui.widgets'.hover()<cr>", "Hover Variables" },
         S = { "<cmd>lua require'dap.ui.widgets'.scopes()<cr>", "Scopes" },
