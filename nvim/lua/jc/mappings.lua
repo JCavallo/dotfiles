@@ -238,6 +238,8 @@ map('<Leader>p', ':let @+=expand("%:p")<CR>:echo "Copied current file '
 -- (Python) debugger
 map('<Leader>pa', '<cmd>call JCAddBreakpoint(0)<CR>')
 map('<Leader>pA', '<cmd>call JCAddBreakpoint(-1)<CR>')
+map('<Leader>pd', '<cmd>call JCAddBreakpointV2(0)<CR>')
+map('<Leader>pD', '<cmd>call JCAddBreakpointV2(-1)<CR>')
 map('<Leader>pr', '<cmd>call JCRemoveBreakpoint()<CR>')
 
 -- Previous buffer
