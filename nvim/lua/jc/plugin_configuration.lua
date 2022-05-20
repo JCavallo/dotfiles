@@ -99,7 +99,7 @@ end
 
 function M.treesitter()
   require('nvim-treesitter.configs').setup {
-    ensure_installed = 'maintained',
+    ensure_installed = 'all',
 
     highlight = {
       enable = 'enabled', -- false will disable the whole extension
