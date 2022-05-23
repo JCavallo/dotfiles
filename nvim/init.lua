@@ -14,4 +14,4 @@ require('jc.autocommands')
 
 require('jc.misc')
 
-vim.cmd [[colorscheme palenight]]
+vim.cmd [[colorscheme onedark]]

@@ -38,22 +38,22 @@ return require('packer').startup {
       cmd = 'AnyJump'
     }
 
-     use {                                         -- Debugger
-       "mfussenegger/nvim-dap",
-       opt = true,
-       event = "BufReadPre",
-       module = { "dap" },
-       wants = { "nvim-dap-virtual-text", "DAPInstall.nvim", "nvim-dap-ui", "nvim-dap-python", "which-key.nvim" },
-       requires = {
-         "ravenxrz/DAPInstall.nvim",
-         "theHamsta/nvim-dap-virtual-text",
-         "rcarriga/nvim-dap-ui",
-         "mfussenegger/nvim-dap-python",
-       },
-       config = function()
-         require("jc.plugin_configuration").setup_dap()
-       end,
-     }
+    use {                                         -- Debugger
+      "mfussenegger/nvim-dap",
+      opt = true,
+      event = "BufReadPre",
+      module = { "dap" },
+      wants = { "nvim-dap-virtual-text", "DAPInstall.nvim", "nvim-dap-ui", "nvim-dap-python", "which-key.nvim" },
+      requires = {
+        "ravenxrz/DAPInstall.nvim",
+        "theHamsta/nvim-dap-virtual-text",
+        "rcarriga/nvim-dap-ui",
+        "mfussenegger/nvim-dap-python",
+      },
+      config = function()
+        require("jc.plugin_configuration").setup_dap()
+      end,
+    }
 
     --------------------
     -- Telescope Mode --
@@ -69,8 +69,8 @@ return require('packer').startup {
     }
     use 'nvim-telescope/telescope-symbols.nvim'     -- Nice Symbols
     use "nvim-telescope/telescope-dap.nvim"  -- Dap integration
-
-
+    use 'nvim-telescope/telescope-ui-select.nvim'
+    use 'rcarriga/nvim-notify'
     -----------------
     -- Tree Sitter --
     -----------------
@@ -93,7 +93,7 @@ return require('packer').startup {
     use {                                         -- Better Join / Split
       'AndrewRadev/splitjoin.vim',
       keys = {'gS', 'gJ'}
-    }
+      }
     use {                                         -- Tabularize
       'godlygeek/tabular',
       cmd = 'Tabularize'
@@ -127,10 +127,10 @@ return require('packer').startup {
     use 'junegunn/vim-peekaboo'                   -- Preview register contents
     use 'simnalamburt/vim-mundo'                  -- Better undo
     use 'tpope/vim-repeat'                        -- Better repeat
---     use {                                         -- Help with mappings
---       'liuchengxu/vim-which-key',
---       cmd = {'WhichKey', 'WhichKey'}
---     }
+    --     use {                                         -- Help with mappings
+    --       'liuchengxu/vim-which-key',
+    --       cmd = {'WhichKey', 'WhichKey'}
+    --     }
     use 'dhruvasagar/vim-table-mode'              -- Table mode
     use {                                         -- Local vimrc files
       'embear/vim-localvimrc',
@@ -140,6 +140,11 @@ return require('packer').startup {
       'lambdalisue/suda.vim',
       config = function() require'jc.plugin_configuration'.suda() end
     }
+    use {
+      'voldikss/vim-floaterm',                  -- Floating terminals
+      config = function() require'jc.plugin_configuration'.floaterm() end
+    }
+    use 'dawsers/telescope-floaterm.nvim'
 
     ----------------
     -- Navigation --
@@ -153,8 +158,8 @@ return require('packer').startup {
     use {                                         -- Mix vim / Tmux pane navigation
       'christoomey/vim-tmux-navigator',
       cmd = {'TmuxNavigateLeft', 'TmuxNavigateRight',
-        'TmuxNavigateUp', 'TmuxNavigateDown'},
-        config = function() require'jc.plugin_configuration'.tmux_navigator() end
+      'TmuxNavigateUp', 'TmuxNavigateDown'},
+      config = function() require'jc.plugin_configuration'.tmux_navigator() end
     }
     use {                                         -- Proper buffer removal
       'moll/vim-bbye',
@@ -169,9 +174,9 @@ return require('packer').startup {
       config = function() require("which-key").setup{} end
     }
 
-    ----------------
-    -- Appearance --
-    ----------------
+----------------
+-- Appearance --
+----------------
     use {                                         -- Distraction free mode
       'junegunn/goyo.vim',
       cmd = 'Goyo',
@@ -211,7 +216,10 @@ return require('packer').startup {
     use 'jcavallo/flashy-vim'
     use 'dracula/vim'
     use 'drewtempelmeyer/palenight.vim'
-    use 'joshdick/onedark.vim'
+    use {
+      'ful1e5/onedark.nvim',
+      config = function() require'jc.plugin_configuration'.onedark() end
+    }
 
     ----------------------
     -- Custom Operators --
@@ -256,6 +264,15 @@ return require('packer').startup {
       'sindrets/diffview.nvim',
       --cmd = 'DiffViewOpen',
       config = function() require'diffview'.setup{} end
+    }
+    use {
+      'pwntester/octo.nvim',
+      requires = {
+        'nvim-lua/plenary.nvim',
+        'nvim-telescope/telescope.nvim',
+        'kyazdani42/nvim-web-devicons',
+      },
+      config = function () require"octo".setup() end
     }
 
     ---------------

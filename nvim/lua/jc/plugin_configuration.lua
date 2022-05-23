@@ -27,12 +27,13 @@ end
 function M.lualine()
   require('lualine').setup {
     options = {
-      theme = 'auto',
+      theme = 'onedark',
       icons_enabled = true,
       section_separators = { left='', right='' },
       component_separators = { left='', right='' },
       padding = 1,
-      disabled_filetypes = {}
+      disabled_filetypes = {},
+      globalstatus = true,
     },
     sections = {
       lualine_a = {'mode'},
@@ -163,6 +164,19 @@ function M.treesitter()
   }
   vim.o.foldmethod = 'expr'
   vim.cmd[[set foldexpr=nvim_treesitter#foldexpr()]]
+end
+
+function M.onedark()
+  require('onedark').setup({
+    dark_float = true,
+    highlight_linenumber = true,
+    --transparent = true,
+    overrides = function(c)
+      return {
+        Folded = {fg = "#888888", bg = "#333333"},
+      }
+    end
+  })
 end
 
 function M.completion()
@@ -332,11 +346,17 @@ function M.telescope()
           use_highlighter = false,
           minimum_grep_characters = 3,
         },
+        ["ui-select"] = {
+          require("telescope.themes").get_dropdown {},
+        },
       },
     }
   }
   require('telescope').load_extension('fzf')
   require('telescope').load_extension('dap')
+  require("telescope").load_extension("notify")
+  require("telescope").load_extension("ui-select")
+  require("telescope").load_extension("floaterm")
 end
 
 function M.trouble()
@@ -346,6 +366,11 @@ function M.trouble()
     auto_preview = false,
     auto_fold = false,
   }
+end
+
+function M.floaterm()
+  vim.g.floaterm_keymap_new = '<F7>'
+  vim.g.floaterm_keymap_toggle = '<F12>'
 end
 
 function M.lexima()
