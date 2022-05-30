@@ -43,4 +43,8 @@ function M.yaml()
   vim.bo.softtabstop = 2
 end
 
+function M.floaterm()
+  vim.wo.winblend = 20
+end
+
 return M
