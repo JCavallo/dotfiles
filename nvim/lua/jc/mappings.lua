@@ -216,6 +216,17 @@ map_tele('smw', "live_tryton_module_grep")            -- Live search in current 
 map_tele('/', "buffer_grep")                          -- Search alternative
 map_tele(':', "command_history")                      -- Command history
 
+-------------------
+-- Octo Mappings --
+-------------------
+
+map('<space>oa', ':Octo actions<CR>')
+map('<space>opl', ':Octo pr list<CR>')
+map('<space>opc', ':Octo pr changes<CR>')
+map('<space>opb', ':Octo pr browser<CR>')
+map('<space>orr', ':Octo review start<CR>')
+map('<space>ors', ':Octo review submit<CR>')
+
 ---------------------
 -- Leader Mappings --
 ---------------------
