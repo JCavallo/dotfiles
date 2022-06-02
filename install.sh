@@ -535,6 +535,18 @@ if [ ! -e "$HOME/.tmux" ]; then
     chronic git clone https://github.com/tmux-plugins/tpm ~/.tmux_plugins/tpm
 fi
 
+# Cheat
+if [ ! "$(command -v cheat)" ]; then
+    echo_comment "Installing cheat (for cheating)"
+    cd /tmp
+    chronic curl -sL -o cheat.gz https://github.com/cheat/cheat/releases/latest/download/cheat-linux-amd64.gz
+    chronic gzip -d cheat.gz
+    chronic chmod +x cheat
+    chronic mv cheat "$HOME"/bin/
+    chronic  mkdir -p "$HOME"/.config/cheat
+    cheat --init > ~/.config/cheat/conf.yml
+fi
+
 # Pyenv
 if [ ! "$(command -v pyenv)" ]; then
     echo_comment "Installing pyenv"
