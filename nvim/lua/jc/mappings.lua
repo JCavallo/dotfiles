@@ -154,6 +154,19 @@ imap('<A-j>', '<cmd>TmuxNavigateDown<CR>')
 imap('<A-k>', '<cmd>TmuxNavigateUp<CR>')
 imap('<A-l>', '<cmd>TmuxNavigateRight<CR>')
 
+----------------------
+-- Harpoon Mappings --
+----------------------
+
+map('<space>h1', ':lua require("harpoon.ui").nav_file(1)<CR>')
+map('<space>h2', ':lua require("harpoon.ui").nav_file(2)<CR>')
+map('<space>h3', ':lua require("harpoon.ui").nav_file(3)<CR>')
+map('<space>h4', ':lua require("harpoon.ui").nav_file(4)<CR>')
+map('<space>hn', ':lua require("harpoon.ui").nav_next()<CR>')
+map('<space>hp', ':lua require("harpoon.ui").nav_prev()<CR>')
+map('<space>ha', ':lua require("harpoon.mark").add_file()<CR>')
+map('<space>hm', ':lua require("harpoon.ui").toggle_quick_menu()<CR>')
+
 ------------------------
 -- Telescope Mappings --
 ------------------------
@@ -179,7 +192,6 @@ end
 
 map_tele('i', "buffers")                              -- Opened buffers
 map_tele('k', "jumplist")                             -- Last locations
-map_tele('h', "help_tags")                            -- Help
 map_tele('q', "quickfix")                             -- Quickfix
 map_tele('n', "resume")                               -- Resume
 

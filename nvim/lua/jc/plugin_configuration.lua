@@ -63,8 +63,8 @@ function M.lualine()
       lualine_b = {},
       lualine_c = {},
       lualine_x = {},
-      lualine_y = { require'nvim-treesitter'.statusline(80) },
-      lualine_z = { 'encoding', 'fileformat', 'filetype' },
+      lualine_y = {},
+      lualine_z = {},
     },
     extensions = {}
   }
@@ -242,16 +242,27 @@ function M.setup_lsp()
   local custom_attach = function(client)
     require('lsp-status').on_attach(client)
     vim.bo.omnifunc = 'v:lua.vim.lsp.omnifunc'
+
+    if client.server_capabilities.documentHighlightProvider then
+      vim.cmd [[
+        augroup lsp_document_highlight
+          autocmd! * <buffer>
+          autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+          autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+        augroup END
+      ]]
+    end
   end
 
   local updated_capabilities = vim.lsp.protocol.make_client_capabilities()
-  updated_capabilities = require('cmp_nvim_lsp').update_capabilities(
+  if require'lsp-status' then
+    updated_capabilities = vim.tbl_deep_extend("keep", updated_capabilities,
+      require'lsp-status'.capabilities)
+  end
+  updated_capabilities.textDocument.codeLens = { dynamicRegistration = false }
+  updated_capabilities = require("cmp_nvim_lsp").update_capabilities(
     updated_capabilities)
-  updated_capabilities.textDocument.codeLens = {
-    dynamicRegistration = false,
-  }
-  updated_capabilities = vim.tbl_deep_extend('keep',
-    updated_capabilities, require'lsp-status'.capabilities)
+  updated_capabilities.textDocument.completion.completionItem.insertReplaceSupport = false
   updated_capabilities.textDocument.completion.completionItem.snippetSupport = true
   updated_capabilities.textDocument.completion.completionItem.resolveSupport = {
     properties = {
@@ -378,6 +389,23 @@ end
 function M.lexima()
   vim.g.lexima_no_default_rules = true
   vim.cmd[[call lexima#set_default_rules()]]
+end
+
+function M.neorg()
+  require('neorg').setup({
+    load = {
+      ["core.defaults"] = {},
+    }
+  })
+end
+
+function M.telekasten()
+  require('telekasten').setup({
+    home = "$HOME/zettelkasten",
+    calendar_opts = {
+      weeknm = 2,
+    },
+  })
 end
 
 function M.setup_dap()

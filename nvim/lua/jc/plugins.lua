@@ -71,6 +71,7 @@ return require('packer').startup {
     use "nvim-telescope/telescope-dap.nvim"  -- Dap integration
     use 'nvim-telescope/telescope-ui-select.nvim'
     use 'rcarriga/nvim-notify'
+
     -----------------
     -- Tree Sitter --
     -----------------
@@ -85,7 +86,6 @@ return require('packer').startup {
     use 'windwp/nvim-ts-autotag'                  -- Auto close tags
     use 'vigoux/architext.nvim'
     use 'nvim-treesitter/playground'
-    use 'ElPiloto/sidekick.nvim'
 
     -------------
     -- Editing --
@@ -119,7 +119,6 @@ return require('packer').startup {
     -----------
     -- Tools --
     -----------
-
     use {                                         -- Show colors from color codes
       'norcalli/nvim-colorizer.lua',
       config = function() require'colorizer'.setup() end
@@ -145,6 +144,11 @@ return require('packer').startup {
       config = function() require'jc.plugin_configuration'.floaterm() end
     }
     use 'dawsers/telescope-floaterm.nvim'
+    use {
+      'nvim-neorg/neorg',
+      config = function() require'jc.plugin_configuration'.neorg() end,
+      requires = "nvim-neorg/neorg-telescope"
+    }
 
     ----------------
     -- Navigation --
@@ -173,10 +177,20 @@ return require('packer').startup {
       "folke/which-key.nvim",
       config = function() require("which-key").setup{} end
     }
+    use {
+      'ThePrimeagen/harpoon',
+      config = function() require'harpoon'.setup({
+        mark_branch = false,
+      }) end
+    }
 
 ----------------
 -- Appearance --
 ----------------
+    use {
+      'folke/twilight.nvim',
+      config = function() require'twilight'.setup({contex = 20}) end
+    }
     use {                                         -- Distraction free mode
       'junegunn/goyo.vim',
       cmd = 'Goyo',
@@ -289,6 +303,11 @@ return require('packer').startup {
     -------------------
     -- Miscellaneous --
     -------------------
+    use {
+      'renerocksai/telekasten.nvim',
+      config = function() require'jc.plugin_configuration'.telekasten() end,
+      requires = 'renerocksai/calendar-vim'
+    }
     -- note taking, requires https://github.com/srid/neuron/releases 1.0.1
     use {
       'jcavallo/neuron.nvim',
