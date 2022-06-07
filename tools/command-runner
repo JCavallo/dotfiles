@@ -1,0 +1,11 @@
+#!/bin/bash
+if [[ $# == 1 ]]; then
+    selected=$1
+else
+    selected=$(jq -r "keys | unique[]" ~/Movables/commands.json | \
+        fzf --preview "jq -r '.[\"{1}\"].command' ~/Movables/commands.json")
+fi
+if [[ $selected != "" ]]; then
+    command=$(jq -r ".[\"$selected\"].command" ~/Movables/commands.json)
+    $command
+fi

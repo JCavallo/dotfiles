@@ -40,6 +40,7 @@ bindsym $mod+Shift+a kill
 
 # start dmenu (a program launcher)
 bindsym $mod+d exec "rofi -combi-modi window,drun,run -show combi -modi combi -normal-window"
+bindsym $mod+Shift+d exec "kitty --class=launcher 'command-runner'"
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -174,8 +175,8 @@ bindsym $mod+Shift+0 move container to workspace $main_workspace
 bindsym $mod+Shift+n move container to workspace $note_workspace
 
 # Magic workspaces
-bindsym $mod+p exec new-i3-dev-workspace $(ls-i3-dev-workspaces | grep Dev | sed -e "s/Dev://" | rofi -dmenu)
-bindsym $mod+Shift+p exec i3-msg move container to workspace Dev:$(ls-i3-dev-workspaces | grep Dev | sed -e "s/Dev://" | rofi -dmenu)
+# bindsym $mod+p exec new-i3-dev-workspace $(ls-i3-dev-workspaces | grep Dev | sed -e "s/Dev://" | rofi -dmenu)
+# bindsym $mod+Shift+p exec i3-msg move container to workspace Dev:$(ls-i3-dev-workspaces | grep Dev | sed -e "s/Dev://" | rofi -dmenu)
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -264,7 +265,8 @@ exec_always --no-startup-id ~/dotfiles/tools/launch_polybar
 exec_always --no-startup-id ~/dotfiles/tools/wallpaper_i3
 
 for_window [class="^.*"] border pixel 0
-for_window [class="Rofi"] floating enable
+for_window [class="Rofi"] floating enable, sticky enable
+for_window [class="launcher"] floating enable, sticky enable, resize set 60 ppt 60 ppt, border pixel 3
 
 # Color settings
 # client.focused #917944 #917944 #000088 #917944
