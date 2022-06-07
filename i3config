@@ -299,8 +299,9 @@ mode "gaps" {
 bindsym $mod+g mode "gaps"
 
 # gaps
-gaps inner 30
-gaps bottom 80
+gaps outer 0
+gaps inner 10
+gaps bottom 50
 
 # 4K gaps
 # gaps inner 60
