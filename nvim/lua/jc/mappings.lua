@@ -50,7 +50,7 @@ map('<F5>', '<cmd>set paste!<CR>')
 map('<F8>', '<cmd>call SideKickNoReload()<CR>')
 
 -- Fun shortcut to check color group under cursor
-map('<F10>', '<cmd>echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") .'
+map('<F9>', '<cmd>echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") .'
   .. '"> trans<" . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"'
   .. '. synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>')
 

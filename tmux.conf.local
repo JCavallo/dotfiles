@@ -283,10 +283,16 @@ bind-key -n M-h if-shell "$is_vim" "send-keys M-h" "select-pane -L"
 bind-key -n M-j if-shell "$is_vim" "send-keys M-j" "select-pane -D"
 bind-key -n M-k if-shell "$is_vim" "send-keys M-k" "select-pane -U"
 bind-key -n M-l if-shell "$is_vim" "send-keys M-l" "select-pane -R"
-
+bind-key -n M-Left if-shell "$is_vim" "send-keys M-h" "select-pane -L"
+bind-key -n M-Down if-shell "$is_vim" "send-keys M-j" "select-pane -D"
+bind-key -n M-Up if-shell "$is_vim" "send-keys M-k" "select-pane -U"
+bind-key -n M-Right if-shell "$is_vim" "send-keys M-l" "select-pane -R"
 
 # Use <M-m> to toggle zoom
 bind-key -n M-m resize-pane -Z
+
+bind-key -n F10 run 'tmux split-window "tmux-sessionizer"'
+bind-key -n F11 run 'tmux-sessionizer --back'
 
 # Install plugins
 set-environment -g TMUX_PLUGIN_MANAGER_PATH '~/.tmux_plugins'

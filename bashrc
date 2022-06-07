@@ -48,6 +48,7 @@ alias k="kritik -s --success-message OK --failure-message KO"
 alias g="git"
 alias vim="nvim"
 alias v="nvim"
+alias t="tmux-sessionizer"
 
 viewdiff() {
     git diff "$*" > /tmp/viewdiff.diff;nvim /tmp/viewdiff.diff
