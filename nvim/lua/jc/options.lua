@@ -46,6 +46,7 @@ vim.wo.list = true                -- Show special chars, list below
 vim.wo.listchars = "tab:→ ,nbsp:␣,trail:·,extends:»,precedes:«"   -- eol:↲,
 vim.o.showmatch = true            -- Show matching parentheses
 vim.o.signcolumn = 'yes'          -- Always display the sign column to avoid flickering
+vim.wo.concealcursor = 'nc'        -- Conceal in normal / command mode
 
 -- Split options
 vim.o.showtabline = 1             -- We don't use tabs, for now
