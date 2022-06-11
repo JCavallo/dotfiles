@@ -6,6 +6,5 @@ else
         fzf --preview "jq -r '.[\"{1}\"].command' ~/Movables/commands.json")
 fi
 if [[ $selected != "" ]]; then
-    command=$(jq -r ".[\"$selected\"].command" ~/Movables/commands.json)
-    $command
+    jq -r ".[\"$selected\"].command" ~/Movables/commands.json | xargs -I % bash -c '%'
 fi
