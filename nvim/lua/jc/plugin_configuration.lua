@@ -401,7 +401,7 @@ end
 
 function M.telekasten()
   require('telekasten').setup({
-    home = "$HOME/zettelkasten",
+    home = vim.fn.expand("$HOME/zettelkasten"),
     calendar_opts = {
       weeknm = 2,
     },
