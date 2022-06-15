@@ -57,15 +57,9 @@ map('<F9>', '<cmd>echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") .'
 --------------------------
 -- Normal Mode Mappings --
 --------------------------
-remap('b', '<Plug>(easymotion-linebackward)')
-map('B', 'b')
-
 -- Do not overwrite the yank register when "c-ing"
 map('c', '"_c')
 map('C', '"_C')
-
--- Quick edit of top of file
-map('gt', ':rightbelow 15split<CR>:set winfixheight<CR>gg')
 
 -- Select last inserted text
 map('gV', '`[v`]')
@@ -82,9 +76,6 @@ map('Q', 'q')
 -- So q is available for smart closing
 map('q', '<cmd>call JCSmartClose()<CR>')
 
-remap('w', '<Plug>(easymotion-lineforward)')
-map('W', 'w')
-
 map('zh', '[z')
 map('zl', ']z')
 -------------------------------
@@ -94,9 +85,6 @@ map('zl', ']z')
 -- Ctrl A / X for smart increment / decrement
 remap('<C-a>', '<Plug>(dial-increment)')
 remap('<C-x>', '<Plug>(dial-decrement)')
-
--- Ctrl+j for easymotion lines
-remap('<C-j>', '<Plug>(easymotion-overwin-line)')
 
 -- H / L to go to beginning / end of line
 map('H', '^')
@@ -267,9 +255,6 @@ map('<Leader>pr', '<cmd>call JCRemoveBreakpoint()<CR>')
 
 -- Previous buffer
 map('<Leader>m', '<cmd>e#<CR>')
-
--- EasyMotion prefix
-remap('<Leader>,', '<Plug>(easymotion-prefix)')
 
 --------------------
 --View Navigation --

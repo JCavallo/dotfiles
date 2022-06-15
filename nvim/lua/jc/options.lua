@@ -1,29 +1,32 @@
+-- Leader
+vim.g.mapleader = ','
+
 -- Search options
-vim.o.ignorecase = true           -- Ignore case
-vim.o.smartcase = true            -- Unless the pattern starts with a Cap
+vim.opt.ignorecase = true           -- Ignore case
+vim.opt.smartcase = true            -- Unless the pattern starts with a Cap
 
 -- Status line
-vim.o.showmode = false            -- We use a custom status line
+vim.opt.showmode = false            -- We use a custom status line
 
 -- Command window
-vim.o.showcmd = true              -- Print last command used
-vim.o.cmdheight = 1               -- Height of the command bar
-vim.o.cmdwinheight = 10           -- Max height of the command line
-vim.o.inccommand = 'split'        -- Preview command results when appliable
+vim.opt.showcmd = true              -- Print last command used
+vim.opt.cmdheight = 1               -- Height of the command bar
+vim.opt.cmdwinheight = 10           -- Max height of the command line
+vim.opt.inccommand = 'split'        -- Preview command results when appliable
 
 -- Editing
-vim.o.virtualedit = 'block,onemore'  -- Allow cursor to "be" at line end
-vim.o.shiftround = true           -- Round indents to shiftwidth
-vim.o.linebreak = true            -- Break long lines
-vim.o.smarttab = true             -- Be smart when tabbing
-vim.bo.expandtab = true            -- No one wants actual tabs, only spaces
-vim.bo.tabstop = 4                 -- Display tabs with 4 spaces
-vim.bo.softtabstop = 4             -- Always
-vim.bo.shiftwidth = 4              -- Always
-vim.o.cindent = true              -- Be a little more intelligent when indenting
-vim.o.backspace = 'indent,eol,start'  -- Allow backspace to delete everything
-vim.o.joinspaces = false          -- I know where spaces should be
-vim.o.formatoptions = ''
+vim.opt.virtualedit = 'block,onemore'  -- Allow cursor to "be" at line end
+vim.opt.shiftround = true           -- Round indents to shiftwidth
+vim.opt.linebreak = true            -- Break long lines
+vim.opt.smarttab = true             -- Be smart when tabbing
+vim.opt.expandtab = true            -- No one wants actual tabs, only spaces
+vim.opt.tabstop = 4                 -- Display tabs with 4 spaces
+vim.opt.softtabstop = 4             -- Always
+vim.opt.shiftwidth = 4              -- Always
+vim.opt.cindent = true              -- Be a little more intelligent when indenting
+vim.opt.backspace = 'indent,eol,start'  -- Allow backspace to delete everything
+vim.opt.joinspaces = false          -- I know where spaces should be
+vim.opt.formatoptions = ''
   .. 'c'                          -- Auto wrap comments
   .. 'q'                          -- Auto format comments with gq
   .. 'r'                          -- Continue comments on "enter"
@@ -31,68 +34,68 @@ vim.o.formatoptions = ''
   .. 'n'                          -- Detect lists and format accordingly
 
 -- Navigation
-vim.o.whichwrap = 'h,l,b,s'       -- Allow to use h / l at start / end of line
+vim.opt.whichwrap = 'h,l,b,s'       -- Allow to use h / l at start / end of line
 
 -- Wrapping
-vim.o.wrap = false                -- Do not automatically wrap text
-vim.o.showbreak = "↪"             -- Show line breaks
+vim.opt.wrap = false                -- Do not automatically wrap text
+vim.opt.showbreak = "↪"             -- Show line breaks
  
 -- View options
-vim.wo.number = true              -- Show line numbers
-vim.wo.relativenumber = true      -- Show line numbers relative
+vim.opt.number = true              -- Show line numbers
+vim.opt.relativenumber = true      -- Show line numbers relative
                                   -- Disable if performance is really bad
-vim.wo.cursorline = true          -- Highlight current line
-vim.wo.list = true                -- Show special chars, list below
-vim.wo.listchars = "tab:→ ,nbsp:␣,trail:·,extends:»,precedes:«"   -- eol:↲,
-vim.o.showmatch = true            -- Show matching parentheses
-vim.o.signcolumn = 'yes'          -- Always display the sign column to avoid flickering
-vim.wo.concealcursor = 'nc'        -- Conceal in normal / command mode
+vim.opt.cursorline = true          -- Highlight current line
+vim.opt.list = true                -- Show special chars, list below
+vim.opt.listchars = "tab:→ ,nbsp:␣,trail:·,extends:»,precedes:«"   -- eol:↲,
+vim.opt.showmatch = true            -- Show matching parentheses
+vim.opt.signcolumn = 'yes'          -- Always display the sign column to avoid flickering
+vim.opt.concealcursor = 'nc'        -- Conceal in normal / command mode
 
 -- Split options
-vim.o.showtabline = 1             -- We don't use tabs, for now
-vim.o.scrolloff = 10              -- Make it so there are always ten lines below my cursor
-vim.o.equalalways = true          -- Buffers should have more or less the same size
-vim.o.splitright = true           -- Prefer windows splitting to the right
-vim.o.splitbelow = true           -- Prefer windows splitting to the bottom
-vim.o.winwidth = 30               -- Minimum split width
-vim.o.winheight = 1               -- Minimum split height
+vim.opt.showtabline = 1             -- We don't use tabs, for now
+vim.opt.scrolloff = 10              -- Make it so there are always ten lines below my cursor
+vim.opt.equalalways = true          -- Buffers should have more or less the same size
+vim.opt.splitright = true           -- Prefer windows splitting to the right
+vim.opt.splitbelow = true           -- Prefer windows splitting to the bottom
+vim.opt.winwidth = 30               -- Minimum split width
+vim.opt.winheight = 1               -- Minimum split height
 
 -- Per buffer, should probably depend on the language
-vim.o.textwidth = 79              -- Limit text width
-vim.wo.colorcolumn = '80'         -- and show the limit
-vim.o.shiftwidth = 4              -- Indent by 4 spaces
+vim.opt.textwidth = 79              -- Limit text width
+vim.opt.colorcolumn = '80'         -- and show the limit
+vim.opt.shiftwidth = 4              -- Indent by 4 spaces
 
 -- Completion
-vim.o.infercase = true            -- Ignore case when completing
-vim.o.wildignore = '__pycache__,' -- Ignore useless files
+vim.opt.infercase = true            -- Ignore case when completing
+vim.opt.wildignore = '__pycache__,' -- Ignore useless files
     .. '*.o,*~,*.pyc,*pycache*,node_modules/**,.hg,*.orig,*.rej' 
     .. '*.obj,*~,.git,eggs/**' 
-vim.o.wildmode = 'longest,full'   -- Complete with best match
-vim.o.wildoptions = 'pum'         -- Nice popup
+vim.opt.wildmode = 'longest,full'   -- Complete with best match
+vim.opt.wildoptions = 'pum'         -- Nice popup
 -- Recommanded configuration for nvim-cmp
-vim.o.completeopt = 'menu,menuone,noselect'
+vim.opt.completeopt = 'menu,menuone,noselect'
 
 -- Backup / History
-vim.o.undodir = vim.fn.stdpath('data') .. '/undodir'
-vim.o.backupdir = vim.fn.stdpath('data') .. '/backup'
-vim.o.directory = vim.fn.stdpath('data') .. '/swap'
-vim.o.undofile = true
-vim.o.undolevels = 1000
-vim.o.undoreload = 10000
-vim.o.history = 1000
+vim.opt.undodir = vim.fn.stdpath('data') .. '/undodir'
+vim.opt.backupdir = vim.fn.stdpath('data') .. '/backup'
+vim.opt.directory = vim.fn.stdpath('data') .. '/swap'
+vim.opt.undofile = true
+vim.opt.undolevels = 1000
+vim.opt.undoreload = 10000
+vim.opt.history = 1000
 
 -- Folding  (Note : this is actually overriden by treesitter configuration)
-vim.o.foldmethod = 'indent'       -- Fold based on syntax
-vim.o.foldlevelstart = 1          -- Fold everything at first
+vim.opt.foldmethod = 'indent'       -- Fold based on syntax
+vim.opt.foldlevelstart = 1          -- Fold everything at first
 
 -- Misc
-vim.o.belloff = 'all'             -- Just turn the dang bell off
-vim.o.pumblend = 17               -- Blend pop up with the background
-vim.o.lazyredraw = false          -- Always redraw
-vim.o.hidden = true               -- Hide rather than delete buffers
-vim.o.updatetime = 1000           -- Make updates happen faster
-vim.o.mouse = 'n'                 -- Mouse was eaten by the cat
-vim.o.shada = "!,'1000,<50,s10,h" -- Shada file configuration
-vim.o.modelines = 1               -- One modeline is enough
-vim.o.clipboard = 'unnamedplus'   -- Use system clipboard
-vim.o.termguicolors = true        -- Use true colors
+vim.opt.belloff = 'all'             -- Just turn the dang bell off
+vim.opt.pumblend = 17               -- Blend pop up with the background
+vim.opt.lazyredraw = false          -- Always redraw
+vim.opt.hidden = true               -- Hide rather than delete buffers
+vim.opt.updatetime = 1000           -- Make updates happen faster
+vim.opt.mouse = 'n'                 -- Mouse was eaten by the cat
+vim.opt.shada = "!,'1000,<50,s10,h" -- Shada file configuration
+vim.opt.modelines = 1               -- One modeline is enough
+vim.opt.clipboard = 'unnamedplus'   -- Use system clipboard
+vim.opt.termguicolors = true        -- Use true colors

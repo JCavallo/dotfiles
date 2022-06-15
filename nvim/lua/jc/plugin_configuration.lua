@@ -1,33 +1,15 @@
 -- vim:tabstop=2:shiftwidth=2:softtabstop=2
 local M = {}
 
-function M.neuron()
-  require'neuron'.setup{
-    neuron_dir = "~/notes"
-  }
-end
-
-function M.goyo()
-  vim.cmd[[autocmd! User GoyoEnter Limelight]]
-  vim.cmd[[autocmd! User GoyoLeave Limelight!]]
-end
-
 function M.tender()
   vim.g.tender_italic = 1
   vim.g.tender_bold = 1
 end
 
-function M.easy_motion()
-  vim.g.EasyMotion_keys = 'lkjhqsdfgoiuzerpaytbvcxwmn,'
-  vim.g.EasyMotion_startofline = 0
-  vim.g.EasyMotion_show_prompt = 0
-  vim.g.EasyMotion_verbose = 0
-end
-
 function M.lualine()
   require('lualine').setup {
     options = {
-      theme = 'onedark',
+      theme = 'auto',
       icons_enabled = true,
       section_separators = { left='', right='' },
       component_separators = { left='', right='' },
@@ -167,16 +149,18 @@ function M.treesitter()
 end
 
 function M.onedark()
-  require('onedark').setup({
-    dark_float = true,
-    highlight_linenumber = true,
-    --transparent = true,
-    overrides = function(c)
-      return {
-        Folded = {fg = "#888888", bg = "#333333"},
-      }
-    end
-  })
+  if vim.g.my_colorscheme == "onedark" then
+    require('onedark').setup({
+      dark_float = true,
+      highlight_linenumber = true,
+      --transparent = true,
+      overrides = function(c)
+        return {
+          Folded = {fg = "#888888", bg = "#333333"},
+        }
+      end
+    })
+  end
 end
 
 function M.completion()
@@ -230,8 +214,6 @@ function M.completion()
 end
 
 function M.setup_lsp()
-  local lsp_installer = require("nvim-lsp-installer")
-
   -- Custom initialization function
   local custom_init = function(client)
     client.config.flags = client.config.flags or {}
@@ -254,11 +236,10 @@ function M.setup_lsp()
     end
   end
 
+  -- Custom capabilities
   local updated_capabilities = vim.lsp.protocol.make_client_capabilities()
-  if require'lsp-status' then
-    updated_capabilities = vim.tbl_deep_extend("keep", updated_capabilities,
-      require'lsp-status'.capabilities)
-  end
+  updated_capabilities = vim.tbl_deep_extend("keep", updated_capabilities,
+      require('lsp-status').capabilities)
   updated_capabilities.textDocument.codeLens = { dynamicRegistration = false }
   updated_capabilities = require("cmp_nvim_lsp").update_capabilities(
     updated_capabilities)
@@ -272,27 +253,55 @@ function M.setup_lsp()
     }
   }
 
-  lsp_installer.on_server_ready(function(server)
-    local opts = {
+  local lsp_installer = require("nvim-lsp-installer").setup({
+    automatic_installation = true,
+  })
+  local lspconfig = require("lspconfig")
+  lspconfig.util.default_config = vim.tbl_extend(
+    "force",
+    lspconfig.util.default_config,
+    {
       on_init = custom_init,
       on_attach = custom_attach,
       capabilities = updated_capabilities,
     }
+  )
 
-    if server.name == "pylsp" then
-      opts.pylsp = {
-        plugins = {
-          pyls_mpypy = {enabled = true},
-          flake8 = { enabled = true },
+  lspconfig.sumneko_lua.setup({
+    settings = {
+      Lua = {
+        diagnostics = {
+          -- Get the language server to recognize the `vim` global
+          globals = {'vim'},
+        },
+        workspace = {
+          -- Make the server aware of Neovim runtime files
+          library = vim.api.nvim_get_runtime_file("", true),
+        },
+        telemetry = {
+          -- Do not send telemetry data containing a randomized but unique identifier
+          enable = false,
         }
       }
-    end
-
-    -- This setup() function will take the provided server configuration and decorate it with the necessary properties
-    -- before passing it onwards to lspconfig.
-    -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-    server:setup(opts)
-  end)
+    }
+  })
+  lspconfig.pylsp.setup({
+    pylsp = {
+      plugins = {
+        pyls_mpypy = {enabled = true},
+        flake8 = { enabled = true },
+      }
+    }
+  })
+  lspconfig.ansiblels.setup({})
+  lspconfig.bashls.setup({})
+  lspconfig.dockerls.setup({})
+  lspconfig.eslint.setup({})
+  lspconfig.rust_analyzer.setup({})
+  lspconfig.terraformls.setup({})
+  lspconfig.tsserver.setup({})
+  lspconfig.vimls.setup({})
+  lspconfig.yamlls.setup({})
 
   vim.lsp.handlers["textDocument/publishDiagnostics"] =
     vim.lsp.with(vim.lsp.handlers["textDocument/publishDiagnostics"], {
@@ -317,7 +326,6 @@ function M.setup_lsp()
 
   vim.cmd[[autocmd CursorHold * lua vim.diagnostic.open_float()]]
   vim.cmd[[autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()]]
-
 end
 
 function M.telescope()

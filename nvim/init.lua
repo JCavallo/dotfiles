@@ -1,10 +1,9 @@
+
 require('jc.load_packer')
 
-vim.g.mapleader = ','
+require('jc.options')
 
 require('jc.plugins')
-
-require('jc.options')
 
 require('jc.vimscript')
 
@@ -14,4 +13,5 @@ require('jc.autocommands')
 
 require('jc.misc')
 
-vim.cmd [[colorscheme onedark]]
+vim.g.my_colorscheme = 'tokyonight'
+vim.cmd("colorscheme " .. vim.g.my_colorscheme)

@@ -1,6 +1,4 @@
 -- vim:tabstop=2:shiftwidth=2:softtabstop=2
-vim.cmd [[packadd packer.nvim]]
-
 return require('packer').startup {
   function(use)
     use 'wbthomason/packer.nvim'                  -- Plugin manager
@@ -32,11 +30,6 @@ return require('packer').startup {
     use 'hrsh7th/cmp-nvim-lsp'                    -- Completion from LSP
     use 'hrsh7th/cmp-path'                        -- Competion from path
     use 'hrsh7th/cmp-cmdline'                     -- Competion from command history
-    use {                                         -- Jump to definition
-      'pechorin/any-jump.vim',
-      keys = '<Leader>j',
-      cmd = 'AnyJump'
-    }
 
     use {                                         -- Debugger
       "mfussenegger/nvim-dap",
@@ -102,8 +95,6 @@ return require('packer').startup {
       'cohama/lexima.vim',
       config = function() require'jc.plugin_configuration'.lexima() end
     }
-    use 'mg979/vim-visual-multi'                  -- Multiple cursors
-    use 'monaqa/dial.nvim'                        -- Better increment / decrement
     use {                                         -- Exchange things
       'tommcdo/vim-exchange',
       keys = 'cx'
@@ -126,10 +117,6 @@ return require('packer').startup {
     use 'junegunn/vim-peekaboo'                   -- Preview register contents
     use 'simnalamburt/vim-mundo'                  -- Better undo
     use 'tpope/vim-repeat'                        -- Better repeat
-    --     use {                                         -- Help with mappings
-    --       'liuchengxu/vim-which-key',
-    --       cmd = {'WhichKey', 'WhichKey'}
-    --     }
     use 'dhruvasagar/vim-table-mode'              -- Table mode
     use {                                         -- Local vimrc files
       'embear/vim-localvimrc',
@@ -155,10 +142,6 @@ return require('packer').startup {
     ----------------
     use 'rhysd/accelerated-jk'                    -- Faster j/k
     use 'deris/vim-shot-f'                        -- Show where f / F / t / T leads
-    use {                                         -- Easy motion
-      'easymotion/vim-easymotion',
-      config = function() require'jc.plugin_configuration'.easy_motion() end
-    }
     use {                                         -- Mix vim / Tmux pane navigation
       'christoomey/vim-tmux-navigator',
       cmd = {'TmuxNavigateLeft', 'TmuxNavigateRight',
@@ -191,15 +174,6 @@ return require('packer').startup {
       'folke/twilight.nvim',
       config = function() require'twilight'.setup({contex = 20}) end
     }
-    use {                                         -- Distraction free mode
-      'junegunn/goyo.vim',
-      cmd = 'Goyo',
-      config = function() require'jc.plugin_configuration'.goyo() end
-    }
-    use {
-      'junegunn/limelight.vim',
-      cmd = 'Limelight'
-    }
     use {                                         -- Nice welcome window
       'mhinz/vim-startify',
       config = function() require'jc.plugin_configuration'.startify() end
@@ -223,13 +197,9 @@ return require('packer').startup {
       'jacoborus/tender.vim',
       config = function() require'jc.plugin_configuration'.tender() end
     }
-    use 'Canop/patine'
     use 'axvr/photon.vim'
-    use 'altercation/vim-colors-solarized'
-    use 'iron-e/nvim-highlite'
-    use 'jcavallo/flashy-vim'
-    use 'dracula/vim'
     use 'drewtempelmeyer/palenight.vim'
+    use 'folke/tokyonight.nvim'
     use {
       'ful1e5/onedark.nvim',
       config = function() require'jc.plugin_configuration'.onedark() end
@@ -274,11 +244,6 @@ return require('packer').startup {
       'ruanyl/vim-gh-line',
       keys = '<Leader>g'
     }
-    use {                                         -- Improved Diff View
-      'sindrets/diffview.nvim',
-      --cmd = 'DiffViewOpen',
-      config = function() require'diffview'.setup{} end
-    }
     use {
       'pwntester/octo.nvim',
       requires = {
@@ -307,12 +272,6 @@ return require('packer').startup {
       'renerocksai/telekasten.nvim',
       config = function() require'jc.plugin_configuration'.telekasten() end,
       requires = 'renerocksai/calendar-vim'
-    }
-    -- note taking, requires https://github.com/srid/neuron/releases 1.0.1
-    use {
-      'jcavallo/neuron.nvim',
-      branch = 'neovim_telescope_update',
-      config = function() require'jc.plugin_configuration'.neuron() end
     }
     use {                                           -- Faster update times
       'antoinemadec/FixCursorHold.nvim',
