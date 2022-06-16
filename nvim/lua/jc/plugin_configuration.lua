@@ -397,6 +397,17 @@ end
 function M.lexima()
   vim.g.lexima_no_default_rules = true
   vim.cmd[[call lexima#set_default_rules()]]
+
+  -- https://github.com/cohama/lexima.vim/issues/129
+  vim.cmd[[call lexima#add_rule({'char': '"', 'at': '\%#"', 'leave': 1, 'priority': 3})]]
+  vim.cmd[[call lexima#add_rule({'char': '"', 'at': '[({[''`]\%#\<\@!\|\>\@<!\%#[)}\]''`]', 'input_after': '"', 'priority': 2})]]
+  vim.cmd[[call lexima#add_rule({'char': '"', 'at': '\%#\S\|\S\%#', 'priority': 1})]]
+  vim.cmd[[call lexima#add_rule({'char': "'", 'at': '\%#''', 'leave': 1, 'priority': 3})]]
+  vim.cmd[[call lexima#add_rule({'char': "'", 'at': '[({["`]\%#\<\@!\|\>\@<!\%#[)}\]"`]', 'input_after': "'", 'priority': 2})]]
+  vim.cmd[[call lexima#add_rule({'char': "'", 'at': '\%#\S\|\S\%#', 'priority': 1})]]
+  vim.cmd[[call lexima#add_rule({'char': '`', 'at': '\%#`', 'leave': 1, 'priority': 3})]]
+  vim.cmd[[call lexima#add_rule({'char': '`', 'at': '[({["'']\%#\<\@!\|\>\@<!\%#[)}\]"'']', 'input_after': '`', 'priority': 2})]]
+  vim.cmd[[call lexima#add_rule({'char': '`', 'at': '\%#\S\|\S\%#', 'priority': 1})]]
 end
 
 function M.neorg()

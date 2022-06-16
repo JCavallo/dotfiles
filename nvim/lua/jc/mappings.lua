@@ -45,9 +45,7 @@ end
 
 map('<F1>', '<cmd>Telescope help_tags<CR>')
 map('<F3>', '<cmd>MundoToggle<CR>')
-map('<F4>', '<cmd>Goyo<CR>')
 map('<F5>', '<cmd>set paste!<CR>')
-map('<F8>', '<cmd>call SideKickNoReload()<CR>')
 
 -- Fun shortcut to check color group under cursor
 map('<F9>', '<cmd>echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") .'
@@ -64,12 +62,6 @@ map('C', '"_C')
 -- Select last inserted text
 map('gV', '`[v`]')
 
--- accelerated j / k
-remap('j', '<Plug>(accelerated_jk_gj)')
-remap('k', '<Plug>(accelerated_jk_gk)')
-remap('<Down>', '<Plug>(accelerated_jk_gj)')
-remap('<Up>', '<Plug>(accelerated_jk_gk)')
-
 -- use Q to record macros
 map('Q', 'q')
 
@@ -81,17 +73,6 @@ map('zl', ']z')
 -------------------------------
 -- Normal Mode Ctrl Mappings --
 -------------------------------
-
--- Ctrl A / X for smart increment / decrement
-remap('<C-a>', '<Plug>(dial-increment)')
-remap('<C-x>', '<Plug>(dial-decrement)')
-
--- H / L to go to beginning / end of line
-map('H', '^')
-map('L', 'g_')
-map('<C-h>', '^')
-map('<C-l>', 'g_')
-
 -- u / U => undo / redo
 remap('u', '<Plug>(highlightedundo-undo)')
 remap('U', '<Plug>(highlightedundo-redo)')
@@ -299,10 +280,6 @@ vmap('@', ':normal@')
 
 -- Make sure copy copies everywhere
 vmap('y', '"*y:let [@+,@"]=[@*,@*]<CR>')
-
--- Ctrl A / X for smart increment / decrement
-revmap('<C-a>', '<Plug>(dial-increment)')
-revmap('<C-x>', '<Plug>(dial-decrement)')
 
 -------------------
 -- Misc Mappings --

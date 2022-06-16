@@ -140,21 +140,12 @@ return require('packer').startup {
     ----------------
     -- Navigation --
     ----------------
-    use 'rhysd/accelerated-jk'                    -- Faster j/k
     use 'deris/vim-shot-f'                        -- Show where f / F / t / T leads
     use {                                         -- Mix vim / Tmux pane navigation
       'christoomey/vim-tmux-navigator',
       cmd = {'TmuxNavigateLeft', 'TmuxNavigateRight',
       'TmuxNavigateUp', 'TmuxNavigateDown'},
       config = function() require'jc.plugin_configuration'.tmux_navigator() end
-    }
-    use {                                         -- Proper buffer removal
-      'moll/vim-bbye',
-      cmd = {'Bdelete', 'Bwipeout'}
-    }
-    use {                                         -- Swap windows
-      'wesQ3/vim-windowswap',
-      keys = '<Leader>ww'
     }
     use {                                         -- Find keys
       "folke/which-key.nvim",
@@ -170,10 +161,6 @@ return require('packer').startup {
 ----------------
 -- Appearance --
 ----------------
-    use {
-      'folke/twilight.nvim',
-      config = function() require'twilight'.setup({contex = 20}) end
-    }
     use {                                         -- Nice welcome window
       'mhinz/vim-startify',
       config = function() require'jc.plugin_configuration'.startify() end
@@ -193,6 +180,10 @@ return require('packer').startup {
     use 'machakann/vim-highlightedyank'            -- Highlight yanked block
 
     -- Colorschemes
+    use {
+      'folke/twilight.nvim',
+      config = function() require'twilight'.setup({contex = 20}) end
+    }
     use {
       'jacoborus/tender.vim',
       config = function() require'jc.plugin_configuration'.tender() end
@@ -217,7 +208,6 @@ return require('packer').startup {
     use 'kana/vim-textobj-indent'                  -- "ii / ai"
     use 'kana/vim-operator-replace'                -- "_" to replace into
     use 'wellle/targets.vim'                       -- General inside / around
-    use 'andymass/vim-matchup'                     -- Better "%"
     use 'tpope/vim-surround'                       -- Surround operators
 
     -----------------
@@ -275,7 +265,7 @@ return require('packer').startup {
     }
     use {                                           -- Faster update times
       'antoinemadec/FixCursorHold.nvim',
-      run = function() vim.g.curshold_updatime = 1000 end,
+      run = function() vim.g.curshold_updatime = 100 end,
     }
     use 'gyim/vim-boxdraw'                          -- Draw boxes
   end,
