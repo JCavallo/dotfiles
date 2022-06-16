@@ -4,6 +4,12 @@ function M.builtin()
   require('telescope.builtin').builtin()
 end
 
+function M.quickfix()
+  require('telescope.builtin').quickfix({
+    layout_strategy = 'vertical',
+  })
+end
+
 function M.find_all_files()
   require('telescope.builtin').find_files {
     find_command = { 'rg', '--no-ignore', '--files', },
@@ -87,12 +93,12 @@ function M.buffer_tryton_module_files()
 end
 
 local function _live_grep(dir, path_display)
-  require('telescope.builtin').live_grep {
+  require('telescope.builtin').live_grep({
+    layout_strategy = 'vertical',
     search_dirs = {dir},
     path_display = path_display,
     use_regex = true,
-    previewer = false,
-  }
+  })
 end
 
 function M.live_buffer_grep()
@@ -120,12 +126,12 @@ function M.buffer_grep()
 end
 
 local function _grep_string(dir, path_display)
-  require('telescope.builtin').grep_string {
+  require('telescope.builtin').grep_string({
+    layout_strategy = 'vertical',
     search_dirs = {dir},
     path_display = path_display,
     use_regex = true,
-    previewer = false,
-  }
+  })
 end
 
 function M.buffer_search()
