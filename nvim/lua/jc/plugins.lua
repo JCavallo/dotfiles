@@ -100,8 +100,8 @@ return require('packer').startup {
       keys = 'cx'
     }
     use {                                         -- Commenting tools
-      'preservim/nerdcommenter',
-      keys = '<Leader>c'
+      'numToStr/Comment.nvim',
+      config = function() require('Comment').setup() end,
     }
     use 'quangnguyen30192/cmp-nvim-ultisnips'     -- Ulti-Snips / cmp link
     use 'SirVer/ultisnips'                        -- Snippet engine
@@ -165,9 +165,9 @@ return require('packer').startup {
       'mhinz/vim-startify',
       config = function() require'jc.plugin_configuration'.startify() end
     }
-    use {                                         -- Nice indentation guides
-      'Yggdroot/indentLine',
-      config = function() require'jc.plugin_configuration'.indentLine() end
+    use {
+      'lukas-reineke/indent-blankline.nvim',
+      config = function() require'jc.plugin_configuration'.indent_lines() end
     }
     use {                                         -- Better parentheses highlighting
       'luochen1990/rainbow',
@@ -194,6 +194,10 @@ return require('packer').startup {
     use {
       'ful1e5/onedark.nvim',
       config = function() require'jc.plugin_configuration'.onedark() end
+    }
+    use {
+      "catppuccin/nvim",
+      as = "catppuccin"
     }
 
     ----------------------

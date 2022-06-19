@@ -160,17 +160,14 @@ local map_tele = function(key, f, options, buffer)
 end
 
 map_tele('i', "buffers")                              -- Opened buffers
-map_tele('k', "jumplist")                             -- Last locations
 map_tele('q', "quickfix")                             -- Quickfix
 map_tele('n', "resume")                               -- Resume
 
-map_tele('la', "lsp_code_actions")                    -- Code actions
 map_tele('ld', "lsp_definitions")                     -- Goto definitions
 map_tele('li', "lsp_implementations")                 -- Goto implementations
 map_tele('lo', "diagnostics", { bufnr=0 })            -- Diagnostics
 map_tele('ls', "lsp_document_symbols")                -- Symbols
 map_tele('lr', "lsp_references")                      -- References to current symbol
-map('<space>lp', "<cmd>LspTrouble<CR>")               -- LspTrouble
 
 map_tele('fo', "oldfiles")                            -- file history
 map_tele('fd', "find_files")                          -- current directory
@@ -207,6 +204,15 @@ map('<space>opc', ':Octo pr changes<CR>')
 map('<space>opb', ':Octo pr browser<CR>')
 map('<space>orr', ':Octo review start<CR>')
 map('<space>ors', ':Octo review submit<CR>')
+
+-------------------------
+-- Telekasten Mappings --
+-------------------------
+
+map('<space>kl', ':Telekasten panel<CR>')
+map('<space>kt', ':Telekasten goto_today<CR>')
+map('<space>ks', ':Telekasten search_notes<CR>')
+map('<space>kn', ':Telekasten new_note<CR>')
 
 ---------------------
 -- Leader Mappings --

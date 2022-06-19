@@ -57,8 +57,11 @@ function M.startify()
   vim.g.startify_change_to_vcs_root = 1
 end
 
-function M.indentLine()
-  vim.g.indentLine_char = '▏'
+function M.indent_lines()
+  require('indent_blankline').setup({
+    show_current_context = true,
+    show_current_context_start = true,
+  })
 end
 
 function M.suda()
@@ -424,6 +427,8 @@ function M.telekasten()
     calendar_opts = {
       weeknm = 2,
     },
+    command_palette_theme = 'dropdown',
+    template_new_note = vim.fn.expand("$HOME/zettelkasten/templates/default.md"),
   })
 end
 
