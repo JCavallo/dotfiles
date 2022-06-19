@@ -135,13 +135,15 @@ SWAYLOCK_BUILD_DEPS="meson ninja-build libcairo2-dev libgdk-pixbuf-2.0-dev
 libxkbcommon-dev libwayland-dev "
 SWAYLOCK_RUN_DEPS="wayland-protocols xwayland "
 
+NEOVIM_BUILD_DEPS="pkg-config gettext "
+
 PSPG_BUILD_DEPS="libncurses-dev "
 
 BREW_RUN_DEPS="build-essential curl file git "
 
 SWAY_RUN_DEPS="libmpdclient2 libdbusmenu-gtk3-4 libfmt7 "
 
-BUILD_DEPS="$PSPG_BUILD_DEPS "
+BUILD_DEPS="$PSPG_BUILD_DEPS $NEOVIM_BUILD_DEPS "
 RUN_DEPS="tzdata $BREW_RUN_DEPS"
 
 if [[ "$SERVER" = "0" ]]; then
@@ -570,7 +572,8 @@ fi
 # Install bitwarden cli
 if [ ! "$(command -v bw)" ]; then
     echo_comment "Installing Bitwarden CLI"
-    chronic yarn global add @bitwarden/cli
+    export PATH="$PATH:$HOME/n/bin"
+    chronic npm i -g @bitwarden/cli
 fi
 
 function perso {
