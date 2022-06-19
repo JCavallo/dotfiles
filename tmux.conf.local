@@ -302,6 +302,7 @@ set -g @tpm_plugins '\
     tmux-plugins/tmux-yank \
     tmux-plugins/tmux-copycat \
 '
+set -g @plugin "janoamaral/tokyo-night-tmux"
 
 # Required for tmux-yank in vi mode
 set -g @shell_mode 'vi'

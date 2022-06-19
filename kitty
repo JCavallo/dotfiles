@@ -639,8 +639,16 @@ foreground #dddddd
 background #000000
 
 # onedark
-foreground            #bbc2cf
-background            #282c34
+foreground #bbc2cf
+background #282c34
+
+# tokyonight
+foreground #a9b1d6
+background #1a1b26
+cursor #c0caf5
+cursor_text_color #1a1b26
+selection_foreground none
+selection_background #28344a
 
 #: The foreground and background colors
 
