@@ -567,58 +567,55 @@ if [ ! "$(command -v pspg)" ]; then
     cd "$HOME"
 fi
 
-# Manage private files
-if [ ! "$(command -v git-blur)" ]; then
+# Install bitwarden cli
+if [ ! "$(command -v bw)" ]; then
+    echo_comment "Installing Bitwarden CLI"
+    chronic yarn global add @bitwarden/cli
+fi
+
+function perso {
+    if [ ! -e "$HOME/.ssh/id_rsa" ]; then
+        echo_comment "Logging in to Bitwarden account"
+        bw login
+        session=$(bw unlock | grep "export BW_SESSION" | \
+            sed -e 's/.*BW_SESSION="\(.*\)"/\1/')
+        export BW_SESSION=$session
+
+        echo_comment "Installing ssh keys"
+        mkdir -p "$HOME/.ssh"
+        chmod 700 "$HOME/.ssh"
+        bw get notes "b1aced9b-befd-4ad0-958c-adc0013b54b9" > "$HOME/.ssh/id_rsa"
+        bw get notes "c32661a6-9569-4528-b528-adc0013b2982" > "$HOME/.ssh/id_rsa.pub"
+        chmod 600 "$HOME/.ssh/id_rsa"
+        chmod 644 "$HOME/.ssh/id_rsa.pub"
+        eval "$(keychain --eval --agents ssh id_rsa)"
+
+        echo_comment "Cloning Movables"
+        cd "$HOME"
+        git clone ssh://giovanni@linariel.ddns.net:23/home/giovanni/repositories/Movables
+
+        cd Movables/personal_dotfiles
+        ln -s "$PWD/ssh_config" "$HOME/.ssh/config"
+        ln -s "$PWD/bash_local" "$HOME/.bash_local"
+        ln -s "$PWD/pgpass" "$HOME/.pgpass"
+
+        echo_comment "Cloning vault"
+        cd "$HOME"
+        git clone ssh://giovanni@linariel.ddns.net:23/home/giovanni/repositories/Vault
+    fi
+}
+
+if [ ! -e "$HOME/Movables" ]; then
     echo_comment "Installing private files"
+
     while true; do
         read -rp "Are you JC? (You WILL have to prove it)? (Y/n)" yn
         case $yn in
-            [Yy]* ) break;;
-            [Nn]* ) exit 0;;
+            [Yy]* ) perso && break;;
+            [Nn]* ) break;;
             * ) echo "Please answer yes or no.";;
         esac
     done
-    chronic sudo apt -y install ruby
-    echo_comment "Installing git blur"
-    chronic sudo gem install git-blur
-    cd "$dir"
-
-    echo_comment "Decrypting blurred files"
-    # In case installation changed something
-    chronic git stash -u
-    git blur init
-
-    # Check files are properly decrypted
-    if [ "$(cat bash_local | git blur smudge 2>&1 | \
-            grep 'bad decrypt')" != '' ]; then
-        echo_comment "Tried to cheat, did'nt ya? I'll exit"
-        exit 1
-    fi
-
-    # Force checkout to decrypt all files. Use git add --renormalize . when
-    # available
-    chronic git read-tree --empty
-    chronic git reset --hard HEAD
-
-    if [ "$(git stash list)" != '' ]; then
-        chronic git stash pop
-    fi
-
-    echo_comment "Installing decrypted files"
-    files="bash_local pgpass"
-    IFS=$' \n' read -ra files <<< "${files}"
-    for file in "${files[@]}"; do
-        ln -s "$dir"/"$file" "$HOME/.$file"
-    done
-    if [ ! -e "$HOME/.ssh/id_rsa" ]; then
-        mkdir -p "$HOME/.ssh"
-        ln -s "$dir/ssh/config" "$HOME/.ssh/config"
-        cp "$dir/ssh/public" "$HOME/.ssh/id_rsa.pub"
-        cp "$dir/ssh/private" "$HOME/.ssh/id_rsa"
-        chmod 700 "$HOME/.ssh"
-        chmod 600 "$HOME/.ssh/id_rsa"
-        chmod 644 "$HOME/.ssh/id_rsa.pub"
-    fi
 fi
 
 echo_comment "Cleaning up"
