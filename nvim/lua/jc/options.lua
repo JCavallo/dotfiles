@@ -84,7 +84,7 @@ vim.opt.undolevels = 1000
 vim.opt.undoreload = 10000
 vim.opt.history = 1000
 
--- Folding  (Note : this is actually overriden by treesitter configuration)
+-- Folding  (Note : using nvim-ufo for this actually)
 vim.opt.foldmethod = 'indent'       -- Fold based on syntax
 vim.opt.foldlevelstart = 1          -- Fold everything at first
 

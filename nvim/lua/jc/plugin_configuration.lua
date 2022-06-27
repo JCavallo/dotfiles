@@ -147,8 +147,9 @@ function M.treesitter()
       enable = true
     },
   }
-  vim.o.foldmethod = 'expr'
-  vim.cmd[[set foldexpr=nvim_treesitter#foldexpr()]]
+  -- nvim ufo for folding now...
+  -- vim.o.foldmethod = 'expr'
+  -- vim.cmd[[set foldexpr=nvim_treesitter#foldexpr()]]
 end
 
 function M.onedark()
@@ -305,6 +306,7 @@ function M.setup_lsp()
   lspconfig.tsserver.setup({})
   lspconfig.vimls.setup({})
   lspconfig.yamlls.setup({})
+  lspconfig.clangd.setup({})
 
   vim.lsp.handlers["textDocument/publishDiagnostics"] =
     vim.lsp.with(vim.lsp.handlers["textDocument/publishDiagnostics"], {
@@ -379,6 +381,49 @@ function M.telescope()
   require("telescope").load_extension("notify")
   require("telescope").load_extension("ui-select")
   require("telescope").load_extension("floaterm")
+end
+
+function M.ufo()
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities.textDocument.foldingRange = {
+    dynamicRegistration = false,
+    lineFoldingOnly = true
+  }
+
+  local handler = function(virtText, lnum, endLnum, width, truncate)
+    local newVirtText = {}
+    local suffix = ('  %d '):format(endLnum - lnum)
+    local sufWidth = vim.fn.strdisplaywidth(suffix)
+    local targetWidth = width - sufWidth
+    local curWidth = 0
+    for _, chunk in ipairs(virtText) do
+        local chunkText = chunk[1]
+        local chunkWidth = vim.fn.strdisplaywidth(chunkText)
+        if targetWidth > curWidth + chunkWidth then
+            table.insert(newVirtText, chunk)
+        else
+            chunkText = truncate(chunkText, targetWidth - curWidth)
+            local hlGroup = chunk[2]
+            table.insert(newVirtText, {chunkText, hlGroup})
+            chunkWidth = vim.fn.strdisplaywidth(chunkText)
+            -- str width returned from truncate() may less than 2nd argument, need padding
+            if curWidth + chunkWidth < targetWidth then
+                suffix = suffix .. (' '):rep(targetWidth - curWidth - chunkWidth)
+            end
+            break
+        end
+        curWidth = curWidth + chunkWidth
+    end
+    if curWidth < targetWidth then
+        suffix = (' '):rep(targetWidth - curWidth) .. suffix
+    end
+    table.insert(newVirtText, {suffix, 'MoreMsg'})
+    return newVirtText
+  end
+
+  require('ufo').setup({
+    fold_virt_text_handler = handler
+  })
 end
 
 function M.trouble()

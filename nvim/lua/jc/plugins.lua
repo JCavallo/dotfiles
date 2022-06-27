@@ -158,9 +158,14 @@ return require('packer').startup {
       }) end
     }
 
-----------------
--- Appearance --
-----------------
+    ----------------
+    -- Appearance --
+    ----------------
+    use {
+      'kevinhwang91/nvim-ufo',
+      config = function() require'jc.plugin_configuration'.ufo() end,
+      requires = 'kevinhwang91/promise-async'
+    }
     use {                                         -- Nice welcome window
       'mhinz/vim-startify',
       config = function() require'jc.plugin_configuration'.startify() end
@@ -208,7 +213,6 @@ return require('packer').startup {
     use 'kana/vim-textobj-user'                    -- Tools 1
     use 'kana/vim-operator-user'                   -- Tools 2
     use 'kana/vim-textobj-entire'                  -- "ie / ae"
-    use 'kana/vim-textobj-fold'                    -- "iz / az"
     use 'kana/vim-textobj-indent'                  -- "ii / ai"
     use 'kana/vim-operator-replace'                -- "_" to replace into
     use 'wellle/targets.vim'                       -- General inside / around
