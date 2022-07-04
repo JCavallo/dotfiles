@@ -477,6 +477,10 @@ function M.telekasten()
   })
 end
 
+function M.leap()
+  require('leap').set_default_keymaps()
+end
+
 function M.setup_dap()
   -- cf https://alpha2phi.medium.com/neovim-for-beginners-debugging-using-dap-44626a767f57
 

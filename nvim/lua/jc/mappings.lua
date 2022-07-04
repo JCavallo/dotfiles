@@ -70,6 +70,7 @@ map('q', '<cmd>call JCSmartClose()<CR>')
 
 map('zh', '[z')
 map('zl', ']z')
+
 -------------------------------
 -- Normal Mode Ctrl Mappings --
 -------------------------------
@@ -246,7 +247,7 @@ map('<Leader>m', '<cmd>e#<CR>')
 --------------------
 --View Navigation --
 --------------------
-local function map_view(key, rhs) map('s' .. key, rhs) end
+local function map_view(key, rhs) map('<C-w>' .. key, rhs) end
 
 map_view('', '<Nop>')
 map_view('v', '<cmd>vsplit<CR>')

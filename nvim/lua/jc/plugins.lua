@@ -140,7 +140,10 @@ return require('packer').startup {
     ----------------
     -- Navigation --
     ----------------
-    use 'deris/vim-shot-f'                        -- Show where f / F / t / T leads
+    use {
+      'ggandor/leap.nvim',
+      config = function() require'jc.plugin_configuration'.leap() end
+    }
     use {                                         -- Mix vim / Tmux pane navigation
       'christoomey/vim-tmux-navigator',
       cmd = {'TmuxNavigateLeft', 'TmuxNavigateRight',
