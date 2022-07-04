@@ -210,7 +210,7 @@ snippet xmlrelate "Tryton Relat" b
 <record model="ir.action.act_window" id="act_${2}_${4:`!p snip.rv = t[1].replace('.', '_')`}">
     <field name="name">${3:Name}</field>
     <field name="res_model">${1:model}</field>
-    <field name="domain">[('${5:back_ref}', '=', ${6:Eval('id')})${7}]</field>
+    <field name="domain" eval="[('${5:back_ref}', '=', ${6:Eval('active_id')})${7}]" pyson="1"/>
 </record>
 ${11:<record model="ir.action.act_window.view" id="act_$2_$4_view1">
     <field name="sequence" eval="${12:1}"/>
