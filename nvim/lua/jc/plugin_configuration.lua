@@ -133,12 +133,10 @@ function M.treesitter()
       swap = {
         enable = true,
         swap_next = {
-          ["<M-s><M-p>"] = "@parameter.inner",
-          ["<M-s>f"] = "@function.outer",
+          ["<leader>a"] = "@parameter.inner",
         },
         swap_previous = {
-          ["<M-s><M-P>"] = "@parameter.inner",
-          ["<M-s>F"] = "@function.outer",
+          ["<leader>A"] = "@parameter.inner",
         },
       },
     },
@@ -462,6 +460,32 @@ function M.neorg()
   require('neorg').setup({
     load = {
       ["core.defaults"] = {},
+      ["core.norg.dirman"] = {
+        config = {
+          workspaces = {
+            work = "~/neorg/work",
+            home = "~/neorg/perso",
+            example_gtd = "/tmp/example_workspaces/gtd",
+          },
+          autochdir = true,
+          default_workspace = "home",
+        }
+      },
+      ["core.norg.qol.toc"] = {},
+      ["core.norg.journal"] = {},
+      ["core.norg.completion"] = {
+        config = {
+          engine = 'nvim-cmp',
+        },
+      },
+      ["core.integrations.nvim-cmp"] = {},
+      ["core.norg.concealer"] = {},
+      ["core.gtd.base"] = {
+        config = {
+          workspace = "example_gtd",
+        }
+      },
+      ["core.integrations.telescope"] = {}
     }
   })
 end
