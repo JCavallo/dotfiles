@@ -54,7 +54,7 @@ export -f _display
 
 wallpaper=$(fzf --bind='ctrl-p:execute: _display {1}' \
     --bind='ctrl-n:execute: _fetch'\
-    --bind 'ctrl-r:reload(ls)')
+    --bind='ctrl-r:reload(ls)')
 
 if [[ "$wallpaper" ]]; then
     _display "$wallpaper"
