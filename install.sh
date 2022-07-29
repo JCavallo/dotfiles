@@ -70,6 +70,7 @@ if [[ "$SERVER" = "0" ]]; then
         GUI_TOOLS+="slurp "  # Screenshot tools
         GUI_TOOLS+="sway "  # Compositor / window manager
         GUI_TOOLS+="swayidle "  # Idle configuration
+        GUI_TOOLS+="waybar "  # task bar
         GUI_TOOLS+="wdisplays "  # Copy paste, wayland style
         GUI_TOOLS+="wl-clipboard "  # Copy paste, wayland style
     elif [[ "$WM" = "i3" ]]; then
@@ -125,12 +126,6 @@ ROFI_RUN_DEPS="libglib2.0-0 libcairo2 libpango-1.0-0 libpangocairo-1.0-0
 librsvg2-2 libxcb-util1 libxcb-xkb1 libxkbcommon-x11-0 libxcb-ewmh2
 libxcb-icccm4 libxcb-xinerama0 libstartup-notification0 "
 
-WAYBAR_BUILD_DEPS="clang-tidy gobject-introspection libdbusmenu-gtk3-dev
-libfmt-dev libgirepository1.0-dev libgtk-3-dev libgtkmm-3.0-dev libinput-dev
-libjsoncpp-dev libmpdclient-dev libnl-3-dev libnl-genl-3-dev libpulse-dev
-libsigc++-2.0-dev libspdlog-dev libwayland-dev scdoc "
-WAYBAR_RUN_DEPS="libgtkmm-3.0-1v5 libjsoncpp24 libsigc++-2.0-0v5 libpulse0 "
-
 SWAYLOCK_BUILD_DEPS="meson ninja-build libcairo2-dev libgdk-pixbuf-2.0-dev
 libxkbcommon-dev libwayland-dev "
 SWAYLOCK_RUN_DEPS="wayland-protocols xwayland "
@@ -141,7 +136,7 @@ PSPG_BUILD_DEPS="libncurses-dev "
 
 BREW_RUN_DEPS="build-essential curl file git "
 
-SWAY_RUN_DEPS="libmpdclient2 libdbusmenu-gtk3-4 libfmt7 "
+SWAY_RUN_DEPS="libmpdclient2 libdbusmenu-gtk3-4 libfmt8 "
 
 BUILD_DEPS="$PSPG_BUILD_DEPS $NEOVIM_BUILD_DEPS "
 RUN_DEPS="tzdata $BREW_RUN_DEPS"
@@ -154,8 +149,8 @@ if [[ "$SERVER" = "0" ]]; then
         RUN_DEPS+="$ROFI_RUN_DEPS "
     fi
     if [[ "$WM" = "sway" ]]; then
-        BUILD_DEPS+="$SWAYLOCK_BUILD_DEPS $WAYBAR_BUILD_DEPS "
-        RUN_DEPS+="$SWAYLOCK_RUN_DEPS $WAYBAR_RUN_DEPS $SWAY_RUN_DEPS "
+        BUILD_DEPS+="$SWAYLOCK_BUILD_DEPS "
+        RUN_DEPS+="$SWAYLOCK_RUN_DEPS $SWAY_RUN_DEPS "
     fi
     if [[ "$TERMINAL" = "alacritty" ]]; then
         BUILD_DEPS+="$ALACRITTY_BUILD_DEPS "
@@ -249,7 +244,7 @@ if [[ "$SERVER" = "0" ]]; then
             ln -s "$dir"/mako "$HOME"/.config/mako/config
 
             # Necessary so a custom configfile patch can be used :/
-            sudo aa-disable /etc/apparmor.d/fr.emersion.Mako
+            # sudo aa-disable /etc/apparmor.d/fr.emersion.Mako
         fi
     fi
     if [[ "$TERMINAL" = "kitty" ]]; then
@@ -381,14 +376,9 @@ if [[ "$SERVER" = "0" ]] && [[ "$WM" = "i3" ]]; then
 fi
 
 if [[ "$SERVER" = "0" ]] && [[ "$WM" = "sway" ]]; then
-    if [[ ! "$(command -v waybar)" ]]; then
-        echo_comment "Loading waybar"
-        cd /tmp
-        chronic git clone https://github.com/Alexays/Waybar
-        cd Waybar
-        chronic meson build
-        chronic ninja -C build
-        chronic sudo ninja -C build install
+    if [[ $(command -v vmware-toolbox-cmd) ]]; then
+        echo_comment "Disabling hardware acceleration for cursors in virtual machines"
+        sudo bash -c 'echo WLR_NO_HARDWARE_CURSORS=1 >> /etc/environment'
     fi
     if [ ! -e "$HOME/bin/sway-launcher" ]; then
         echo_comment "Loading sway-launcher"
