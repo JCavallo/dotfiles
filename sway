@@ -40,7 +40,7 @@ bindsym $mod+Return exec kitty
 bindsym $mod+Shift+a kill
 
 # Menu
-set $menu exec kitty --class=launcher env TERMINAL_COMMAND=" " sway-launcher
+set $menu 'kitty --class=launcher env TERMINAL_COMMAND=" " sway-launcher'
 bindsym $mod+d exec $menu
 
 # change focus
