@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Thanks @ThePrimagen for this <3
 
 if [[ $# -eq 1 ]]; then
     selected=$1
