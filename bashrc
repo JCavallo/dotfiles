@@ -12,10 +12,14 @@ if [ -f /etc/bash_completion ]; then
 elif [ -f /etc/bash.bashrc ]; then
     source /etc/bash.bashrc
 fi
+
 # source $HOME/.bash_completion.d/python-argcomplete.sh
 shopt -s histappend
 # Enable "**" matching for recursive directory use
 shopt -s globstar
+# Avoid escaping on completion
+shopt -s direxpand
+
 export HISTSIZE=10000
 PROMPT_COMMAND='history -a; history -n'
 export VIRTUAL_ENV_DISABLE_PROMPT=1
