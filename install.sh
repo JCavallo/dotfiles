@@ -583,13 +583,13 @@ function perso {
         chmod 644 "$HOME/.ssh/id_rsa.pub"
         eval "$(keychain --eval --agents ssh id_rsa)"
 
-        if [[ ! -e "$HOME/Movables" ]]; then
-            echo_comment "Cloning Movables"
+        if [[ ! -e "$HOME/Personal" ]]; then
+            echo_comment "Cloning Personal"
             cd "$HOME"
-            git clone ssh://giovanni@linariel.ddns.net:23/home/giovanni/repositories/Movables
+            git clone ssh://giovanni@linariel.ddns.net:23/home/giovanni/repositories/Movables Personal
         fi
 
-        ~/Movables/personal_dotfiles/install.sh
+        ~/Personal/dotfiles/install.sh
 
         echo_comment "Cloning vault"
         cd "$HOME"
@@ -599,7 +599,7 @@ function perso {
     fi
 }
 
-if [ ! -e "$HOME/Movables" ]; then
+if [ ! -e "$HOME/Personal" ]; then
     echo_comment "Installing private files"
 
     while true; do
