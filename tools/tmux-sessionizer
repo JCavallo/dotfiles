@@ -1,12 +1,33 @@
 #!/usr/bin/env bash
 # Thanks @ThePrimagen for this <3
 
+# Looks for files $HOME/.sessionizer_search_folders*, which contain a list of
+# directories which will be scanned for sub-directories. Use "$HOME" rather
+# than "~"
+#
+# Add paths found in $HOME/.sessionizer_folders as folders to always add
+
+(ls $HOME/.sessionizer_* >/dev/null 2>/dev/null)
+
+if [[ $? != 0 ]]; then
+    >&2 echo .sessionizer_folders / .sessionizer_search_folders not found
+    exit 1
+fi
+
+touch "$HOME/.sessionizer_folders"
+touch "$HOME/.sessionizer_search_folders"
+
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(find ~/Projets/Coog ~/Projets/rust ~/Projets \
-        ~/Projets/Coog/Administration ~/ -mindepth 1 -maxdepth 1 -type d | \
-        grep -v '/\.' | fzf)
+    selected=$( \
+        ( \
+            find \
+                $(sed -e "s:\$HOME:$HOME:g" ~/.sessionizer_search_folders* \
+                    | tr '\n' ' ') \
+                -mindepth 1 -maxdepth 1 -type d; \
+            sed -e "s:\$HOME:$HOME:g" ~/.sessionizer_folders*) \
+        | grep -v '/\.' | fzf)
 fi
 
 if [[ -z $selected ]]; then
