@@ -463,9 +463,8 @@ function M.neorg()
       ["core.norg.dirman"] = {
         config = {
           workspaces = {
-            work = "~/neorg/work",
-            home = "~/neorg/perso",
-            example_gtd = "/tmp/example_workspaces/gtd",
+            work = "~/Personal/neorg/work",
+            home = "~/Personal/neorg/perso",
           },
           autochdir = true,
           default_workspace = "home",
@@ -482,7 +481,7 @@ function M.neorg()
       ["core.norg.concealer"] = {},
       ["core.gtd.base"] = {
         config = {
-          workspace = "example_gtd",
+          workspace = "home",
         }
       },
       ["core.integrations.telescope"] = {}
