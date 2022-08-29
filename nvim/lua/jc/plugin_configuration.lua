@@ -561,6 +561,9 @@ function M.setup_dap()
     --require("config.dap.lua").setup()
     --require("config.dap.python").setup()
     require("dap-python").setup("python", {})
+    table.insert(require('dap').configurations.python, {
+      justMyCode = true
+    })
     --require("config.dap.rust").setup()
   end
 
