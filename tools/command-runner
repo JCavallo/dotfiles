@@ -1,10 +1,26 @@
 #!/bin/bash
+# Command runner for frequently used commands.
+# Looks for json configuration files with a ~/.*commands.json pattern.
+# A given file must be a dict with as many commands as requested
+#
+#        {
+#            "keyboard-international": {
+#                "command": " setxkbmap -layout us -variant altgr-intl; source ~/.xinitrc_local"
+#            },
+#            "keyboard-azerty": {
+#                "command": "setxkbmap -layout fr -variant latin9"
+#            }
+#        }
+#
+# Requires jq and fzf
+
 if [[ $# == 1 ]]; then
     selected=$1
 else
-    selected=$(jq -r "keys | unique[]" ~/Movables/commands.json | \
-        fzf --preview "jq -r '.[\"{1}\"].command' ~/Movables/commands.json")
+    selected=$(jq -nr "[inputs | keys | unique[]] | .[]" .*commands.json | \
+        fzf --preview "jq -nr '[inputs[\"{1}\"].command] | .[] | select(. != null)' .*commands.json")
 fi
 if [[ $selected != "" ]]; then
-    jq -r ".[\"$selected\"].command" ~/Movables/commands.json | xargs -I % bash -c '%'
+    jq -nr "[inputs[\"$selected\"].command] | .[] | select(. != null)" .*commands.json \
+        | xargs -I % bash -c '%'
 fi
