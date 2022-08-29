@@ -84,9 +84,16 @@ vim.opt.undolevels = 1000
 vim.opt.undoreload = 10000
 vim.opt.history = 1000
 
--- Folding  (Note : using nvim-ufo for this actually)
-vim.opt.foldmethod = 'indent'       -- Fold based on syntax
-vim.opt.foldlevelstart = 1          -- Fold everything at first
+-- Folding (nvim-ufo)
+vim.opt.foldcolumn = '0'
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
+vim.opt.foldenable = true
+vim.opt.foldmethod = 'manual'
+--
+-- Folding (Treesitter)
+-- vim.opt.foldmethod = 'indent'       -- Fold based on syntax
+-- vim.opt.foldlevelstart = 1          -- Fold everything at first
 
 -- Misc
 vim.opt.belloff = 'all'             -- Just turn the dang bell off

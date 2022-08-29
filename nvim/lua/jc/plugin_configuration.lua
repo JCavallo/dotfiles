@@ -254,6 +254,10 @@ function M.setup_lsp()
       'additionalTextEdits',
     }
   }
+  updated_capabilities.textDocument.foldingRange = {
+    dynamicRegistration = false,
+    lineFoldingOnly = true
+  }
 
   local lsp_installer = require("nvim-lsp-installer").setup({
     automatic_installation = true,
@@ -382,12 +386,6 @@ function M.telescope()
 end
 
 function M.ufo()
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities.textDocument.foldingRange = {
-    dynamicRegistration = false,
-    lineFoldingOnly = true
-  }
-
   local handler = function(virtText, lnum, endLnum, width, truncate)
     local newVirtText = {}
     local suffix = ('  %d '):format(endLnum - lnum)
@@ -420,8 +418,19 @@ function M.ufo()
   end
 
   require('ufo').setup({
-    fold_virt_text_handler = handler
+    fold_virt_text_handler = handler,
+    provider_selector = function(bufnr, filetype, buftype)
+      if filetype == 'python' or filetype == 'lua' then
+        return { 'treesitter', 'indent' }
+      end
+      return { 'lsp', 'indent' }
+    end
   })
+
+  vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
+  vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
+  vim.keymap.set('n', 'zr', require('ufo').openFoldsExceptKinds)
+  vim.keymap.set('n', 'zm', require('ufo').closeFoldsWith)
 end
 
 function M.trouble()
