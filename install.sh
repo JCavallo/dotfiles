@@ -590,12 +590,6 @@ function perso {
         fi
 
         ~/Personal/dotfiles/install.sh
-
-        echo_comment "Cloning vault"
-        cd "$HOME"
-        git clone ssh://giovanni@linariel.ddns.net:23/home/giovanni/repositories/Vault
-
-        ln -s "$HOME/Vault/gpg/keys" "$HOME/.gnupg"
     fi
 }
 
