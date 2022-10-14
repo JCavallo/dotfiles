@@ -6,6 +6,14 @@ function M.tender()
   vim.g.tender_bold = 1
 end
 
+function M.tokyonight()
+  require('tokyonight').setup({
+    style = "night",
+    transparent = true,
+  })
+  vim.cmd("colorscheme tokyonight")
+end
+
 function M.lualine()
   require('lualine').setup {
     options = {
@@ -510,7 +518,7 @@ function M.telekasten()
 end
 
 function M.leap()
-  require('leap').set_default_keymaps()
+  require('leap').add_default_mappings()
 end
 
 function M.setup_dap()

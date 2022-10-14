@@ -142,7 +142,7 @@ return require('packer').startup {
     ----------------
     use {
       'ggandor/leap.nvim',
-      config = function() require'jc.plugin_configuration'.leap() end
+      config = function() require'jc.plugin_configuration'.leap() end,
     }
     use {                                         -- Mix vim / Tmux pane navigation
       'christoomey/vim-tmux-navigator',
@@ -198,7 +198,10 @@ return require('packer').startup {
     }
     use 'axvr/photon.vim'
     use 'drewtempelmeyer/palenight.vim'
-    use 'folke/tokyonight.nvim'
+    use {
+      'folke/tokyonight.nvim',
+      config = function() require'jc.plugin_configuration'.tokyonight() end
+    }
     use {
       'ful1e5/onedark.nvim',
       config = function() require'jc.plugin_configuration'.onedark() end
