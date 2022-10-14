@@ -406,4 +406,6 @@ if [[ "$(command -v fasd)" ]]; then
     }
 fi
 
+export GPG_TTY=$(tty)
+
 # vim:set ft=sh:
