@@ -250,9 +250,9 @@ function M.setup_lsp()
   local updated_capabilities = vim.lsp.protocol.make_client_capabilities()
   updated_capabilities = vim.tbl_deep_extend("keep", updated_capabilities,
       require('lsp-status').capabilities)
+  updated_capabilities = vim.tbl_deep_extend("keep", updated_capabilities,
+      require('cmp_nvim_lsp').default_capabilities())
   updated_capabilities.textDocument.codeLens = { dynamicRegistration = false }
-  updated_capabilities = require("cmp_nvim_lsp").update_capabilities(
-    updated_capabilities)
   updated_capabilities.textDocument.completion.completionItem.insertReplaceSupport = false
   updated_capabilities.textDocument.completion.completionItem.snippetSupport = true
   updated_capabilities.textDocument.completion.completionItem.resolveSupport = {
