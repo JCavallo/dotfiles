@@ -31,7 +31,8 @@ vim.opt.formatoptions = ''
   .. 'q'                          -- Auto format comments with gq
   .. 'r'                          -- Continue comments on "enter"
   .. 'j'                          -- Remove useless comment lines
-  .. 'n'                          -- Detect lists and format accordingly
+  .. 'n'                          -- Detect lists and fmrmat accordingly
+  .. 't'                          -- Auto format non-comment lines
 
 -- Navigation
 vim.opt.whichwrap = 'h,l,b,s'       -- Allow to use h / l at start / end of line
