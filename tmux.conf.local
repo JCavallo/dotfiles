@@ -245,7 +245,7 @@ tmux_conf_copy_to_os_clipboard=true
 # this is the place to override or undo settings
 
 # increase history size
-set -g history-limit 10000
+set -g history-limit 100000
 
 # start with mouse mode enabled
 set -g mouse on
@@ -306,6 +306,9 @@ set -g @plugin "janoamaral/tokyo-night-tmux"
 
 # Required for tmux-yank in vi mode
 set -g @shell_mode 'vi'
+set -g @yank_action 'copy-pipe'
+set -g @yank_selection 'clipboard'
+set -g @yank_selection_mouse 'primary'
 
 # Load plugin manager
 run-shell '~/.tmux_plugins/tpm/tpm'
