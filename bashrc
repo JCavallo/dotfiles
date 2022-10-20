@@ -45,8 +45,8 @@ alias gitcm="git checkout master"
 alias htop="TERM=screen htop"
 alias pg_activity="TERM=screen pg_activity"
 alias grp="grep -I --line-buffered"
-alias cat=batcat
-alias more=batcat
+alias cat=bat
+alias more=bat
 alias clear="TERM=linux clear"
 alias k="kritik -s --success-message OK --failure-message KO"
 alias g="git"
