@@ -1,3 +1,4 @@
+#!/usr/bin/bash
 if hash keychain 2>/dev/null; then
     eval "$(keychain --eval --agents ssh id_rsa)"
     TERM=linux clear
@@ -352,12 +353,13 @@ if [[ -e "$HOME/tools/git-fuzzy" ]]; then
 fi
 
 if [[ -e "/home/linuxbrew/.linuxbrew" ]]; then
-    export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew";
-    export HOMEBREW_CELLAR="/home/linuxbrew/.linuxbrew/Cellar";
-    export HOMEBREW_REPOSITORY="/home/linuxbrew/.linuxbrew/Homebrew";
-    export PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin${PATH+:$PATH}";
-    export MANPATH="/home/linuxbrew/.linuxbrew/share/man${MANPATH+:$MANPATH}:";
-    export INFOPATH="/home/linuxbrew/.linuxbrew/share/info${INFOPATH+:$INFOPATH}";
+    # export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew";
+    # export HOMEBREW_CELLAR="/home/linuxbrew/.linuxbrew/Cellar";
+    # export HOMEBREW_REPOSITORY="/home/linuxbrew/.linuxbrew/Homebrew";
+    # export PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin${PATH+:$PATH}";
+    # export MANPATH="/home/linuxbrew/.linuxbrew/share/man${MANPATH+:$MANPATH}:";
+    # export INFOPATH="/home/linuxbrew/.linuxbrew/share/info${INFOPATH+:$INFOPATH}";
+    true
 fi
 
 # Local customized path and environment settings, etc.
