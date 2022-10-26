@@ -3,8 +3,8 @@ configuration {
     lines: 12;
     font: "monofur For Powerline 20";
     show-icons: true;
-    theme: "oxide";
     display-window: "Window";
     display-drun: "Search";
     terminal: "alacritty";
 }
+@theme "oxide"
