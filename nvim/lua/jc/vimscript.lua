@@ -37,7 +37,7 @@ function! JCRemoveLogging()
 endfunction
 
 function! JCAddBreakpointV2(delta)
-    if &filetype != 'python'
+    if &filetype != 'python' && &filetype != 'python.trpy'
         return
     endif
     let cur_pos = getpos('.')
