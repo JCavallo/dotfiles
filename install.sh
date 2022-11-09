@@ -607,8 +607,8 @@ if [ ! -e "$HOME/Personal" ]; then
 fi
 
 echo_comment "Cleaning up"
-chronic sudo DEBIAN_FRONTEND=noninteractive apt -y remove --purge $BUILD_DEPS
-chronic sudo DEBIAN_FRONTEND=noninteractive apt -y autoremove --purge
+# chronic sudo DEBIAN_FRONTEND=noninteractive apt -y remove --purge $BUILD_DEPS
+# chronic sudo DEBIAN_FRONTEND=noninteractive apt -y autoremove --purge
 chronic sudo DEBIAN_FRONTEND=noninteractive apt -y install $RUN_DEPS
 sudo dpkg-reconfigure tzdata
 sudo dpkg-reconfigure locales
