@@ -2,8 +2,11 @@
 # Only works for intel_backlight
 # Requires:
 #   sudo usermod -a -G video $LOGNAME
-#   sudo /bin/chgrp video /sys/class/backlight/intel_backlight/brightness
-#   sudo /bin/chmod g+w /sys/class/backlight/intel_backlight/brightness
+#
+# In /etc/udev/rules.d/45-backlight.rules
+#
+#   ACTION=="add", SUBSYSTEM=="backlight" KERNEL=="intel_backlight", RUN+="/bin/chgrp video /sys/class/backlight/intel_backlight/brightness"
+#   ACTION=="add", SUBSYSTEM=="backlight" KERNEL=="intel_backlight", RUN+="/bin/chmod g+w /sys/class/backlight/intel_backlight/brightness"
 max_brightness=$(cat /sys/class/backlight/intel_backlight/max_brightness)
 cur_brightness=$(cat /sys/class/backlight/intel_backlight/brightness)
 step=$((max_brightness / 20))
