@@ -24,7 +24,8 @@ end
 
 function M.sql()
   vim.g.vim_indent_cont = 4
-  vim.cmd [[nnoremap <leader>xx :execute 'silent %w !sqlformat -r -k upper -i lower --indent_width 4 --indent_after_first --indent_columns -a -s --wrap_after 80 -o % %' \| execute ':e!'<CR>]]
+  -- Requires yarn global add sql-formatter
+  vim.cmd [[nnoremap <leader>xx :execute 'silent %w !sql-formatter -l postgresql -o % %' \| execute ':e!'<CR>]]
 end
 
 function M.vim()
