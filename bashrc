@@ -305,6 +305,7 @@ _git_store ()
 }
 
 set -o vi
+export FZF_COMPLETION_TRIGGER='**'
 source ~/.fzf.bash
 
 if [[ "$(command -v direnv)" ]]; then
