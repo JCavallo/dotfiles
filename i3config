@@ -313,4 +313,4 @@ gaps bottom 50
 # gaps bottom 140
 
 # Rounded corners
-# border_radius 20
+border_radius 20
