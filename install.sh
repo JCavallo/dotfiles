@@ -312,6 +312,7 @@ if [[ ! "$(command -v brew)" ]]; then
         > /tmp/homebrew.sh
     chronic bash /tmp/homebrew.sh <<< "
 "
+    source "$HOME/.bashrc"
 fi
 
 if [[ "$SERVER" = "0" ]] && [[ "$WM" = "i3" ]]; then
@@ -462,7 +463,7 @@ if [ ! -e "$HOME/.cargo" ]; then
     echo_comment "Installing rust"
     curl https://sh.rustup.rs -sSf > /tmp/rustup
     sh /tmp/rustup -y --no-modify-path
-    export PATH="$HOME/.cargo/bin:$PATH"
+    source "$HOME/.bashrc"
 fi
 
 if [[ "$SERVER" = "0" ]] && [[ "$TERMINAL" = "alacritty" ]] && \
@@ -545,6 +546,12 @@ if [ ! "$(command -v pyenv)" ]; then
     curl -s -L \
         https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer \
         | chronic bash
+    source "$HOME/.bashrc"
+fi
+
+if [ ! "$(command -v poetry)" ]; then
+    curl https://install.python-poetry.org | python3 -
+    poetry config virtualenvs.in-project true
 fi
 
 # Install pspg (psql pager)
