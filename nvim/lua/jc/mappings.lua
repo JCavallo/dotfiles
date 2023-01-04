@@ -39,6 +39,9 @@ local function revmap(lhs, rhs)
   vim.api.nvim_set_keymap('x', lhs, rhs, {noremap = false, silent = true})
 end
 
+-- Clean up space
+vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+
 ---------------------------
 -- Function Key Mappings --
 ---------------------------
@@ -61,6 +64,14 @@ map('C', '"_C')
 
 -- Select last inserted text
 map('gV', '`[v`]')
+
+-- Remap for dealing with word wrap
+vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+
+-- ThePrimeAgen remaps for centering when jumping around
+map('n', 'nzzzv')
+map('N', 'Nzzzv')
 
 -- use Q to record macros
 map('Q', 'q')
@@ -99,6 +110,9 @@ map('<A-Right>', '<cmd>TmuxNavigateRight<CR>')
 -- Insert Mode Mappings --
 --------------------------
 
+-- Another exit way
+imap('<C-c>', '<Esc>')
+
 -- kj / jk to exit insert mode
 imap('jk', '<Esc>')
 imap('kj', '<Esc>')
@@ -128,10 +142,10 @@ imap('<A-l>', '<cmd>TmuxNavigateRight<CR>')
 -- Harpoon Mappings --
 ----------------------
 
-map('<space>h1', ':lua require("harpoon.ui").nav_file(1)<CR>')
-map('<space>h2', ':lua require("harpoon.ui").nav_file(2)<CR>')
-map('<space>h3', ':lua require("harpoon.ui").nav_file(3)<CR>')
-map('<space>h4', ':lua require("harpoon.ui").nav_file(4)<CR>')
+map('<S-F1>', ':lua require("harpoon.ui").nav_file(1)<CR>')
+map('<S-F2>', ':lua require("harpoon.ui").nav_file(2)<CR>')
+map('<S-F3>', ':lua require("harpoon.ui").nav_file(3)<CR>')
+map('<S-F4>', ':lua require("harpoon.ui").nav_file(4)<CR>')
 map('<space>hn', ':lua require("harpoon.ui").nav_next()<CR>')
 map('<space>hp', ':lua require("harpoon.ui").nav_prev()<CR>')
 map('<space>ha', ':lua require("harpoon.mark").add_file()<CR>')

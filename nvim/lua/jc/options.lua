@@ -80,6 +80,12 @@ vim.opt.completeopt = 'menu,menuone,noselect'
 vim.opt.undodir = vim.fn.stdpath('data') .. '/undodir'
 vim.opt.backupdir = vim.fn.stdpath('data') .. '/backup'
 vim.opt.directory = vim.fn.stdpath('data') .. '/swap'
+
+os.execute('mkdir -p ' .. vim.fn.stdpath('data'))
+os.execute('mkdir -p ' .. vim.fn.expand(vim.o.undodir))
+os.execute('mkdir -p ' .. vim.fn.expand(vim.o.backupdir))
+os.execute('mkdir -p ' .. vim.fn.expand(vim.o.directory))
+
 vim.opt.undofile = true
 vim.opt.undolevels = 1000
 vim.opt.undoreload = 10000
