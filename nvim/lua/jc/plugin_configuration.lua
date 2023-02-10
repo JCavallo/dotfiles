@@ -290,7 +290,7 @@ function M.setup_lsp()
   if not configs.test_language_server then
     configs.test_language_server = {
       default_config = {
-        cmd = {'/home/jean.cavallo/Personal/projects/coog/tryton-analyzer/launcher'},
+        cmd = { vim.fn.expand('~/Personal/projects/coog/tryton-analyzer/launcher') },
         filetypes = {'python.trpy', 'xml.trxml'},
         root_dir = lspconfig.util.root_pattern(".git"),
         settings = {},
