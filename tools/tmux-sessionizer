@@ -25,7 +25,7 @@ else
             find \
                 $(sed -e "s:\$HOME:$HOME:g" ~/.sessionizer_search_folders* \
                     | tr '\n' ' ') \
-                -mindepth 1 -maxdepth 1 -type d; \
+                -mindepth 1 -maxdepth 1 -type d 2>/dev/null; \
             sed -e "s:\$HOME:$HOME:g" ~/.sessionizer_folders*) \
         | grep -v '/\.' | fzf)
 fi
