@@ -287,8 +287,8 @@ function M.setup_lsp()
 
   local lspconfig = require("lspconfig")
   local configs = require'lspconfig.configs'
-  if not configs.test_language_server then
-    configs.test_language_server = {
+  if not configs.tryton_analyzer then
+    configs.tryton_analyzer = {
       default_config = {
         cmd = { vim.fn.expand('~/Personal/projects/coog/tryton-analyzer/launcher') },
         filetypes = {'python.trpy', 'xml.trxml'},
@@ -297,7 +297,7 @@ function M.setup_lsp()
       };
     }
   end
-  lspconfig.test_language_server.setup{}
+  lspconfig.tryton_analyzer.setup{}
 end
 
 function M.setup_dap()
