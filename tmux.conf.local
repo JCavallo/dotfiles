@@ -295,7 +295,7 @@ bind-key -n F10 run 'tmux split-window "tmux-sessionizer"'
 bind-key -n F11 run 'tmux-sessionizer --back'
 
 # Install plugins
-set-environment -g TMUX_PLUGIN_MANAGER_PATH '~/.tmux_plugins'
+set-environment -g TMUX_PLUGIN_MANAGER_PATH ${HOME}/.tmux_plugins
 set -g @tpm_plugins '\
     tmux-plugins/tpm \
     tmux-plugins/tmux-sensible \
