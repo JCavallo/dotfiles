@@ -32,6 +32,9 @@ font pango:monofur, FontAwesome 14
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
+focus_follows_mouse yes
+mouse_warping output
+
 # start a terminal (alacrity / kitty)
 bindsym $mod+Return exec kitty
 
@@ -258,11 +261,12 @@ assign [class="libreoffice"] $document_workspace
 assign [class="libreoffice-startcenter"] $document_workspace
 assign [class="Soffice"] $document_workspace
 
-exec --no-startup-id source ~/.bash_profile
+# exec --no-startup-id source ~/.bash_profile
 exec --no-startup-id redshift-gtk
 # exec_always --no-startup-id compton --config ~/.config/compton.conf -b
 exec_always --no-startup-id ~/dotfiles/tools/launch_polybar
 exec_always --no-startup-id ~/dotfiles/tools/wallpaper_i3
+exec_always --no-startup-id unclutter --timeout 2
 
 for_window [class="^.*"] border pixel 0
 for_window [class="Rofi"] floating enable, sticky enable

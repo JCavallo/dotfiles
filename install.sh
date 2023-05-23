@@ -76,6 +76,7 @@ if [[ "$SERVER" = "0" ]]; then
     elif [[ "$WM" = "i3" ]]; then
         GUI_TOOLS+="feh "  # Wallpapers
         GUI_TOOLS+="numlockx "  # Just so we can startx
+        GUI_TOOLS+="unclutter-xfixes "  # Auto hide mouse
         GUI_TOOLS+="xclip "  # copy paste...
         GUI_TOOLS+="xinit "  # Just so we can startx
     fi
