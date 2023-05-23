@@ -1,15 +1,16 @@
 #/bin/sh
-xset r rate 200 60
+# xset r rate 250 60
 numlockx off;numlockx on
 
-setxkbmap -layout us -variant altgr-intl
+# ScrollLock as compose key
+# setxkbmap -layout us -variant altgr-intl -option compose:sclk
 # setxkbmap -layout fr -variant latin9
 
 # ² as compose key
 # xmodmap -e "keycode 49 = Multi_key"
 
 # ScrollLock as compose key
-xmodmap -e "keycode 78 = Multi_key"
+# xmodmap -e "keycode 78 = Multi_key"
 
 if [ -e "$HOME/.xinitrc_local" ]; then
     # Typically, adapt video output to local configuration
