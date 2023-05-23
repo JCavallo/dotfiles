@@ -47,7 +47,7 @@ padding-right = 1
 module-margin = 1
 
 modules-left = i3
-modules-center = powermenu clock volume backlight
+modules-center = pulseaudio-control-output powermenu clock volume backlight
 modules-right = wired-network wireless-network cpu memory fs-root battery
 
 font-0 = monofur:size=12;4
