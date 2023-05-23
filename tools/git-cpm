@@ -37,7 +37,7 @@ else
     git commit --amend
 fi
 while true; do
-    read -rp "Do you wish to push the changes? (Y/n)" yn
+    read -rp "Do you wish to push the changes? (Y/n)" yn </dev/tty
     case $yn in
         [Yy]* ) echo "Pushing";git push origin "$to"; break;;
         [Nn]* ) break;;
