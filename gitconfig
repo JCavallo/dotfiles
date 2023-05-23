@@ -1,7 +1,7 @@
 [user]
     name = Jean Cavallo
     email = jean.cavallo@hotmail.fr
-	signingkey = 441DEBAC16173558923F532462F6F4BF20B22366
+    signingkey = 441DEBAC16173558923F532462F6F4BF20B22366
 [core]
     excludesfile = ~/.gitignore
     editor = nvim
@@ -50,6 +50,9 @@
     prompt = false
 [diff]
     tool = vimdiff
+[diff "postman"]
+    textconv=jq \"(.item[].item[].request.body?.raw | select (.)) |= (. | select ((. | length) > 0) | fromjson)\"
+    cachetextconv = true
 [alias]
     l = log --color --graph --full-history --all --pretty=format:'%Cred%h%Creset -%C(cyan)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset%n' --abbrev-commit --date iso
     ll = log --color --graph --full-history --pretty=format:'%Cred%h%Creset -%C(cyan)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset%n' --abbrev-commit --date iso
@@ -91,9 +94,9 @@
     filetrail = git log --follow -p -w
     mergetrail = log --ancestry-path --merges
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
 [commit]
-	gpgsign = true
+    gpgsign = true
