@@ -6,9 +6,9 @@
 #: individual font faces and even specify special fonts for particular
 #: characters.
 
-font_family      FiraCode Nerd Font Mono
-bold_font        FiraCode bold Nerd Font Mono
-italic_font      FiraCode italic Nerd Font Mono
+font_family      FiraCode Nerd Font
+bold_font        FiraCode Nerd Font Bold
+italic_font      FiraCode Nerd Font Light
 bold_italic_font auto
 
 #: You can specify different fonts for the bold/italic/bold-italic
