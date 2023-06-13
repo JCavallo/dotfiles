@@ -444,18 +444,18 @@ if [[ "$SERVER" = "0" ]] && [[ "$(fc-list | grep Powerline)" = "" ]]; then
     mkdir -p ~/.local/share/fonts
     cd ~/.local/share/fonts
     chronic curl -fLo "monofur Nerd Font Mono.ttf" \
-        https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/Monofur/Regular/complete/monofur%20Nerd%20Font%20Complete%20Mono.ttf
+        https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Monofur/Regular/MonofurNerdFont-Regular.ttf?raw=true
     chronic curl -fLo "monofur bold Nerd Font Mono.ttf" \
-        https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/Monofur/Bold/complete/monofur%20bold%20Nerd%20Font%20Complete%20Mono.ttf
+        https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Monofur/Bold/MonofurNerdFont-Bold.ttf?raw=true
     chronic curl -fLo "monofur italic Nerd Font Mono.ttf" \
-        https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/Monofur/Italic/complete/monofur%20italic%20Nerd%20Font%20Complete%20Mono.ttf
+        https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/Monofur/Italic/MonofurNerdFont-Italic.ttf?raw=true
     cd ~/.local/share/fonts
     chronic curl -fLo "FiraCode Nerd Font Mono.ttf" \
-        https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/FiraCode/Regular/complete/Fira%20Code%20Regular%20Nerd%20Font%20Complete%20Mono.ttf
+        https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/FiraCode/Regular/FiraCodeNerdFont-Regular.ttf?raw=true
     chronic curl -fLo "FiraCode bold Nerd Font Mono.ttf" \
-        https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/FiraCode/Bold/complete/Fira%20Code%20Bold%20Nerd%20Font%20Complete%20Mono.ttf
+        https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/FiraCode/Bold/FiraCodeNerdFont-Bold.ttf?raw=true
     chronic curl -fLo "FiraCode italic Nerd Font Mono.ttf" \
-        https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/FiraCode/Light/complete/Fira%20Code%20Light%20Nerd%20Font%20Complete%20Mono.ttf
+        https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/FiraCode/Light/FiraCodeNerdFont-Light.ttf?raw=true
     chronic fc-cache -f -v
     cd "$HOME"
 fi
