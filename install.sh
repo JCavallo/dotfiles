@@ -484,6 +484,7 @@ fi
 if [ ! "$(command -v delta)" ]; then
     echo_comment "Installing delta"
     cargo install git-delta
+    chronic curl -sL -o "$HOME"/.config/delta-themes.gitconfig https://raw.githubusercontent.com/dandavison/delta/master/themes.gitconfig
 fi
 
 if [ ! "$(command -v kritik)" ]; then

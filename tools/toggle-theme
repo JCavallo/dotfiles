@@ -1,0 +1,42 @@
+#!/bin/bash
+set -euo pipefail
+
+canary="$HOME/.local/.current_theme"
+neovim_script="$HOME/dotfiles/tools/set_nvim_background"
+
+kitty_dark="Tokyo Night Storm"
+kitty_light="Tokyo Night Day"
+
+tmux_dark="@tokyonight storm"
+tmux_light="@tokyonight day"
+
+delta_dark=
+delta_light="hoopoe"
+
+current=dark
+if [[ -e "$canary" ]]; then
+    current=$(cat "$canary")
+fi
+
+if [[ "$current" = "dark" ]]; then
+    kitty_theme=$kitty_light
+    tmux_theme=$tmux_light
+    delta_theme=$delta_light
+    new=light
+else
+    kitty_theme=$kitty_dark
+    tmux_theme=$tmux_dark
+    delta_theme=$delta_dark
+    new=dark
+fi
+
+echo "$new" > "$canary"
+
+tmux set -g $tmux_theme
+kitty +kitten themes --reload-in=all $kitty_theme
+tmux source "$HOME/.tmux.conf"
+git config --global delta.features "side-by-side line-numbers decorations $delta_theme"
+
+for neovim in /run/user/"$UID"/nvim*; do
+    python3 "$neovim_script" "$neovim" "$new"
+done

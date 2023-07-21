@@ -1,0 +1,5 @@
+import sys
+from pynvim import attach
+
+nvim = attach('socket', path=sys.argv[-2])
+nvim.command(f'set background={sys.argv[-1]}')

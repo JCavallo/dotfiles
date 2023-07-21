@@ -21,10 +21,8 @@
     new = green bold
     whitespace = red reverse
 [delta]
-    features = side-by-side line-numbers decorations
+    features = side-by-side line-numbers decorations hoopoe
     navigate = true
-    plus-style = "syntax #012800"
-    minus-style = "syntax #340001"
     commit-decoration-style = bold yellow box
     file-style = bold blue
     file-decoration-style = bold blue ul
@@ -100,3 +98,7 @@
     required = true
 [commit]
     gpgsign = true
+[uploadpack]
+	allowFilter = true
+[include]
+    path = ~/.config/delta-themes.gitconfig

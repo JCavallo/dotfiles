@@ -46,8 +46,8 @@ alias gitcm="git checkout master"
 alias htop="TERM=screen htop"
 alias pg_activity="TERM=screen pg_activity"
 alias grp="grep -I --line-buffered"
-alias cat=bat
-alias more=bat
+alias cat='bat $(if [[ ! -e /tmp/.current_theme ]] || [[ $(/usr/bin/cat /tmp/.current_theme) = "light" ]]; then echo "--theme base16"; fi)'
+alias more='bat $(if [[ ! -e /tmp/.current_theme ]] || [[ $(/usr/bin/cat /tmp/.current_theme) = "light" ]]; then echo "--theme base16"; fi)'
 alias clear="TERM=linux clear"
 alias k="kritik -s --success-message OK --failure-message KO"
 alias g="git"
