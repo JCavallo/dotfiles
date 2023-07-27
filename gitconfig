@@ -46,6 +46,8 @@
     cmd = nvim -d $MERGED $LOCAL $BASE $REMOTE -c '$wincmd L' -c 'wincmd J'
 [difftool]
     prompt = false
+[rerere]
+    enabled = true
 [diff]
     tool = vimdiff
 [diff "postman"]
