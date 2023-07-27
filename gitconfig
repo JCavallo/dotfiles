@@ -21,7 +21,7 @@
     new = green bold
     whitespace = red reverse
 [delta]
-    features = side-by-side line-numbers decorations hoopoe
+	features = side-by-side line-numbers decorations hoopoe
     navigate = true
     commit-decoration-style = bold yellow box
     file-style = bold blue
