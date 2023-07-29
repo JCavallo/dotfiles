@@ -28,7 +28,8 @@ require('packer').startup(function(use)
     requires = {
       'hrsh7th/cmp-nvim-lsp',  -- completion from lsp
       'L3MON4D3/LuaSnip',  -- snippets
-      'saadparwaiz1/cmp_luasnip',  -- snippet collection
+      'saadparwaiz1/cmp_luasnip',  -- access snippets from cmp
+      'rafamadriz/friendly-snippets',   -- Snippet collection
       -- 'hrsh7th/cmp-buffer',  -- completion from buffer
       'hrsh7th/cmp-path',  -- completion from path
       'hrsh7th/cmp-cmdline', -- completion on command line
