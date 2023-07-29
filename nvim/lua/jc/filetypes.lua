@@ -22,10 +22,15 @@ function M.markdown()
   vim.cmd [[setlocal foldexpr=NestedMarkdownFolds()]]
 end
 
+function M.python()
+  -- vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.format()]]
+end
+
 function M.sql()
   vim.g.vim_indent_cont = 4
   -- Requires yarn global add sql-formatter
-  vim.cmd [[nnoremap <leader>xx :execute 'silent %w !sql-formatter -l postgresql -o % %' \| execute ':e!'<CR>]]
+  vim.cmd [[write]]
+  vim.cmd [[nnoremap <leader>xx :execute 'silent %w !sql-formatter -l postgresql -c ~/dotfiles/sqlformatter.json -o % %' \| execute ':e!'<CR>]]
 end
 
 function M.vim()

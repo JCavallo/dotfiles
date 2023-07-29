@@ -246,8 +246,10 @@ function M.setup_lsp()
     nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
     nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
     nmap('<leader>wl', function()
-      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end, '[W]orkspace [L]ist Folders')
+        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+      end,
+      '[W]orkspace [L]ist Folders')
+    nmap('<leader>xx', vim.lsp.buf.format())
 
     -- Create a command `:Format` local to the LSP buffer
     vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
