@@ -489,7 +489,7 @@ end
 
 function M.tokyonight()
   require('tokyonight').setup({
-    style = "night",
+    style = "storm",
     transparent = true,
   })
   vim.cmd("colorscheme tokyonight")
