@@ -51,6 +51,7 @@ vim.opt.listchars = "tab:→ ,nbsp:␣,trail:·,extends:»,precedes:«"   -- eol
 vim.opt.showmatch = true            -- Show matching parentheses
 vim.opt.signcolumn = 'yes'          -- Always display the sign column to avoid flickering
 vim.opt.concealcursor = 'nc'        -- Conceal in normal / command mode
+vim.opt.conceallevel = 2            -- Conceal everything
 
 -- Split options
 vim.opt.showtabline = 1             -- We don't use tabs, for now
