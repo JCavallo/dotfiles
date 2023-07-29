@@ -33,10 +33,14 @@ fi
 echo "$new" > "$canary"
 
 tmux set -g $tmux_theme
-kitty +kitten themes --reload-in=all $kitty_theme
+if [[ "$(command -v kitty)" ]]; then
+    kitty +kitten themes --reload-in=all $kitty_theme
+fi
 tmux source "$HOME/.tmux.conf"
 git config --global delta.features "side-by-side line-numbers decorations $delta_theme"
 
-for neovim in /run/user/"$UID"/nvim*; do
-    python3 "$neovim_script" "$neovim" "$new"
-done
+if [[ -e /run/user/"$UID" ]]; then
+    for neovim in /run/user/"$UID"/nvim*; do
+        python3 "$neovim_script" "$neovim" "$new"
+    done
+fi
