@@ -382,6 +382,11 @@ if [[ "$(command -v kubectl)" ]]; then
     source <(kubectl completion bash)
 fi
 
+# Haskell
+if [[ -f "$HOME/.ghcup/env" ]]; then
+    source "$HOME/.ghcup/env"
+fi
+
 if [[ "$(command -v fasd)" ]]; then
     fasd_cache="$HOME/.fasd-init-bash"
     if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
