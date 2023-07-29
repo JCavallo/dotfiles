@@ -55,6 +55,10 @@ function M.completion()
   })
 end
 
+function M.flit()
+  require('flit').setup()
+end
+
 function M.floaterm()
   vim.g.floaterm_width = 0.8
   vim.g.floaterm_height = 0.8
@@ -418,6 +422,12 @@ function M.setup_dap()
   -- configure_exts() -- Extensions
   -- configure_debuggers() -- Debugger
   -- configure_mappings() -- Mappings
+end
+
+function M.spooky()
+  require('leap-spooky').setup({
+    paste_on_remote_yank = false,
+  })
 end
 
 function M.startify()

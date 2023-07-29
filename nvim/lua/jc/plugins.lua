@@ -148,8 +148,12 @@ require('packer').startup(function(use)
     config = function() require 'jc.plugin_configuration'.leap() end,
   }
   use {  -- Override f / t / F / T
+    'ggandor/flit.nvim',
+    config = function() require 'jc.plugin_configuration'.flit() end,
+  }
+  use {  -- Telekinesis
     'ggandor/leap-spooky.nvim',
-    config = function() require('leap-spooky').setup() end,
+    config = function() require 'jc.plugin_configuration'.spooky() end,
   }
   use { -- Mix vim / Tmux pane navigation
     'christoomey/vim-tmux-navigator',
