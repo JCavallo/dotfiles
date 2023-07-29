@@ -259,6 +259,10 @@ require('packer').startup(function(use)
   use 'ryanoasis/vim-devicons' -- Moar nice icons
   use 'yamatsum/nvim-web-nonicons' -- Always moar nice icons
   use 'machakann/vim-highlightedundo' -- Highlight undo block
+  use {
+    'Pocco81/true-zen.nvim',
+    config = function() require('true-zen').setup({}) end,
+  }
 
   -----------------
   -- Colorchemes --
