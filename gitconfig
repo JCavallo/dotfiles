@@ -104,3 +104,5 @@
 	allowFilter = true
 [include]
     path = ~/.config/delta-themes.gitconfig
+[protocol "file"]
+	allow = user
