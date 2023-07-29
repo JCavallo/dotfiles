@@ -139,26 +139,36 @@ function M.neorg()
   require('neorg').setup({
     load = {
       ["core.defaults"] = {},
-      ["core.norg.dirman"] = {
+      ["core.completion"] = { config = { engine = "nvim-cmp", name = "[Norg]" } },
+      ["core.concealer"] = {},
+      ["core.export"] = {},
+      ["core.keybinds"] = {
+        -- https://github.com/nvim-neorg/neorg/blob/main/lua/neorg/modules/core/keybinds/keybinds.lua
         config = {
-          workspaces = {
-            work = "~/Personal/neorg/work",
-            home = "~/Personal/neorg/perso",
-          },
-          autochdir = true,
-          default_workspace = "home",
-        }
-      },
-      ["core.norg.qol.toc"] = {},
-      ["core.norg.journal"] = {},
-      ["core.norg.completion"] = {
-        config = {
-          engine = 'nvim-cmp',
+          default_keybinds = true,
+          neorg_leader = "<Leader><Leader>",
         },
       },
-      ["core.integrations.nvim-cmp"] = {},
-      ["core.norg.concealer"] = {},
-      ["core.integrations.telescope"] = {}
+      ["core.integrations.telescope"] = {},
+      ["core.esupports.metagen"] = { config = { type = "auto", update_date = true } },
+      ["core.qol.toc"] = {},
+      ["core.qol.todo_items"] = {},
+      ["core.looking-glass"] = {},
+      ["core.presenter"] = { config = { zen_mode = "zen-mode" } },
+      ["core.journal"] = {
+        config = {
+          strategy = "flat",
+          workspace = "Notes",
+        },
+      },
+      -- ["core.dirman"] = {
+      --   config = {
+      --     workspaces = {
+      --       Notes = "~/Nextcloud/Notes",
+      --       Work = "~/Nextcloud/Work",
+      --     }
+      --   }
+      -- },
     }
   })
 end
