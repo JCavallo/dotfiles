@@ -8,14 +8,18 @@ vim.api.nvim_create_autocmd('BufWritePost', {
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
-local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function()
+    -- If in windows WSL, use clip.exe for copy
+    -- https://github.com/neovim/neovim/issues/19204#issuecomment-1175028634
+    if vim.fn.has('wsl') == 1 then
+      vim.fn.system('clip.exe', vim.fn.getreg('"'))
+    end
     vim.highlight.on_yank({
       timeout = 40,
     })
   end,
-  group = highlight_group,
+  group = vim.api.nvim_create_augroup('YankHighlight', { clear = true }),
   pattern = '*',
 })
 
