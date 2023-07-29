@@ -142,10 +142,10 @@ imap('<A-l>', '<cmd>TmuxNavigateRight<CR>')
 -- Harpoon Mappings --
 ----------------------
 
-map('<S-F1>', ':lua require("harpoon.ui").nav_file(1)<CR>')
-map('<S-F2>', ':lua require("harpoon.ui").nav_file(2)<CR>')
-map('<S-F3>', ':lua require("harpoon.ui").nav_file(3)<CR>')
-map('<S-F4>', ':lua require("harpoon.ui").nav_file(4)<CR>')
+map('<C-F1>', ':lua require("harpoon.ui").nav_file(1)<CR>')
+map('<C-F2>', ':lua require("harpoon.ui").nav_file(2)<CR>')
+map('<C-F3>', ':lua require("harpoon.ui").nav_file(3)<CR>')
+map('<C-F4>', ':lua require("harpoon.ui").nav_file(4)<CR>')
 map('<space>hn', ':lua require("harpoon.ui").nav_next()<CR>')
 map('<space>hp', ':lua require("harpoon.ui").nav_prev()<CR>')
 map('<space>ha', ':lua require("harpoon.mark").add_file()<CR>')
