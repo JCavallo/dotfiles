@@ -414,6 +414,12 @@ if [[ "$(command -v fasd)" ]]; then
     }
 fi
 
+# WSL workaround for slow completion: Remove System32 from PATH
+if [[ -e "/mnt/c/Windows" ]] && [[ ! -e "$HOME/bin/clip.exe" ]]; then
+    ln -s /mnt/c/Windows/System32/clip.exe "$HOME/bin/clip.exe"
+fi
+export PATH=$(echo $PATH | tr ':' '\n' | grep -v "/mnt/c/" | tr '\n' ':')
+
 export GPG_TTY=$(tty)
 
 # vim:set ft=sh:
