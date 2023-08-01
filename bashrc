@@ -342,6 +342,10 @@ if [ -e "$HOME/n" ]; then
     [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"
 fi
 
+if [[ -e "$HOME/.nimble" ]]; then
+    export PATH=/home/jean.cavallo/.nimble/bin:$PATH
+fi
+
 if [ -e "$HOME/.pyenv/bin" ]; then
     export PYENV_ROOT="$HOME/.pyenv"
     export PATH="$HOME/.pyenv/bin:$PATH"
