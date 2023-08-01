@@ -34,6 +34,7 @@ floating_modifier $mod
 
 focus_follows_mouse yes
 mouse_warping output
+focus_wrapping force
 
 # start a terminal (alacrity / kitty)
 bindsym $mod+Return exec kitty
