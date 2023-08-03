@@ -287,7 +287,7 @@ function M.setup_lsp()
         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
       end,
       '[W]orkspace [L]ist Folders')
-    nmap('<leader>xx', vim.lsp.buf.format())
+    nmap('<leader>xx', vim.lsp.buf.format)
 
     -- Create a command `:Format` local to the LSP buffer
     vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
