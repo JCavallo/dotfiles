@@ -17,10 +17,10 @@
 if [[ $# == 1 ]]; then
     selected=$1
 else
-    selected=$(jq -nr "[inputs | keys | unique[]] | .[]" .*commands.json | \
-        fzf --preview "jq -nr '[inputs[\"{1}\"].command] | .[] | select(. != null)' .*commands.json")
+    selected=$(jq -nr "[inputs | keys | unique[]] | .[]" ~/.*commands.json | \
+        fzf --preview "jq -nr '[inputs[\"{1}\"].command] | .[] | select(. != null)' ~/.*commands.json")
 fi
 if [[ $selected != "" ]]; then
-    jq -nr "[inputs[\"$selected\"].command] | .[] | select(. != null)" .*commands.json \
+    jq -nr "[inputs[\"$selected\"].command] | .[] | select(. != null)" ~/.*commands.json \
         | xargs -I % bash -c '%'
 fi
