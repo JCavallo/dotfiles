@@ -51,6 +51,7 @@ _display() {
     else
         feh --bg-fill "$WALLPAPER_FOLDER"/"$1"
     fi
+    cp "$WALLPAPER_FOLDER"/"$1" "$WALLPAPER_FOLDER"/last_wallpaper
 }
 
 export -f _display
@@ -61,7 +62,7 @@ _remove() {
 
 export -f _remove
 
-wallpaper=$(fzf --bind='ctrl-p:execute: _display {1}' \
+wallpaper=$(fzf --preview='_display {1}' \
     --bind='ctrl-d:execute: _remove'\
     --bind='ctrl-n:execute: _fetch'\
     --bind='ctrl-r:reload(ls)')
