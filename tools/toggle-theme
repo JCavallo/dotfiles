@@ -32,15 +32,20 @@ fi
 
 echo "$new" > "$canary"
 
-tmux set -g $tmux_theme
-if [[ "$(command -v kitty)" ]]; then
-    kitty +kitten themes --reload-in=all $kitty_theme
+if [[ "${TMUX_SOCKET:-nope}" != "nope" ]]; then
+    tmux set -g $tmux_theme
+    tmux source "$HOME/.tmux.conf"
 fi
-tmux source "$HOME/.tmux.conf"
+if [[ "$(command -v kitty)" ]]; then
+    kitty +kitten themes --reload-in=all $kitty_theme 2>/dev/null || \
+        kitty +kitten themes --reload-in=all --cache-age=-1 $kitty_theme
+fi
 git config --global delta.features "side-by-side line-numbers decorations $delta_theme"
 
 if [[ -e /run/user/"$UID" ]]; then
     for neovim in /run/user/"$UID"/nvim*; do
-        python3 "$neovim_script" "$neovim" "$new"
+        if [[ "$neovim" != "/run/user/"$UID"/nvim*" ]]; then
+            python3 "$neovim_script" "$neovim" "$new"
+        fi
     done
 fi
