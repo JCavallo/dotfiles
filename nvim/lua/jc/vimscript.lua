@@ -81,8 +81,9 @@ function! JCAddBreakpoint(delta)
         call search('^[^#]')
         call append(getpos('.')[2] + 1, 'from pudb.remote import set_trace as tmp_set_trace  # NVDEBUGGER')
         call append(getpos('.')[2] + 2, 'def _pudb_trace():  # NVDEBUGGER')
-        call append(getpos('.')[2] + 3, "    tmp_set_trace(term_size=(200, " . winheight(0) . "), port=6899)  # NVDEBUGGER")
-        let cur_pos[1] += 3
+        call append(getpos('.')[2] + 3, "    import os;os.system('jcnotify \"debugger started\"')  # NVDEBUGGER")
+        call append(getpos('.')[2] + 4, "    tmp_set_trace(term_size=(200, " . winheight(0) . "), port=6899)  # NVDEBUGGER")
+        let cur_pos[1] += 4
         call setpos('.', cur_pos)
     endif
     let cur_pos[2] = 1

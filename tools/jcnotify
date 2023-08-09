@@ -1,0 +1,12 @@
+#!/bin/bash
+icon=info
+if [[ "$1" = "--icon" ]]; then
+    shift
+    icon="$1"
+    shift
+fi
+# apt install notfy-osd if needed
+if [[ "$(command -v notify-send)" ]]; then
+    notify-send -t 5000 --urgency=critical --icon=$icon "$@"
+fi
+bell
