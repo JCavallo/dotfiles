@@ -1,0 +1,10 @@
+#!/bin/bash
+if [ ! -e /tmp/siren.wav ]; then
+    tar xzf ~/dotfiles/misc/siren.tar.gz -C /tmp
+fi
+
+(
+    aplay /tmp/siren.wav --samples=60000 > /dev/null 2>&1 \
+    && aplay /tmp/siren.wav --samples=60000 > /dev/null 2>&1 \
+    && aplay /tmp/siren.wav --samples=60000 > /dev/null 2>&1
+) &

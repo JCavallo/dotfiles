@@ -1,4 +1,10 @@
 #!/bin/bash
+sound=bell
+if [[ "$1" = "--sound" ]]; then
+    shift
+    sound="$1"
+    shift
+fi
 icon=info
 if [[ "$1" = "--icon" ]]; then
     shift
@@ -9,4 +15,4 @@ fi
 if [[ "$(command -v notify-send)" ]]; then
     notify-send -t 5000 --urgency=critical --icon=$icon "$@"
 fi
-bell
+$sound
