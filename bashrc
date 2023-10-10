@@ -292,6 +292,7 @@ PS1+='\[\e${DEFAULT}\]$(check_new_line)'
 
 export PS1
 export EDITOR=nvim
+export VISUAL=nvim
 
 if [[ "$(command -v ruby)" ]] && [[ "$(command -v gem)" ]]; then
     PATH="$(ruby -e 'puts Gem.user_dir')/bin:$PATH"
