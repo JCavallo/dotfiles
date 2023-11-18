@@ -32,7 +32,7 @@ fi
 
 echo "$new" > "$canary"
 
-has_tmux=$(tmux list-sessions 2>&1 || echo nope)
+has_tmux=$((ps ax | grep tmux | grep -v grep) || echo nope)
 if [[ "$has_tmux" != "nope" ]]; then
     tmux set -g $tmux_theme
     tmux source "$HOME/.tmux.conf"
