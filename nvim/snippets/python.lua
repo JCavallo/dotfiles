@@ -83,7 +83,7 @@ return {
     t({''}), i(0)
   }),
   s({trig = 'super', name = 'super()'}, {
-    c(1, {t({'return '}), t({''})}),
+    c(1, {t({'return '}), t({''}), t({'result = '})}),
     t({'super().'}), f(get_super_call), i(0),
   }),
   s({trig = 'cursor', name = 'cursor = Transaction...'}, {
