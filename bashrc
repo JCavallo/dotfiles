@@ -118,6 +118,13 @@ host_ps1() {
     fi
 }
 
+_get_current_task() {
+    if [[ -e "$PROJECT_PATH/.cur_jira_sub_task" ]]; then
+        echo $(cat "$PROJECT_PATH/.cur_jira_sub_task")
+    fi
+    echo ""
+}
+
 hg_ps1_1() {
     [[ "$HG_INSTALLED" = "0" ]] && return
     BRANCH=$(hg prompt "{branch}" 2> /dev/null)
@@ -145,9 +152,9 @@ hg_ps1_3() {
     fi
 }
 git_ps1_1() {
-    BRANCH=$(git branch 2> /dev/null | grep -e ^* | sed -E  s/^\\\*\ \(.+\)$/\\\1\ /)
-    if [ "$BRANCH" != "" ]; then
-        echo " $BRANCH"
+    BRANCH=$(git branch 2> /dev/null | grep -e ^* | sed -E  s/^\\\*\ \(.+\)$/\\\1/)
+    if [[ "$BRANCH" != "" ]] && [[ "$BRANCH" != "${GIT_MAIN_BRANCH:-none}" ]]; then
+        echo " $BRANCH "
     else
         echo ""
     fi
@@ -178,21 +185,25 @@ git_ps1_3() {
 }
 
 virtual_env_ps1() {
+    local result
     if [[ "${CUSTOM_ENV_NAME:-notset}" != "notset" ]]; then
-        echo " $CUSTOM_ENV_NAME "
+        result=" $CUSTOM_ENV_NAME "
     elif [[ ! -z "$VIRTUAL_ENV" ]]; then
-        echo " $(basename "$VIRTUAL_ENV") "
+        result=" $(basename "$VIRTUAL_ENV") "
     else
-        echo ""
+        result=""
     fi
+    echo "$result"
 }
 
 _get_project_path() {
+    local result=""
     if [[ "$PROJECT_PATH" != "" ]]; then
-        echo "$PROJECT_PATH"
+        result="$PROJECT_PATH"
     elif [[ "$VIRTUAL_ENV" != "" ]]; then
-        echo "$VIRTUAL_ENV"
+        result="$VIRTUAL_ENV"
     fi
+    echo "$result"
 }
 
 current_path_ps1() {
@@ -212,15 +223,34 @@ current_path_ps1() {
     fi
 }
 
+current_task_ps1() {
+    local jira=$(_get_current_task)
+    if [[ "$jira" = "" ]]; then
+        echo ""
+    else
+        local branch=$(git_ps1_1)
+        if [[ "$branch" =~ $jira ]]; then
+            echo ""
+        else
+            echo " [$jira] "
+        fi
+    fi
+}
+
 tryton_db_ps1() {
     local path
     path=$(_get_project_path)
     if [ ! "$path" = "" ] && [ -f "$path"/conf/trytond.conf ]; then
         if [ "$DB_NAME" = "" ]; then
             DB_NAME=$(grep "^uri = postgres" "$path"/conf/trytond.conf | sed -e "s/.*@[^:]\+:[0-9]\+\/\?//")
+            if [[ "$DB_NAME" = $(basename $(_get_project_path)) ]]; then
+                DB_NAME=""
+            fi
         fi
         PORT=$(grep "^listen = " "$path"/conf/trytond.conf | sed -e "s/.*://")
-        if [ ! "$PORT" = "" ]; then
+        if [[ "$PORT" = "8000" ]]; then
+            PORT=""
+        elif [[ ! "$PORT" = "" ]]; then
             PORT=:"$PORT"
         fi
         if [ ! "$DB_NAME" = "" ] && [ ! "$DB_NAME" == "uri = *" ]; then
@@ -274,8 +304,8 @@ PS1+='\[\e${REDGREEN}\]'
 PS1+='\[\e${GREEN}\]$(hg_ps1_1)$(git_ps1_1)'
 PS1+='\[\e${GREENYELLOW}\]'
 
-# Rietveld
-PS1+='\[\e${YELLOW}\]$(tryton_db_ps1)'
+# Database
+PS1+='\[\e${YELLOW}\]$(tryton_db_ps1)$(current_task_ps1)'
 PS1+='\[\e${YELLOW}\]'
 PS1+='\[\e${YELLOWBLUE}\]'
 
