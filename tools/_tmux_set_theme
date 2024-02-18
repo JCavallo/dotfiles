@@ -1,0 +1,17 @@
+#!/bin/bash
+set -euo pipefail
+
+canary="$HOME/.local/.current_theme"
+
+tmux_dark="@tokyonight storm"
+tmux_light="@tokyonight day"
+current=dark
+if [[ -e "$canary" ]]; then
+    current=$(cat "$canary")
+fi
+
+if [[ "$current" = "dark" ]]; then
+    tmux set -g $tmux_dark
+else
+    tmux set -g $tmux_light
+fi

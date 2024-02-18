@@ -323,3 +323,4 @@ set -g @yank_action 'copy-pipe'
 
 # Load plugin manager
 run-shell '~/.tmux_plugins/tpm/tpm'
+run-shell '~/dotfiles/tools/_tmux_set_theme'
