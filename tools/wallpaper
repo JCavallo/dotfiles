@@ -39,7 +39,7 @@ _fetch() {
 export -f _fetch
 
 _display() {
-    if [[ "$(command -v swaybg)" ]]; then
+    if [[ "$(command -v swaybg)" ]] && [[ ! $(ps ax | grep -v grep | grep startx) ]]; then
         existing_pid=$(pgrep swaybg)
         (nohup swaybg -i "$WALLPAPER_FOLDER/$1" >/dev/null 2>&1 &)
         sleep 0.01
