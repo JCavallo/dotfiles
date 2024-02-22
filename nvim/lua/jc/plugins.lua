@@ -118,6 +118,7 @@ require('packer').startup(function(use)
   -- Git --
   ---------
   use 'tpope/vim-fugitive'  -- The git plugin
+  use 'tpope/vim-rhubarb'
   use { -- Show signs!
     'lewis6991/gitsigns.nvim',
     config = function() require 'jc.plugin_configuration'.gitsigns() end
