@@ -47,6 +47,7 @@ bindsym $mod+d exec "rofi -combi-modi window,drun,run -show combi -modi combi -n
 bindsym $mod+Shift+d exec "kitty --class=launcher 'command-runner'"
 bindsym $mod+p exec "kitty --class=launcher wallpaper"
 bindsym $mod+a exec "toggle-theme"
+bindsym $mod+y exec "shutter -s"
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
