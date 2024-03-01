@@ -28,15 +28,19 @@ set +e
 git cherry-pick --strategy=recursive -X no-renames "$from" > /dev/null
 merge_ok="$?"
 set -e
+contents=$(git log --format=%B -n 1 "$from" | \
+    sed -e 's/^\([a-z_]*: \)\(\[[0-9]*.[0-9]*\] \)\?\([^[]\)/\1['${to#coog-}'] \3/')
 if [ "$merge_ok" = 1 ]; then
     echo "Merging"
     git mergetool
-    git commit
+    git commit -e -m "$contents"
 else
     echo "Renaming commit"
-    git commit --amend
+    git commit --amend -m "$contents"
 fi
 while true; do
+    echo 'Pushing with message :'
+    echo $(git log --format=%B -n 1 HEAD)
     read -rp "Do you wish to push the changes? (Y/n)" yn </dev/tty
     case $yn in
         [Yy]* ) echo "Pushing";git push origin "$to"; break;;
