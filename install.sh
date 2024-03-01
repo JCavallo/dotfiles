@@ -615,6 +615,9 @@ if [ ! -e "$HOME/Personal" ]; then
     done
 fi
 
+echo_comment "Enabling git maintenance"
+(cd $dir && git maintenance start)
+
 echo_comment "Cleaning up"
 # chronic sudo DEBIAN_FRONTEND=noninteractive apt -y remove --purge $BUILD_DEPS
 # chronic sudo DEBIAN_FRONTEND=noninteractive apt -y autoremove --purge

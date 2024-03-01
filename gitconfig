@@ -111,8 +111,9 @@
     path = ~/.config/delta-themes.gitconfig
 [protocol "file"]
 	allow = user
-[include]
-    path = ~/.gitconfig_local
 [maintenance]
     repo = ~/dotfiles
     repo = ~/Personal
+[include]
+    path = ~/.gitconfig_local
+    path = ~/.gitconfig_maintenance
