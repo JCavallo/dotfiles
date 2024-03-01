@@ -90,6 +90,7 @@
     st = status -sb
     stashall = stash --include-untracked
     stashes = stash list
+    stash-diff = stash show -p
     summary = status -u -s
     tags = tag
     uncommit = reset --mixed HEAD~
