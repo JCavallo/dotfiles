@@ -260,11 +260,11 @@ assign [class="Brave-browser"] $browser_workspace
 assign [class="brave"] $browser_workspace
 assign [class="Steam"] $steam_workspace
 
-# Libreoffice is not very nice
-assign [class="libreoffice"] $document_workspace
-assign [class="libreoffice-startcenter"] $document_workspace
-assign [class="Soffice"] $document_workspace
-
+# # Libreoffice is not very nice
+# assign [class="libreoffice"] $document_workspace
+# assign [class="libreoffice-startcenter"] $document_workspace
+# assign [class="Soffice"] $document_workspace
+#
 # exec --no-startup-id source ~/.bash_profile
 exec --no-startup-id redshift-gtk
 # exec_always --no-startup-id compton --config ~/.config/compton.conf -b
