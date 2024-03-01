@@ -180,7 +180,11 @@ map_tele('n', "resume")                               -- Resume
 
 map_tele('ld', "lsp_definitions")                     -- Goto definitions
 map_tele('li', "lsp_implementations")                 -- Goto implementations
-map_tele('lo', "diagnostics", { bufnr=0 })            -- Diagnostics
+map_tele('lo', "diagnostics", {
+  bufnr = 0,
+  layout_strategy = "vertical",
+  layout_config = { width = 0.90 },
+})            -- Diagnostics
 map_tele('ls', "lsp_document_symbols")                -- Symbols
 map_tele('lr', "lsp_references")                      -- References to current symbol
 
