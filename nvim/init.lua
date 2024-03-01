@@ -16,6 +16,8 @@ end
 
 require('jc.vimscript')
 
+require('jc.functions')
+
 require('jc.mappings')
 
 require('jc.autocommands')
