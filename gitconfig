@@ -40,6 +40,7 @@
     default = current
 [merge]
     tool = vimdiff
+    conflictstyle = zdiff3
 [mergetool]
     prompt = true
 [mergetool "vimdiff"]
@@ -54,45 +55,49 @@
     textconv=jq \"(.item[].item[].request.body?.raw | select (.)) |= (. | select ((. | length) > 0) | fromjson)\"
     cachetextconv = true
 [alias]
-    l = log --color --graph --full-history --all --pretty=format:'%Cred%h%Creset -%C(cyan)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset%n' --abbrev-commit --date iso
-    ll = log --color --graph --full-history --pretty=format:'%Cred%h%Creset -%C(cyan)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset%n' --abbrev-commit --date iso
-    fd = fuzzy diff
-    fst = fuzzy status
-    fpr = fuzzy pr
-    co = checkout
-    cp = cherry-pick --strategy=recursive -X no-renames
-    st = status -sb
-    mt = mergetool
-    unstage = reset -q HEAD --
-    discard = checkout --
-    nvm = !git reset --hard HEAD && git clean -d -f
-    uncommit = reset --mixed HEAD~
-    save = commit -m
-    resave = commit --amend
-    invert = revert
-    last = log -1 HEAD --format=format:"%Cred%H"
-    cleartags = !git tag -l | xargs git tag -d && git fetch -t
-    summary = status -u -s
-    branchout = checkout -b
-    branches = branch -a -vv
-    br = branch -vv
-    tags = tag
-    stashes = stash list
-    stashall = stash --include-untracked
-    prestage = diff
-    precommit = diff --cached
-    move = mv
-    remove = rm
-    unmerged = branch --no-merged
-    unstash = stash pop
-    what = show -w
-    untrack = rm -r --cached
-    rewrite = rebase -i
     amend = commit --amend
     back = checkout "-"
+    bl = blame -w -C -C
+    blame-full = blame -w -C -C -C
+    br = branch -vv
+    branches = branch -a -vv
+    branchout = checkout -b
+    cleartags = !git tag -l | xargs git tag -d && git fetch -t
+    co = checkout
     contributors = shortlog -s -n
+    cp = cherry-pick --strategy=recursive -X no-renames
+    df = diff --word-diff
+    discard = checkout --
+    fd = fuzzy diff
     filetrail = git log --follow -p -w
+    fpr = fuzzy pr
+    fst = fuzzy status
+    invert = revert
+    l = log --color --graph --full-history --all --pretty=format:'%Cred%h%Creset -%C(cyan)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset%n' --abbrev-commit --date iso
+    last = log -1 HEAD --format=format:"%Cred%H"
+    ll = log --color --graph --full-history --pretty=format:'%Cred%h%Creset -%C(cyan)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset%n' --abbrev-commit --date iso
     mergetrail = log --ancestry-path --merges
+    move = mv
+    mt = mergetool
+    nvm = !git reset --hard HEAD && git clean -d -f
+    pmine = push --set-upstream mine
+    precommit = diff --cached
+    prestage = diff
+    remove = rm
+    resave = commit --amend
+    rewrite = rebase -i
+    save = commit -m
+    st = status -sb
+    stashall = stash --include-untracked
+    stashes = stash list
+    summary = status -u -s
+    tags = tag
+    uncommit = reset --mixed HEAD~
+    unmerged = branch --no-merged
+    unstage = reset -q HEAD --
+    unstash = stash pop
+    untrack = rm -r --cached
+    what = show -w
 [filter "lfs"]
     clean = git-lfs clean -- %f
     smudge = git-lfs smudge -- %f
@@ -106,3 +111,8 @@
     path = ~/.config/delta-themes.gitconfig
 [protocol "file"]
 	allow = user
+[include]
+    path = ~/.gitconfig_local
+[maintenance]
+    repo = ~/dotfiles
+    repo = ~/Personal

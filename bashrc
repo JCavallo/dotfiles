@@ -37,27 +37,21 @@ alias cdve='cd $VIRTUAL_ENV'
 alias cdpr='cd $PROJECT_PATH'
 alias ag="LESS='FSRX' ag --pager less"
 alias rg='paged_ripgrep'
-# Apply latest patch in ~/tmp/
-alias hgpl="ls -d -t ~/tmp/* | grep .*diff | head -n 1;ls -d -t ~/tmp/* | grep .*diff | head -n 1 | xargs cat | hg patch --no-commit -"
-# Clean up everything
-alias hgdel="hg revert --all;hg purge;hg review --clean"
-alias mrg_bas="git merge-base HEAD origin/master"
-alias gitcm="git checkout master"
 alias htop="TERM=screen htop"
 alias pg_activity="TERM=screen pg_activity"
-alias grp="grep -I --line-buffered"
 alias cat='bat $(if [[ ! -e /tmp/.current_theme ]] || [[ $(/usr/bin/cat /tmp/.current_theme) = "light" ]]; then echo "--theme base16"; fi)'
 alias more='bat $(if [[ ! -e /tmp/.current_theme ]] || [[ $(/usr/bin/cat /tmp/.current_theme) = "light" ]]; then echo "--theme base16"; fi)'
 alias clear="TERM=linux clear"
 alias k="kritik -s --success-message OK --failure-message KO"
-alias g="git"
+alias g=git
 alias vim="nvim"
 alias v="nvim"
 alias t="tmux-sessionizer"
 
-viewdiff() {
-    git diff "$*" > /tmp/viewdiff.diff;nvim /tmp/viewdiff.diff
-}
+if [ -f "/usr/share/bash-completion/completions/git" ]; then
+  source /usr/share/bash-completion/completions/git
+  __git_complete g __git_main
+fi
 
 source ~/.colors
 
