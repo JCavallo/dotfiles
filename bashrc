@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 if hash keychain 2>/dev/null; then
-    eval "$(keychain --eval --agents ssh id_rsa)"
+    eval "$(keychain --systemd --eval --agents ssh id_rsa)"
     TERM=linux clear
 fi
 
