@@ -66,9 +66,10 @@
     co = checkout
     contributors = shortlog -s -n
     cp = cherry-pick --strategy=recursive -X no-renames
+    d = diff
     df = diff --word-diff
     discard = checkout --
-    fd = fuzzy diff
+    fd = !git -c delta.features=\"$(git config --global --get delta.features | sed -e 's/side-by-side //')\" fuzzy diff
     filetrail = git log --follow -p -w
     fpr = fuzzy pr
     fst = fuzzy status
