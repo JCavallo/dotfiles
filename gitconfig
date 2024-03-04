@@ -69,10 +69,9 @@
     d = diff
     df = diff --word-diff
     discard = checkout --
-    fd = !git -c delta.features=\"$(git config --global --get delta.features | sed -e 's/side-by-side //')\" fuzzy diff
+    fd = !git -c delta.features=\"$(git config --global --get delta.features | sed -e 's/side-by-side //')\" fuzzy status
     filetrail = git log --follow -p -w
     fpr = fuzzy pr
-    fst = fuzzy status
     invert = revert
     l = log --color --graph --full-history --all --pretty=format:'%Cred%h%Creset -%C(cyan)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset%n' --abbrev-commit --date iso
     last = log -1 HEAD --format=format:"%Cred%H"
