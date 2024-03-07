@@ -19,7 +19,7 @@ color_map() {
     done
 }
 
-_color_cmd () {
+_colors () {
     local canary="$HOME/.local/.current_theme"
     local current_theme=dark
     if [[ -e "$canary" ]]; then
@@ -44,6 +44,42 @@ _color_cmd () {
         colors[red]='203'
         colors[lightred]='196'
     fi
+    return $colors
+}
+
+_color_cmd () {
+    local canary="$HOME/.local/.current_theme"
+    local current_theme=dark
+    if [[ -e "$canary" ]]; then
+        current_theme=$(cat "$canary")
+    fi
+
+    declare -A colors
+    if [[ "$current_theme" = "dark" ]]; then
+        colors[grey]='243'
+        colors[green]='40'
+        colors[yellow]='220'
+        colors[blue]='27'
+        colors[lightblue]='45'
+        colors[red]='203'
+        colors[lightred]='196'
+    else
+        colors[grey]='243'
+        colors[green]='40'
+        colors[yellow]='94'
+        colors[blue]='21'
+        colors[lightblue]='45'
+        colors[red]='203'
+        colors[lightred]='196'
+    fi
+
+    if [[ "$1" = "print_colors" ]]; then
+        for i in "${!colors[@]}"
+        do
+            echo -e "    \e[1;38;5;${colors[$i]}m$i\e[0m"
+        done
+        return
+    fi
 
     local filter="$1"
     local color="$2"
@@ -63,25 +99,21 @@ colorize() {
         echo "Usage : colorize <pattern1> <color1> [pattern2 color2...] <input>"
         echo ""
         echo "Possible colors:"
-        for i in "${!colors[@]}"
-        do
-            echo "    $i"
-        done
+        _color_cmd print_colors
         echo ""
         echo "Special value : 'remove' will filter out the pattern rather than colorizing it"
-        exit
+    else
+        local cmd=$(_color_cmd "$1" "$2")
+        shift
+        shift
+        while [ $# != 0 ]; do
+            cmd="$cmd | $(_color_cmd "$1" "$2")"
+            shift
+            shift
+        done
+
+        eval "$cmd"
     fi
-
-    local cmd=$(_color_cmd "$1" "$2")
-    shift
-    shift
-    while [ $# != 0 ]; do
-        cmd="$cmd | $(_color_cmd "$1" "$2")"
-        shift
-        shift
-    done
-
-    eval "$cmd"
 }
 
 alias _color_debug='colorize DEBUG grey INFO green WARNING yellow ERROR red CRITICAL lightred'
