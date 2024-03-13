@@ -11,7 +11,7 @@ fi
 while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 
 if [[ "${POLYBAR_WIFI_DEVICE:-empty}" = "empty" ]]; then
-    export POLYBAR_WIFI_DEVICE=$(nmcli device | grep wifi | sed -e "s/^\([^ ]*\).*/\1/")
+    export POLYBAR_WIFI_DEVICE=$(nmcli device | grep wifi | grep -v "wifi-p2p" | sed -e "s/^\([^ ]*\).*/\1/")
 fi
 
 if [[ "${POLYBAR_ETHERNET_DEVICE:-empty}" = "empty" ]]; then
