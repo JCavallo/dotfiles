@@ -112,7 +112,7 @@ colorize() {
             shift
         done
 
-        eval "$cmd"
+        eval "$cmd || true"
     fi
 }
 
