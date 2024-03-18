@@ -36,7 +36,7 @@ _colors () {
         colors[red]='203'
         colors[lightred]='196'
     else
-        colors[grey]='243'
+        colors[grey]='249'
         colors[green]='40'
         colors[yellow]='220'
         colors[blue]='21'
@@ -64,7 +64,7 @@ _color_cmd () {
         colors[red]='203'
         colors[lightred]='196'
     else
-        colors[grey]='243'
+        colors[grey]='249'
         colors[green]='40'
         colors[yellow]='94'
         colors[blue]='21'
