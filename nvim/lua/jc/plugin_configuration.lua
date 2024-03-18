@@ -581,11 +581,17 @@ function M.treesitter()
         keymaps = {
           ['af'] = '@function.outer',
           ['if'] = '@function.inner',
-          ['ac'] = '@conditional.outer',
-          ['ic'] = '@conditional.inner',
+          ['ac'] = '@class.outer',
+          ['ic'] = '@class.inner',
           ['aa'] = '@parameter.outer',
           ['ia'] = '@parameter.inner',
         },
+        selection_modes = {
+          ['@parameter.outer'] = 'v',
+          ['@function.outer'] = 'V',
+          ['@class.outer'] = 'V',
+        },
+        include_surrounding_whitespace = true,
       },
     move = {
       enable = true,
