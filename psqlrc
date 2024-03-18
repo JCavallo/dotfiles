@@ -65,5 +65,7 @@
 -- Duplicate indexes
 \set duplicate_indexes 'SELECT indrelid::regclass AS TableName, array_agg(indexrelid::regclass) AS indexes FROM pg_index GROUP BY indrelid ,indkey HAVING COUNT(*) > 1;'
 
+\set index_progress 'SELECT psa.state, pspci.phase, round( ( cast(pspci.blocks_done AS numeric) / cast(greatest(pspci.blocks_total, 1) AS numeric)), 4) * 100 AS blocks, round( ( cast(pspci.tuples_done AS numeric) / cast(greatest(pspci.tuples_total, 1) AS numeric)), 4) * 100 AS tuples, round((pspci.tuples_total - pspci.tuples_done) * (pspci.tuples_done / (extract( epoch from now())  - extract(epoch from psa.query_start))) / 10000000) AS remaining, psa.query FROM pg_stat_activity AS psa INNER JOIN pg_stat_progress_create_index AS pspci ON pspci.pid = psa.pid;'
+
 \unset QUIET
 -- vim:ft=sql:
