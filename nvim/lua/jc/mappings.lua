@@ -85,10 +85,6 @@ map('zl', ']z')
 -------------------------------
 -- Normal Mode Ctrl Mappings --
 -------------------------------
--- u / U => undo / redo
-remap('u', '<Plug>(highlightedundo-undo)')
-remap('U', '<Plug>(highlightedundo-redo)')
-
 -- Make Y behave like C / D
 map('Y', 'y$')
 

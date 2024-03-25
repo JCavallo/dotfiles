@@ -260,7 +260,10 @@ require('packer').startup(function(use)
   use 'kyazdani42/nvim-web-devicons' -- Nice icons
   use 'ryanoasis/vim-devicons' -- Moar nice icons
   use 'yamatsum/nvim-web-nonicons' -- Always moar nice icons
-  use 'machakann/vim-highlightedundo' -- Highlight undo block
+  use { -- Highlight undo block
+    'tzachar/highlight-undo.nvim',
+    config = function() require 'jc.plugin_configuration'.highlight_undo() end
+  }
   use {
     'Pocco81/true-zen.nvim',
     config = function() require('true-zen').setup({}) end,

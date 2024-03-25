@@ -109,6 +109,27 @@ function M.indent_lines()
   })
 end
 
+function M.highlight_undo()
+  require('highlight-undo').setup({
+    duration = 300,
+    undo = {
+      hlgroup = 'HighlightUndo',
+      mode = 'n',
+      lhs = 'u',
+      map = 'undo',
+      opts = {}
+    },
+    redo = {
+      hlgroup = 'HighlightUndo',
+      mode = 'n',
+      lhs = 'U',
+      map = 'redo',
+      opts = {}
+    },
+    highlight_for_count = true,
+  })
+end
+
 function M.leap()
   require('leap').add_default_mappings()
 end
