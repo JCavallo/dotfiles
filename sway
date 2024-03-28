@@ -40,6 +40,7 @@ bindsym $mod+Return exec kitty
 bindsym $mod+Shift+a kill
 
 # Menu
+set $menu_cmd 'kitty --class=launcher env TERMINAL_COMMAND=" " sway-launcher'
 set $runner_cmd "kitty --class=launcher 'command-runner'"
 set $wallpaper_cmd "kitty --class=launcher wallpaper"
 set $screen_select_cmd 'grim -g "$(slurp)" - | wl-copy'
@@ -215,10 +216,17 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 # Pulse Audio controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl -- set-sink-volume 0 +5% #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl -- set-sink-volume 0 -5% #decrease sound volume
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-sink-input-mute 0 toggle # mute mic
+set $volume_up 'pactl -- set-sink-volume @DEFAULT_SINK@ +5%'
+set $volume_down 'pactl -- set-sink-volume @DEFAULT_SINK@ -5%'
+set $mute_toggle 'pactl -- set-sink-mute @DEFAULT_SINK@ toggle'
+set $mic_toggle 'pactl set-source-mute @DEFAULT_SOURCE@ toggle'
+# set $volume_up 'pactl -- set-sink-volume $(pactl list sinks | grep -B 1 "State: RUNNING" | grep Sink | sed -e "s:.*#::") +5%'
+# set $volume_down 'pactl -- set-sink-volume $(pactl list sinks | grep -B 1 "State: RUNNING" | grep Sink | sed -e "s:.*#::") -5%'
+# set $mute_toggle 'pactl -- set-sink-mute $(pactl list sinks | grep -B 1 "State: RUNNING" | grep Sink | sed -e "s:.*#::") toggle'
+bindsym XF86AudioRaiseVolume exec $volume_up
+bindsym XF86AudioLowerVolume exec $volume_down
+bindsym XF86AudioMute exec $mute_toggle
+bindsym XF86AudioMicMute exec $mic_toggle
 
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
@@ -337,6 +345,7 @@ input * xkb_variant "altgr-intl"
 input * xkb_options compose:sclk
 input * repeat_delay 200
 input * repeat_rate 60
+exec_always rm -f /tmp/.current_layout
 
 # Get touchpad name from "swaymsg -t get_inputs"
 input "type:touchpad" {
