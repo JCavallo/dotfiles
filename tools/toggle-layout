@@ -1,0 +1,35 @@
+#!/bin/bash
+set -euo pipefail
+
+canary="/tmp/.current_layout"
+
+current=fr
+if [[ -e "$canary" ]]; then
+    current=$(cat "$canary")
+fi
+
+new=fr
+if [[ "$current" = "fr" ]]; then
+    new=us
+fi
+
+echo "$new" > "$canary"
+
+if [[ "$(command -v swaymsg)" ]] && [[ ! $(ps ax | grep -v grep | grep startx) ]]; then
+    swaymsg 'input * repeat_delay 200'
+    swaymsg 'input * repeat_rate 60'
+    swaymsg 'input * xkb_variant ""'
+    if [[ "$new" = us ]]; then
+        swaymsg 'input * xkb_layout us'
+        swaymsg 'input * xkb_variant "altgr-intl"'
+    else
+        swaymsg 'input * xkb_layout fr'
+        swaymsg 'input * xkb_variant "latin9"'
+    fi
+else
+    if [[ "$new" = us ]]; then
+        setxkbmap -layout us -variant altgr-intl
+    else
+        setxkbmap -layout fr -variant latin9
+    fi
+fi

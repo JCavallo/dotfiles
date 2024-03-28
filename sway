@@ -40,8 +40,18 @@ bindsym $mod+Return exec kitty
 bindsym $mod+Shift+a kill
 
 # Menu
-set $menu 'kitty --class=launcher env TERMINAL_COMMAND=" " sway-launcher'
-bindsym $mod+d exec $menu
+set $runner_cmd "kitty --class=launcher 'command-runner'"
+set $wallpaper_cmd "kitty --class=launcher wallpaper"
+set $screen_select_cmd 'grim -g "$(slurp)" - | wl-copy'
+set $screen_full_cmd 'grim - | wl-copy'
+set $screen_select_store_cmd 'grim -g "$(slurp)" /tmp/ps_$(date +"%Y%m%d%H%M%S").png'
+set $screen_full_store_cmd 'grim /tmp/ps_$(date +"%Y%m%d%H%M%S").png'
+bindsym $mod+d exec $menu_cmd
+bindsym $mod+Shift+d exec $runner_cmd
+bindsym $mod+p exec $wallpaper_cmd
+bindsym $mod+a exec "toggle-theme"
+bindsym $mod+y exec $screen_select_cmd
+bindsym $mod+Shift+y exec $screen_full_cmd
 
 # change focus
 bindsym $mod+h focus left
@@ -171,9 +181,6 @@ bindsym $mod+Shift+agrave move container to workspace $main_workspace
 bindsym $mod+Shift+0 move container to workspace $main_workspace
 bindsym $mod+Shift+n move container to workspace $note_workspace
 
-# Magic workspaces
-bindsym $mod+p exec kitty --class=launcher -e ~/dotfiles/tools/workspace-creator
-
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
@@ -268,7 +275,7 @@ exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DE
 
 for_window [app_id="^.*"] opacity 0.5
 for_window [app_id="^.*$"] opacity 0.9
-for_window [app_id="^launcher$"] floating enable, opacity 0.8, sticky enable, resize set 30 ppt 60 ppt, border pixel 10
+for_window [app_id="^launcher$"] floating enable, opacity 0.8, sticky enable, resize set 60 ppt 60 ppt, border pixel 10
 
 # Color settings
 # client.focused #917944 #917944 #000088 #917944
@@ -301,7 +308,7 @@ mode "gaps" {
 }
 
 bar {
-    swaybar_command waybar
+    swaybar_command launch_waybar
     gaps 0
 }
 
@@ -332,7 +339,7 @@ input * repeat_delay 200
 input * repeat_rate 60
 
 # Get touchpad name from "swaymsg -t get_inputs"
-input "2:7:SynPS/2_Synaptics_TouchPad" {
+input "type:touchpad" {
     dwt enabled
     tap enabled
     middle_emulation enabled
