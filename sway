@@ -287,10 +287,13 @@ mode "gaps" {
         bindsym k gaps inner current plus 10
 
         # For mono panes
-        bindsym g exec "swaymsg gaps top current set 30 && swaymsg gaps bottom current set 80 && swaymsg gaps left current set 200 && swaymsg gaps right current set 200 && swaymsg mode default"
+        bindsym g exec "swaymsg gaps top current set 30 && swaymsg gaps bottom current set 10 && swaymsg gaps left current set 200 && swaymsg gaps right current set 200 && swaymsg mode default"
 
         # For multi panes : default
         bindsym d exec "swaymsg gaps outer current set 0 && swaymsg gaps inner current set 30 && swaymsg gaps bottom current set 80 && swaymsg mode default"
+
+        # For small screens
+        bindsym s exec "swaymsg gaps outer current set 0 && swaymsg gaps inner current set 10 && swaymsg gaps bottom current set 10 && swaymsg mode default"
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"
@@ -308,10 +311,10 @@ bindsym $mod+g mode "gaps"
 gaps inner 30
 
 # 4K gaps
-gaps top 90
-gaps left 140
-gaps right 140
-gaps bottom 0
+# gaps top 90
+# gaps left 140
+# gaps right 140
+# gaps bottom 0
 
 output Virtual-1 mode --custom "3840x2160@60Hz"
 

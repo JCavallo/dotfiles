@@ -13,14 +13,14 @@
       "all-outputs": false,
       "format": "<big>{icon}</big><small>{name}</small>",
       "format-icons": {
-        "Tools:": "",
-        "Term:": "",
-        "Web:": "",
-        "Dev:": "",
-        "Docs:": "",
-        "Steam:": "",
-        "urgent": "",
-        "default": ""
+        "Tools:": " ",
+        "Term:": " ",
+        "Web:": " ",
+        "Dev:": " ",
+        "Docs:": " ",
+        "Steam:": " ",
+        "urgent": " ",
+        "default": " "
       }
     },
     "sway/mode": {
@@ -31,7 +31,7 @@
       "interval": 1
     },
     "custom/cpu-icon": {
-      "exec": "echo ",
+      "exec": "echo ' '",
       "interval": "once",
       "format": "{}"
     },
@@ -39,7 +39,7 @@
       "format": "{usage}%"
     },
     "custom/memory-icon": {
-      "exec": "echo ",
+      "exec": "echo ' '",
       "interval": "once",
       "format": "{}"
     },
@@ -47,7 +47,7 @@
       "format": "{used:0.1f}G/{total:0.1f}G"
     },
     "custom/disk-icon": {
-      "exec": "echo ",
+      "exec": "echo ' '",
       "interval": "once",
       "format": "{}"
     },
@@ -61,30 +61,30 @@
         "warning": 30,
         "critical": 15
       },
-      "format": "{capacity}% <big>{icon}</big>",
+      "format": "<big>{icon}</big> {capacity}%",
       // "format-good": "", // An empty format will hide the module
       // "format-full": "",
-      "format-icons": ["", "", "", "", ""]
+      "format-icons": [" ", " ", " ", " ", " "]
     },
     "network": {
       // "interface": "wlp2s0", // (Optional) To force the use of this interface
-      "format-wifi": "",
-      "format-ethernet": "",
+      "format-wifi": " ",
+      "format-ethernet": " ",
       "format-disconnected": "⚠"
     },
     "pulseaudio": {
       //"scroll-step": 1,
-      "format": "{volume}% {icon}",
-      "format-bluetooth": "{volume}% {icon}",
-      "format-muted": "",
+      "format": "<big>{icon}</big> {volume}%",
+      "format-bluetooth": "<big>{icon}</big> {volume}%",
+      "format-muted": " ",
       "format-icons": {
-        "headphones": "",
-        "handsfree": "",
-        "headset": "",
-        "phone": "",
-        "portable": "",
-        "car": "",
-        "default": ["", ""]
+        "headphones": " ",
+        "handsfree": " ",
+        "headset": " ",
+        "phone": " ",
+        "portable": " ",
+        "car": " ",
+        "default": [" ", " "]
       },
       "on-click": "pavucontrol"
     }
