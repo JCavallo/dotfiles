@@ -1,0 +1,18 @@
+#!/bin/bash
+set -euo pipefail
+
+if [[ "$(command -v swaymsg)" ]] && [[ ! $(ps ax | grep -v grep | grep startx) ]]; then
+    swaymsg 'input type:keyboard repeat_delay 200'
+    swaymsg 'input type:keyboard xkb_options compose:sclk'
+    swaymsg 'input type:keyboard repeat_rate 60'
+    swaymsg 'input type:keyboard xkb_variant ""'
+    swaymsg 'input type:keyboard xkb_layout us'
+    swaymsg 'input type:keyboard xkb_variant "altgr-intl"'
+    swaymsg 'input "1:1:AT_Translated_Set_2_keyboard" xkb_variant ""'
+    swaymsg 'input "1:1:AT_Translated_Set_2_keyboard" xkb_layout fr'
+    swaymsg 'input "1:1:AT_Translated_Set_2_keyboard" xkb_variant "latin9"'
+else
+    setxkbmap -layout us -variant altgr-intl
+    # Use xinput -list to get the device id
+    setxkbmap -device XXX -layout fr -variant latin9
+fi

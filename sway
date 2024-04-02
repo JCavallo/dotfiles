@@ -53,6 +53,7 @@ bindsym $mod+p exec $wallpaper_cmd
 bindsym $mod+a exec "toggle-theme"
 bindsym $mod+y exec $screen_select_cmd
 bindsym $mod+Shift+y exec $screen_full_cmd
+bindsym $mod+w exec swaylock
 
 # change focus
 bindsym $mod+h focus left
@@ -305,7 +306,7 @@ mode "gaps" {
         bindsym g exec "swaymsg gaps top current set 30 && swaymsg gaps bottom current set 10 && swaymsg gaps left current set 200 && swaymsg gaps right current set 200 && swaymsg mode default"
 
         # For multi panes : default
-        bindsym d exec "swaymsg gaps outer current set 0 && swaymsg gaps inner current set 30 && swaymsg gaps bottom current set 80 && swaymsg mode default"
+        bindsym d exec "swaymsg gaps outer current set 0 && swaymsg gaps inner current set 30 && swaymsg gaps bottom current set 0 && swaymsg mode default"
 
         # For small screens
         bindsym s exec "swaymsg gaps outer current set 0 && swaymsg gaps inner current set 10 && swaymsg gaps bottom current set 10 && swaymsg mode default"
@@ -333,19 +334,7 @@ gaps inner 30
 
 output Virtual-1 mode --custom "3840x2160@60Hz"
 
-# Rounded corners
-# border_radius 20
-
-
-# Sway Specific
-# input * xkb_layout "fr"
-# input * xkb_options "compose:caps,numpad:mac"
-input * xkb_layout "us"
-input * xkb_variant "altgr-intl"
-input * xkb_options compose:sclk
-input * repeat_delay 200
-input * repeat_rate 60
-exec_always rm -f /tmp/.current_layout
+exec_always set-layout
 
 # Get touchpad name from "swaymsg -t get_inputs"
 input "type:touchpad" {
