@@ -230,8 +230,8 @@ bindsym XF86AudioMute exec $mute_toggle
 bindsym XF86AudioMicMute exec $mic_toggle
 
 # Sreen brightness controls
-bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
+bindsym XF86MonBrightnessUp exec ~/dotfiles/tools/backlight + # increase screen brightness
+bindsym XF86MonBrightnessDown exec ~/dotfiles/tools/backlight - # decrease screen brightness
 
 # Set monitors
 set $laptop_screen "eDP1"
