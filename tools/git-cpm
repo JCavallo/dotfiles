@@ -22,6 +22,7 @@ git checkout "$from" > /dev/null
 git pull > /dev/null
 echo "Updating $to"
 git checkout "$to" > /dev/null
+git branch --set-upstream-to=origin/"$to"
 git pull > /dev/null
 echo "Cherry-picking"
 set +e
