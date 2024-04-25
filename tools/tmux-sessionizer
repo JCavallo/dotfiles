@@ -37,13 +37,17 @@ fi
 selected_name=$(basename "$selected" | tr . _)
 tmux_running=$(pgrep tmux)
 
-if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-    tmux new-session -s "$selected_name" -c "$selected"
-    exit 0
-fi
-
-if ! tmux has-session -t="$selected_name" 2> /dev/null; then
+if ([[ -z $TMUX ]] && [[ -z $tmux_running ]]) || \
+        ! tmux has-session -t="$selected_name" 2> /dev/null; then
     tmux new-session -ds "$selected_name" -c "$selected"
+    if [[ -f "$selected/.tmux-session-init" ]]; then
+        sessionizer_session_folder="$selected" \
+            sessionizer_session_name="$selected_name" envsubst < \
+                "$selected/.tmux-session-init" | \
+            while read -r line; do
+            tmux $line
+        done
+    fi
 fi
 
 if [[ "$TMUX" != "" ]]; then
