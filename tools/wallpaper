@@ -34,9 +34,16 @@ _fetch() {
             break
         fi
     done
+    _display $filename
+}
+export -f _fetch
+
+fetch() {
+    _fetch 2>&1 >/dev/null
+    ls
 }
 
-export -f _fetch
+export -f fetch
 
 _display() {
     if [[ "$(command -v swaybg)" ]] && [[ ! $(ps ax | grep -v grep | grep startx) ]]; then
@@ -56,15 +63,24 @@ _display() {
 
 export -f _display
 
-_remove() {
+remove() {
     rm "$WALLPAPER_FOLDER"/"$1"
+    ls
 }
 
-export -f _remove
+export -f remove
+
+remove_all() {
+    rm "$WALLPAPER_FOLDER"/*
+    ls
+}
+
+export -f remove_all
 
 wallpaper=$(fzf --preview='_display {1}' \
-    --bind='ctrl-d:execute: _remove'\
-    --bind='ctrl-n:execute: _fetch'\
+    --bind='ctrl-d:reload(remove {})'\
+    --bind='ctrl-x:reload(remove_all)'\
+    --bind='ctrl-n:reload(fetch)+change-prompt()'\
     --bind='ctrl-r:reload(ls)')
 
 if [[ "$wallpaper" ]]; then
