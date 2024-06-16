@@ -42,7 +42,7 @@ bindsym $mod+Shift+a kill
 # Menu
 set $menu_cmd 'kitty --class=launcher env TERMINAL_COMMAND=" " sway-launcher'
 set $runner_cmd "kitty --class=launcher 'command-runner'"
-set $wallpaper_cmd "kitty --class=launcher wallpaper"
+set $wallpaper_cmd "kitty --class=launcher_wallpaper wallpaper"
 set $screen_select_cmd 'grim -g "$(slurp)" - | wl-copy'
 set $screen_full_cmd 'grim - | wl-copy'
 set $screen_select_store_cmd 'grim -g "$(slurp)" /tmp/ps_$(date +"%Y%m%d%H%M%S").png'
@@ -284,7 +284,8 @@ exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DE
 
 for_window [app_id="^.*"] opacity 0.5
 for_window [app_id="^.*$"] opacity 0.9
-for_window [app_id="^launcher$"] floating enable, opacity 0.8, sticky enable, resize set 60 ppt 60 ppt, border pixel 10
+for_window [app_id="^launcher$"] floating enable, opacity 0.8, sticky enable, resize set width 30 ppt height 30 ppt, border pixel 10
+for_window [app_id="^launcher_wallpaper$"] floating enable, opacity 0.8, sticky enable, resize set width 30 ppt height 30 ppt, border pixel 10
 
 # Color settings
 # client.focused #917944 #917944 #000088 #917944
