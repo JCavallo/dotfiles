@@ -22,11 +22,15 @@ if [[ $# -eq 1 ]]; then
 else
     selected=$( \
         ( \
-            find \
+            (tmux list-sessions -F '#{session_name} #{session_last_attached}' | \
+                sort --reverse -k 2 | cut -f 1 -d ' ' | sed -e 's:^:[running] :') \
+            && \
+            (find \
                 $(sed -e "s:\$HOME:$HOME:g" ~/.sessionizer_search_folders* \
                     | tr '\n' ' ') \
                 -mindepth 1 -maxdepth 1 -type d 2>/dev/null; \
-            sed -e "s:\$HOME:$HOME:g" ~/.sessionizer_folders*) \
+                sed -e "s:\$HOME:$HOME:g" ~/.sessionizer_folders*) \
+        ) \
         | grep -v '/\.' | fzf)
 fi
 
@@ -34,8 +38,13 @@ if [[ -z $selected ]]; then
     exit 0
 fi
 
-selected_name=$(basename "$selected" | tr . _)
-tmux_running=$(pgrep tmux)
+if [[ "${selected#\[running\]}" != "$selected" ]]; then
+    selected_name="${selected#\[running\]\ }"
+    tmux_running=1
+else
+    selected_name=$(basename "$selected" | tr . _)
+    tmux_running=$(pgrep tmux)
+fi
 
 if ([[ -z $TMUX ]] && [[ -z $tmux_running ]]) || \
         ! tmux has-session -t="$selected_name" 2> /dev/null; then
