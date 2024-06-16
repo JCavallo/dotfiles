@@ -15,6 +15,7 @@ function M.completion()
     return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
   end
 
+  local types = require('cmp.types')
   cmp.setup({
     snippet = {
       expand = function(args)
@@ -64,23 +65,32 @@ function M.completion()
         end
       end, { 'i', 's' }),
     },
-    sources = {
-      { name = 'nvim_lsp' },
-      { name = 'luasnip' },
-    }
-  })
-  cmp.setup.cmdline('/', {
-    sources = {
-      { name = 'buffer' }
-    }
-  })
-  cmp.setup.cmdline(':', {
     sources = cmp.config.sources({
-      { name = 'path' }
-    }, {
-      { name = 'cmdline' }
-    })
+      { name = 'nvim_lsp', priority = 1 },
+      { name = 'buffer', priority = 2 },
+      { name = 'luasnip', priority = 3 },
+    }),
+    performance = {
+      debounce = 200,
+      throttle = 500,
+      fetching_timeout = 500,
+      confirm_resolve_timeout = 100,
+      async_budget = 2,
+      max_view_entries = 1000,
+    },
   })
+  -- cmp.setup.cmdline('/', {
+  --   sources = {
+  --     { name = 'buffer' }
+  --   }
+  -- })
+  -- cmp.setup.cmdline(':', {
+  --   sources = cmp.config.sources({
+  --     { name = 'path' }
+  --   }, {
+  --     { name = 'cmdline' }
+  --   })
+  -- })
 end
 
 function M.flit()
@@ -323,7 +333,7 @@ function M.setup_lsp()
       pylsp = {
         plugins = {
           pyls_mpypy = {enabled = true},
-          flake8 = { enabled = true },
+          -- flake8 = { enabled = true },
         }
       }
     },
@@ -363,16 +373,45 @@ function M.setup_lsp()
   local lspconfig = require("lspconfig")
   local configs = require'lspconfig.configs'
   if not configs.tryton_analyzer then
+    local function analyzer_dev()
+      local root_analyzer = lspconfig.util.root_pattern("tryton_analyzer")(
+        vim.fn.getcwd())
+      if root_analyzer ~= nil then
+        return { root_analyzer .. "/.venv/bin/python",
+          root_analyzer .. "/.venv/bin/tryton-ls" }
+      else
+        return { 'tryton-ls' }
+      end
+    end
     configs.tryton_analyzer = {
       default_config = {
-        cmd = { vim.fn.expand('~/Personal/projects/coog/tryton-analyzer/launcher') },
-        filetypes = {'python.trpy', 'xml.trxml'},
+        cmd = analyzer_dev(),
+        filetypes = {'python', 'xml'},
         root_dir = lspconfig.util.root_pattern(".git"),
         settings = {},
       };
     }
   end
-  lspconfig.tryton_analyzer.setup{}
+  lspconfig.tryton_analyzer.setup{
+    capabilities = capabilities,
+    on_attach = on_attach,
+  }
+  require("mason-null-ls").setup({
+    handlers = {},
+    -- ensure_installed = { "sql_formatter", "xmlformatter", "jq", "mypy" },
+    ensure_installed = { "sql_formatter", "xmlformatter", "jq" },
+    automatic_installation = true,
+  })
+  local null_ls = require("null-ls")
+  null_ls.setup({
+      sources = {
+          null_ls.builtins.formatting.stylua,
+          null_ls.builtins.formatting.sql_formatter,
+          null_ls.builtins.formatting.xmlformatter,
+          null_ls.builtins.formatting.jq,
+          -- null_ls.builtins.diagnostics.mypy,
+      },
+  })
 end
 
 function M.setup_dap()

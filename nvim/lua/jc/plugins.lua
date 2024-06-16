@@ -64,8 +64,8 @@ require('packer').startup(function(use)
     'williamboman/mason.nvim',
     requires = {
       'williamboman/mason-lspconfig.nvim',
-      'jayp0521/mason-nvim-dap.nvim',
-      'jayp0521/mason-null-ls.nvim',
+      'jay-babu/mason-nvim-dap.nvim',
+      'jay-babu/mason-null-ls.nvim',
     },
     config = function()
       require("jc.plugin_configuration").setup_lsp()
