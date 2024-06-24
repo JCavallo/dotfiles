@@ -35,6 +35,8 @@ floating_modifier $mod
 # start a terminal
 # bindsym $mod+Return exec alacritty
 bindsym $mod+Return exec kitty
+set $kitty_floating_cmd 'kitty --class=floating_kitty bash'
+bindsym $mod+Shift+Return exec $kitty_floating_cmd
 
 # kill focused window
 bindsym $mod+Shift+a kill
@@ -286,6 +288,7 @@ for_window [app_id="^.*"] opacity 0.5
 for_window [app_id="^.*$"] opacity 0.9
 for_window [app_id="^launcher$"] floating enable, opacity 0.8, sticky enable, resize set width 30 ppt height 30 ppt, border pixel 10
 for_window [app_id="^launcher_wallpaper$"] floating enable, opacity 0.8, sticky enable, resize set width 30 ppt height 30 ppt, border pixel 10
+for_window [app_id="^floating_kitty$"] floating enable, opacity 0.5, sticky enable, resize set width 50 ppt height 30 ppt, border pixel 2, move position 0 0;
 
 # Color settings
 # client.focused #917944 #917944 #000088 #917944
