@@ -62,15 +62,16 @@ local function _get_buffer_project_path(gitfallback)
   return project_path
 end
 
-local function _buffer_project_files(all)
+local function _buffer_project_files(include_all)
   local project_path = _get_buffer_project_path(false)
   if project_path then
-    if all then
-      require('telescope.builtin').find_files(
-        {cwd = project_path})
-    else
+    if include_all then
       require('telescope.builtin').find_files({
         find_command = {'rg', '--no-ignore', '--files'},
+        cwd = project_path})
+    else
+      require('telescope.builtin').find_files({
+        find_command = {'rg', '--files'},
         cwd = project_path})
     end
   else
@@ -92,13 +93,17 @@ function M.buffer_tryton_module_files()
     {cwd = _get_tryton_module_path()})
 end
 
-local function _live_grep(dir, path_display)
-  require('telescope.builtin').live_grep({
-    layout_strategy = 'vertical',
-    search_dirs = {dir},
-    path_display = path_display,
-    use_regex = true,
-  })
+local function _live_grep(dir, path_display, default)
+  local config = {
+      layout_strategy = 'vertical',
+      search_dirs = {dir},
+      path_display = path_display,
+      use_regex = true,
+    }
+  if default ~= nil then
+    config.default_text = default
+  end
+  require('telescope.builtin').live_grep(config)
 end
 
 function M.live_buffer_grep()
@@ -152,6 +157,54 @@ end
 
 function M.tryton_module_search()
   _grep_string(_get_tryton_module_path())
+end
+
+function M.tryton_model_project_search()
+  vim.cmd([[normal "jyi']])
+  _live_grep(_get_buffer_project_path(true), 'shorten',
+    "__name__ = '" .. vim.fn.getreg('j') .. "'")
+end
+
+function M.tryton_model_directory_grep()
+  vim.cmd([[normal "jyi']])
+  _live_grep(vim.fn.getcwd(), 'full',
+    "__name__ = '" .. vim.fn.getreg('j') .. "'")
+end
+
+function M.tryton_model_git_grep()
+  vim.cmd([[normal "jyi']])
+  _live_grep(_get_buffer_git_path(), 'full',
+    "__name__ = '" .. vim.fn.getreg('j') .. "'")
+end
+
+function M.tryton_model_module_grep()
+  vim.cmd([[normal "jyi']])
+  _live_grep(_get_tryton_module_path(), 'full',
+    "__name__ = '" .. vim.fn.getreg('j') .. "'")
+end
+
+function M.tryton_field_project_search()
+  vim.cmd([[normal "jyiw]])
+  _live_grep(_get_buffer_project_path(true), 'shorten',
+    " " .. vim.fn.getreg('j') .. " = fields.")
+end
+
+function M.tryton_field_directory_grep()
+  vim.cmd([[normal "jyiw]])
+  _live_grep(vim.fn.getcwd(), 'full',
+    " " .. vim.fn.getreg('j') .. " = fields.")
+end
+
+function M.tryton_field_git_grep()
+  vim.cmd([[normal "jyiw]])
+  _live_grep(_get_buffer_git_path(), 'full',
+    " " .. vim.fn.getreg('j') .. " = fields.")
+end
+
+function M.tryton_field_module_grep()
+  vim.cmd([[normal "jyiw]])
+  _live_grep(_get_tryton_module_path(), 'full',
+    " " .. vim.fn.getreg('j') .. " = fields.")
 end
 
 return setmetatable({}, {
