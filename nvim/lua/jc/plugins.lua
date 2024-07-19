@@ -95,7 +95,7 @@ require('packer').startup(function(use)
   ---------------
   use {
     'nvim-telescope/telescope.nvim',
-    branch = '0.1.x',
+    -- branch = '0.1.x',
     requires = {
       'nvim-lua/plenary.nvim',
       'nvim-telescope/telescope-fzf-writer.nvim'  -- Live grep
@@ -231,12 +231,6 @@ require('packer').startup(function(use)
     config = function() require 'jc.plugin_configuration'.floaterm() end
   }
   use 'dawsers/telescope-floaterm.nvim'
-  use {
-    'nvim-neorg/neorg',
-    config = function() require 'jc.plugin_configuration'.neorg() end,
-    requires = "nvim-neorg/neorg-telescope"
-  }
-
   ----------------
   -- Appearance --
   ----------------

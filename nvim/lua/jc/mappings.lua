@@ -185,6 +185,31 @@ map_tele('ls', "lsp_document_symbols", {
   symbols = { "method", "class", "field", "function" },
 })                -- Symbols
 map_tele('lr', "lsp_references")                      -- References to current symbol
+map_tele('lta', "force_refresh_treesitter")                         -- All symbols
+map_tele('ltc', "force_refresh_treesitter",
+  { symbols = { 'type' } })
+map_tele('ltf', "force_refresh_treesitter",
+  { symbols = { 'function' } })
+map_tele('ltsf', "treesitter_siblings",
+  { parent = 'class_definition',
+    targets = {
+      block = {
+        function_definition = { "identifier" },
+        decorated_definition = {
+          function_definition = { "identifier" }
+        }
+      }
+    }
+  }
+)
+map_tele('ltsa', "treesitter_siblings",
+  { parent = 'class_definition',
+    targets = {
+      block = {
+        expression_statement = { assignment = { "identifier" }}},
+      }
+    }
+)
 
 map_tele('fo', "oldfiles")                            -- file history
 map_tele('fd', "find_files")                          -- current directory
@@ -202,14 +227,14 @@ map_tele('scc', "buffer_search")                      -- Live search in current 
 map_tele('spc', "project_search")                     -- Live search in whole folder
 map_tele('smc', "tryton_module_search")               -- Live search in current tryton module
 
-map_tele('sdtm', "tryton_model_directory_search")
-map_tele('sdtf', "tryton_field_directory_search")
-map_tele('smtm', "tryton_model_module_search")
-map_tele('smtf', "tryton_field_module_search")
-map_tele('sgtm', "tryton_model_git_search")
-map_tele('sgtf', "tryton_field_git_search")
-map_tele('sptm', "tryton_model_project_search")
-map_tele('sptf', "tryton_field_project_search")
+map_tele('sdtm', "tryton_model_directory_grep")
+map_tele('sdtf', "tryton_field_directory_grep")
+map_tele('smtm', "tryton_model_module_grep")
+map_tele('smtf', "tryton_field_module_grep")
+map_tele('sgtm', "tryton_model_git_grep")
+map_tele('sgtf', "tryton_field_git_grep")
+map_tele('sptm', "tryton_model_project_grep")
+map_tele('sptf', "tryton_field_project_grep")
 
 map_tele('sgw', "live_git_grep")                      -- Live search in git project
 map_tele('sdw', "live_directory_grep")                -- Live search in directory

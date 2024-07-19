@@ -159,7 +159,7 @@ function M.tryton_module_search()
   _grep_string(_get_tryton_module_path())
 end
 
-function M.tryton_model_project_search()
+function M.tryton_model_project_grep()
   vim.cmd([[normal "jyi']])
   _live_grep(_get_buffer_project_path(true), 'shorten',
     "__name__ = '" .. vim.fn.getreg('j') .. "'")
@@ -183,7 +183,7 @@ function M.tryton_model_module_grep()
     "__name__ = '" .. vim.fn.getreg('j') .. "'")
 end
 
-function M.tryton_field_project_search()
+function M.tryton_field_project_grep()
   vim.cmd([[normal "jyiw]])
   _live_grep(_get_buffer_project_path(true), 'shorten',
     " " .. vim.fn.getreg('j') .. " = fields.")
@@ -205,6 +205,98 @@ function M.tryton_field_module_grep()
   vim.cmd([[normal "jyiw]])
   _live_grep(_get_tryton_module_path(), 'full',
     " " .. vim.fn.getreg('j') .. " = fields.")
+end
+
+function M.force_refresh_treesitter(options)
+  options.bufnr = vim.fn.bufnr()
+  require('telescope.builtin').treesitter(options)
+end
+
+----------------------
+-- Sibling searcher --
+----------------------
+
+_find_siblings = function (opts)
+  local ts_utils = require'nvim-treesitter.ts_utils'
+  local results = {}
+
+  local get_parent_from_node = function (base_node, target_type)
+    if not base_node then
+      return nil
+    end
+
+    local expr = base_node
+    while expr do
+      if expr:type() == target_type then
+        break
+      end
+      expr = expr:parent()
+    end
+    return expr
+  end
+
+  local current_node = ts_utils.get_node_at_cursor()
+  local parent_type = opts.parent
+  local target_types = opts.targets
+  local parent_node = get_parent_from_node(current_node, parent_type)
+  if parent_node == nil then
+    return
+  end
+
+  local function extract_nodes(node, elem, result)
+    if type(elem) == "table" then
+      for base, sub_targets in pairs(elem) do
+        if type(base) == "number" and type(sub_targets) == "string" then
+          if node:type() == sub_targets then
+            table.insert(result, { node = node })
+          end
+        elseif type(base) == "number" and type(sub_targets) == "table" then
+          extract_nodes(node, sub_targets, result)
+        elseif type(base) == "string" and node:type() == base then
+          for child in node:iter_children() do
+            extract_nodes(child, sub_targets, result)
+          end
+        end
+      end
+    else
+      if node:type() == elem then
+        table.insert(result, { node = node })
+      end
+    end
+  end
+
+  local targets = {}
+  targets[parent_type] = target_types
+  extract_nodes(parent_node, targets, results)
+
+  if vim.tbl_isempty(results) then
+    return
+  end
+  return results
+end
+
+function M.treesitter_siblings(opts)
+  local pickers = require("telescope.pickers")
+  local conf = require('telescope.config').values
+  local finders = require("telescope.finders")
+  local results = _find_siblings(opts)
+  if results == nil then
+    return
+  end
+  -- return result
+  opts.symbol_width = 200
+  opts.show_line = false
+  pickers.new(opts, {
+      prompt_title = "Siblings",
+      finder = finders.new_table {
+          results = results,
+          entry_maker = opts.entry_maker or
+            require('telescope.make_entry').gen_from_treesitter(opts),
+      },
+      sorter = conf.generic_sorter(opts),
+      previewer = conf.grep_previewer(opts),
+  })
+  :find()
 end
 
 return setmetatable({}, {

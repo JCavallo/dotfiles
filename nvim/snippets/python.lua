@@ -72,7 +72,7 @@ end
 return {
   s({trig = 'tr_pp', name = 'pool = Pool()'}, {
     t({'pool = Pool()'}),
-    t({''}), i(1, 'ModelName'), t({" = pool.get('"}), i(2, 'model.__name__'), t({"')"}), i(0)
+    t({'', ''}), i(1, 'ModelName'), t({" = pool.get('"}), i(2, 'model.__name__'), t({"')"}), i(0)
   }),
   s({trig = 'tr_pg', name = 'Model = pool.get()'}, {
     t({''}),
@@ -90,4 +90,35 @@ return {
     t({'cursor = '}), c(1, {t({'Transaction()'}), t({'transaction'})}), t({'.connection.cursor()'}),
     t({'',''}), i(0),
   }),
+  s({trig = 'tr_setup', name = '__setup__'}, {
+    t({
+      '@classmethod',
+      'def __setup__(cls):',
+      '    super().__setup__()',
+      '    '}),
+    i(0)}),
+  s({trig = 'tr_register', name = '__register__'}, {
+    t({
+      '@classmethod',
+      'def __register__(cls, module):',
+      '    super().__register__(module)',
+      '    '}),
+    i(0)}),
+  s({trig = 'tr_post_setup', name = '__post_setup__'}, {
+    t({
+      '@classmethod',
+      'def __post_setup__(cls):',
+      '    super().__post_setup__()',
+      '    '}),
+    i(0)}),
+  s({trig = 'tr_meta', name = 'class metaclass=PoolMeta'}, {
+    t({'class '}), i(1, '<ClassName>'), t({"(metaclass=PoolMeta):"}),
+    t({'', "    __name__ = '"}), i(2, '<model.name>'), t({"'"}),
+    t({'', ''}),
+    t({'', '    '}), i(0)
+  }),
+  s({trig = 'tr_on_change', name = 'def on_change_...'}, {
+    t({'@fields.depends('}), i(2), t({')'}),
+    t({'', 'def on_change_'}), i(1, '<field_name>'), t({'(self):'}),
+    t({'', '    '}), i(0)}),
 }
