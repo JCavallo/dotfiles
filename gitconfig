@@ -44,7 +44,8 @@
 [mergetool]
     prompt = true
 [mergetool "vimdiff"]
-    cmd = nvim -d $MERGED $LOCAL $BASE $REMOTE -c '$wincmd L' -c 'wincmd J'
+    ;cmd = nvim -d $MERGED $LOCAL $BASE $REMOTE -c '$wincmd L' -c '$wincmd J'
+    cmd = nvim -d $MERGED $LOCAL $BASE $REMOTE
 [difftool]
     prompt = false
 [rerere]

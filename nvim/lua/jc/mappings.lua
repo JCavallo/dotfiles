@@ -228,12 +228,16 @@ map_tele('spc', "project_search")                     -- Live search in whole fo
 map_tele('smc', "tryton_module_search")               -- Live search in current tryton module
 
 map_tele('sdtm', "tryton_model_directory_grep")
+map_tele('sdtcm', "tryton_model_directory_grep", { current = true })
 map_tele('sdtf', "tryton_field_directory_grep")
 map_tele('smtm', "tryton_model_module_grep")
+map_tele('smtcm', "tryton_model_module_grep", { current = true })
 map_tele('smtf', "tryton_field_module_grep")
 map_tele('sgtm', "tryton_model_git_grep")
+map_tele('sgtcm', "tryton_model_git_grep", { current = true })
 map_tele('sgtf', "tryton_field_git_grep")
 map_tele('sptm', "tryton_model_project_grep")
+map_tele('sptcm', "tryton_model_project_grep", { current = true })
 map_tele('sptf', "tryton_field_project_grep")
 
 map_tele('sgw', "live_git_grep")                      -- Live search in git project

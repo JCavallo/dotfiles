@@ -159,28 +159,39 @@ function M.tryton_module_search()
   _grep_string(_get_tryton_module_path())
 end
 
-function M.tryton_model_project_grep()
-  vim.cmd([[normal "jyi']])
+
+local _get_tryton_name = function (current)
+  print(current)
+  if current == true then
+    return require('jc.utils').ts_tryton_current_model()
+  else
+    vim.cmd([[normal "jyi']])
+    return vim.fn.getreg('j')
+  end
+end
+
+function M.tryton_model_project_grep(opts)
+  local name = _get_tryton_name(opts.current)
   _live_grep(_get_buffer_project_path(true), 'shorten',
-    "__name__ = '" .. vim.fn.getreg('j') .. "'")
+    "__name__ = '" .. name .. "'")
 end
 
-function M.tryton_model_directory_grep()
-  vim.cmd([[normal "jyi']])
+function M.tryton_model_directory_grep(opts)
+  local name = _get_tryton_name(opts.current)
   _live_grep(vim.fn.getcwd(), 'full',
-    "__name__ = '" .. vim.fn.getreg('j') .. "'")
+    "__name__ = '" .. name .. "'")
 end
 
-function M.tryton_model_git_grep()
-  vim.cmd([[normal "jyi']])
+function M.tryton_model_git_grep(opts)
+  local name = _get_tryton_name(opts.current)
   _live_grep(_get_buffer_git_path(), 'full',
-    "__name__ = '" .. vim.fn.getreg('j') .. "'")
+    "__name__ = '" .. name .. "'")
 end
 
-function M.tryton_model_module_grep()
-  vim.cmd([[normal "jyi']])
+function M.tryton_model_module_grep(opts)
+  local name = _get_tryton_name(opts.current)
   _live_grep(_get_tryton_module_path(), 'full',
-    "__name__ = '" .. vim.fn.getreg('j') .. "'")
+    "__name__ = '" .. name .. "'")
 end
 
 function M.tryton_field_project_grep()
@@ -216,70 +227,12 @@ end
 -- Sibling searcher --
 ----------------------
 
-_find_siblings = function (opts)
-  local ts_utils = require'nvim-treesitter.ts_utils'
-  local results = {}
-
-  local get_parent_from_node = function (base_node, target_type)
-    if not base_node then
-      return nil
-    end
-
-    local expr = base_node
-    while expr do
-      if expr:type() == target_type then
-        break
-      end
-      expr = expr:parent()
-    end
-    return expr
-  end
-
-  local current_node = ts_utils.get_node_at_cursor()
-  local parent_type = opts.parent
-  local target_types = opts.targets
-  local parent_node = get_parent_from_node(current_node, parent_type)
-  if parent_node == nil then
-    return
-  end
-
-  local function extract_nodes(node, elem, result)
-    if type(elem) == "table" then
-      for base, sub_targets in pairs(elem) do
-        if type(base) == "number" and type(sub_targets) == "string" then
-          if node:type() == sub_targets then
-            table.insert(result, { node = node })
-          end
-        elseif type(base) == "number" and type(sub_targets) == "table" then
-          extract_nodes(node, sub_targets, result)
-        elseif type(base) == "string" and node:type() == base then
-          for child in node:iter_children() do
-            extract_nodes(child, sub_targets, result)
-          end
-        end
-      end
-    else
-      if node:type() == elem then
-        table.insert(result, { node = node })
-      end
-    end
-  end
-
-  local targets = {}
-  targets[parent_type] = target_types
-  extract_nodes(parent_node, targets, results)
-
-  if vim.tbl_isempty(results) then
-    return
-  end
-  return results
-end
-
 function M.treesitter_siblings(opts)
   local pickers = require("telescope.pickers")
   local conf = require('telescope.config').values
   local finders = require("telescope.finders")
-  local results = _find_siblings(opts)
+  local utils = require('jc.utils')
+  local results = utils.ts_find_siblings(opts.parent, opts.targets)
   if results == nil then
     return
   end
