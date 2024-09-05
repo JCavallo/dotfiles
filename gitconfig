@@ -113,6 +113,8 @@
     path = ~/.config/delta-themes.gitconfig
 [protocol "file"]
 	allow = user
+[rebase]
+    updateRefs = true
 [maintenance]
     repo = ~/dotfiles
     repo = ~/Personal
