@@ -1,18 +1,33 @@
 #!/bin/bash
 sound=bell
-if [[ "$1" = "--sound" ]]; then
-    shift
-    sound="$1"
-    shift
-fi
 icon=info
-if [[ "$1" = "--icon" ]]; then
-    shift
-    icon="$1"
-    shift
-fi
+silent="${SILENT_NOTIFY:-false}"
+while test $# -gt 0; do
+    case "$1" in
+        --sound)
+            shift
+            sound="$1"
+            shift
+            ;;
+        --silent)
+            shift
+            silent=true
+            ;;
+        --icon)
+            shift
+            sound="$1"
+            shift
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
 # apt install notfy-osd if needed
 if [[ "$(command -v notify-send)" ]]; then
     notify-send -t 5000 --urgency=critical --icon=$icon "$@"
 fi
-$sound
+set -x
+if [[ "$silent" = false ]]; then
+    echo "$sound"
+fi
