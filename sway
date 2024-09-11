@@ -342,7 +342,7 @@ exec_always set-layout
 
 # Get touchpad name from "swaymsg -t get_inputs"
 input "type:touchpad" {
-    dwt enabled
+    dwt disabled
     tap enabled
     middle_emulation enabled
 }
