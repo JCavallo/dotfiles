@@ -7,6 +7,8 @@
 #
 # Add paths found in $HOME/.sessionizer_folders as folders to always add
 
+default_target="${DEFAULT_SESSIONIZER_TARGET:-}"
+
 (ls $HOME/.sessionizer_* >/dev/null 2>/dev/null)
 
 if [[ $? != 0 ]]; then
@@ -19,6 +21,8 @@ touch "$HOME/.sessionizer_search_folders"
 
 if [[ $# -eq 1 ]]; then
     selected=$1
+elif [[ "$TMUX" = "" ]]; then
+    selected="$default_target"
 else
     selected=$( \
         ( \
