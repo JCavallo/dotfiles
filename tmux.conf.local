@@ -273,6 +273,9 @@ unbind C-a
 # set -g prefix C-a
 # bind C-a send-prefix
 
+# Switch to another session when exiting last pane of current session
+set-option -g detach-on-destroy off
+
 # move status line to top
 #set -g status-position top
 
