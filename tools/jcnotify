@@ -27,7 +27,6 @@ done
 if [[ "$(command -v notify-send)" ]]; then
     notify-send -t 5000 --urgency=critical --icon=$icon "$@"
 fi
-set -x
 if [[ "$silent" = false ]]; then
     echo "$sound"
 fi
