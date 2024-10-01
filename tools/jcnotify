@@ -15,7 +15,7 @@ while test $# -gt 0; do
             ;;
         --icon)
             shift
-            sound="$1"
+            icon="$1"
             shift
             ;;
         *)
@@ -28,5 +28,5 @@ if [[ "$(command -v notify-send)" ]]; then
     notify-send -t 5000 --urgency=critical --icon=$icon "$@"
 fi
 if [[ "$silent" = false ]]; then
-    echo "$sound"
+    $sound
 fi
