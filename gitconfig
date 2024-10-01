@@ -70,6 +70,7 @@
     d = diff
     df = diff --word-diff
     discard = checkout --
+    f = fetch -p --all
     fd = !git -c delta.features=\"$(git config --global --get delta.features | sed -e 's/side-by-side //')\" fuzzy status
     filetrail = git log --follow -p -w
     fpr = fuzzy pr
