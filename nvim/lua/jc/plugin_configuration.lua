@@ -369,7 +369,9 @@ function M.setup_lsp()
       sources = {
           null_ls.builtins.formatting.stylua,
           null_ls.builtins.formatting.sql_formatter,
-          null_ls.builtins.formatting.xmlformatter,
+          null_ls.builtins.formatting.xmllint.with({
+            extra_args={'--indent', '4'},
+          }),
           null_ls.builtins.formatting.jq,
           -- null_ls.builtins.diagnostics.mypy,
       },
