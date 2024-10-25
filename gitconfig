@@ -63,7 +63,7 @@
     br = branch -vv
     branches = branch -a -vv
     branchout = checkout -b
-    cleartags = !git tag -l | xargs git tag -d && git fetch -t
+    cleartags = !git tag -l | xargs git tag -d
     co = checkout
     contributors = shortlog -s -n
     cp = cherry-pick --strategy=recursive -X no-renames
