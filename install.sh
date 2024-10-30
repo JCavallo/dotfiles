@@ -252,6 +252,8 @@ if [[ "$SERVER" = "0" ]]; then
         mkdir -p "$HOME"/.config/kitty
         if [[ ! -e "$HOME"/.config/kitty/kitty.conf ]]; then
             ln -s "$dir"/kitty "$HOME"/.config/kitty/kitty.conf
+            ln -s "$dir"/kitty-python-hints.py \
+                "$HOME"/.config/kitty/kitty-python-hints.py
         fi
     fi
 fi
