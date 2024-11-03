@@ -83,6 +83,14 @@ BLACKGREEN="[30;42m"
 BLACKPINK="[30;45m"
 BLACKLIGHTBLUE="[30;104m"
 
+if [[ -e /usr/bin/sed ]]; then
+    sed=/usr/bin/sed
+elif [[ -e /bin/sed ]]; then
+    sed=/bin/sed
+else
+    sed=sed
+fi
+
 if [[ "$(command -v hg)" ]]; then
     HG_INSTALLED=1
 else
@@ -147,7 +155,7 @@ hg_ps1_3() {
     fi
 }
 git_ps1_1() {
-    BRANCH=$(git branch 2> /dev/null | grep -e ^* | /usr/bin/sed -E  s/^\\\*\ \(.+\)$/\\\1/)
+    BRANCH=$(git branch 2> /dev/null | grep -e ^* | $sed -E  s/^\\\*\ \(.+\)$/\\\1/)
     if [[ "$BRANCH" != "" ]] && [[ "$BRANCH" != "${GIT_MAIN_BRANCH:-none}" ]]; then
         echo " $BRANCH "
     else
@@ -168,7 +176,7 @@ git_ps1_2() {
     fi
 }
 git_ps1_3() {
-    cur_branch=$(git branch 2> /dev/null | grep -e ^* | /usr/bin/sed -E  s/^\\\*\ \(.+\)$/\\\1\ /)
+    cur_branch=$(git branch 2> /dev/null | grep -e ^* | $sed -E  s/^\\\*\ \(.+\)$/\\\1\ /)
     if [ "$cur_branch" != "" ]; then
         clean_branch=${cur_branch::-1}
         rietveld=$(git config --get branch."${clean_branch}".rietveldissue 2> /dev/null)
@@ -211,7 +219,7 @@ current_path_ps1() {
     fi
     if [ "$value" != "" ]; then
         value="${value/#$HOME/\~}"
-        value=$(echo "$value" | /usr/bin/sed 's:\([^/][^/]\?\)[^/]*/:\1/:g')
+        value=$(echo "$value" | $sed 's:\([^/][^/]\?\)[^/]*/:\1/:g')
         echo " $value "
     else
         echo ""
@@ -237,12 +245,12 @@ tryton_db_ps1() {
     path=$(_get_project_path)
     if [ ! "$path" = "" ] && [ -f "$path"/conf/trytond.conf ]; then
         if [ "$DB_NAME" = "" ]; then
-            DB_NAME=$(grep "^uri = postgres" "$path"/conf/trytond.conf | /usr/bin/sed -e "s/.*@[^:]\+:[0-9]\+\/\?//")
+            DB_NAME=$(grep "^uri = postgres" "$path"/conf/trytond.conf | $sed -e "s/.*@[^:]\+:[0-9]\+\/\?//")
             if [[ "$DB_NAME" = $(basename $(_get_project_path)) ]]; then
                 DB_NAME=""
             fi
         fi
-        PORT=$(grep "^listen = " "$path"/conf/trytond.conf | /usr/bin/sed -e "s/.*://")
+        PORT=$(grep "^listen = " "$path"/conf/trytond.conf | $sed -e "s/.*://")
         if [[ "$PORT" = "8000" ]]; then
             PORT=""
         elif [[ ! "$PORT" = "" ]]; then
