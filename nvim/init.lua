@@ -1,4 +1,4 @@
-require('jc.load_packer')
+require('jc.load_lazy')
 
 require('jc.options')
 
