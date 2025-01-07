@@ -1321,6 +1321,7 @@ map kitty_mod+delete clear_terminal reset active
 # }}}
 
 map ctrl+shift+p>p kitten hints --customize-processing kitty-python-hints.py
+map ctrl+shift+p>j kitten hints --customize-processing kitty-jira-hints.py
 # BEGIN_KITTY_THEME
 # Tokyo Night Day
 include current-theme.conf
