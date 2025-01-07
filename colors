@@ -83,6 +83,9 @@ _color_cmd () {
 
     local filter="$1"
     local color="$2"
+    if [[ "$filter" = all ]]; then 
+        filter='^.*$'
+    fi
 
     if [[ "$color" = "remove" ]]; then
         echo "\rg -v --line-buffered \"$filter\""
@@ -90,7 +93,7 @@ _color_cmd () {
         if test "${colors[$color]+isset}"; then
             color="${colors[$color]}"
         fi
-        echo "\rg --color always --passthru --colors match:fg:$color --line-buffered \"$1\""
+        echo "\rg --color always --passthru --colors match:fg:$color --line-buffered \"$filter\""
     fi
 }
 
@@ -102,6 +105,7 @@ colorize() {
         _color_cmd print_colors
         echo ""
         echo "Special value : 'remove' will filter out the pattern rather than colorizing it"
+        echo "Special value : 'all' will match and colorize all lines"
     else
         local cmd=$(_color_cmd "$1" "$2")
         shift
