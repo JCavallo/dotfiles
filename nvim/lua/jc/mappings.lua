@@ -46,8 +46,8 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 -- Function Key Mappings --
 ---------------------------
 
-map('<F1>', '<cmd>Telescope help_tags<CR>')
-map('<F3>', '<cmd>MundoToggle<CR>')
+map('<F6>', '<cmd>Telescope help_tags<CR>')
+map('<F4>', '<cmd>MundoToggle<CR>')
 map('<F5>', '<cmd>set paste!<CR>')
 
 -- Fun shortcut to check color group under cursor
@@ -151,7 +151,7 @@ map('<space>hm', ':lua require("harpoon.ui").toggle_quick_menu()<CR>')
 -- Telescope Mappings --
 ------------------------
 TelescopeMapArgs = TelescopeMapArgs or {}
-local map_tele = function(key, f, options, buffer)
+local map_tele = function(key, f, options, buffer, no_prefix)
   local map_key = vim.api.nvim_replace_termcodes(key .. f, true, true, true)
 
   TelescopeMapArgs[map_key] = options or {}
@@ -161,12 +161,17 @@ local map_tele = function(key, f, options, buffer)
     "<cmd>lua require('jc.telescope')['%s'](TelescopeMapArgs['%s'])<CR>",
     f, map_key)
 
-  local map_options = { noremap = true, silent = true }
-
-  if not buffer then
-    vim.api.nvim_set_keymap(mode, '<space>' .. key, rhs, map_options)
+  local mapping
+  if no_prefix then
+    mapping = key
   else
-    vim.api.nvim_buf_set_keymap(0, mode, '<space>' .. key, rhs, map_options)
+    mapping = '<space>' .. key
+  end
+  local map_options = { noremap = true, silent = true }
+  if not buffer then
+    vim.api.nvim_set_keymap(mode, mapping, rhs, map_options)
+  else
+    vim.api.nvim_buf_set_keymap(0, mode, mapping, rhs, map_options)
   end
 end
 
@@ -186,11 +191,12 @@ map_tele('ls', "lsp_document_symbols", {
 })                -- Symbols
 map_tele('lr', "lsp_references")                      -- References to current symbol
 map_tele('lta', "force_refresh_treesitter")                         -- All symbols
-map_tele('ltc', "force_refresh_treesitter",
-  { symbols = { 'type' } })
+map_tele('<F1>', "force_refresh_treesitter",
+  { symbols = { 'type' } },
+  false, true)
 map_tele('ltf', "force_refresh_treesitter",
   { symbols = { 'function' } })
-map_tele('ltsf', "treesitter_siblings",
+map_tele('<F2>', "treesitter_siblings",
   { parent = 'class_definition',
     targets = {
       block = {
@@ -200,16 +206,17 @@ map_tele('ltsf', "treesitter_siblings",
         }
       }
     }
-  }
-)
-map_tele('ltsa', "treesitter_siblings",
+  },
+  false, true)
+map_tele('<F3>', "treesitter_siblings",
   { parent = 'class_definition',
     targets = {
       block = {
-        expression_statement = { assignment = { "identifier" }}},
+        expression_statement = { assignment = { "identifier" }}
       }
     }
-)
+  },
+  false, true)
 
 map_tele('fo', "oldfiles")                            -- file history
 map_tele('fd', "find_files")                          -- current directory
