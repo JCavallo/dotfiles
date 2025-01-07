@@ -37,7 +37,7 @@
 \set COMP_KEYWORD_CASE upper
 
 -- greeting
-\echo '\nWelcome, my magistrate\n'
+\echo '\nWelcome, wanderer\n'
 
 --helpful queries
 \set uptime 'select now() - backend_start as uptime from pg_stat_activity where pid = pg_backend_pid();'
