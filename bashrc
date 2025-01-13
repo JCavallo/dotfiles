@@ -45,7 +45,7 @@ alias more='bat $(if [[ ! -e /tmp/.current_theme ]] || [[ $(/usr/bin/cat /tmp/.c
 alias clear="TERM=linux clear"
 alias k="kritik -s --success-message OK --failure-message KO"
 alias g=git
-alias ff8="git commit -a -m ':lipstick: && git push'"
+alias ff8="git commit -a -m ':lipstick:' && git push"
 alias vim="nvim"
 alias v="nvim"
 alias t="tmux-sessionizer"
