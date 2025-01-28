@@ -1,9 +1,9 @@
-// vim:ft=javascript
+// vim:ft=json
 {
   "layer": "top",
     "position": "bottom",
     "height": 50,
-    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-left": ["custom/vpn", "sway/workspaces", "sway/mode"],
     "modules-center": ["sway/window"],
     "modules-right": ["custom/disk-icon", "disk",
     "custom/cpu-icon", "cpu", "custom/memory-icon", "memory",
@@ -22,6 +22,12 @@
         "urgent": " ",
         "default": " "
       }
+    },
+    "custom/vpn": {
+      "exec": "sudo bin/toggle-vpn status",
+      "interval": 1,
+      "format": "{}",
+      "on-click": "sudo bin/toggle-vpn"
     },
     "sway/mode": {
       "format": "<span style=\"italic\">{}</span>"

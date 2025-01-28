@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+LOCATION="$(dirname "$0")"
+if [[ -f "$LOCATION"/../Personal/VPNs/toggle ]]; then
+    sudo "$LOCATION"/../Personal/VPNs/toggle "$@"
+else
+    echo ""
+    exit 0
+fi
