@@ -245,6 +245,7 @@ map_tele('sgtcm', "tryton_model_git_grep", { current = true })
 map_tele('sgtf', "tryton_field_git_grep")
 map_tele('sptm', "tryton_model_project_grep")
 map_tele('sptcm', "tryton_model_project_grep", { current = true })
+map_tele('<F8>', "tryton_model_project_grep", { current = true }, false, true)
 map_tele('sptf', "tryton_field_project_grep")
 
 map_tele('sgw', "live_git_grep")                      -- Live search in git project

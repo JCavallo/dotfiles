@@ -161,7 +161,10 @@ end
 
 
 local _get_tryton_name = function (current)
-  print(current)
+  if vim.bo.filetype == 'xml.trxml' then
+    vim.cmd([[ normal "jyit ]])
+    return vim.fn.getreg('j')
+  end
   if current == true then
     return require('jc.utils').ts_tryton_current_model()
   else
