@@ -18,6 +18,7 @@ vim.opt.inccommand = 'split'        -- Preview command results when appliable
 vim.opt.virtualedit = 'block,onemore'  -- Allow cursor to "be" at line end
 vim.opt.shiftround = true           -- Round indents to shiftwidth
 vim.opt.linebreak = true            -- Break long lines
+vim.opt.breakindent = true          -- Keep indentation when auto-breaking
 vim.opt.smarttab = true             -- Be smart when tabbing
 vim.opt.expandtab = true            -- No one wants actual tabs, only spaces
 vim.opt.tabstop = 4                 -- Display tabs with 4 spaces
@@ -38,7 +39,7 @@ vim.opt.formatoptions = ''
 vim.opt.whichwrap = 'h,l,b,s'       -- Allow to use h / l at start / end of line
 
 -- Wrapping
-vim.opt.wrap = false                -- Do not automatically wrap text
+vim.opt.wrap = true                 -- Do not automatically wrap text
 vim.opt.showbreak = "↪"             -- Show line breaks
  
 -- View options

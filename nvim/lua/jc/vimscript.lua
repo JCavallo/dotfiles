@@ -18,7 +18,7 @@ function! JCAddLogging(delta)
     endif
     let cur_pos[2] = 1
     call setpos('.', cur_pos)
-    call search('[^ ]')
+    execute(':normal ^')
     let indent = getpos('.')[2] - 1
     call append(cur_pos[1] + a:delta, "_print()  # NVAUTOLOG")
     let cur_pos[1] += 1 + a:delta
@@ -41,33 +41,16 @@ function! JCAddBreakpointV2(delta)
         return
     endif
     let cur_pos = getpos('.')
-    let [head_num, head_col] = searchpos('^import debugpy;debugpy.listen(5678)  # NVDEBUGGER', 'nb')
+    let [head_num, head_col] = searchpos('^.*# NVDEBUGGER # NOQA', 'nb')
     if head_num == 0 && head_col == 0
         call setpos('.', [0, 0, 1, 0])
         call search('^[^#]')
-        call append(getpos('.')[2] + 1, 'import debugpy  # NVDEBUGGER')
-        call append(getpos('.')[2] + 2, '_debug_enabled = False  # NVDEBUGGER')
-        call append(getpos('.')[2] + 3, 'def _start_debug():  # NVDEBUGGER')
-        call append(getpos('.')[2] + 4, '    global _debug_enabled  # NVDEBUGGER')
-        call append(getpos('.')[2] + 5, '    if not _debug_enabled:  # NVDEBUGGER')
-        call append(getpos('.')[2] + 6, '        _debug_enabled = True  # NVDEBUGGER')
-        call append(getpos('.')[2] + 7, '        debugpy.listen(8100)  # NVDEBUGGER')
-        call append(getpos('.')[2] + 8, '        import sys  # NVDEBUGGER')
-        call append(getpos('.')[2] + 9, '        print("\nDebugger waiting on port 8100", file=sys.stderr)  # NVDEBUGGER')
-        call append(getpos('.')[2] + 10, '        debugpy.wait_for_client()  # NVDEBUGGER')
-        call append(getpos('.')[2] + 11, '    debugpy.breakpoint()  # NVDEBUGGER')
-        let cur_pos[1] += 11
+        let command = 'exec("""import sys\nif "debugpy" not in sys.modules:\n    import debugpy\n    debugpy.listen(5678)\n    import pynvim\n    pynvim.attach("socket", path="' .. v:servername .. '").command("' .. "lua require('dap').run({host = '127.0.0.1', port = 5678, type = 'python', request = 'attach'})" .. '")\n    debugpy.wait_for_client()\n    import os;os.system(''jcnotify "debugger started"'')""")  # NVDEBUGGER # NOQA'
+        call append(getpos('.')[2] + 1, command)
+        let cur_pos[1] += 1
         call setpos('.', cur_pos)
     endif
-    let cur_pos[2] = 1
-    call setpos('.', cur_pos)
-    call search('[^ ]')
-    let indent = getpos('.')[2] - 1
-    call append(cur_pos[1] + a:delta, "_start_debug()  # NVDEBUGGER")
-    let cur_pos[1] += 1 + a:delta
-    call setpos('.', cur_pos)
-    execute(':normal I' . repeat(' ', indent))
-    call setpos('.', cur_pos)
+    execute(":lua require('dap').set_breakpoint()")
 endfunction
 
 function! JCAddBreakpoint(delta)
@@ -88,7 +71,7 @@ function! JCAddBreakpoint(delta)
     endif
     let cur_pos[2] = 1
     call setpos('.', cur_pos)
-    call search('[^ ]')
+    execute(':normal ^')
     let indent = getpos('.')[2] - 1
     call append(cur_pos[1] + a:delta, "_pudb_trace()  # NVDEBUGGER")
     let cur_pos[1] += 1 + a:delta
@@ -102,6 +85,7 @@ function! JCRemoveBreakpoint()
         return
     endif
     execute('g/# NVDEBUGGER/d')
+    execute(":lua require('dap').clear_breakpoints()")
 endfunction
 
 function! JCSmartClose()

@@ -82,9 +82,8 @@ map('q', '<cmd>call JCSmartClose()<CR>')
 map('zh', '[z')
 map('zl', ']z')
 
--------------------------------
--- Normal Mode Ctrl Mappings --
--------------------------------
+map('U', '<cmd>redo<CR>')
+
 -- Make Y behave like C / D
 map('Y', 'y$')
 
@@ -256,6 +255,22 @@ map_tele('smw', "live_tryton_module_grep")            -- Live search in current 
 
 map_tele('/', "buffer_grep")                          -- Search alternative
 map_tele(':', "command_history")                      -- Command history
+
+--------------------
+-- Debug Mappings --
+--------------------
+
+map('<M-b>b', [[<cmd>lua require('dap').toggle_breakpoint() <CR>]])
+map('<M-b>c', [[<cmd>lua require('dap').clear_breakpoints() <CR>]])
+map('<M-b>l', [[<cmd>lua require('dap').list_breakpoints() <CR>]])
+map('<M-b>B', [[<cmd>lua require('dap').toggle_breakpoint(vim.fn.input 'Breakpoint condition: ', vim.fn.input 'Hit condition: ') <CR>]])
+map('<M-c>', [[<cmd>lua require('dap').continue()<CR>]])
+map('<M-n>', [[<cmd>lua require('dap').step_over()<CR>]])
+map('<M-s>', [[<cmd>lua require('dap').step_into()<CR>]])
+map('<M-r>', [[<cmd>lua require('dap').step_out()<CR>]])
+map('<M-q>', [[<cmd>lua require('dap').disconnect()<CR>]])
+map('<M-p>', [[<cmd>lua require'dap.ui.widgets'.hover()<cr>]])
+map('<M-S-c>', [[<cmd>lua require('dap').run_to_cursor()<CR>]])
 
 -------------------
 -- Octo Mappings --

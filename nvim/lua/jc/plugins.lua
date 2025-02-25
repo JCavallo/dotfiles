@@ -1,305 +1,218 @@
-require('packer').startup(function(use)
-  -- Package manager
-  use 'wbthomason/packer.nvim'
+vim.g.have_nerd_font = false
+vim.schedule(function()
+  vim.opt.clipboard = 'unnamedplus'
+end)
+vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
-  ---------
-  -- LSP --
-  ---------
-  use { -- LSP Configuration & Plugins
-    'neovim/nvim-lspconfig',
-    requires = {
-      -- LSP based utilities
-      'jose-elias-alvarez/null-ls.nvim',
-      -- Additional lua configuration, makes nvim stuff amazing
-      'folke/neodev.nvim',
+require('lazy').setup({
+  { -- Tools
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "rcarriga/nvim-notify", -- Notification view
+      'numToStr/Comment.nvim', -- Comment tooling
+      'tpope/vim-sleuth', -- Autodetect tabstop / shiftwidth
+      {
+        'godlygeek/tabular', -- Tabularize to align
+        cmd = 'Tabularize'
+      },
+      'norcalli/nvim-colorizer.lua', -- Colors from color codes #13f21a
+      'junegunn/vim-peekaboo', -- Preview register contents
+      'simnalamburt/vim-mundo', -- Better undo
+      'tpope/vim-repeat', -- Better repeat
+      'embear/vim-localvimrc', -- Local vimrc files
+      'lambdalisue/suda.vim', -- Auto edit with sudo
+
     },
-  }
-  -- Diagnostics via telescope
-  use {
-    'folke/trouble.nvim',
-    config = function() require 'jc.plugin_configuration'.trouble() end
-  }
-
-  ----------------
-  -- Completion --
-  ----------------
-  use { -- Autocompletion
+    config = function()
+      require("jc.plugin_configuration").setup_tools()
+    end,
+  },
+  { -- Autocompletion
     'hrsh7th/nvim-cmp',
-    requires = {
+    event = 'InsertEnter',
+    dependencies = {
       'hrsh7th/cmp-nvim-lsp',  -- completion from lsp
       'L3MON4D3/LuaSnip',  -- snippets
       'saadparwaiz1/cmp_luasnip',  -- access snippets from cmp
       'rafamadriz/friendly-snippets',   -- Snippet collection
-      -- 'hrsh7th/cmp-buffer',  -- completion from buffer
       'hrsh7th/cmp-path',  -- completion from path
       'hrsh7th/cmp-cmdline', -- completion on command line
+      'hrsh7th/cmp-nvim-lsp-signature-help',
     },
     config = function()
-      require("jc.plugin_configuration").completion()
+      require("jc.plugin_configuration").setup_completion()
     end,
-  }
-
-  ---------------
-  -- Debugging --
-  ---------------
-  use {
-    "mfussenegger/nvim-dap",
-    opt = true,
-    event = "BufReadPre",
-    module = { "dap" },
-    wants = { "nvim-dap-virtual-text", "nvim-dap-ui" },
-    requires = {
-      "theHamsta/nvim-dap-virtual-text",
-      "rcarriga/nvim-dap-ui",
-    },
-    config = function()
-      require("jc.plugin_configuration").setup_dap()
-    end,
-  }
-
-  -----------
-  -- Mason --
-  -----------
-  use {
-    'williamboman/mason.nvim',
-    requires = {
+  },
+  { -- Language Server
+    'neovim/nvim-lspconfig',
+    dependencies = {
+      'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
-      'jay-babu/mason-nvim-dap.nvim',
+      'WhoIsSethDaniel/mason-tool-installer.nvim',
       'jay-babu/mason-null-ls.nvim',
+      'jose-elias-alvarez/null-ls.nvim',
+      {
+        'folke/lazydev.nvim',
+        ft = 'lua',
+        opts = {
+          library = {
+            -- Load luvit types when the `vim.uv` word is found
+            { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
+          },
+        }
+      },
+      'hrsh7th/cmp-nvim-lsp',
     },
     config = function()
       require("jc.plugin_configuration").setup_lsp()
     end,
-  }
-
-  ----------------
-  -- Treesitter --
-  ----------------
-  use { -- Highlight, edit, and navigate code
+  },
+  { --Debug
+    'mfussenegger/nvim-dap',
+    event = "BufReadPre",
+    dependencies = {
+      'rcarriga/nvim-dap-ui',
+      'nvim-neotest/nvim-nio',
+      'williamboman/mason.nvim',
+      'jay-babu/mason-nvim-dap.nvim',
+      'theHamsta/nvim-dap-virtual-text',
+      -- languages
+      'mfussenegger/nvim-dap-python',
+    },
+    config = function()
+      require("jc.plugin_configuration").setup_dap()
+    end,
+  },
+  { -- Treesitter
     'nvim-treesitter/nvim-treesitter',
-    run = function()
-      pcall(require('nvim-treesitter.install').update { with_sync = true })
+    build = function()
+        require("nvim-treesitter.install").update({ with_sync = true })()
     end,
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter-textobjects',
+      'romgrk/nvim-treesitter-context',
+    },
     config = function()
-      require("jc.plugin_configuration").treesitter()
+      require("jc.plugin_configuration").setup_treesitter()
     end,
-  }
-  use { -- Additional text objects via treesitter
-    'nvim-treesitter/nvim-treesitter-textobjects',
-    after = 'nvim-treesitter',
-  }
-  use 'romgrk/nvim-treesitter-context'  -- Context of current line
-
-  ---------------
-  -- Telescope --
-  ---------------
-  use {
+  },
+  { -- Telescope
     'nvim-telescope/telescope.nvim',
-    -- branch = '0.1.x',
-    requires = {
+    event = 'VimEnter',
+    dependencies = {
       'nvim-lua/plenary.nvim',
-      'nvim-telescope/telescope-fzf-writer.nvim'  -- Live grep
+      {
+        'nvim-telescope/telescope-fzf-native.nvim',
+        build = 'make',
+      },
+      'nvim-telescope/telescope-ui-select.nvim',
+      'nvim-tree/nvim-web-devicons',
+      'nvim-telescope/telescope-fzf-writer.nvim',
     },
     config = function()
-      require("jc.plugin_configuration").telescope()
+      require("jc.plugin_configuration").setup_telescope()
     end,
-  }
-  use {  -- Faster filtering
-    'nvim-telescope/telescope-fzf-native.nvim',
-    run = 'make',
-    config = function()
-      require('telescope').load_extension('fzf')
-    end
-  }
-  -- use 'nvim-telescope/telescope-dap.nvim' -- Dap integration
-  use 'nvim-telescope/telescope-ui-select.nvim' -- Override default vim ui with telescope
-
-  ---------
-  -- Git --
-  ---------
-  use 'tpope/vim-fugitive'  -- The git plugin
-  use 'tpope/vim-rhubarb'
-  use { -- Show signs!
-    'lewis6991/gitsigns.nvim',
-    config = function() require 'jc.plugin_configuration'.gitsigns() end
-  }
-  use 'rhysd/committia.vim'  -- Better commit message UI
-  use { -- Simple commit history
-    'rhysd/git-messenger.vim',
-    cmd = 'GitMessenger'
-  }
-  use { -- Show current file in github
-    'ruanyl/vim-gh-line',
-    keys = '<Leader>g'
-  }
-  use {  -- PR reviewing from inside neovim
-    'pwntester/octo.nvim',
-    requires = {
-      'nvim-lua/plenary.nvim',
-      'nvim-telescope/telescope.nvim',
-      'kyazdani42/nvim-web-devicons',
+  },
+  { -- Git
+    'tpope/vim-fugitive',
+    dependencies = {
+      'tpope/vim-rhubarb',
+      'rhysd/committia.vim',
+      {
+        'rhysd/git-messenger.vim',
+        cmd = 'GitMessenger'
+      },
+      'lewis6991/gitsigns.nvim',
+      {  -- PR reviewing from inside neovim
+        'pwntester/octo.nvim',
+        requires = {
+          'nvim-lua/plenary.nvim',
+          'nvim-telescope/telescope.nvim',
+          'kyazdani42/nvim-web-devicons',
+        },
+      },
     },
-    config = function() require("octo").setup({
-      suppress_missing_scope = {
-        projects_v2 = true,
-      }
-    }) end
-  }
-
-  ----------------
-  -- Navigation --
-  ----------------
-  use {  -- Jump anywhere
+    config = function()
+      require("jc.plugin_configuration").setup_git()
+    end,
+  },
+  { -- Navigation
     'ggandor/leap.nvim',
-    config = function() require 'jc.plugin_configuration'.leap() end,
-  }
-  use {  -- Override f / t / F / T
-    'ggandor/flit.nvim',
-    config = function() require 'jc.plugin_configuration'.flit() end,
-  }
-  use {  -- Telekinesis
-    'ggandor/leap-spooky.nvim',
-    config = function() require 'jc.plugin_configuration'.spooky() end,
-  }
-  use { -- Mix vim / Tmux pane navigation
-    'christoomey/vim-tmux-navigator',
-    cmd = { 'TmuxNavigateLeft', 'TmuxNavigateRight',
-      'TmuxNavigateUp', 'TmuxNavigateDown' },
-    config = function() require 'jc.plugin_configuration'.tmux_navigator() end
-  }
-  -- use { -- Find keys
-  --   "folke/which-key.nvim",
-  --   config = function() require("which-key").setup {} end
-  -- }
-  use {
-    'ThePrimeagen/harpoon',
-    config = function() require 'harpoon'.setup({
-        mark_branch = false,
-      })
-    end
-  }
-
-  ----------------------
-  -- Custom Operators --
-  ----------------------
-  use 'kana/vim-textobj-user'                    -- Tools 1
-  use 'kana/vim-operator-user'                   -- Tools 2
-  use 'kana/vim-operator-replace'                -- "_" to replace into
-  use 'wellle/targets.vim'                       -- General inside / around
-  use 'tpope/vim-surround'                       -- Surround operators
-
-  ----------------
-  -- Misc tools --
-  ----------------
-  use {
-    "rcarriga/nvim-notify",  -- Notifications
-    config = function() require 'jc.plugin_configuration'.notify() end,
-  }
-  use {
-    "folke/noice.nvim",  -- Notifications
-    config = function() require 'jc.plugin_configuration'.noice() end,
-    requires = {
-      "MunifTanjim/nui.nvim",
-    }
-  }
-  use { -- Commenting tools
-    'numToStr/Comment.nvim',
-    config = function() require('Comment').setup() end,
-  }
-  use 'tpope/vim-sleuth' -- Detect tabstop and shiftwidth automatically
-  use { -- Tabularize
-    'godlygeek/tabular',
-    cmd = 'Tabularize'
-  }
-  use { -- Show colors from color codes
-    'norcalli/nvim-colorizer.lua',
-    config = function() require 'colorizer'.setup() end
-  }
-  use 'junegunn/vim-peekaboo' -- Preview register contents
-  use 'simnalamburt/vim-mundo' -- Better undo
-  use 'tpope/vim-repeat' -- Better repeat
-  use { -- Local vimrc files
-    'embear/vim-localvimrc',
-    config = function() require 'jc.plugin_configuration'.localvimrc() end
-  }
-  use { -- Auto edit as sudo
-    'lambdalisue/suda.vim',
-    config = function() require 'jc.plugin_configuration'.suda() end
-  }
-  use {
-    'voldikss/vim-floaterm', -- Floating terminals
-    config = function() require 'jc.plugin_configuration'.floaterm() end
-  }
-  use 'dawsers/telescope-floaterm.nvim'
-  ----------------
-  -- Appearance --
-  ----------------
-  use {
+    dependencies = {
+      'ggandor/flit.nvim',
+      'ggandor/leap-spooky.nvim',
+      {
+        'christoomey/vim-tmux-navigator',
+        cmd = { 'TmuxNavigateLeft', 'TmuxNavigateRight',
+          'TmuxNavigateUp', 'TmuxNavigateDown' },
+      },
+      'ThePrimeagen/harpoon',
+    },
+    config = function()
+      require("jc.plugin_configuration").setup_navigation()
+    end,
+  },
+  { -- Appearance
     'nvim-lualine/lualine.nvim',  -- Fancier statusline
-    config = function() require'jc.plugin_configuration'.lualine() end,
-  }
-  use {
-    'kevinhwang91/nvim-ufo',
-    config = function() require 'jc.plugin_configuration'.ufo() end,
-    requires = 'kevinhwang91/promise-async'
-  }
-  use { -- Nice welcome window
-    'mhinz/vim-startify',
-    config = function() require 'jc.plugin_configuration'.startify() end
-  }
-  use {
-    'lukas-reineke/indent-blankline.nvim',
-    config = function() require 'jc.plugin_configuration'.indent_lines() end
-  }
-  -- use { -- Better parentheses highlighting
-  --   'luochen1990/rainbow',
-  --   config = function() vim.g.rainbow_active = 1 end
-  -- }
-  use 'kyazdani42/nvim-web-devicons' -- Nice icons
-  use 'ryanoasis/vim-devicons' -- Moar nice icons
-  use 'yamatsum/nvim-web-nonicons' -- Always moar nice icons
-  use { -- Highlight undo block
-    'tzachar/highlight-undo.nvim',
-    config = function() require 'jc.plugin_configuration'.highlight_undo() end
-  }
-  use {
-    'Pocco81/true-zen.nvim',
-    config = function() require('true-zen').setup({}) end,
-  }
+    dependencies = {
+      'mhinz/vim-startify', -- Welcome window
+      'lukas-reineke/indent-blankline.nvim', -- Indent lines
+      -- Colorschemes start here
+      'folke/twilight.nvim',
+      'jacoborus/tender.vim',
+      'axvr/photon.vim',
+      'drewtempelmeyer/palenight.vim',
+      {
+        'folke/tokyonight.nvim',
+        lazy = false
+      },
+      "catppuccin/nvim",
+    },
+    config = function()
+      require("jc.plugin_configuration").setup_appearance()
+    end,
+  },
+  { -- Custom text objects
+    'wellle/targets.vim',
+    dependencies = {
+      'kana/vim-textobj-user',
+      'kana/vim-operator-user',
+      'kana/vim-operator-replace',
+      'tpope/vim-surround',
+    },
+  },
+  ---------------------------- Misc -------------------------------
+  {
+    'tzachar/highlight-undo.nvim', -- Highlight undo
+    event = "VeryLazy",
+    opts = {
+      duration = 300,
+    }
+  },
+  'jcavallo/tryton-vim',
+},
+{
+  ui = {
+    -- If you are using a Nerd Font: set icons to an empty table which will use the
+    -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
+    icons = vim.g.have_nerd_font and {} or {
+      cmd = '⌘',
+      config = '🛠',
+      event = '📅',
+      ft = '📂',
+      init = '⚙',
+      keys = '🗝',
+      plugin = '🔌',
+      runtime = '💻',
+      require = '🌙',
+      source = '📄',
+      start = '🚀',
+      task = '📌',
+      lazy = '💤 ',
+    },
+  },
+})
 
-  -----------------
-  -- Colorchemes --
-  -----------------
-  use {
-    'folke/twilight.nvim',
-    config = function() require 'twilight'.setup({ contex = 20 }) end
-  }
-  use {
-    'jacoborus/tender.vim',
-    config = function() require 'jc.plugin_configuration'.tender() end
-  }
-  use 'axvr/photon.vim'
-  use 'drewtempelmeyer/palenight.vim'
-  use {
-    'folke/tokyonight.nvim',
-    config = function() require 'jc.plugin_configuration'.tokyonight() end
-  }
-  use {
-    'ful1e5/onedark.nvim',
-    config = function() require 'jc.plugin_configuration'.onedark() end
-  }
-  use {
-    "catppuccin/nvim",
-    as = "catppuccin"
-  }
-
-  use 'jcavallo/tryton-vim'                       -- Tryton
-
-  ------------------------------------
-  -- Force packer sync on first run --
-  ------------------------------------
-  if vim.g.packer_bootstraping then
-    require('packer').sync()
-  end
-end
-)
+-- vim: ts=2 sts=2 sw=2 et
