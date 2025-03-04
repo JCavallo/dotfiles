@@ -57,6 +57,16 @@ function M.ts_find_siblings (parent_type, target_types)
   return results
 end
 
+function M.ts_tryton_current_function()
+  local vts = vim.treesitter
+  local parent_node = M.ts_parent_from_node(
+    vts.get_node(), 'function_definition')
+  if parent_node == nil then
+    return
+  end
+  return vts.get_node_text(parent_node:child(1), vim.fn.bufnr())
+end
+
 function M.ts_tryton_current_model()
   local vts = vim.treesitter
   local parent_node = M.ts_parent_from_node(vts.get_node(), 'class_definition')

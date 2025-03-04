@@ -63,7 +63,7 @@ local function _get_buffer_project_path(gitfallback)
 end
 
 local function _buffer_project_files(include_all)
-  local project_path = _get_buffer_project_path(false)
+  local project_path = _get_buffer_project_path(true)
   if project_path then
     if include_all then
       require('telescope.builtin').find_files({
@@ -229,6 +229,110 @@ end
 ----------------------
 -- Sibling searcher --
 ----------------------
+
+local function _ast_grep_with_rule(rule, path, telescope_opts)
+  local pickers = require("telescope.pickers")
+  local conf = require('telescope.config').values
+  local finders = require("telescope.finders")
+  local data = vim.system(
+    { 'sg', 'scan', '--json', '--inline-rules', rule },
+    { text = true, cwd = path }):wait()
+  local results = {}
+  for _, result in pairs(vim.json.decode(data.stdout)) do
+    table.insert(results,
+      path .. '/' .. result.file .. ':' ..
+      result.range.start.line + 1 .. ':'
+      .. result.range.start.column .. ':'
+      .. string.match(result.text, "^([^\r\n]*)"))
+  end
+  if results == nil then
+    return
+  end
+
+  telescope_opts.symbol_width = 200
+  telescope_opts.show_line = false
+  pickers.new(telescope_opts, {
+      prompt_title = telescope_opts.prompt_title or "Filter",
+      finder = finders.new_table {
+          results = results,
+          entry_maker = telescope_opts.entry_maker or
+            require('telescope.make_entry').gen_from_vimgrep(telescope_opts),
+      },
+      sorter = conf.generic_sorter(telescope_opts),
+      previewer = conf.grep_previewer(telescope_opts),
+  })
+  :find()
+end
+
+function M.tryton_function_overrides(params)
+  if params == nil then
+    params = {}
+  end
+  if params.function_name == 'ask' then
+    params.function_name = vim.fn.input('Function Name: ')
+  elseif params.function_name == 'cursor' then
+    params.function_name = vim.fn.expand("<cword>")
+  elseif params.function_name == 'current' then
+    params.function_name = require('jc.utils').ts_tryton_current_function()
+    params.model_name = 'current'
+  end
+  if params.model_name == nil then
+    local default_model = _get_tryton_name(true) or 'nil'
+    params.model_name = vim.fn.input('Model Name (' .. default_model .. '): ')
+    if params.model_name == nil or params.model_name == '' then
+      params.model_name = default_model
+    end
+  elseif params.model_name == 'cursor' then
+    params.model_name = _get_tryton_name(false)
+  elseif params.model_name == 'current' then
+    params.model_name = _get_tryton_name(true)
+  end
+  local path
+  if params.path == 'buffer' then
+    path = vim.fn.expand('%:p:h')
+  elseif params.path == 'directory' then
+    path = vim.fn.getcwd()
+  elseif params.path == 'project' or params.path == nil then
+    path = _get_buffer_project_path(true)
+  elseif params.path == 'module' then
+    path = _get_tryton_module_path()
+  elseif params.path == 'git' then
+    path = _get_buffer_git_path()
+  end
+  local rule
+  if params.function_name == nil then
+    rule = [[
+id: setup_overrides
+language: Python
+rule:
+  kind: class_definition
+  has:
+    stopBy:
+      kind: expression_statement
+    kind: expression_statement
+    has:
+      pattern: __name__ = ']] .. params.model_name .. "'"
+  else
+    rule = [[
+id: setup_overrides
+language: Python
+rule:
+  kind: function_definition
+  pattern: def ]] .. params.function_name .. [[
+
+  inside:
+    stopBy:
+      kind: class_definition
+    kind: class_definition
+    has:
+      stopBy:
+        kind: expression_statement
+      kind: expression_statement
+      has:
+        pattern: __name__ = ']] .. params.model_name .. "'"
+  end
+  return _ast_grep_with_rule(rule, path, params.opts or {})
+end
 
 function M.treesitter_siblings(opts)
   local pickers = require("telescope.pickers")
