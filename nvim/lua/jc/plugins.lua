@@ -116,15 +116,16 @@ require('lazy').setup({
     end,
   },
   { -- Git
-    'tpope/vim-fugitive',
+    'lewis6991/gitsigns.nvim',
+    event = 'VimEnter',
     dependencies = {
+      'tpope/vim-fugitive',
       'tpope/vim-rhubarb',
       'rhysd/committia.vim',
       {
         'rhysd/git-messenger.vim',
         cmd = 'GitMessenger'
       },
-      'lewis6991/gitsigns.nvim',
       {  -- PR reviewing from inside neovim
         'pwntester/octo.nvim',
         requires = {
