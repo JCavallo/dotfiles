@@ -8,15 +8,14 @@ dl_wallpaper() {
     export DISPLAY=:0
     UA="Mozilla/5.0 (iPad; U; CPU OS 3_2_1 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Mobile/7B405"
     CAT=$(echo -e "travel\nfantasy\nspace\nnature" | shuf -n1)
-    CAT=space
+    # CAT=space
     URL=https://wallpaperswide.com/download$( \
         curl -sc /tmp/wallpaperswide.cookie -s \
-            https://wallpaperswide.com/${CAT}-desktop-wallpapers/page/` \
-                shuf -i 1-60 -n 1` \
+            https://wallpaperswide.com/${CAT}-desktop-wallpapers/page/"$(shuf -i 1-60 -n 1)" \
             | grep -o "\/[^\"]*-wallpapers.html" | grep -v "desktop" | uniq | \
             shuf -n1 | sed 's/wallpapers.html/wallpaper-3840x2160.jpg/g')
 
-    FILENAME=/tmp/random_wallpaper/"$CAT"-$(basename "${URL}")
+    FILENAME=/tmp/random_wallpaper/"$(date +%Y%m%d-%H%M)-$CAT"-$(basename "${URL}")
     curl -s --cookie /tmp/wallpaperswide.cookie -A "${UA}" "${URL}" -o "${FILENAME}"
 }
 
@@ -28,19 +27,19 @@ _fetch() {
         rm -f /tmp/random_wallpaper/*
         dl_wallpaper
         filename=$(ls -1 /tmp/random_wallpaper/ | head -n1)
-        filesize=$(wc -c /tmp/random_wallpaper/$filename | awk '{print $1}')
+        filesize=$(wc -c /tmp/random_wallpaper/"$filename" | awk '{print $1}')
         if [[ $filesize != 0 ]]; then
-            cp /tmp/random_wallpaper/$filename "$WALLPAPER_FOLDER"
-            cp /tmp/random_wallpaper/$filename "$WALLPAPER_FOLDER/last_wallpaper"
+            cp /tmp/random_wallpaper/"$filename" "$WALLPAPER_FOLDER"
+            cp /tmp/random_wallpaper/"$filename" "$WALLPAPER_FOLDER/last_wallpaper"
             break
         fi
     done
-    _display $filename
+    _display "$filename"
 }
 export -f _fetch
 
 fetch() {
-    _fetch 2>&1 >/dev/null
+    _fetch >/dev/null 2>&1
     echo last_wallpaper
     ls -I last_wallpaper
 }
