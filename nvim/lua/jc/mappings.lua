@@ -227,6 +227,8 @@ map_tele('fad', "find_all_files")                     -- current directory
 map_tele('fac', "all_files_current_buffer_directory") -- current buffer directory
 map_tele('fap', "buffer_project_all_files")           -- current buffer project
 
+map_tele('gdh', "git_hunks")                          -- current directory git hunks
+
 map_tele('sgc', "git_search")                         -- Live search in git project
 map_tele('sdc', "directory_search")                   -- Live search in directory
 map_tele('scc', "buffer_search")                      -- Live search in current buffer

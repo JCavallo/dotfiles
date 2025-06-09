@@ -1,5 +1,7 @@
 local M = {}
 
+local jc_utils = require('jc.utils')
+
 function M.builtin()
   require('telescope.builtin').builtin()
 end
@@ -46,10 +48,6 @@ local function _get_buffer_git_path()
   return require('lspconfig.util').root_pattern('.git')(vim.fn.expand('%:p'))
 end
 
-local function _get_tryton_module_path()
-  return require('lspconfig.util').root_pattern('tryton.cfg')(vim.fn.expand('%:p'))
-end
-
 local function _get_buffer_project_path(gitfallback)
   local project_path = os.getenv('PROJECT_PATH')
   if not project_path then
@@ -90,7 +88,7 @@ end
 
 function M.buffer_tryton_module_files()
   require('telescope.builtin').find_files(
-    {cwd = _get_tryton_module_path()})
+    {cwd = jc_utils.tryton_module_path()})
 end
 
 local function _live_grep(dir, path_display, default)
@@ -123,7 +121,7 @@ function M.live_git_grep()
 end
 
 function M.live_tryton_module_grep()
-  _live_grep(_get_tryton_module_path())
+  _live_grep(jc_utils.tryton_module_path())
 end
 
 function M.buffer_grep()
@@ -156,7 +154,7 @@ function M.git_search()
 end
 
 function M.tryton_module_search()
-  _grep_string(_get_tryton_module_path())
+  _grep_string(jc_utils.tryton_module_path())
 end
 
 
@@ -166,7 +164,7 @@ local _get_tryton_name = function (current)
     return vim.fn.getreg('j')
   end
   if current == true then
-    return require('jc.utils').ts_tryton_current_model()
+    return jc_utils.ts_tryton_current_model()
   else
     vim.cmd([[normal "jyi']])
     return vim.fn.getreg('j')
@@ -193,7 +191,7 @@ end
 
 function M.tryton_model_module_grep(opts)
   local name = _get_tryton_name(opts.current)
-  _live_grep(_get_tryton_module_path(), 'full',
+  _live_grep(jc_utils.tryton_module_path(), 'full',
     "__name__ = '" .. name .. "'")
 end
 
@@ -217,7 +215,7 @@ end
 
 function M.tryton_field_module_grep()
   vim.cmd([[normal "jyiw]])
-  _live_grep(_get_tryton_module_path(), 'full',
+  _live_grep(jc_utils.tryton_module_path(), 'full',
     " " .. vim.fn.getreg('j') .. " = fields.")
 end
 
@@ -273,7 +271,7 @@ function M.tryton_function_overrides(params)
   elseif params.function_name == 'cursor' then
     params.function_name = vim.fn.expand("<cword>")
   elseif params.function_name == 'current' then
-    params.function_name = require('jc.utils').ts_tryton_current_function()
+    params.function_name = jc_utils.ts_tryton_current_function()
     params.model_name = 'current'
   end
   if params.model_name == nil then
@@ -295,7 +293,7 @@ function M.tryton_function_overrides(params)
   elseif params.path == 'project' or params.path == nil then
     path = _get_buffer_project_path(true)
   elseif params.path == 'module' then
-    path = _get_tryton_module_path()
+    path = jc_utils.tryton_module_path()
   elseif params.path == 'git' then
     path = _get_buffer_git_path()
   end
@@ -338,8 +336,7 @@ function M.treesitter_siblings(opts)
   local pickers = require("telescope.pickers")
   local conf = require('telescope.config').values
   local finders = require("telescope.finders")
-  local utils = require('jc.utils')
-  local results = utils.ts_find_siblings(opts.parent, opts.targets)
+  local results = jc_utils.ts_find_siblings(opts.parent, opts.targets)
   if results == nil then
     return
   end
@@ -357,6 +354,38 @@ function M.treesitter_siblings(opts)
       previewer = conf.grep_previewer(opts),
   })
   :find()
+end
+
+-- Credits @ https://www.petergundel.de/git/neovim/telescope/2023/03/22/git-jump-in-neovim-with-telescope.html
+function M.git_hunks()
+  require("telescope.pickers")
+    .new({
+      finder = require("telescope.finders").new_oneshot_job({ "git", "jump", "--stdout", "diff" }, {
+        entry_maker = function(line)
+          local filename, lnum_string = line:match("([^:]+):(%d+).*")
+
+          -- I couldn't find a way to use grep in new_oneshot_job so we have to filter here.
+          -- return nil if filename is /dev/null because this means the file was deleted.
+          if filename:match("^/dev/null") then
+            return nil
+          end
+
+          return {
+            value = filename,
+            display = line,
+            ordinal = line,
+            filename = filename,
+            lnum = tonumber(lnum_string),
+          }
+        end,
+      }),
+      sorter = require("telescope.sorters").get_generic_fuzzy_sorter(),
+      previewer = require("telescope.config").values.grep_previewer({}),
+      results_title = "Git hunks",
+      prompt_title = "Git hunks",
+      layout_strategy = "vertical",
+    }, {})
+    :find()
 end
 
 return setmetatable({}, {
