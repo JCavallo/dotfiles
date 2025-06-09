@@ -308,8 +308,9 @@ map('<Leader>lA', '<cmd>call JCAddLogging(-1)<CR>')
 map('<Leader>lr', '<cmd>call JCRemoveLogging()<CR>')
 
 -- Copy full path of current file to the clipboard
-map('<Leader>p', ':let @+=expand("%:p")<CR>:echo "Copied current file '
+map('<Leader>cp', ':let @+=expand("%:p")<CR>:echo "Copied current file '
   .. 'path \'".expand("%:p")."\' to the clipboard"<CR>"')
+map('<Leader>cl', [[<cmd>lua require('jc.utils').copy_current_location()<CR>]])
 
 -- (Python) debugger
 map('<Leader>pa', '<cmd>call JCAddBreakpoint(0)<CR>')

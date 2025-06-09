@@ -1,5 +1,28 @@
 local M = {}
 
+function M.tryton_module_path()
+  return require('lspconfig.util').root_pattern('tryton.cfg')(vim.fn.expand('%:p'))
+end
+
+function M.copy_current_location()
+  local ts = vim.treesitter
+  local module_name = vim.fn.fnamemodify(M.tryton_module_path(), ':t')
+  local file_name = vim.fn.fnamemodify(vim.fn.expand('%'), ':p:t')
+  local class_name = ts.get_node_text(
+    M.ts_parent_from_node(ts.get_node(), 'class_definition'):child(1),
+    vim.fn.bufnr())
+  local contents = module_name .. '/' .. file_name .. '@' .. class_name
+  local current_func = M.ts_parent_from_node(
+    ts.get_node(), 'function_definition')
+  if current_func ~= nil then
+    contents = contents .. '::' .. ts.get_node_text(
+      current_func:child(1), vim.fn.bufnr())
+
+  end
+  vim.fn.setreg('+', contents)
+  print('Copied "' .. contents .. '"')
+end
+
 function M.ts_parent_from_node (base_node, target_type)
   if not base_node then
     return nil
