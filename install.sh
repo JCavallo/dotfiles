@@ -301,6 +301,12 @@ if [[ ! -e "$HOME/tools" ]]; then
     chronic git clone https://github.com/bigH/git-fuzzy.git
 fi
 
+# Git jump
+if [[ ! -e "$HOME/bin/git-jump" ]] && [[ -d /usr/share/doc/git/contrib/git-jump ]]; then
+    ln -s /usr/share/doc/git/contrib/git-jump/git-jump "$HOME/bin/git-jump"
+    sudo chmod +x "/usr/share/doc/git/contrib/git-jump/git-jump"
+fi
+
 if [[ ! "$(command -v ptpython)" ]]; then
     echo_comment "Installing ptpython"
     chronic pip3 install --user ptpython
