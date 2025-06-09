@@ -363,6 +363,11 @@ if [[ "$(command -v yarn)" ]]; then
     export PATH="$yarn_path:$PATH"
 fi
 
+if [[ "$(command -v n)" ]]; then
+    n_path="$HOME/n/bin"
+    export PATH="$n_path:$PATH"
+fi
+
 if [[ -e "/usr/local/go" ]]; then
     export PATH=$PATH:/usr/local/go/bin
 fi
