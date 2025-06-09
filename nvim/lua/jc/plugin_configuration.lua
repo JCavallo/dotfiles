@@ -169,28 +169,33 @@ function M.setup_lsp()
         [vim.diagnostic.severity.HINT] = '󰌶 ',
       },
     },
-    -- virtual_text = {
-    --   source = 'if_many',
-    --   spacing = 2,
-    --   format = function(diagnostic)
-    --     local diagnostic_message = {
-    --       [vim.diagnostic.severity.ERROR] = diagnostic.message,
-    --       [vim.diagnostic.severity.WARN] = diagnostic.message,
-    --       [vim.diagnostic.severity.INFO] = diagnostic.message,
-    --       [vim.diagnostic.severity.HINT] = diagnostic.message,
-    --     }
-    --     return diagnostic_message[diagnostic.severity]
-    --   end,
-    -- },
-    virtual_lines = {
+    virtual_text = {
+      source = false,
+      spacing = 2,
       format = function(diagnostic)
-        if vim.bo.filetype == "lazy" then
-          return nil
-        end
-        return diagnostic.message
+        local diagnostic_message = {
+          [vim.diagnostic.severity.ERROR] = '󰅚 ',
+          [vim.diagnostic.severity.WARN] = '󰀪 ',
+          [vim.diagnostic.severity.INFO] = '󰋽 ',
+          [vim.diagnostic.severity.HINT] = '󰌶 ',
+        }
+        return diagnostic_message[diagnostic.severity]
       end,
     },
-    update_on_insert = false
+    virtual_lines = {
+      current_line = true,
+      format = function(diagnostic)
+        if vim.bo.filetype == "lazy" or vim.o.diff == true then
+          return nil
+        end
+        if diagnostic.code ~= nil then
+          return '[' .. diagnostic.code .. '] ' .. diagnostic.message
+        else
+          return diagnostic.message
+        end
+      end,
+    },
+    update_in_insert = false
   })
   -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
   local capabilities = vim.lsp.protocol.make_client_capabilities()
