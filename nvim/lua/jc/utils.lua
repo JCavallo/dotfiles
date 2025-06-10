@@ -4,6 +4,24 @@ function M.tryton_module_path()
   return require('lspconfig.util').root_pattern('tryton.cfg')(vim.fn.expand('%:p'))
 end
 
+function M.must_auto_format(path)
+  local autoformat_patterns = os.getenv("AUTOFORMAT_PATTERNS")
+
+  if not autoformat_patterns then
+    return true
+  end
+  local patterns = {}
+  for pattern in string.gmatch(autoformat_patterns, "[^;]+") do
+      table.insert(patterns, pattern)
+  end
+  for _, pattern in ipairs(patterns) do
+      if string.match(path, pattern) then
+        return true
+      end
+  end
+  return false
+end
+
 function M.copy_current_location()
   local ts = vim.treesitter
   local module_name = vim.fn.fnamemodify(M.tryton_module_path(), ':t')

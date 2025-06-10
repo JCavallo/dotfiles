@@ -69,6 +69,12 @@ require('lazy').setup({
       require("jc.plugin_configuration").setup_lsp()
     end,
   },
+  { -- Autoformatting
+    'stevearc/conform.nvim',
+    config = function()
+      require("jc.plugin_configuration").setup_formatting()
+    end,
+  },
   { --Debug
     'mfussenegger/nvim-dap',
     event = "BufReadPre",
