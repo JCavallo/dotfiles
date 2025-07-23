@@ -52,7 +52,7 @@ require('lazy').setup({
       'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
       'jay-babu/mason-null-ls.nvim',
-      'jose-elias-alvarez/null-ls.nvim',
+      'nvimtools/none-ls.nvim',
       {
         'folke/lazydev.nvim',
         ft = 'lua',

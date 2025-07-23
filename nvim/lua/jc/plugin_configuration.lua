@@ -133,33 +133,13 @@ function M.setup_lsp()
 		end, { desc = "Format current buffer with LSP" })
 	end
 
-	local servers = {
-		-- clangd = {},
-		-- gopls = {},
-		pylsp = {
-			pylsp = {
-				plugins = {
-					pyls_mpypy = { enabled = true },
-					-- flake8 = { enabled = true },
-				},
-			},
-		},
-		rust_analyzer = {},
-		lua_ls = {
-			Lua = {
-				workspace = { checkThirdParty = false },
-				telemetry = { enable = false },
-			},
-		},
-		ts_ls = {},
-		bashls = {},
-	}
-
 	vim.diagnostic.config({
-		underline = { severity = {
-			vim.diagnostic.severity.WARN,
-			vim.diagnostic.severity.ERROR,
-		} },
+		underline = {
+			severity = {
+				vim.diagnostic.severity.WARN,
+				vim.diagnostic.severity.ERROR,
+			},
+		},
 		signs = {
 			text = {
 				[vim.diagnostic.severity.ERROR] = "󰅚 ",
@@ -207,20 +187,32 @@ function M.setup_lsp()
 	local mason_lspconfig = require("mason-lspconfig")
 
 	mason_lspconfig.setup({
-		ensure_installed = vim.tbl_keys(servers),
+		ensure_installed = { "pylsp", "rust_analyzer", "lua_ls", "ts_ls", "bashls" },
 	})
 
-	mason_lspconfig.setup_handlers({
-		function(server_name)
-			require("lspconfig")[server_name].setup({
-				capabilities = capabilities,
-				on_attach = on_attach,
-				settings = servers[server_name],
-			})
-		end,
+	vim.lsp.config("*", {
+		on_attach = on_attach,
+		capabilities = capabilities,
 	})
 
 	local lspconfig = require("lspconfig")
+	lspconfig.pylsp.setup({
+		pylsp = {
+			plugins = {
+				pyls_mpypy = { enabled = true },
+				-- flake8 = { enabled = true },
+			},
+		},
+	})
+	lspconfig.rust_analyzer.setup({})
+	lspconfig.lua_ls.setup({
+		Lua = {
+			workspace = { checkThirdParty = false },
+			telemetry = { enable = false },
+		},
+	})
+	lspconfig.ts_ls.setup({})
+	lspconfig.bashls.setup({})
 	local configs = require("lspconfig.configs")
 	if not configs.tryton_analyzer then
 		local function analyzer_dev()
@@ -247,7 +239,7 @@ function M.setup_lsp()
 	require("mason-null-ls").setup({
 		handlers = {},
 		-- ensure_installed = { "sql_formatter", "xmlformatter", "jq", "mypy" },
-		ensure_installed = { "sql_formatter", "xmlformatter", "jq" },
+		ensure_installed = { "sql_formatter", "xmlformatter", "jq", "stylua" },
 		automatic_installation = true,
 	})
 	local null_ls = require("null-ls")
@@ -351,7 +343,21 @@ end
 
 function M.setup_treesitter()
 	require("nvim-treesitter.configs").setup({
-		ensure_installed = "all",
+		ensure_installed = {
+			"lua",
+			"c",
+			"rust",
+			"javascript",
+			"python",
+			"go",
+			"json",
+			"yaml",
+			"bash",
+			"xml",
+			"css",
+			"html",
+			"po",
+		},
 		highlight = {
 			enable = true, -- false will disable the whole extension
 		},
