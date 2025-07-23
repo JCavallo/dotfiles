@@ -265,39 +265,40 @@ function M.setup_lsp()
 end
 
 function M.setup_formatting()
-	require("conform").setup({
+	local formatter_maker = function(params)
+		return function(bufnr)
+			if not require("jc.utils").must_auto_format(vim.api.nvim_buf_get_name(bufnr)) then
+				return {}
+			end
+			return params
+		end
+	end
+	conform = require("conform")
+	conform.setup({
+		log_level = vim.log.levels.INFO,
 		formatters_by_ft = {
+			css = formatter_maker({ "cssls", lsp_format = "fallback" }),
+			less = formatter_maker({ "prettierd", "prettier", stop_after_first = true }),
 			lua = { "stylua" },
 			json = { "jq" },
-			python = function(bufnr)
-				if not require("jc.utils").must_auto_format(vim.api.nvim_buf_get_name(bufnr)) then
-					print("no auto format")
-					return {}
-				end
-				if require("conform").get_formatter_info("ruff_format", bufnr).available then
-					return { "ruff_format" }
-				else
-					return { "isort", "black" }
-				end
-			end,
+			python = formatter_maker({ "black" }),
 			rust = { "rustfmt", lsp_format = "fallback" },
-			javascript = { "prettierd", "prettier", stop_after_first = true },
-			xml = function(bufnr)
-				if not require("jc.utils").must_auto_format(vim.api.nvim_buf_get_name(bufnr)) then
-					print("no auto format")
-					return {}
-				end
-				return { "xmllint" }
-			end,
+			javascript = formatter_maker({ "prettierd", "prettier", stop_after_first = true }),
+			xml = formatter_maker({ "xmllint" }),
 			yaml = { "yq" },
 		},
 		notify_on_error = true,
 		notify_no_formatters = true,
 		format_on_save = {
-			lsp_format = "fallback",
-			timeout_ms = 500,
+			lsp_format = "never",
+			timeout_ms = 4000,
 		},
 	})
+	conform.formatters.xmllint = {
+		env = {
+			XMLLINT_INDENT = "    ",
+		},
+	}
 end
 
 function M.setup_telescope()
