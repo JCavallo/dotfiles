@@ -27,6 +27,7 @@
     file-style = bold blue
     file-decoration-style = bold blue ul
     hunk-header-style = line-number syntax italic
+    tabs = 2
 [interactive]
     diffFilter = delta --color-only
 ; [pager]
