@@ -1,8 +1,8 @@
 #!/usr/bin/bash
-if hash keychain 2>/dev/null; then
-    eval "$(keychain --systemd --eval --agents ssh id_rsa)"
-    TERM=linux clear
-fi
+# if hash keychain 2>/dev/null; then
+#     eval "$(keychain --systemd --eval --agents ssh id_rsa)"
+#     TERM=linux clear
+# fi
 
 export WORKON_HOME=$HOME/Projets/python_envs
 if [ -f "$HOME/.local/bin/virtualenvwrapper.sh" ]; then
