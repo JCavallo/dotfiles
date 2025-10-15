@@ -195,8 +195,7 @@ function M.setup_lsp()
 		capabilities = capabilities,
 	})
 
-	local lspconfig = require("lspconfig")
-	lspconfig.pylsp.setup({
+	vim.lsp.config("pylsp", {
 		pylsp = {
 			plugins = {
 				pyls_mpypy = { enabled = true },
@@ -204,19 +203,19 @@ function M.setup_lsp()
 			},
 		},
 	})
-	lspconfig.rust_analyzer.setup({})
-	lspconfig.lua_ls.setup({
+	vim.lsp.config("rust_analyzer", {})
+	vim.lsp.config("lua_ls", {
 		Lua = {
 			workspace = { checkThirdParty = false },
 			telemetry = { enable = false },
 		},
 	})
-	lspconfig.ts_ls.setup({})
-	lspconfig.bashls.setup({})
+	vim.lsp.config("ts_ls", {})
+	vim.lsp.config("bashls", {})
 	local configs = require("lspconfig.configs")
 	if not configs.tryton_analyzer then
 		local function analyzer_dev()
-			local root_analyzer = lspconfig.util.root_pattern("tryton_analyzer")(vim.fn.getcwd())
+			local root_analyzer = require("lspconfig.util").root_pattern("tryton_analyzer")(vim.fn.getcwd())
 			if root_analyzer ~= nil then
 				return { root_analyzer .. "/.venv/bin/python", root_analyzer .. "/.venv/bin/tryton-ls" }
 			else
@@ -227,12 +226,12 @@ function M.setup_lsp()
 			default_config = {
 				cmd = analyzer_dev(),
 				filetypes = { "python", "xml" },
-				root_dir = lspconfig.util.root_pattern(".git"),
+				root_dir = require("lspconfig.util").root_pattern(".git"),
 				settings = {},
 			},
 		}
 	end
-	lspconfig.tryton_analyzer.setup({
+	vim.lsp.config("tryton_analyzer", {
 		capabilities = capabilities,
 		on_attach = on_attach,
 	})
