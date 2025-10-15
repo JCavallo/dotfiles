@@ -1,0 +1,12 @@
+#!/bin/bash
+set -euo pipefail
+
+config="$HOME/dotfiles/wofi/config"
+
+if [[ "$(toggle-theme get)" = dark ]]; then
+    style="$HOME/dotfiles/wofi/dark.css"
+else
+    style="$HOME/dotfiles/wofi/light.css"
+fi
+
+wofi --conf "$config" --style "$style" --show drun
