@@ -13,7 +13,7 @@ dl_wallpaper() {
         curl -sc /tmp/wallpaperswide.cookie -s \
             https://wallpaperswide.com/${CAT}-desktop-wallpapers/page/"$(shuf -i 1-60 -n 1)" \
             | grep -o "\/[^\"]*-wallpapers.html" | grep -v "desktop" | uniq | \
-            shuf -n1 | sed 's/wallpapers.html/wallpaper-3840x2160.jpg/g')
+            shuf -n1 | sed 's/wallpapers.html/wallpaper-3440x1440.jpg/g')
 
     FILENAME=/tmp/random_wallpaper/"$(date +%Y%m%d-%H%M)-$CAT"-$(basename "${URL}")
     curl -s --cookie /tmp/wallpaperswide.cookie -A "${UA}" "${URL}" -o "${FILENAME}"
@@ -80,11 +80,15 @@ remove_all() {
 
 export -f remove_all
 
-wallpaper=$((echo last_wallpaper && ls -I last_wallpaper) | \
-    fzf --preview='_display {1}' --preview-window=right,0 \
-    --bind='ctrl-d:reload(remove {})'\
-    --bind='ctrl-x:reload(remove_all)'\
-    --bind='ctrl-n:reload(fetch)+change-prompt()')
+if [[ "$1" = last ]] && [[ -e "$WALLPAPER_FOLDER"/last_wallpaper ]]; then
+    wallpaper=last_wallpaper
+else
+    wallpaper=$( (echo last_wallpaper && ls -I last_wallpaper) | \
+        fzf --preview='_display {1}' --preview-window=right,0 \
+        --bind='ctrl-d:reload(remove {})'\
+        --bind='ctrl-x:reload(remove_all)'\
+        --bind='ctrl-n:reload(fetch)+change-prompt()')
+fi
 
 if [[ "$wallpaper" ]]; then
     _display "$wallpaper"
