@@ -18,34 +18,40 @@ if [[ -e "$canary" ]]; then
     current=$(cat "$canary")
 fi
 
+if [[ "${1:-nope}" = get ]]; then
+    echo "$current"
+    exit 0
+fi
+
 if [[ "$current" = "dark" ]]; then
-    kitty_theme=$kitty_light
-    tmux_theme=$tmux_light
-    delta_theme=$delta_light
+    kitty_theme="$kitty_light"
+    tmux_theme="$tmux_light"
+    delta_theme="$delta_light"
     new=light
 else
-    kitty_theme=$kitty_dark
-    tmux_theme=$tmux_dark
-    delta_theme=$delta_dark
+    kitty_theme="$kitty_dark"
+    tmux_theme="$tmux_dark"
+    delta_theme="$delta_dark"
     new=dark
 fi
 
 echo "$new" > "$canary"
 
-has_tmux=$((ps ax | grep tmux | grep -v grep) || echo nope)
+has_tmux="$(pgrep tmux || echo nope)"
 if [[ "$has_tmux" != "nope" ]]; then
-    tmux set -g $tmux_theme
+    # shellcheck disable=SC2086
+    tmux set -g $tmux_theme 
     tmux source "$HOME/.tmux.conf"
 fi
 if [[ "$(command -v kitty)" ]]; then
     kitty +kitten themes --reload-in=all $kitty_theme 2>/dev/null || \
-        kitty +kitten themes --reload-in=all --cache-age=-1 $kitty_theme
+        kitty +kitten themes --reload-in=all --cache-age=-1 "$kitty_theme"
 fi
 git config --global delta.features "side-by-side line-numbers decorations $delta_theme"
 
 if [[ -e /run/user/"$UID" ]]; then
     for neovim in /run/user/"$UID"/nvim*; do
-        if [[ "$neovim" != "/run/user/"$UID"/nvim*" ]]; then
+        if [[ "$neovim" != "/run/user/$UID/nvim*" ]]; then
             python3 "$neovim_script" "$neovim" "$new"
         fi
     done
