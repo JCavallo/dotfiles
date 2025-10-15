@@ -70,7 +70,7 @@ window#waybar {
     font-size: 1.5em;
 }
 
-#clock, #battery, #network, #pulseaudio, #tray, #mode {
+#clock, #battery, #network, #pulseaudio, #tray, #mode, #power {
     padding-left: 0.4em;
     padding-right: 0.4em;
     font-size: 1em;
