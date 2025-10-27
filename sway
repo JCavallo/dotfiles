@@ -339,6 +339,7 @@ gaps inner 30
 # exec way-displays > /tmp/way-displays.${XDG_VTNR}.${USER}.log 2>&1
 # output Virtual-1 mode --custom "3840x2160@60Hz"
 output '"Ancor Communications Inc ROG PG27AQ #ASNoSqgl2MLd"' scale 1.5 pos 0 0
+output '"Dell Inc. AW3425DW 835G274"' mode --custom 3440x1440@30
 output '"Dell Inc. DELL P2418D MY3ND96I0KMT"' scale 1
 output eDP-1 pos 300 1440
 
