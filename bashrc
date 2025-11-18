@@ -30,9 +30,9 @@ function paged_ripgrep() {
     rg -p "$@" | less -RFX
 }
 
-alias la='exa -Fa'
-alias ll='exa -Flh -s name'
-alias lla='exa -Falh -s name'
+alias la='eza -a'
+alias ll='eza -lh -s name'
+alias lla='eza -alh -s name'
 alias ls=exa
 alias cdve='cd $VIRTUAL_ENV'
 alias cdpr='cd $PROJECT_PATH'
