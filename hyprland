@@ -21,8 +21,25 @@
 ################
 
 # See https://wiki.hyprland.org/Configuring/Monitors/
-monitor=,preferred,auto,auto
+monitorv2 {
+    output = HDMI-A-2
+    mode = 3440x1440@239.98
+    position = 0x0
+    scale = 1
+    supports_wide_color = 1
+    supports_hdr = 1
+    bitdepth = 10
+}
+# monitor=HDMI-A-2,3440x1440@239.98,auto,auto,bitdepth,10,cm,hdr
 
+render {
+    direct_scanout = 1
+    cm_fs_passthrough = 2
+}
+
+experimental {
+    xx_color_management_v4 = true
+}
 
 ###################
 ### MY PROGRAMS ###
@@ -60,8 +77,10 @@ exec-once = mako
 exec-once = wallpaper last
 exec-once = waybar
 exec-once = [workspace 2] brave --profile-directory=Perso
-exec-once = [workspace 3] brave --profile-directory=Pro
+exec-once = [workspace 3] sleep 2 && brave --profile-directory=Pro
+exec-once = [workspace 7] steam
 exec-once = [workspace 8] kitty
+exec-once = [workspace 5] obsidian
 
 #############################
 ### ENVIRONMENT VARIABLES ###
@@ -95,7 +114,7 @@ general {
     resize_on_border = false 
 
     # Please see https://wiki.hyprland.org/Configuring/Tearing/ before you turn this on
-    allow_tearing = false
+    allow_tearing = true
 
     layout = dwindle
 }
@@ -108,34 +127,29 @@ decoration {
     active_opacity = 0.8
     inactive_opacity = 0.6
 
-    drop_shadow = true
-    shadow_range = 4
-    shadow_render_power = 3
-    col.shadow = rgba(1a1a1aee)
-
     # https://wiki.hyprland.org/Configuring/Variables/#blur
     blur {
         enabled = true
         size = 10
-        passes = 4
+        passes = 3
         vibrancy = 1
     }
 }
 
 # https://wiki.hyprland.org/Configuring/Variables/#animations
 animations {
-    enabled = false
+    enabled = true
 
     # Default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
 
     bezier = myBezier, 0.05, 0.9, 0.1, 1.05
 
-    animation = windows, 1, 7, myBezier
-    animation = windowsOut, 1, 7, default, popin 80%
-    animation = border, 1, 10, default
-    animation = borderangle, 1, 8, default
-    animation = fade, 1, 7, default
-    animation = workspaces, 1, 6, default
+    animation = windows, 1, 4, myBezier
+    animation = windowsOut, 1, 4, default, popin 80%
+    animation = border, 1, 6, default
+    animation = borderangle, 1, 6, default
+    animation = fade, 1, 5, default
+    animation = workspaces, 1, 4, default
 }
 
 # See https://wiki.hyprland.org/Configuring/Dwindle-Layout/ for more
@@ -153,6 +167,7 @@ master {
 misc { 
     force_default_wallpaper = -1 # Set to 0 or 1 to disable the anime mascot wallpapers
     disable_hyprland_logo = false # If true disables the random hyprland logo / anime girl background. :(
+    focus_on_activate = true # Necessary for obsidian clipper
 }
 
 
@@ -180,7 +195,6 @@ input {
 
 # https://wiki.hyprland.org/Configuring/Variables/#gestures
 gestures {
-    workspace_swipe = false
 }
 
 # Example per-device config
@@ -219,12 +233,18 @@ bind = , XF86AudioMute, exec, $mute_toggle
 bind = , XF86AudioMicMute, exec, $mic_toggle
 bind = , XF86MonBrightnessUp, exec, ~/dotfiles/tools/backlight + # increase screen brightness
 bind = , XF86MonBrightnessDown, exec, ~/dotfiles/tools/backlight - # decrease screen brightness
+bind = , XF86AudioPrev, exec, pulseaudio-control next-node
 
 # Move focus with mainMod + arrow keys
 bind = $mainMod, left, movefocus, l
 bind = $mainMod, right, movefocus, r
 bind = $mainMod, up, movefocus, u
 bind = $mainMod, down, movefocus, d
+
+bind = $mainMod SHIFT, left, movewindow, l
+bind = $mainMod SHIFT, right, movewindow, r
+bind = $mainMod SHIFT, up, movewindow, u
+bind = $mainMod SHIFT, down, movewindow, d
 
 # Switch workspaces with mainMod + [0-9]
 bind = $mainMod, 1, workspace, 1
@@ -258,6 +278,29 @@ bind = $mainMod, mouse_up, workspace, e-1
 bindm = $mainMod, mouse:272, movewindow
 bindm = $mainMod, mouse:273, resizewindow
 
+# resize mode
+bind = $mainMod, R, submap, resize
+submap = resize
+binde = , right, resizeactive, 10 0
+binde = , left, resizeactive, -10 0
+binde = , up, resizeactive, 0 -10
+binde = , down, resizeactive, 0 10
+bind = , escape, submap, reset
+submap = reset
+
+# gaps variants
+bind = $mainMod, G, submap, gapping
+submap = gapping
+binde = , g, exec, hyprctl --batch "keyword general:gaps_out 20,200,20,200"
+binde = , s, exec, hyprctl --batch "keyword general:gaps_out 20,400,20,400"
+binde = , d, exec, hyprctl --batch "keyword general:gaps_out 20,20,20,20"
+binde = , a, exec, hyprctl setprop active opaque toggle
+binde = , g, submap, reset
+binde = , s, submap, reset
+binde = , d, submap, reset
+binde = , a, submap, reset
+bind = , escape, submap, reset
+submap = reset
 
 ##############################
 ### WINDOWS AND WORKSPACES ###
@@ -276,6 +319,11 @@ windowrulev2 = suppressevent maximize, class:.* # You'll probably like this.
 
 windowrulev2 = float, opacity 0.8, center, pin, stayfocused ,class:^(launcher)$
 windowrulev2 = size 30% 30%,class:^(launcher)$
-workspace = 7,rounding:false,decorations:false
-windowrulev2 = noblur,workspace:7
-windowrulev2 = opaque,workspace:7
+
+# Games
+windowrulev2 = workspace 7, class:^steam_app_\\d+$
+windowrulev2 = monitor 1, class:^steam_app_\\d+$
+windowrulev2 = fullscreen, class:^steam_app_\\d+$
+windowrulev2 = noblur, class:^steam_app_\\d+$
+windowrulev2 = opaque, class:^steam_app_\\d+$
+workspace = 7, border:false, rounding:false, decorations: false
