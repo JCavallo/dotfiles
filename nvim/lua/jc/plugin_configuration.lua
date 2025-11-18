@@ -196,10 +196,12 @@ function M.setup_lsp()
 	})
 
 	vim.lsp.config("pylsp", {
+		filetypes = { "python", "python.trpy", "trpy" },
 		pylsp = {
+			filetypes = { "python", "python.trpy", "trpy" },
 			plugins = {
-				pyls_mpypy = { enabled = true },
-				-- flake8 = { enabled = true },
+				-- pyls_mpypy = { enabled = true },
+				flake8 = { enabled = true },
 			},
 		},
 	})
