@@ -7,11 +7,7 @@
 #
 # Add paths found in $HOME/.sessionizer_folders as folders to always add
 
-default_target="${DEFAULT_SESSIONIZER_TARGET:-}"
-
-(ls $HOME/.sessionizer_* >/dev/null 2>/dev/null)
-
-if [[ $? != 0 ]]; then
+if ! (ls "$HOME"/.sessionizer_* >/dev/null 2>/dev/null); then
     >&2 echo .sessionizer_folders / .sessionizer_search_folders not found
     exit 1
 fi
@@ -21,8 +17,6 @@ touch "$HOME/.sessionizer_search_folders"
 
 if [[ $# -eq 1 ]]; then
     selected=$1
-elif [[ "$TMUX" = "" ]]; then
-    selected="$default_target"
 else
     selected=$( \
         ( \
@@ -50,7 +44,7 @@ else
     tmux_running=$(pgrep tmux)
 fi
 
-if ([[ -z $TMUX ]] && [[ -z $tmux_running ]]) || \
+if ([[ -z "$TMUX" ]] && [[ -z "$tmux_running" ]]) || \
         ! tmux has-session -t="$selected_name" 2> /dev/null; then
     tmux new-session -ds "$selected_name" -c "$selected"
     if [[ -f "$selected/.tmux-session-init" ]]; then
@@ -58,7 +52,7 @@ if ([[ -z $TMUX ]] && [[ -z $tmux_running ]]) || \
             sessionizer_session_name="$selected_name" envsubst < \
                 "$selected/.tmux-session-init" | \
             while read -r line; do
-            tmux $line
+            tmux "$line"
         done
     fi
 fi
