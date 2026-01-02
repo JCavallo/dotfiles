@@ -167,12 +167,16 @@ local _get_tryton_name = function(current)
 		return vim.fn.getreg("j")
 	end
 end
-
-local function _ast_grep_with_rule(rule, path, telescope_opts)
+function M.ast_grep_with_rule(rule, path, rule_mode, telescope_opts)
 	local pickers = require("telescope.pickers")
 	local conf = require("telescope.config").values
 	local finders = require("telescope.finders")
-	local data = vim.system({ "sg", "scan", "--json", "--inline-rules", rule }, { text = true, cwd = path }):wait()
+	local data
+	if rule_mode == "string" then
+		data = vim.system({ "sg", "scan", "--json", "--inline-rules", rule }, { text = true, cwd = path }):wait()
+	else
+		data = vim.system({ "sg", "scan", "--json", "--rule", rule }, { text = true, cwd = path }):wait()
+	end
 	local results = {}
 	for _, result in pairs(vim.json.decode(data.stdout)) do
 		table.insert(
@@ -206,6 +210,10 @@ local function _ast_grep_with_rule(rule, path, telescope_opts)
 			previewer = conf.grep_previewer(telescope_opts),
 		})
 		:find()
+end
+
+local function _ast_grep_with_rule_string(rule, path, telescope_opts)
+	return M.ast_grep_with_rule(rule, path, "string", telescope_opts)
 end
 
 function M.tryton_function_overrides(params)
@@ -293,7 +301,7 @@ rule:
           - pattern: __name__ = ']] .. params.model_name .. [['
           - pattern: __name__ = "]] .. params.model_name .. '"'
 	end
-	return _ast_grep_with_rule(rule, path, params.opts or {})
+	return _ast_grep_with_rule_string(rule, path, params.opts or {})
 end
 
 function M.tryton_model_grep(opts)

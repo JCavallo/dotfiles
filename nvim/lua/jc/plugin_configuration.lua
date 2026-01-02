@@ -343,7 +343,7 @@ function M.setup_telescope()
 end
 
 function M.setup_treesitter()
-	require("nvim-treesitter.configs").setup({
+	require("nvim-treesitter.config").setup({
 		ensure_installed = {
 			"lua",
 			"c",

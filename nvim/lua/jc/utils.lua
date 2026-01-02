@@ -53,10 +53,10 @@ function M.ts_parent_from_node(base_node, target_type)
 end
 
 function M.ts_find_siblings(parent_type, target_types)
-	local ts_utils = require("nvim-treesitter.ts_utils")
+	local ts_utils = vim.treesitter
 	local results = {}
 
-	local current_node = ts_utils.get_node_at_cursor()
+	local current_node = ts_utils.get_node()
 	local parent_node = M.ts_parent_from_node(current_node, parent_type)
 	if parent_node == nil then
 		return

@@ -96,7 +96,10 @@ require("lazy").setup({
 			require("nvim-treesitter.install").update({ with_sync = true })()
 		end,
 		dependencies = {
-			"nvim-treesitter/nvim-treesitter-textobjects",
+			{
+				"nvim-treesitter/nvim-treesitter-textobjects",
+				branch = "main",
+			},
 			"romgrk/nvim-treesitter-context",
 		},
 		config = function()
