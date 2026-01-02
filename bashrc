@@ -40,8 +40,8 @@ alias ag="LESS='FSRX' ag --pager less"
 alias rg='paged_ripgrep'
 alias htop="TERM=screen htop"
 alias pg_activity="TERM=screen pg_activity"
-alias cat='bat $(if [[ ! -e /tmp/.current_theme ]] || [[ $(/usr/bin/cat /tmp/.current_theme) = "light" ]]; then echo "--theme base16"; fi)'
-alias more='bat $(if [[ ! -e /tmp/.current_theme ]] || [[ $(/usr/bin/cat /tmp/.current_theme) = "light" ]]; then echo "--theme base16"; fi)'
+alias cat='batcat $(if [[ ! -e /tmp/.current_theme ]] || [[ $(/usr/bin/cat /tmp/.current_theme) = "light" ]]; then echo "--theme base16"; fi)'
+alias more='batcat $(if [[ ! -e /tmp/.current_theme ]] || [[ $(/usr/bin/cat /tmp/.current_theme) = "light" ]]; then echo "--theme base16"; fi)'
 alias clear="TERM=linux clear"
 alias k="kritik -s --success-message OK --failure-message KO"
 alias g=git
@@ -398,12 +398,7 @@ if [[ -e "$HOME/tools/git-fuzzy" ]]; then
 fi
 
 if [[ -e "/home/linuxbrew/.linuxbrew" ]]; then
-    # export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew";
-    # export HOMEBREW_CELLAR="/home/linuxbrew/.linuxbrew/Cellar";
-    # export HOMEBREW_REPOSITORY="/home/linuxbrew/.linuxbrew/Homebrew";
-    # export PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin${PATH+:$PATH}";
-    # export MANPATH="/home/linuxbrew/.linuxbrew/share/man${MANPATH+:$MANPATH}:";
-    # export INFOPATH="/home/linuxbrew/.linuxbrew/share/info${INFOPATH+:$INFOPATH}";
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
     true
 fi
 
