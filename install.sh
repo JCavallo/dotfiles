@@ -34,12 +34,14 @@ MAIN_TOOLS+="cmake "  # We will use it anyway
 MAIN_TOOLS+="curl "  # Always useful
 MAIN_TOOLS+="direnv "  # Per folder environment variables
 MAIN_TOOLS+="dnsutils "  # nslookup is useful
-MAIN_TOOLS+="exa "  # better ls
+MAIN_TOOLS+="eza "  # better ls
 MAIN_TOOLS+="exuberant-ctags "  # You're a dev or you're not
 MAIN_TOOLS+="fonts-font-awesome "  # Better fonts are always nice to have
 MAIN_TOOLS+="git "  # In case it's not already there
+MAIN_TOOLS+="gh "  # In case it's not already there
 MAIN_TOOLS+="g++ "  # Will always need it somehow
 MAIN_TOOLS+="htop "  # Like top, but better
+MAIN_TOOLS+="btop "  # Like htop, but better
 MAIN_TOOLS+="imagemagick "  # View images...
 MAIN_TOOLS+="jq "  # Beautiful json
 MAIN_TOOLS+="keychain "  # Manage ssh because I must
@@ -47,7 +49,8 @@ MAIN_TOOLS+="libtool-bin "  # Will be used by neovim
 MAIN_TOOLS+="make "  # Will always need it somehow
 MAIN_TOOLS+="network-manager "  # Command line network utilities
 MAIN_TOOLS+="pulseaudio "  # Sound management
-MAIN_TOOLS+="python3-pip "  # Will need it at some point anyway
+MAIN_TOOLS+="python3-pip "  # Will need it for tools
+MAIN_TOOLS+="python3-venv "  # Will need it for neovim tooling
 MAIN_TOOLS+="ruby "  # Git blur :'(
 MAIN_TOOLS+="ranger "  # Cli file explorer
 MAIN_TOOLS+="ripgrep "  # Better grep
@@ -61,7 +64,7 @@ chronic sudo apt -y install $MAIN_TOOLS
 
 if [[ "$SERVER" = "0" ]]; then
     echo_comment "Installing GUI tools"
-    GUI_TOOLS=""
+    GUI_TOOLS="kitty "
 
     if [[ "$WM" = "sway" ]]; then
         GUI_TOOLS+="gammastep "  # Change light temperature depending on time
@@ -71,7 +74,9 @@ if [[ "$SERVER" = "0" ]]; then
         GUI_TOOLS+="sway "  # Compositor / window manager
         GUI_TOOLS+="swayidle "  # Idle configuration
         GUI_TOOLS+="waybar "  # task bar
+        GUI_TOOLS+="wofi "  # task bar
         GUI_TOOLS+="wdisplays "  # Copy paste, wayland style
+        GUI_TOOLS+="wlogout "  # logging out
         GUI_TOOLS+="wl-clipboard "  # Copy paste, wayland style
     elif [[ "$WM" = "i3" ]]; then
         GUI_TOOLS+="feh "  # Wallpapers
@@ -233,9 +238,6 @@ if [[ "$SERVER" = "0" ]]; then
         if [[ ! -e "$HOME"/.config/sway/config ]]; then
             ln -s "$dir"/sway "$HOME"/.config/sway/config
         fi
-        if [[ ! -e "$HOME"/.config/waybar ]]; then
-            ln -s "$dir"/waybar "$HOME"/.config/waybar
-        fi
         if [[ ! -e "$HOME"/.config/swaylock ]]; then
             mkdir -p "$HOME"/.config/swaylock
             ln -s "$dir"/swaylock "$HOME"/.config/swaylock/config
@@ -309,7 +311,7 @@ fi
 
 if [[ ! "$(command -v ptpython)" ]]; then
     echo_comment "Installing ptpython"
-    chronic pip3 install --user ptpython
+    chronic pip3 install --break-system-packages --user ptpython
     mkdir -p "$HOME/.config/ptpython"
     ln -s "$HOME/dotfiles/ptpython" "$HOME/.config/ptpython/config.py"
 fi
@@ -398,7 +400,7 @@ if [[ "$SERVER" = "0" ]] && [[ "$WM" = "sway" ]]; then
     fi
     if [[ ! -e "$HOME/bin/sway-fader" ]]; then
         echo_comment "Loading sway-fader"
-        chronic pip3 install --user i3ipc
+        chronic pip3 install --break-system-packages --user i3ipc
         chronic curl -fLo "$HOME/bin/sway-fader" \
             https://raw.githubusercontent.com/jake-stewart/swayfader/master/swayfader.py
     fi
@@ -422,9 +424,9 @@ if [ "$(which nvim)" = '' ]; then
     cd Neovim
     chronic make CMAKE_BUILD_TYPE=Release -j4
     chronic sudo make install
-    chronic pip install --user neovim
-    chronic pip3 install --user neovim
-    chronic pip3 install --user neovim-remote
+    chronic pip install --break-system-packages --user neovim
+    chronic pip3 install --break-system-packages --user neovim
+    chronic pip3 install --break-system-packages --user neovim-remote
 fi
 
 # Install hgreview
@@ -514,17 +516,11 @@ if [ ! "$(command -v hub)" ]; then
     chronic brew install hub
 fi
 
-# Install fasd
-if [ ! "$(command -v fasd)" ]; then
-    echo_comment "Installing fasd"
-    chronic brew install fasd
-fi
-
 # Install q for csv / tabular data queries
-if [ ! "$(command -v q)"  ]; then
-    echo_comment "Installing q (query-as-text)"
-    chronic brew install harelba/q/q
-fi
+# if [ ! "$(command -v q)"  ]; then
+#     echo_comment "Installing q (query-as-text)"
+#     chronic brew install harelba/q/q
+# fi
 
 # Install tmux configuration
 if [ ! -e "$HOME/.tmux" ]; then
