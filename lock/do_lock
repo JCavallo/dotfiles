@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+
+#           DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+#                    Version 2, December 2004
+#  
+# Copyright (C) 2004 Sam Hocevar <sam@hocevar.net>
+# 
+# Everyone is permitted to copy and distribute verbatim or modified
+# copies of this license document, and changing it is allowed as long
+# as the name is changed.
+#  
+#            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+#   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+# 
+#  0. You just DO WHAT THE FUCK YOU WANT TO.
+rm -f /tmp/.lock_screen_*
+base_name=/tmp/.lock_screen_base.png
+composed_name=/tmp/.lock_screen_composed.png
+
+grim -c -o "$(hyprctl activeworkspace -j | jq -r .monitor)" "$base_name"
+
+#get logo path, if none random
+image="$HOME/dotfiles/lock/icons/$(shuf -i0-3 -n1).png"
+
+# Use ffmpeg to blur base and add logo
+ffmpeg -i "$base_name" -i "$image" -filter_complex \
+    "[0:v]gblur=sigma=20[blur];[blur][1:v]overlay=(W-w)/2:(H-h)/2" \
+    "$composed_name"
+
+swaylock \
+  --image "$composed_name" \
+  --daemonize \
+  --key-hl-color 880033 \
+  --separator-color 00000000 \
+  --bs-hl-color ee2e24FF \
+  --caps-lock-key-hl-color ffd204FF \
+  --caps-lock-bs-hl-color ee2e24FF \
+  --disable-caps-lock-text \
+  --text-caps-lock-color 009ddc \
+  --indicator-radius 240 \
+  --indicator-thickness 20 \
+  --indicator-caps-lock \
+  --inside-color 00000000 \
+  --inside-clear-color ffd20400 \
+  --inside-caps-lock-color 009ddc00 \
+  --inside-ver-color d9d8d800 \
+  --inside-wrong-color ee2e2400 \
+  --ring-color 231f20D9 \
+  --ring-clear-color 231f20D9 \
+  --ring-wrong-color 231f20D9 \
+  --ring-ver-color 231f20D9 \
+  --ring-caps-lock-color 231f20D9 \
+  --line-uses-ring \
+  --line-color 00000000 \
+  --line-clear-color ffd204FF \
+  --line-caps-lock-color 009ddcFF \
+  --line-ver-color d9d8d8FF \
+  --line-wrong-color ee2e24FF \
+  --font 'NotoSans Nerd Font Mono:style=Thin,Regular 40' \
+  --text-color 00000000 \
+  --text-clear-color ffd20400 \
+  --text-wrong-color ee2e2400 \
+  --text-ver-color d9d8d800
