@@ -6,4 +6,4 @@ pkill -x waybar
 while pgrep -x waybar >/dev/null; do sleep 1; done
 
 # Launch main
-waybar
+waybar -c ~/dotfiles/waybar/config -s ~/dotfiles/waybar/style.css
