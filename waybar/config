@@ -72,10 +72,10 @@
   },
   "hyprland/window": {},
   "custom/vpn": {
-    "exec": "sudo bin/toggle-vpn status",
+    "exec": "sudo dotfiles/tools/toggle-vpn status",
     "interval": 1,
     "format": "{}",
-    "on-click": "sudo bin/toggle-vpn"
+    "on-click": "sudo dotfiles/tools/toggle-vpn"
   },
   "sway/mode": {
     "format": "<span style=\"italic\">{}</span>"
@@ -152,14 +152,6 @@
   "custom/power": {
     "format": "<big>⏻ </big>",
     "tooltip": false,
-    "menu": "on-click",
-    "menu-file": "/usr/share/waybar/custom_modules/power_menu.xml",
-    "menu-actions": {
-      "shutdown": "shutdown",
-      "reboot": "reboot",
-      "suspend": "systemctl suspend",
-      "logout": "hyprctl dispatch exit",
-      "hibernate": "systemctl hibernate"
-    }
+    "on-click": "wlogout"
   }
 }
