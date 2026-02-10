@@ -4,6 +4,9 @@ set -euo pipefail
 canary="$HOME/.local/.current_theme"
 neovim_script="$HOME/dotfiles/tools/set_nvim_background"
 
+taskwarrior_dark=dark-gray-256.theme
+taskwarrior_light=light-256.theme
+
 kitty_dark="Tokyo Night Storm"
 kitty_light="Tokyo Night Day"
 
@@ -27,11 +30,13 @@ if [[ "$current" = "dark" ]]; then
     kitty_theme="$kitty_light"
     tmux_theme="$tmux_light"
     delta_theme="$delta_light"
+    taskwarrior_theme="$taskwarrior_light"
     new=light
 else
     kitty_theme="$kitty_dark"
     tmux_theme="$tmux_dark"
     delta_theme="$delta_dark"
+    taskwarrior_theme="$taskwarrior_dark"
     new=dark
 fi
 
@@ -48,6 +53,8 @@ if [[ "$(command -v kitty)" ]]; then
         kitty +kitten themes --reload-in=all --cache-age=-1 "$kitty_theme"
 fi
 git config --global delta.features "side-by-side line-numbers decorations $delta_theme"
+
+echo "include $taskwarrior_theme" > "$HOME/.taskrc.local"
 
 if [[ -e /run/user/"$UID" ]]; then
     for neovim in /run/user/"$UID"/nvim*; do
