@@ -1320,6 +1320,9 @@ map kitty_mod+delete clear_terminal reset active
 
 # }
 
+map shift+enter send_text all \x1b[13;2u
+map ctrl+enter send_text all \x1b[27;5;13~
+
 cursor_trail 3
 map ctrl+shift+p>p kitten hints --customize-processing kitty-python-hints.py
 map ctrl+shift+p>j kitten hints --customize-processing kitty-jira-hints.py
