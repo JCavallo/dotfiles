@@ -332,10 +332,10 @@ submap = reset
 # gaps variants
 bind = $mainMod, G, submap, gapping
 submap = gapping
-binde = , g, exec, hyprctl --batch "keyword general:gaps_out 20,200,20,200"
-binde = , s, exec, hyprctl --batch "keyword general:gaps_out 20,400,20,400"
-binde = , d, exec, hyprctl --batch "keyword general:gaps_out 20,20,20,20"
-binde = , a, exec, hyprctl setprop active opaque toggle
+binde = , g, exec, ws-gaps g
+binde = , s, exec, ws-gaps s
+binde = , d, exec, ws-gaps d
+binde = , a, exec, hyprctl dispatch setprop active opaque toggle
 binde = , g, submap, reset
 binde = , s, submap, reset
 binde = , d, submap, reset

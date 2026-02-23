@@ -1,0 +1,7 @@
+#!/bin/bash
+WS=$(hyprctl activeworkspace -j | jq '.id')
+case "$1" in
+    g) hyprctl keyword workspace "$WS, gapsout:20 200 20 200" ;;
+    s) hyprctl keyword workspace "$WS, gapsout:20 400 20 400" ;;
+    d) hyprctl keyword workspace "$WS, gapsout:20 20 20 20" ;;
+esac
