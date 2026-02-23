@@ -13,6 +13,7 @@
 #   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 # 
 #  0. You just DO WHAT THE FUCK YOU WANT TO.
+pgrep -x swaylock > /dev/null && exit 0
 rm -f /tmp/.lock_screen_*
 base_name=/tmp/.lock_screen_base.png
 composed_name=/tmp/.lock_screen_composed.png
