@@ -79,7 +79,7 @@ $mic_toggle = pactl set-source-mute '@DEFAULT_SOURCE@' toggle
 exec-once = mako
 exec-once = wallpaper last
 exec-once = launch_waybar
-exec-once = swayidle -w timeout 240 'jcnotify "Locking in 1min"' timeout 300 'do_lock' timeout 600 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on' before-sleep 'do_lock'
+exec-once = hypridle
 exec-once = [workspace 2] brave-browser --profile-directory=Perso
 exec-once = [workspace 3] sleep 2 && brave-browser --profile-directory=Pro
 exec-once = [workspace 7] steam
@@ -250,7 +250,7 @@ bind = $mainMod, F, fullscreen
 bind = $mainMod, Y, exec, $screen_select_cmd
 bind = $mainMod SHIFT, Y, exec, $screen_full_cmd
 bind = $mainMod, space, workspace, previous
-bind = $mainMod, w, exec, do_lock
+bind = $mainMod, w, exec, hyprlock
 
 bind = , XF86AudioRaiseVolume, exec, $volume_up
 bind = , XF86AudioLowerVolume, exec, $volume_down
@@ -357,6 +357,9 @@ submap = reset
 # windowrulev2 = float,class:^(kitty)$,title:^(kitty)$
 
 windowrulev2 = suppressevent maximize, class:.* # You'll probably like this.
+
+# Disable swayidle rules if a window is fullscreen
+windowrulev2 = idleinhibit fullscreen, fullscreen:1
 
 windowrulev2 = float, opacity 0.8, center, pin, stayfocused ,class:^(launcher)$
 windowrulev2 = size 30% 30%,class:^(launcher)$
