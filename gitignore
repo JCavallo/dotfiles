@@ -14,6 +14,7 @@ messages.mo
 *_BASE_*
 .envrc
 .lvimrc
+.claude/
 __pycache__/
 *.egg-info/
 .python-version
