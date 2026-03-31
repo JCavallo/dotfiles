@@ -1,0 +1,12 @@
+#!/bin/bash
+# idle-guard: run command only if no fullscreen window is active
+# Usage: idle-guard <command> [args...]
+#
+# Checks hyprctl clients for any window with fullscreen == 2 (hyprland 0.54+: 0=none, 1=maximized, 2=fullscreen).
+# If found, exits silently (idle action skipped).
+# Otherwise, runs the given command.
+
+if hyprctl -j clients | jq -e '[.[] | select(.fullscreen == 2)] | length > 0' >/dev/null 2>&1; then
+    exit 0
+fi
+exec "$@"
