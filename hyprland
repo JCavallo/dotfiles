@@ -80,6 +80,7 @@ exec-once = mako
 exec-once = wallpaper last
 exec-once = launch_waybar
 exec-once = hypridle
+exec-once = systemctl --user start hyprpolkitagent
 exec-once = [workspace 2] brave-browser --profile-directory=Perso
 exec-once = [workspace 3] sleep 2 && brave-browser --profile-directory=Pro
 exec-once = [workspace 7] steam
