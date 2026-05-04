@@ -47,77 +47,56 @@ _colors () {
     return $colors
 }
 
-_color_cmd () {
-    local canary="$HOME/.local/.current_theme"
+colorize() {
     local current_theme=dark
-    if [[ -e "$canary" ]]; then
-        current_theme=$(cat "$canary")
-    fi
+    [[ -e "$HOME/.local/.current_theme" ]] && current_theme=$(< "$HOME/.local/.current_theme")
 
     declare -A colors
     if [[ "$current_theme" = "dark" ]]; then
-        colors[grey]='243'
-        colors[green]='40'
-        colors[yellow]='220'
-        colors[blue]='27'
-        colors[lightblue]='45'
-        colors[red]='203'
-        colors[lightred]='196'
+        colors=([grey]=243 [green]=40 [yellow]=220 [blue]=27 [lightblue]=45 [red]=203 [lightred]=196)
     else
-        colors[grey]='249'
-        colors[green]='40'
-        colors[yellow]='94'
-        colors[blue]='21'
-        colors[lightblue]='45'
-        colors[red]='203'
-        colors[lightred]='196'
+        colors=([grey]=249 [green]=40 [yellow]=94 [blue]=21 [lightblue]=45 [red]=203 [lightred]=196)
     fi
 
-    if [[ "$1" = "print_colors" ]]; then
-        for i in "${!colors[@]}"
-        do
+    if [[ "$1" = "help" ]]; then
+        echo "Usage: colorize [--prefix TEXT [--prefix-color COLOR]] <pattern1> <color1> [pattern2 color2...] <input>"
+        echo "Single-process colorizer (sed -u)."
+        echo "Possible colors:"
+        for i in "${!colors[@]}"; do
             echo -e "    \e[1;38;5;${colors[$i]}m$i\e[0m"
         done
+        echo "Special: 'remove' filters out lines, 'all' matches everything."
         return
     fi
 
-    local filter="$1"
-    local color="$2"
-    if [[ "$filter" = all ]]; then 
-        filter='^.*$'
-    fi
+    local esc=$'\033'
+    local prefix_args=() remove_args=() color_args=()
 
-    if [[ "$color" = "remove" ]]; then
-        echo "\rg -v --line-buffered \"$filter\""
-    else
-        if test "${colors[$color]+isset}"; then
-            color="${colors[$color]}"
+    if [[ "$1" = "--prefix" ]]; then
+        local prefix="$2"; shift 2
+        if [[ "$1" = "--prefix-color" ]]; then
+            local pcode="${colors[$2]:-$2}"
+            shift 2
+            prefix_args=(-e "s|^|${esc}[1;38;5;${pcode}m${prefix}${esc}[0m|")
+        else
+            prefix_args=(-e "s|^|${prefix}|")
         fi
-        echo "\rg --color always --passthru --colors match:fg:$color --line-buffered \"$filter\""
     fi
-}
 
-colorize() {
-    if [ "$1" = "help" ]; then
-        echo "Usage : colorize <pattern1> <color1> [pattern2 color2...] <input>"
-        echo ""
-        echo "Possible colors:"
-        _color_cmd print_colors
-        echo ""
-        echo "Special value : 'remove' will filter out the pattern rather than colorizing it"
-        echo "Special value : 'all' will match and colorize all lines"
-    else
-        local cmd=$(_color_cmd "$1" "$2")
-        shift
-        shift
-        while [ $# != 0 ]; do
-            cmd="$cmd | $(_color_cmd "$1" "$2")"
-            shift
-            shift
-        done
+    while [[ $# -ge 2 ]]; do
+        local pat="$1" col="$2"
+        shift 2
+        [[ "$pat" = "all" ]] && pat=".*"
+        pat="${pat//\//\\/}"
+        if [[ "$col" = "remove" ]]; then
+            remove_args+=(-e "/${pat}/d")
+        else
+            local code="${colors[$col]:-$col}"
+            color_args+=(-e "s/${pat}/${esc}[1;38;5;${code}m&${esc}[0m/g")
+        fi
+    done
 
-        eval "$cmd || true"
-    fi
+    sed -E -u "${remove_args[@]}" "${prefix_args[@]}" "${color_args[@]}"
 }
 
 alias _color_debug='colorize DEBUG grey INFO green WARNING yellow ERROR red CRITICAL lightred'
