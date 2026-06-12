@@ -45,7 +45,7 @@ function! JCAddBreakpointV2(delta)
     if head_num == 0 && head_col == 0
         call setpos('.', [0, 0, 1, 0])
         call search('^[^#]')
-        let command = 'exec("""import sys\nif "debugpy" not in sys.modules:\n    import debugpy\n    debugpy.listen(5678)\n    import pynvim\n    pynvim.attach("socket", path="' .. v:servername .. '").command("' .. "lua require('dap').run({host = '127.0.0.1', port = 5678, type = 'python', request = 'attach'})" .. '")\n    debugpy.wait_for_client()\n    import os;os.system(''jcnotify "debugger started"'')""")  # NVDEBUGGER # NOQA'
+        let command = 'exec("""import sys\nif "debugpy" not in sys.modules:\n    import debugpy\n    debugpy.listen(5678)\n    import pynvim\n    pynvim.attach("socket", path="' .. v:servername .. '").command("' .. "lua require('dap').run({host = '127.0.0.1', port = 5678, type = 'python', request = 'attach', name = 'test'})" .. '")\n    debugpy.wait_for_client()\n    import os;os.system(''jcnotify "debugger started"'')""")  # NVDEBUGGER # NOQA'
         call append(getpos('.')[2] + 1, command)
         let cur_pos[1] += 1
         call setpos('.', cur_pos)
