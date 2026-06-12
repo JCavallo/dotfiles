@@ -148,7 +148,7 @@ require("lazy").setup({
 		end,
 	},
 	{ -- Navigation
-		"ggandor/leap.nvim",
+		url = "https://codeberg.org/andyg/leap.nvim",
 		dependencies = {
 			"ggandor/flit.nvim",
 			"ggandor/leap-spooky.nvim",
