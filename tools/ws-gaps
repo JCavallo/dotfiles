@@ -4,4 +4,7 @@ case "$1" in
     g) hyprctl keyword workspace "$WS, gapsout:20 200 20 200" ;;
     s) hyprctl keyword workspace "$WS, gapsout:20 400 20 400" ;;
     d) hyprctl keyword workspace "$WS, gapsout:20 20 20 20" ;;
+    # g) hyprctl eval "hl.workspace_rule({workspace = \"$WS\", gaps_out = {top=20, left=200, right=200, bottom=20}})" ;;
+    # s) hyprctl eval "hl.workspace_rule({workspace = \"$WS\", gaps_out = {top=20, left=400, right=400, bottom=20}})" ;;
+    # d) hyprctl eval "hl.workspace_rule({workspace = \"$WS\", gaps_out = 20})" ;;
 esac

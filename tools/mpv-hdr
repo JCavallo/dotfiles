@@ -1,0 +1,19 @@
+#!/bin/bash
+# Play the URL currently in the clipboard in mpv with HDR passthrough.
+# Bound to $mainMod + b in hyprland.
+
+url="$(wl-paste --no-newline 2>/dev/null)"
+
+case "$url" in
+    http://*|https://*) ;;
+    *)
+        notify-send "mpv-hdr" "Clipboard is not a URL:\n${url:0:80}"
+        exit 1
+        ;;
+esac
+
+notify-send "mpv-hdr" "Playing in HDR:\n${url:0:80}"
+
+exec mpv --vo=gpu-next --target-colorspace-hint=yes \
+    --ytdl-format='bestvideo[dynamic_range*=HDR]+bestaudio/bestvideo+bestaudio' \
+    "$url"
