@@ -132,6 +132,9 @@ general {
 decoration {
     rounding = 20
 
+    # Gentle SDR brightness/saturation boost (see vibrance.frag to tune)
+    screen_shader = ~/.config/hypr/vibrance.frag
+
     # Change transparency of focused and unfocused windows
     active_opacity = 0.8
     inactive_opacity = 0.6
