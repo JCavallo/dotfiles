@@ -255,6 +255,7 @@ bind = $mainMod SHIFT, D, exec, $menu_runner
 bind = $mainMod, P, exec, $wallpaper_cmd
 bind = $mainMod, a, exec, toggle-theme
 bind = $mainMod, F, fullscreen
+bind = $mainMod SHIFT, F, fullscreenstate, 0 3
 bind = $mainMod, B, exec, $mpv_hdr_cmd
 bind = $mainMod, Y, exec, $screen_select_cmd
 bind = $mainMod SHIFT, Y, exec, $screen_full_cmd
