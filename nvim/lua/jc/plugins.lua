@@ -151,8 +151,6 @@ require("lazy").setup({
 	{ -- Navigation
 		url = "https://codeberg.org/andyg/leap.nvim",
 		dependencies = {
-			"ggandor/flit.nvim",
-			"ggandor/leap-spooky.nvim",
 			{
 				"christoomey/vim-tmux-navigator",
 				cmd = { "TmuxNavigateLeft", "TmuxNavigateRight", "TmuxNavigateUp", "TmuxNavigateDown" },
