@@ -1,0 +1,7 @@
+#!/bin/bash
+# Wrapper: preserve *.localhost hostnames (secure-context/cookie treatment)
+# while routing the actual TCP connection to the per-env loopback alias in
+# /etc/hosts. Brave/Chromium hardcode *.localhost -> 127.0.0.1/::1 (RFC 6761)
+# and ignore /etc/hosts otherwise; --host-resolver-rules overrides that.
+rules=$(awk '$2 ~ /\.localhost$/ {printf "MAP %s %s,", $2, $1}' /etc/hosts | sed 's/,$//')
+exec /usr/bin/brave-browser-stable --host-resolver-rules="${rules}" "$@"

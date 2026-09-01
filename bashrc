@@ -460,4 +460,22 @@ export PATH=$(echo $PATH | tr ':' '\n' | grep -v "/mnt/c/" | tr '\n' ':')
 
 export GPG_TTY=$(tty)
 
+# Brave/curl (since the 2026-07-15 curl 8.5.0-2ubuntu10.11 SRU) hardcode
+# *.localhost to 127.0.0.1/::1 per RFC 6761, ignoring /etc/hosts. This
+# preserves the Host header/origin (so cookies/secure-context behave the
+# same) while routing the connection to the real per-env loopback alias.
+curl() {
+    local args=("$@") extra=() arg host port ip
+    for arg in "${args[@]}"; do
+        if [[ "$arg" =~ ^https?://([a-zA-Z0-9_.-]+\.localhost)(:([0-9]+))?(/.*)?$ ]]; then
+            host="${BASH_REMATCH[1]}"
+            port="${BASH_REMATCH[3]:-80}"
+            [[ "$arg" =~ ^https:// && -z "${BASH_REMATCH[3]}" ]] && port=443
+            ip=$(getent ahostsv4 "$host" 2>/dev/null | awk '{print $1; exit}')
+            [[ -n "$ip" ]] && extra+=(--resolve "${host}:${port}:${ip}")
+        fi
+    done
+    command curl "${extra[@]}" "${args[@]}"
+}
+
 # vim:set ft=sh:
