@@ -3,5 +3,6 @@ set -euo pipefail
 git commit --fixup "$( \
     git log "$(git merge-base HEAD origin/master)"..HEAD \
         --format="%H: %s (%an, %ar)" \
+    | grep -v fixup \
     | fzf --ansi \
     | sed -e 's/\([a-z0-9]*\): .*/\1/')"
