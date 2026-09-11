@@ -59,6 +59,7 @@ $fileManager = nautilus
 $menu = menu
 $menu_runner = kitty --class=launcher 'command-runner'
 $wallpaper_cmd = kitty --class=launcher wallpaper
+$timesheet_cmd = kitty --class=launcher -d ~/Projets/Coog/Envs/coopengo/ -T timesheet
 $screen_select_cmd = grim -g "$(slurp)" - | wl-copy
 $screen_full_cmd = grim - | wl-copy
 $screen_select_store_cmd = grim -g "$(slurp)" /tmp/ps_$(date +"%Y%m%d%H%M%S").png
@@ -255,6 +256,7 @@ bind = $mainMod SHIFT, D, exec, $menu_runner
 bind = $mainMod, P, exec, $wallpaper_cmd
 bind = $mainMod, a, exec, toggle-theme
 bind = $mainMod, F, fullscreen
+bind = $mainMod SHIFT, t, exec, $timesheet_cmd
 bind = $mainMod SHIFT, F, fullscreenstate, 0 3
 bind = $mainMod, B, exec, $mpv_hdr_cmd
 bind = $mainMod, Y, exec, $screen_select_cmd
@@ -359,6 +361,12 @@ submap = reset
 
 # See https://wiki.hyprland.org/Configuring/Window-Rules/ for more
 # See https://wiki.hyprland.org/Configuring/Workspace-Rules/ for workspace rules
+
+# Browser pop-ups (Slack huddles, OAuth prompts, etc.)
+windowrule = float on, match:class ^(brave-browser)$, match:initial_title ^(about:blank).*
+windowrule = float on, match:class ^launcher$
+windowrule = size 1000 600, match:class ^launcher$
+windowrule = pin on, match:initial_title ^timesheet$
 
 # Example windowrule v1
 # windowrule = float, ^(kitty)$
