@@ -9,11 +9,13 @@ function! JCAddLogging(delta)
     if head_num == 0 && head_col == 0
         call setpos('.', [0, 0, 1, 0])
         call search('^[^#]')
-        call append(getpos('.')[2] + 1, 'import logging as tmp_logging;import pprint as tmp_pprint  # NVAUTOLOG')
-        call append(getpos('.')[2] + 2, 'def _print(*x):  # NVAUTOLOG')
-        call append(getpos('.')[2] + 3, "    for _line in tmp_pprint.pformat(x, indent=1, width=130).split('\\n'):  # NVAUTOLOG")
-        call append(getpos('.')[2] + 4, "        tmp_logging.getLogger('root').critical(_line)  # NVAUTOLOG")
-        let cur_pos[1] += 4
+        call append(getpos('.')[2] + 1, '# fmt: off  # NVAUTOLOG')
+        call append(getpos('.')[2] + 2, 'import logging as tmp_logging;import pprint as tmp_pprint  # NVAUTOLOG')
+        call append(getpos('.')[2] + 3, 'def _print(*x):  # NVAUTOLOG')
+        call append(getpos('.')[2] + 4, "    for _line in tmp_pprint.pformat(x, indent=1, width=130).split('\\n'):  # NVAUTOLOG")
+        call append(getpos('.')[2] + 5, "        tmp_logging.getLogger('root').critical(_line)  # NVAUTOLOG")
+        call append(getpos('.')[2] + 6, '# fmt: on  # NVAUTOLOG')
+        let cur_pos[1] += 6
         call setpos('.', cur_pos)
     endif
     let cur_pos[2] = 1
@@ -33,7 +35,9 @@ function! JCRemoveLogging()
     if &filetype != 'python' && &filetype != 'python.trpy'
         return
     endif
+    let cur_pos = getpos('.')
     execute('g/# NVAUTOLOG/d')
+    call setpos('.', cur_pos)
 endfunction
 
 function! JCAddBreakpointV2(delta)
@@ -45,8 +49,12 @@ function! JCAddBreakpointV2(delta)
     if head_num == 0 && head_col == 0
         call setpos('.', [0, 0, 1, 0])
         call search('^[^#]')
-        let command = 'exec("""import sys\nif "debugpy" not in sys.modules:\n    import debugpy\n    debugpy.listen(5678)\n    import pynvim\n    pynvim.attach("socket", path="' .. v:servername .. '").command("' .. "lua require('dap').run({host = '127.0.0.1', port = 5678, type = 'python', request = 'attach', name = 'test'})" .. '")\n    debugpy.wait_for_client()\n    import os;os.system(''jcnotify "debugger started"'')""")  # NVDEBUGGER # NOQA'
-        call append(getpos('.')[2] + 1, command)
+        let fmt_off = '# fmt: off  # NVDEBUGGER'
+        let command = 'import sys;sys.path.append("/home/jeancavallo/dotfiles/nvim/lua/jc/");from init_debug import attach;attach("' .. v:servername .. '")  # NVDEBUGGER'
+        let fmt_on = '# fmt: on  # NVDEBUGGER'
+        call append(getpos('.')[2] + 1, fmt_off)
+        call append(getpos('.')[2] + 2, command)
+        call append(getpos('.')[2] + 3, fmt_on)
         let cur_pos[1] += 1
         call setpos('.', cur_pos)
     endif
@@ -84,8 +92,10 @@ function! JCRemoveBreakpoint()
     if &filetype != 'python' && &filetype != 'python.trpy'
         return
     endif
+    let cur_pos = getpos('.')
     execute('g/# NVDEBUGGER/d')
     execute(":lua require('dap').clear_breakpoints()")
+    call setpos('.', cur_pos)
 endfunction
 
 function! JCSmartClose()
