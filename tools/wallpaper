@@ -3,45 +3,115 @@ export WALLPAPER_FOLDER="$HOME/Pictures/Wallpapers"
 mkdir -p "$WALLPAPER_FOLDER"
 cd "$WALLPAPER_FOLDER"
 
-dl_wallpaper() {
-    # Thanks https://github.com/bijanebrahimi/waffle/
-    export DISPLAY=:0
-    UA="Mozilla/5.0 (iPad; U; CPU OS 3_2_1 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Mobile/7B405"
-    CAT=$(echo -e "travel\nfantasy\nspace\nnature" | shuf -n1)
-    # CAT=space
-    URL=https://wallpaperswide.com/download$( \
-        curl -sc /tmp/wallpaperswide.cookie -s \
-            https://wallpaperswide.com/${CAT}-desktop-wallpapers/page/"$(shuf -i 1-60 -n 1)" \
-            | grep -o "\/[^\"]*-wallpapers.html" | grep -v "desktop" | uniq | \
-            shuf -n1 | sed 's/wallpapers.html/wallpaper-3440x1440.jpg/g')
+# Each source prints one image URL on stdout (nothing on failure).
+# Photos / art are filtered to avoid people as much as the sources allow.
 
-    FILENAME=/tmp/random_wallpaper/"$(date +%Y%m%d-%H%M)-$CAT"-$(basename "${URL}")
-    curl -s --cookie /tmp/wallpaperswide.cookie -A "${UA}" "${URL}" -o "${FILENAME}"
+src_wallhaven() {
+    # Community-favorited fantasy / sci-fi / landscape art (includes curated AI art)
+    local q
+    q=$(printf '%s\n' \
+        'fantasy art' 'science fiction' 'space art' 'digital art landscape' \
+        'surreal landscape' 'futuristic city' 'cyberpunk' 'alien planet' \
+        'ai art' 'mountains' 'forest' 'aurora' | shuf -n1)
+    curl -sf --max-time 20 -G https://wallhaven.cc/api/v1/search \
+        --data-urlencode "q=${q} -people -women -men -girls -anime -\"video games\" -model -portrait" \
+        -d categories=100 -d purity=100 -d atleast=3440x1440 -d ratios=21x9 \
+        -d sorting=favorites -d page="$(shuf -i 1-8 -n1)" \
+        | jq -r '.data[]?.path' | shuf -n1
 }
 
-export -f dl_wallpaper
+src_nasa() {
+    # Real NASA / ESA / Hubble / Webb pictures
+    local q item
+    q=$(printf '%s\n' nebula galaxy 'milky way' aurora 'hubble deep field' \
+        'webb telescope' 'earth from space' 'solar eclipse' 'star cluster' | shuf -n1)
+    item=$(curl -sf --max-time 20 -G https://images-api.nasa.gov/search \
+        --data-urlencode "q=${q}" -d media_type=image -d page="$(shuf -i 1-5 -n1)" \
+        | jq -r '.collection.items[]?.data[0].nasa_id' | shuf -n1)
+    [[ "$item" ]] || return
+    curl -sf --max-time 20 "https://images-api.nasa.gov/asset/${item}" \
+        | jq -r '[.collection.items[].href | select(test("~(orig|large)\\.jpg$"))] | sort | .[0] // empty' \
+        | sed 's/^http:/https:/'
+}
+
+src_commons() {
+    # Wikimedia Commons featured pictures, scaled server-side to 3440px wide
+    local cats cat
+    cats=$(printf '%s\n' \
+        'Featured pictures of landscapes' 'Featured pictures of mountains' \
+        'Featured pictures of skies' 'Featured pictures of astronomy' \
+        'Featured pictures of forests' 'Featured pictures of deserts' \
+        'Featured pictures of glaciers' 'Featured pictures of seascapes')
+    cat=$(echo "$cats" | shuf -n1)
+    curl -sf --max-time 30 -G https://commons.wikimedia.org/w/api.php \
+        -d action=query -d generator=categorymembers -d gcmtype=file -d gcmlimit=500 \
+        --data-urlencode "gcmtitle=Category:${cat}" \
+        -d prop=imageinfo -d iiprop=url\|size -d iiurlwidth=3440 -d format=json \
+        | jq -r '.query.pages[]?.imageinfo[0]
+                 | select(.width >= 3440 and (.width / .height) >= 1.6)
+                 | .thumburl' | shuf -n1
+}
+
+dl_wallpaper() {
+    # Weighted random source: 45% fantasy/SF art, 30% NASA, 25% landscape photos
+    local r=$((RANDOM % 100)) src
+    if   ((r < 45)); then src=src_wallhaven
+    elif ((r < 75)); then src=src_nasa
+    else                  src=src_commons
+    fi
+    CAT=${src#src_}
+    URL=$($src)
+    URL=${URL%%\?*}
+    [[ "$URL" ]] || return 1
+
+    FILENAME=/tmp/random_wallpaper/"$(date +%Y%m%d-%H%M%S)-$CAT"-$(basename "${URL}")
+    curl -sfL --max-time 90 -A "wallpaper-script/1.0 (personal dotfiles)" "${URL}" -o "${FILENAME}" || { rm -f "${FILENAME}"; return 1; }
+
+    # Must be a real image, wide enough, and not portrait-ish
+    local info w h min_w=2560
+    [[ "$CAT" = nasa ]] && min_w=1920   # NASA masters are rarely bigger
+    info=$(file -b "${FILENAME}")
+    if ! grep -qE 'JPEG|PNG' <<<"$info"; then rm -f "${FILENAME}"; return 1; fi
+    w=$(grep -oE '[0-9]{3,5} ?x ?[0-9]{3,5}' <<<"$info" | tail -n1 | sed 's/ //g; s/x.*//')
+    h=$(grep -oE '[0-9]{3,5} ?x ?[0-9]{3,5}' <<<"$info" | tail -n1 | sed 's/ //g; s/.*x//')
+    if [[ -z "$w" || "$w" -lt "$min_w" || $((w * 10)) -lt $((h * 14)) || $((w * 10)) -gt $((h * 26)) ]]; then
+        rm -f "${FILENAME}"
+        return 1
+    fi
+}
+
+export -f src_wallhaven src_nasa src_commons dl_wallpaper
 
 _fetch() {
-    while true; do
+    for _ in $(seq 1 15); do
         mkdir -p /tmp/random_wallpaper
         rm -f /tmp/random_wallpaper/*
-        dl_wallpaper
+        dl_wallpaper || continue
         filename=$(ls -1 /tmp/random_wallpaper/ | head -n1)
-        filesize=$(wc -c /tmp/random_wallpaper/"$filename" | awk '{print $1}')
-        if [[ $filesize != 0 ]]; then
+        if [[ "$filename" ]]; then
             cp /tmp/random_wallpaper/"$filename" "$WALLPAPER_FOLDER"
             cp /tmp/random_wallpaper/"$filename" "$WALLPAPER_FOLDER/last_wallpaper"
-            break
+            _display "$filename"
+            return 0
         fi
     done
-    _display "$filename"
+    return 1
 }
 export -f _fetch
 
+# Entries: last_wallpaper, loose files, then favorites/<file>.
+# Favorites live in a subfolder that remove / remove_all never touch.
+list_wallpapers() {
+    echo last_wallpaper
+    ls -p -I last_wallpaper "$WALLPAPER_FOLDER" | grep -v /
+    ls -1 "$WALLPAPER_FOLDER/favorites" 2>/dev/null | sed 's|^|favorites/|'
+}
+
+export -f list_wallpapers
+
 fetch() {
     _fetch >/dev/null 2>&1
-    echo last_wallpaper
-    ls -I last_wallpaper
+    list_wallpapers
 }
 
 export -f fetch
@@ -49,7 +119,7 @@ export -f fetch
 _display() {
     if [[ "$(command -v swaybg)" ]] && [[ ! $(ps ax | grep -v grep | grep startx) ]]; then
         existing_pid=$(pgrep swaybg)
-        (nohup swaybg -i "$WALLPAPER_FOLDER/$1" >/dev/null 2>&1 &)
+        (nohup swaybg -m center -i "$WALLPAPER_FOLDER/$1" >/dev/null 2>&1 &)
         sleep 0.01
         if [[ "$existing_pid" ]]; then
             for pid in $existing_pid; do
@@ -65,28 +135,36 @@ _display() {
 export -f _display
 
 remove() {
-    rm "$WALLPAPER_FOLDER"/"$1"
-    echo last_wallpaper
-    ls -I last_wallpaper
+    # Favorites are protected: only loose files can be deleted
+    [[ "$1" != favorites/* && "$1" != last_wallpaper ]] && rm -f "$WALLPAPER_FOLDER"/"$1"
+    list_wallpapers
 }
 
 export -f remove
 
 remove_all() {
-    rm "$WALLPAPER_FOLDER"/*
-    echo last_wallpaper
-    ls -I last_wallpaper
+    find "$WALLPAPER_FOLDER" -maxdepth 1 -type f ! -name last_wallpaper -delete
+    list_wallpapers
 }
 
 export -f remove_all
 
+favorite() {
+    [[ "$1" = favorites/* || "$1" = last_wallpaper ]] && return
+    mkdir -p "$WALLPAPER_FOLDER/favorites"
+    mv "$WALLPAPER_FOLDER"/"$1" "$WALLPAPER_FOLDER/favorites/"
+}
+
+export -f favorite
+
 if [[ "$1" = last ]] && [[ -e "$WALLPAPER_FOLDER"/last_wallpaper ]]; then
     wallpaper=last_wallpaper
 else
-    wallpaper=$( (echo last_wallpaper && ls -I last_wallpaper) | \
+    wallpaper=$( list_wallpapers | \
         fzf --preview='_display {1}' --preview-window=right,0 \
         --bind='ctrl-d:reload(remove {})'\
         --bind='ctrl-x:reload(remove_all)'\
+        --bind='ctrl-f:execute-silent(favorite {})+reload(list_wallpapers)'\
         --bind='ctrl-n:reload(fetch)+change-prompt()')
 fi
 
