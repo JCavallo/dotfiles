@@ -65,6 +65,7 @@
     branches = branch -a -vv
     branchout = checkout -b
     cleartags = !git tag -l | xargs git tag -d
+    cm = commit
     co = checkout
     contributors = shortlog -s -n
     cp = cherry-pick --strategy=recursive -X no-renames
@@ -83,7 +84,8 @@
     move = mv
     mt = mergetool
     nvm = !git reset --hard HEAD && git clean -d -f
-    pmine = push --set-upstream mine
+    pm = push --set-upstream mine
+    pl = pull
     precommit = diff --cached
     prestage = diff
     remove = rm
