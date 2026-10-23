@@ -15,13 +15,86 @@ fi
 touch "$HOME/.sessionizer_folders"
 touch "$HOME/.sessionizer_search_folders"
 
+# Width available for entries in fzf (pointer, marker and scrollbar excluded)
+term_width=$(( $(tput cols 2>/dev/null </dev/tty || echo 80) - 4 ))
+
+# Print "$1", followed by the git branch of the "coog" subfolder of $2 (if any)
+# right-aligned on the fzf window
+with_label() {
+    local branch label pad
+    if [[ -d "$2/coog" ]] && \
+            branch=$(git -C "$2/coog" branch --show-current 2>/dev/null) && \
+            [[ -n "$branch" ]]; then
+        label="⎇ $branch"
+    fi
+    if [[ -z "$label" ]]; then
+        echo "$1"
+        return
+    fi
+    pad=$(( term_width - ${#1} - ${#label} ))
+    (( pad < 2 )) && pad=2
+    printf '%s%*s%s\n' "$1" "$pad" "" "$label"
+}
+
+# Append the coog branch to folder entries
+annotate_coog_branch() {
+    local line
+    while IFS= read -r line; do
+        with_label "$line" "$line"
+    done
+}
+
+# List running sessions, most recently attached first, with the coog branch of
+# their start folder, prefixed with an icon if a pane is running claude
+running_sessions() {
+    local name path icon claude_sessions
+    claude_sessions=$(tmux list-panes -a \
+        -F '#{session_name}'$'\t''#{pane_current_command}' 2>/dev/null | \
+        awk -F '\t' '$2 == "claude" { print $1 }' | sort -u)
+    tmux list-sessions -F '#{session_name}'$'\t''#{session_path}'$'\t''#{session_last_attached}' \
+            2>/dev/null | sort --reverse -t $'\t' -k 3 | \
+        while IFS=$'\t' read -r name path _; do
+            icon="  "
+            grep -qxF -- "$name" <<<"$claude_sessions" && icon=" "
+            with_label "${icon}[running] $name" "$path"
+        done
+}
+
+# Remove the display label (padding + branch) from an fzf line
+strip_label() {
+    sed -E -e 's/^( |  )\[running\]/[running]/' -e 's/  +⎇ .*$//' <<<"$1"
+}
+
+# List the git repositories right under a folder with their current branch.
+# Takes an fzf line (folder or running session)
+preview() {
+    local entry dir repo branch
+    entry=$(strip_label "$1")
+    if [[ "${entry#\[running\] }" != "$entry" ]]; then
+        dir=$(tmux display-message -p -t "=${entry#\[running\] }:" '#{session_path}' 2>/dev/null)
+    else
+        dir=$entry
+    fi
+    [[ -d "$dir" ]] || return 0
+    echo "$dir"
+    for repo in "$dir"/*/; do
+        [[ -e "$repo/.git" ]] || continue
+        branch=$(git -C "$repo" branch --show-current 2>/dev/null)
+        printf '  %-30s %s\n' "$(basename "$repo")" "${branch:-(detached)}"
+    done
+}
+
+if [[ "$1" == "--preview" ]]; then
+    preview "$2"
+    exit 0
+fi
+
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
     selected=$( \
         ( \
-            (tmux list-sessions -F '#{session_name} #{session_last_attached}' | \
-                sort --reverse -k 2 | cut -f 1 -d ' ' | sed -e 's:^:[running] :') \
+            running_sessions \
             && \
             (find \
                 $(sed -e "s:\$HOME:$HOME:g" ~/.sessionizer_search_folders* \
@@ -29,7 +102,10 @@ else
                 -mindepth 1 -maxdepth 1 -type d 2>/dev/null; \
                 sed -e "s:\$HOME:$HOME:g" ~/.sessionizer_folders*) \
         ) \
-        | grep -v '/\.' | fzf)
+        | grep -v '/\.' | annotate_coog_branch | \
+        fzf --preview "$0 --preview {}" --preview-window 'up,30%,border-bottom')
+    # Strip the branch label added for display
+    selected=$(strip_label "$selected")
 fi
 
 if [[ -z $selected ]]; then
