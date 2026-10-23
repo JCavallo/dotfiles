@@ -44,8 +44,9 @@ function! JCAddBreakpointV2(delta)
     if &filetype != 'python' && &filetype != 'python.trpy'
         return
     endif
+    execute(":lua require('dap').set_breakpoint()")
     let cur_pos = getpos('.')
-    let [head_num, head_col] = searchpos('^.*# NVDEBUGGER # NOQA', 'nb')
+    let [head_num, head_col] = searchpos('^.*# NVDEBUGGER', 'nb')
     if head_num == 0 && head_col == 0
         call setpos('.', [0, 0, 1, 0])
         call search('^[^#]')
@@ -58,7 +59,6 @@ function! JCAddBreakpointV2(delta)
         let cur_pos[1] += 1
         call setpos('.', cur_pos)
     endif
-    execute(":lua require('dap').set_breakpoint()")
 endfunction
 
 function! JCAddBreakpoint(delta)
